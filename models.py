@@ -24,3 +24,22 @@ class userUpdate(BaseModel):
     email: Optional[str] = None
     password: Optional[str] = None
 
+
+class categories (BaseModel):
+    name: str
+    subtype: list
+
+class subtype(BaseModel):
+    id: str
+    name_subtype: str
+
+
+class new_categories(BaseModel):
+    name: str
+    subtype: str
+
+class patch_categories(BaseModel):
+    name: Optional[str] = None
+    subtype: Optional[str] = None
+
+
