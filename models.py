@@ -26,6 +26,7 @@ class userUpdate(BaseModel):
 
 
 class categories (BaseModel):
+    id:str
     name: str
     subtype: list
 
