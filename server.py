@@ -84,7 +84,7 @@ async def registration_user(new_user: models.userSignup, response: Response):
     users_collection = db.users
     if users_collection.find_one({"email": new_user.email}):
         raise HTTPException(status_code=403)
-    hasp_password = hashlib.pbkdf2_hmac('sha256', new_user.password.encode('utf-8'), SECRET_KEY_PASSWORD, 100000)
+    hasp_password = hashlib.pbkdf2_hmac('sha256', new_user.password.encode('utf-8'), Config.SECRET_KEY_PASSWORD, 100000)
     hesh_str = datetime.today().strftime("%Y%m%d%H%M%S") + new_user.first_name + new_user.email + new_user.last_name
     hesj_object = hashlib.sha256(hesh_str.encode('utf-8')).hexdigest()
     new_userbd = {
@@ -198,7 +198,49 @@ async def edit_categories(id: str, edit_cat: models.patch_categories, response: 
         users_collection.update_one({'_id': id}, {'$set': {'subtype': edit_cat.subtype}})
     response.status_code = status.HTTP_200_OK
     return models.categories(id=id, name=current_cat['name'], subtype=categories['subtype'])
+#-------------------------------ТОВАРЫ----------------------------------
+@app.post("/items")
+async def add_items(new_item:models.add_items, response: Response):
+    new_item={
+        '_id': str(uuid.uuid4().hex),
+        "name": new_item.name,
+        "description": new_item.description,
+        "image": new_item.image,
+        "price": new_item.price,
+        "discount": new_item.discount,
+        "hit_sales": new_item.hit_sales,
+        "special_offer": new_item.special_offer,
+        "categories": new_item.categories
+    }
+    users_collection = db.items
+    users_collection.insert_one(new_item)
+    response.status_code = status.HTTP_200_OK
+    return new_item
 
+@app.get("/items")
+async def get_items(response: Response):
+    users_collection = db.items
+    all_items = users_collection.find()
+    a_i={}
+    for post in all_items:
+        a_i[post['_id']] = post
+    response.status_code = status.HTTP_200_OK
+    return  json.dumps(a_i)
+
+#--------------надо узнать у камола
+@app.patch("/items")
+async def patch_items(patch_item:models.patch_items,response: Response):
+    users_collection = db.items
+    current_item = users_collection.find_one({'_id':patch_item.id})
+    if not current_item:
+        raise HTTPException(status_code=403)
+    return
+
+@app.delete("/items")
+async def delete_items(id:str):
+    users_collection = db.items
+    users_collection.remove({"_id":id})
+    return HTTPException(status_code=200)
 
 @app.get("/test")
 async def test():
