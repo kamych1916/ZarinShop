@@ -36,8 +36,9 @@ class subtype(BaseModel):
 
 
 class new_categories(BaseModel):
-    name: str
-    subtype: str
+    main: str
+    subtype: Optional[str] = None
+    lasttype: Optional[str] = None
 
 class patch_categories(BaseModel):
     name: Optional[str] = None

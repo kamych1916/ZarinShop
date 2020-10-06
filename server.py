@@ -161,14 +161,10 @@ async def check_code(hesh:str,response: Response):
 @app.get("/categories")
 async def categories(response: Response):
     users_collection = db.categories_items
-    cat = users_collection.distinct("name")
+    cat = users_collection.find()
     list_of_categories = {}
     for post in cat:
-        list_of_subtype = {}
-        subtype = users_collection.find({'name': post})
-        for sub in subtype:
-            list_of_subtype[sub['subtype']] = {'id': sub['_id']}
-        list_of_categories[post] = list_of_subtype
+        list_of_categories[post['_id']] = {'main': post['name'],"subtype": post['subtype'],"lasttype":post['lasttype']}
     response.status_code = status.HTTP_200_OK
     return json.dumps(list_of_categories, ensure_ascii=False)
 
@@ -176,12 +172,13 @@ async def categories(response: Response):
 @app.post("/categories")
 async def add_categories(new_cat: models.new_categories, response: Response):
     users_collection = db.categories_items
-    if users_collection.find_one({"name": new_cat.name, "subtype": new_cat.subtype}):
+    if users_collection.find_one({"name": new_cat.main, "subtype": new_cat.subtype,"lasttype":new_cat.lasttype}):
         raise HTTPException(status_code=403)
     new_categories = {
         '_id': str(uuid.uuid4().hex),
-        'name': new_cat.name,
-        'subtype': new_cat.subtype
+        'name': new_cat.main,
+        'subtype': new_cat.subtype,
+        'lasttype': new_cat.lasttype
     }
     users_collection.insert_one(new_categories)
     response.status_code = status.HTTP_201_CREATED
@@ -241,6 +238,80 @@ async def delete_items(id:str):
     users_collection = db.items
     users_collection.remove({"_id":id})
     return HTTPException(status_code=200)
+
+
+
+
+#--------------------------------------ПОИСК ТОВАРА----------------
+@app.get("/search")
+async def search(poisk:str,response: Response):
+    users_collection = db.categories_items
+    list_of_cat=users_collection.find({"name":{'$regex':poisk}})
+    item_collection= db.items
+    list_items={}
+    if list_of_cat:
+        for post in list_of_cat:
+            for i in item_collection.find({"categories":post['_id']}):
+                new_item = {
+                    "name": i['name'],
+                    "description": i['description'],
+                    "image": i['image'],
+                    "price": i['price'],
+                    "discount": i['discount'],
+                    "hit_sales": i['hit_sales'],
+                    "special_offer": i['special_offer'],
+                    "categories": i['categories']
+                }
+                list_items[i['_id']] = new_item
+        if list_items:
+            return json.dumps(list_items)
+    list_of_cat = users_collection.find({"subtype": {'$regex': poisk}})
+    if list_of_cat:
+        for post in list_of_cat:
+            for i in item_collection.find({"categories":post['_id']}):
+                new_item = {
+                    "name": i['name'],
+                    "description": i['description'],
+                    "image": i['image'],
+                    "price": i['price'],
+                    "discount": i['discount'],
+                    "hit_sales": i['hit_sales'],
+                    "special_offer": i['special_offer'],
+                    "categories": i['categories']
+                }
+                list_items[i['_id']]=new_item
+        if list_items:
+            return json.dumps(list_items)
+    list_of_cat = users_collection.find({"lasttype": {'$regex': poisk}})
+    if list_of_cat:
+        for post in list_of_cat:
+            for i in item_collection.find({"categories": post['_id']}):
+                new_item = {
+                    "name": i['name'],
+                    "description": i['description'],
+                    "image": i['image'],
+                    "price": i['price'],
+                    "discount": i['discount'],
+                    "hit_sales": i['hit_sales'],
+                    "special_offer": i['special_offer'],
+                    "categories": i['categories']
+                }
+                list_items[i['_id']] = new_item
+        if list_items:
+            return json.dumps(list_items)
+    for i in item_collection.find({"name": {'$regex': poisk}}):
+        new_item = {
+            "name": i['name'],
+            "description": i['description'],
+            "image": i['image'],
+            "price": i['price'],
+            "discount": i['discount'],
+            "hit_sales": i['hit_sales'],
+            "special_offer": i['special_offer'],
+            "categories": i['categories']
+        }
+        list_items[i['_id']] = new_item
+    return json.dumps(list_items)
 
 @app.get("/test")
 async def test():
