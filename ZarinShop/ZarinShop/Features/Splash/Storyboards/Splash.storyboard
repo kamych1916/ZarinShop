@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rp2-pK-rmg">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment version="2304" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Splash View Controller-->
+        <scene sceneID="CYH-HN-j2q">
+            <objects>
+                <viewController storyboardIdentifier="Splash" id="rp2-pK-rmg" customClass="SplashViewController" customModule="ZarinShop" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RZ9-ir-oGR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Obz-Be-kCb">
+                                <rect key="frame" x="188.5" y="785" width="37" height="37"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="color" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zarin Shop" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBX-MD-d8u">
+                                <rect key="frame" x="99.5" y="421.5" width="215.5" height="53"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="44"/>
+                                <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.84921258690000001" green="0.80324095490000003" blue="0.7356921434" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="aBX-MD-d8u" firstAttribute="centerY" secondItem="RZ9-ir-oGR" secondAttribute="centerY" id="Le4-lu-rIE"/>
+                            <constraint firstItem="aBX-MD-d8u" firstAttribute="centerX" secondItem="RZ9-ir-oGR" secondAttribute="centerX" id="NEx-sP-KEY"/>
+                            <constraint firstItem="Obz-Be-kCb" firstAttribute="centerX" secondItem="RZ9-ir-oGR" secondAttribute="centerX" id="mD6-lK-SHm"/>
+                            <constraint firstItem="udX-zu-zAv" firstAttribute="bottom" secondItem="Obz-Be-kCb" secondAttribute="bottom" constant="40" id="umN-8I-m7S"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="udX-zu-zAv"/>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Obz-Be-kCb" id="CxO-RW-Scy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gjw-Xx-otn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
+        </scene>
+    </scenes>
+</document>

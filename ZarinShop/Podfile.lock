@@ -1,0 +1,32 @@
+PODS:
+  - BetterSegmentedControl (1.3.0)
+  - ColorMatchTabs (3.3)
+  - Reveal-SDK (26)
+  - SideMenuSwift (2.0.6)
+  - SnapKit (4.2.0)
+
+DEPENDENCIES:
+  - BetterSegmentedControl (~> 1.3)
+  - ColorMatchTabs
+  - Reveal-SDK
+  - SideMenuSwift
+  - SnapKit (= 4.2.0)
+
+SPEC REPOS:
+  trunk:
+    - BetterSegmentedControl
+    - ColorMatchTabs
+    - Reveal-SDK
+    - SideMenuSwift
+    - SnapKit
+
+SPEC CHECKSUMS:
+  BetterSegmentedControl: 85d1b0343a09603b098884d527f550dfc8e6cdd9
+  ColorMatchTabs: 8d63cd25099bdb8929438f468bb52aafd288d7a0
+  Reveal-SDK: 5f94f14aff3d5f2a49f246edcd266fa4472679e9
+  SideMenuSwift: f12ca1b11faad909bfc2878df37e0a1c40fa4570
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+
+PODFILE CHECKSUM: 09ceb9a376b5e3b931e559cc31108f3744dd0f3a
+
+COCOAPODS: 1.9.3
