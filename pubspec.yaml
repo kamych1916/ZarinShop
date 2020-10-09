@@ -1,0 +1,24 @@
+name: Zarin
+description: Zarin Shop
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  flutter_localizations:
+    sdk: flutter
+
+  connectivity: ^0.4.9+3
+  rxdart: ^0.24.1
+  http: ^0.12.2
+
+flutter:
+
+  uses-material-design: true
