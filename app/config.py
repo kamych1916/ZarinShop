@@ -9,5 +9,5 @@ class Config(object):
     SECRET_KEY_ACIVE = 'Cn9OGbn8KSXd8ZUGTeBCKnlZ37ooaec1QooL3IFB682DYR213GNt1fO33Mh3fQEs'
     ALGORITHM = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES = 30
-    EMAIL_TEXT = "Для подтверждения регистрации перейдите по ссылке - http://127.0.0.1:8000/checkcode/"
-    EMAIL_TEXT_PWD = "Для воостановаления пароля перейдите по ссылке -http://127.0.0.1:8000/checkcodepwd/"
+    EMAIL_TEXT = "Для подтверждения регистрации введите код  - "
+    EMAIL_TEXT_PWD = "Для воостановаления пароля введите код - "

@@ -65,5 +65,10 @@ class patch_items(BaseModel):
     special_offer: Optional[bool] = None
     categories: Optional[list] = None
 
+class cat_json(BaseModel):
+    id: str
+    name:str
+    subcategories: list
+
 
 

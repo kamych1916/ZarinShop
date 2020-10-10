@@ -1,4 +1,5 @@
 import hashlib
+import random
 import uuid
 from typing import Optional
 import smtplib
@@ -11,12 +12,23 @@ from datetime import datetime, timedelta
 from email.mime.text import MIMEText
 from email.header    import Header
 from starlette import status
-from config import Config
 import models
-
+from config import Config
 app = FastAPI()
-client = MongoClient('localhost', 27017, username='', password='')
+# изменить структуру категориии добавления товара 
+
+
+client = MongoClient('localhost', 27017, username='root', password='example')
 db = client.zarinshop
+#app.add_middleware(
+  #  CORSMiddleware,
+  #  allow_origins=["*"],
+  #  allow_credentials=True,
+  #  allow_methods=["*"],
+ #   allow_headers=["*"],
+#)
+
+
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -66,7 +78,7 @@ async def send_mes(email: str, text: str):
 # -----------------------------------авторизация--------------------------
 
 
-@app.post("/signin")
+@app.post("/api/v1/signin")
 async def login(user_sign_in: models.userSignin, response: Response):
     if not authenticate_user(user_sign_in):
         raise HTTPException(status_code=401)
@@ -79,103 +91,108 @@ async def login(user_sign_in: models.userSignin, response: Response):
     return get_current_user(user_sign_in.email)
 
 
-@app.post("/signup")
+@app.post("/api/v1/signup")
 async def registration_user(new_user: models.userSignup, response: Response):
     users_collection = db.users
+
     if users_collection.find_one({"email": new_user.email}):
         raise HTTPException(status_code=403)
     hasp_password = hashlib.pbkdf2_hmac('sha256', new_user.password.encode('utf-8'), Config.SECRET_KEY_PASSWORD, 100000)
-    hesh_str = datetime.today().strftime("%Y%m%d%H%M%S") + new_user.first_name + new_user.email + new_user.last_name
-    hesj_object = hashlib.sha256(hesh_str.encode('utf-8')).hexdigest()
+    u = list(users_collection.find().sort('_id', -1).limit(1))
+    ind = 1
+    if u:
+        ind = int(u[0]['_id'])+1
+    code = str(random.randint(1000, 9999))
     new_userbd = {
-        '_id': str(uuid.uuid4().hex),
+        '_id': ind,
         'first_name': new_user.first_name,
         'last_name': new_user.last_name,
         'email': new_user.email,
         'password': Config.SECRET_KEY_PASSWORD + hasp_password,
         'is_active': False,
-        'hesh': hesj_object,
-        'hesh_pwd':""
+        'code': code,
+        'doe_pwd':""
     }
     users_collection = db.users
     users_collection.insert_one(new_userbd)
     response.status_code = status.HTTP_201_CREATED
-    await send_mes(new_user.email, Config.EMAIL_TEXT + hesj_object)
+    await send_mes(new_user.email, Config.EMAIL_TEXT + code)
     return get_current_user(new_user.email)
 
 
-@app.delete("/logout")
+@app.delete("/api/v1/logout")
 async def logout(response: Response):
     response.delete_cookie(key="session_token")
     return
 
 
-@app.get("/pwd")
+@app.get("/api/v1/reset_password")
 async def pwd(email:str, response: Response):
     users_collection = db.users
     current_user = users_collection.find_one({"email": email})
     if not current_user:
         raise HTTPException(status_code=403)
-    hesh_str = datetime.today().strftime("%Y%m%d%H%M%S") + current_user['first_name'] + email + current_user['last_name']
-    hesj_object = hashlib.sha256(hesh_str.encode('utf-8')).hexdigest()
-    users_collection.update_one({"email":email},{"$set":{"hesh_pwd":hesj_object}})
+    code = str(random.randint(1000, 9999))
+    users_collection.update_one({"email":email},{"$set":{"code_pwd":code}})
     response.status_code = status.HTTP_201_CREATED
-    await send_mes(email, Config.EMAIL_TEXT_PWD + hesj_object)
+    await send_mes(email, Config.EMAIL_TEXT_PWD + code)
     return get_current_user(email)
 
-@app.get("/checkcodepwd/{hesh}")
-async def pwd(hesh:str,response: Response):
-    print(hesh)
+@app.post("/api/v1/change_password")
+async def change_password(code:str,new_password,email:str,response: Response):
     users_collection = db.users
-    current_user = users_collection.find_one({"hesh_pwd":hesh})
+    current_user = users_collection.find_one({"email": email})
     if not current_user:
         raise HTTPException(status_code=403)
-    return HTTPException(status_code=200)
-
-@app.post("/change_password")
-async def change_password(hesh:str,new_password,response: Response):
-    users_collection = db.users
-    current_user = users_collection.find_one({"hesh_pwd": hesh})
-    if not current_user:
-        raise HTTPException(status_code=403)
+    if current_user['code_pwd'] != code:
+        raise HTTPException(status_code=401)
     hasp_password = hashlib.pbkdf2_hmac('sha256', new_password.encode('utf-8'), Config.SECRET_KEY_PASSWORD, 100000)
     users_collection.update_one({"_id": current_user['_id']},
-                                {"$set": {"hesh_pwd": "", "password": Config.SECRET_KEY_PASSWORD + hasp_password}})
+                                {"$set": {"code_pwd": "", "password": Config.SECRET_KEY_PASSWORD + hasp_password}})
     response.status_code = status.HTTP_200_OK
     return HTTPException(status_code=200)
 
 
 
-@app.get("/checkcode/{hesh}")
-async def check_code(hesh:str,response: Response):
+@app.get("/api/v1/checkcode_activ/{code}")
+async def check_code(code:str,email:str,response: Response):
     users_collection = db.users
-    current_user= users_collection.find_one({"hesh":hesh})
+    current_user = users_collection.find_one({"email":email})
     if not current_user:
         raise HTTPException(status_code=403)
-    users_collection.update_one({"_id" : current_user['_id']}, {"$set" : {"is_active":True, "hesh":""}})
+    if current_user['code'] != code:
+        raise HTTPException(status_code=401)
+    users_collection.update_one({"_id" : current_user['_id']}, {"$set" : {"is_active":True, "code":""}})
     response.status_code = status.HTTP_200_OK
     return HTTPException(status_code=200)
 
 # --------------------------------------------------категории--------------------------
 
-@app.get("/categories")
+@app.get("/api/v1/categories")
 async def categories(response: Response):
     users_collection = db.categories_items
     cat = users_collection.find()
-    list_of_categories = {}
+    list_of_categories = []
+
     for post in cat:
-        list_of_categories[post['_id']] = {'main': post['name'],"subtype": post['subtype'],"lasttype":post['lasttype']}
+        models.cat(id=post['_id'],name=post['name'],subcategories=[])
+
+        print(list_of_categories)
     response.status_code = status.HTTP_200_OK
     return json.dumps(list_of_categories, ensure_ascii=False)
 
 
-@app.post("/categories")
+@app.post("/api/v1/categories")
 async def add_categories(new_cat: models.new_categories, response: Response):
     users_collection = db.categories_items
     if users_collection.find_one({"name": new_cat.main, "subtype": new_cat.subtype,"lasttype":new_cat.lasttype}):
         raise HTTPException(status_code=403)
+    u = list(users_collection.find().sort('_id', -1).limit(1))
+    ind = 1
+    if u:
+        ind = int(u[0]['_id']) + 1
     new_categories = {
-        '_id': str(uuid.uuid4().hex),
+        '_id': ind,
         'name': new_cat.main,
         'subtype': new_cat.subtype,
         'lasttype': new_cat.lasttype
@@ -185,7 +202,7 @@ async def add_categories(new_cat: models.new_categories, response: Response):
     return new_cat
 
 
-@app.patch("/categories")
+@app.patch("/api/v1/categories")
 async def edit_categories(id: str, edit_cat: models.patch_categories, response: Response):
     users_collection = db.categories_items
     current_cat = users_collection.find_one({"_id": id})
@@ -196,10 +213,15 @@ async def edit_categories(id: str, edit_cat: models.patch_categories, response: 
     response.status_code = status.HTTP_200_OK
     return models.categories(id=id, name=current_cat['name'], subtype=categories['subtype'])
 #-------------------------------ТОВАРЫ----------------------------------
-@app.post("/items")
+@app.post("/api/v1/items")
 async def add_items(new_item:models.add_items, response: Response):
+    users_collection = db.items
+    u = list(users_collection.find().sort('_id', -1).limit(1))
+    ind = 1
+    if u:
+        ind = int(u[0]['_id']) + 1
     new_item={
-        '_id': str(uuid.uuid4().hex),
+        '_id': ind,
         "name": new_item.name,
         "description": new_item.description,
         "image": new_item.image,
@@ -209,12 +231,11 @@ async def add_items(new_item:models.add_items, response: Response):
         "special_offer": new_item.special_offer,
         "categories": new_item.categories
     }
-    users_collection = db.items
     users_collection.insert_one(new_item)
     response.status_code = status.HTTP_200_OK
     return new_item
 
-@app.get("/items")
+@app.get("/api/v1/items")
 async def get_items(response: Response):
     users_collection = db.items
     all_items = users_collection.find()
@@ -224,8 +245,8 @@ async def get_items(response: Response):
     response.status_code = status.HTTP_200_OK
     return  json.dumps(a_i)
 
-#--------------надо узнать у камола
-@app.patch("/items")
+#--------------сделать
+@app.patch("/api/v1/items")
 async def patch_items(patch_item:models.patch_items,response: Response):
     users_collection = db.items
     current_item = users_collection.find_one({'_id':patch_item.id})
@@ -233,7 +254,7 @@ async def patch_items(patch_item:models.patch_items,response: Response):
         raise HTTPException(status_code=403)
     return
 
-@app.delete("/items")
+@app.delete("/api/v1/items")
 async def delete_items(id:str):
     users_collection = db.items
     users_collection.remove({"_id":id})
@@ -243,7 +264,7 @@ async def delete_items(id:str):
 
 
 #--------------------------------------ПОИСК ТОВАРА----------------
-@app.get("/search")
+@app.get("/api/v1/search")
 async def search(poisk:str,response: Response):
     users_collection = db.categories_items
     list_of_cat=users_collection.find({"name":{'$regex':poisk}})
@@ -313,7 +334,7 @@ async def search(poisk:str,response: Response):
         list_items[i['_id']] = new_item
     return json.dumps(list_items)
 
-@app.get("/test")
+@app.get("/api/v1/test")
 async def test():
     users_collection = db.Items
     temp = users_collection.find_one({"zxc": "asd"})
