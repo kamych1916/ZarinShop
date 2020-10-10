@@ -1,22 +1,41 @@
 import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/ui/screen_login.dart';
+import 'package:Zarin/ui/widgets/slider_menu.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-class ZarinDrawer extends StatelessWidget {
+class ZarinDrawer extends StatefulWidget {
+  final GlobalKey<SliderMenuContainerState> sliderKey;
+
+  const ZarinDrawer({Key key, this.sliderKey}) : super(key: key);
+
+  @override
+  _ZarinDrawerState createState() => _ZarinDrawerState();
+}
+
+class _ZarinDrawerState extends State<ZarinDrawer> {
+  homeEvent() async {
+    if (ModalRoute.of(context).settings.name == "/home")
+      widget.sliderKey.currentState.closeDrawer();
+    else {
+      await widget.sliderKey.currentState.closeDrawer();
+      Navigator.of(context).popUntil(ModalRoute.withName("/home"));
+    }
+  }
+
+  personalEvent() async {
+    if (userBloc.auth) {
+    } else {
+      await widget.sliderKey.currentState.closeDrawer();
+      Navigator.of(context).push(FadePageRoute(
+        builder: (context) => LoginScreen(),
+      ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    homeEvent() => ModalRoute.of(context).settings.name == "/home"
-        ? Navigator.of(context).pop()
-        : Navigator.of(context).popUntil(ModalRoute.withName("/home"));
-
-    personalEvent() => userBloc.auth
-        ? null
-        : Navigator.of(context).push(FadePageRoute(
-            builder: (context) => LoginScreen(),
-          ));
-
     final List<Widget> drawerContainers = new List.from([
       DrawerMenuContainer("Главная", Icons.home, homeEvent),
       DrawerMenuContainer(
@@ -26,151 +45,147 @@ class ZarinDrawer extends StatelessWidget {
 
     return Container(
       width: MediaQuery.of(context).size.width - 50,
-      child: Drawer(
-        elevation: 0,
-        child: Container(
-          color: Colors.white,
-          padding: EdgeInsets.only(
-              left: 20, right: 20.0, top: kToolbarHeight - 20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 20.0, bottom: 20.0, top: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Zarin Shop",
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      "домашний текстиль",
-                      style: TextStyle(
-                          fontSize: 13.0, fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
+      child: Container(
+        color: Styles.backgroundColor,
+        padding:
+            EdgeInsets.only(left: 20, right: 20.0, top: kToolbarHeight - 20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(left: 20.0, bottom: 20.0, top: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Zarin Shop",
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    "домашний текстиль",
+                    style:
+                        TextStyle(fontSize: 13.0, fontWeight: FontWeight.w500),
+                  )
+                ],
               ),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: drawerContainers,
-                ),
-                decoration: BoxDecoration(
-                    color: Styles.mainColor,
-                    borderRadius: BorderRadius.circular(25)),
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: drawerContainers,
               ),
-              Expanded(
-                child: Container(),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 20.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.phone,
-                          size: 18,
+              decoration: BoxDecoration(
+                  color: Styles.mainColor,
+                  borderRadius: BorderRadius.circular(25)),
+            ),
+            Expanded(
+              child: Container(),
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: 20.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.phone,
+                        size: 18,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 2.5),
+                      ),
+                      Text(
+                        "+998 (78) 150-00-02",
+                        style: TextStyle(
+                            fontSize: 11.0, fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        size: 18,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 2.5),
+                      ),
+                      Text(
+                        "Город Ташкент, улица Катта Дархон, дом 23",
+                        style: TextStyle(
+                            fontSize: 11.0, fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 7)),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 5.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Zarin Shop",
+                              style: TextStyle(
+                                  fontSize: 11.0, fontWeight: FontWeight.w600),
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.copyright,
+                                  size: 10,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 2.5),
+                                ),
+                                Text(
+                                  "2020",
+                                  style: TextStyle(
+                                      fontSize: 11.0,
+                                      fontWeight: FontWeight.w600),
+                                )
+                              ],
+                            )
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 2.5),
-                        ),
-                        Text(
-                          "+998 (78) 150-00-02",
-                          style: TextStyle(
-                              fontSize: 11.0, fontWeight: FontWeight.w600),
-                        )
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          size: 18,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 2.5),
-                        ),
-                        Text(
-                          "Город Ташкент, улица Катта Дархон, дом 23",
-                          style: TextStyle(
-                              fontSize: 11.0, fontWeight: FontWeight.w600),
-                        )
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.symmetric(vertical: 7)),
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 5.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                      ),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 100.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(
-                                "Zarin Shop",
-                                style: TextStyle(
-                                    fontSize: 11.0,
-                                    fontWeight: FontWeight.w600),
+                              Icon(
+                                Icons.chat,
+                                size: 30.0,
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.copyright,
-                                    size: 10,
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 2.5),
-                                  ),
-                                  Text(
-                                    "2020",
-                                    style: TextStyle(
-                                        fontSize: 11.0,
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                ],
-                              )
+                              Icon(
+                                Icons.camera,
+                                size: 30.0,
+                              ),
+                              Icon(
+                                Icons.fast_forward,
+                                size: 30.0,
+                              ),
                             ],
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.only(left: 100.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Icon(
-                                  Icons.chat,
-                                  size: 30.0,
-                                ),
-                                Icon(
-                                  Icons.camera,
-                                  size: 30.0,
-                                ),
-                                Icon(
-                                  Icons.fast_forward,
-                                  size: 30.0,
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -10,7 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Styles.backgroundColor,
-      statusBarIconBrightness: Brightness.light));
+      statusBarIconBrightness: Brightness.dark));
 
   runApp(ZarinApp());
 }

@@ -1,24 +1,22 @@
 import 'dart:async';
 import 'package:Zarin/models/api_response_model.dart';
 
-import '../utils/strings.dart';
-
 import '../resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class UserBloc {
   final _repository = Repository();
-  final _emailSubject = BehaviorSubject<String>();
+  final _emailSubject = BehaviorSubject<String>()
+    ..listen((value) => print(value));
   final _passwordSubject = BehaviorSubject<String>();
-  final _isSignedIn = BehaviorSubject<bool>();
 
   bool auth = false;
+
+  List<String> signUpInputStrings = new List(2);
 
   Stream<String> get emailStream => _emailSubject.stream;
 
   Stream<String> get passwordStream => _passwordSubject.stream;
-
-  Stream<bool> get signInStream => _isSignedIn.stream;
 
   String get email => _emailSubject.value;
   String get password => _passwordSubject.value;
@@ -27,34 +25,45 @@ class UserBloc {
 
   Function(String) get changePassword => _passwordSubject.sink.add;
 
-  Function(bool) get isSignedIn => _isSignedIn.sink.add;
-  Function(String) get signedError => _isSignedIn.sink.addError;
-
   bool validateEmail() {
     if (email == null || email.isEmpty) {
-      _emailSubject.sink.addError(StringConstant.emailValidateMessage);
+      _emailSubject.sink.addError("Введите ваш email");
       return false;
-    } else
-      return true;
+    }
+
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+
+    if (!regex.hasMatch(email)) {
+      _emailSubject.sink.addError("Email введен неверно");
+      return false;
+    }
+
+    return true;
   }
 
   bool validatePassword() {
     if (password == null || password.isEmpty) {
-      _passwordSubject.sink.addError(StringConstant.passwordValidateMessage);
+      _passwordSubject.sink.addError("Введите пароль");
       return false;
-    } else
-      return true;
+    }
+
+    if (password.length < 8) {
+      _passwordSubject.sink.addError("Пароль должен быть длиннее 8 символов");
+      return false;
+    }
+    return true;
   }
 
   bool validateFields() => validateEmail() && validatePassword();
 
-  Future<ApiResponse<bool>> submit() async {
-    ApiResponse<bool> authResponse =
-        await _repository.authenticateUser(email, password);
+  Future<ApiResponse<bool>> signIn() async {
+    ApiResponse<bool> response = await _repository.signIn(email, password);
 
-    auth = authResponse.status == Status.COMPLETED && authResponse.data;
+    auth = response.status == Status.COMPLETED && response.data;
 
-    return authResponse;
+    return response;
   }
 
   void dispose() async {
@@ -62,8 +71,20 @@ class UserBloc {
     _emailSubject.close();
     await _passwordSubject.drain();
     _passwordSubject.close();
-    await _isSignedIn.drain();
-    _isSignedIn.close();
+  }
+
+  Future<ApiResponse<bool>> resetPassword() async {
+    ApiResponse<bool> response = await _repository.resetPassword(email);
+    return response;
+  }
+
+  Future<ApiResponse<bool>> signUp() async {
+    String firstName = signUpInputStrings[0];
+    String lastName = signUpInputStrings[1];
+
+    ApiResponse<bool> response =
+        await _repository.signUp(email, password, firstName, lastName);
+    return response;
   }
 }
 

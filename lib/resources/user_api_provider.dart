@@ -7,20 +7,27 @@ import 'dart:convert' show json, utf8;
 import 'dart:io';
 
 class UserApiProvider {
-  Future<ApiResponse<bool>> authenticateUser(
-      String email, String password) async {
-    bool internet = await checkInternetConnection();
-    if (!internet)
-      return Future.delayed(Duration(seconds: 1),
-          () => ApiResponse.internalError("Нет соединения"));
+  Future<ApiResponse<bool>> signIn(String email, String password) async {
+    print("Пользователь входит в личный кабинет");
+    print(email);
+    print(password);
+    return ApiResponse.completed(false);
+  }
 
-    String url = "http://zarinshop.site:49354/api/v1/categories";
+  Future<ApiResponse<bool>> resetPassword(String email) async {
+    await Future.delayed(Duration(seconds: 5));
+    print("Пользователь восстанавливает пароль");
+    print(email);
+    return ApiResponse.error("Error");
+  }
 
-    final IOClient httpClient = new IOClient();
-    final response = await httpClient.get(
-      url,
-    );
-    final responseDecode = json.decode(utf8.decode(response.bodyBytes));
-    print(responseDecode);
+  Future<ApiResponse<bool>> signUp(
+      String email, String password, firstName, lastName) async {
+    print("Пользователь регистрируется");
+    print(email);
+    print(password);
+    print(firstName);
+    print(lastName);
+    return ApiResponse.completed(true);
   }
 }

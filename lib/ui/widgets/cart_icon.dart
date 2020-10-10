@@ -9,6 +9,9 @@ class CartIcon extends StatelessWidget {
         onTap: () => Navigator.of(context).push(FadePageRoute(
               builder: (context) => CartScreen(),
             )),
-        child: Icon(Icons.shopping_cart));
+        child: Icon(
+          Icons.shopping_cart,
+          size: 22,
+        ));
   }
 }

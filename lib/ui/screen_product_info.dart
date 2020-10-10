@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Zarin/ui/widgets/slider.dart' as Zarin;
+import 'package:Zarin/ui/widgets/slider_img.dart' as Zarin;
 
 class ProductInfo extends StatelessWidget {
   @override

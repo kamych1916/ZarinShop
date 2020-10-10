@@ -1,5 +1,4 @@
 import 'package:Zarin/ui/widgets/cart_card.dart';
-import 'package:Zarin/ui/widgets/drawer.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: ZarinDrawer(),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40.0),
         child: AppBar(
@@ -17,6 +15,14 @@ class CartScreen extends StatelessWidget {
           iconTheme: new IconThemeData(color: Colors.black87),
           elevation: 0,
           centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Icon(
+              Icons.arrow_back_ios,
+              size: 16,
+            ),
+          ),
           title: Text(
             "Корзина",
             style: TextStyle(color: Colors.black87),

@@ -1,31 +1,49 @@
-import 'package:Zarin/utils/styles.dart';
+import 'package:Zarin/ui/widgets/form_password_reset.dart';
+import 'package:Zarin/ui/widgets/form_sign_up.dart';
+import 'package:Zarin/ui/widgets/form_sign_up_code_verify.dart';
 import 'package:flutter/material.dart';
-import 'widgets/sign_in_form.dart';
+import 'package:flutter/services.dart';
+import 'widgets/form_sign_in.dart';
 
 class LoginScreen extends StatelessWidget {
+  final PageController pageController = new PageController(initialPage: 1);
+
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      PasswordResetForm(),
+      SignInForm(
+        pageController: pageController,
+      ),
+      SignUpForm(pageController: pageController),
+      SignUpCodeVerify()
+    ];
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40),
         child: AppBar(
-          brightness: Brightness.light,
-          backgroundColor: Styles.backgroundColor,
-          elevation: 0,
-          centerTitle: true,
           automaticallyImplyLeading: false,
           leading: GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
-            child: Icon(Icons.arrow_back_ios),
+            onTap: () async {
+              await SystemChannels.textInput.invokeMethod('TextInput.hide');
+              pageController.page != 1
+                  ? pageController.animateToPage(1,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut)
+                  : Navigator.of(context).pop();
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              size: 16,
+            ),
           ),
-          title: Text("Авторизация"),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(color: Colors.white),
-        alignment: Alignment(0.0, 0.0),
-        child: SignInForm(),
+      body: PageView(
+        controller: pageController,
+        //physics: NeverScrollableScrollPhysics(),
+        children: pages,
       ),
     );
   }

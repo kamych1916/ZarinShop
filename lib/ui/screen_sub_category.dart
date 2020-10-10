@@ -1,5 +1,4 @@
 import 'package:Zarin/ui/widgets/cart_icon.dart';
-import 'package:Zarin/ui/widgets/category_card.dart';
 import 'package:Zarin/ui/widgets/product_card.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
