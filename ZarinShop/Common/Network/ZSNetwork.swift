@@ -52,8 +52,8 @@ class ZSNetwork {
             headers: self.headers)
             .responseData { (response) in
                 
-                //self.printJson(from: response)
-                //self.printBody(from: response)
+                self.printJson(from: response)
+                self.printBody(from: response)
                 
                 switch (response.result) {
                 case .success(let data):
@@ -67,7 +67,7 @@ class ZSNetwork {
                         break
                     case 401:
                         //UserDefaults.standard.setLoggedOutUser()
-                        AppDelegate.shared.rootViewController.switchToLogout()
+                        //AppDelegate.shared.rootViewController.switchToLogout()
                         feilure?(.init(detail: "Не авторизован"), 401)
                         return
                     case 400...500:

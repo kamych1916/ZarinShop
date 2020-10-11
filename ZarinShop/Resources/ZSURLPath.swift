@@ -21,7 +21,10 @@ struct ZSURLPath {
     
     static let categories = "categories"
     static let checkCode = "checkcode_activ/"
+    static let resetPassword = "reset_password"
     
     //MARK: - Post
+    
+    static let changePassword = "change_password" 
     
 }

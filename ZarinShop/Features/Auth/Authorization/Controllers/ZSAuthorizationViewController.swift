@@ -127,19 +127,18 @@ class ZSAuthorizationViewController: UIViewController {
         button.setTitle("Создайте", for: .normal)
         button.setTitleColor(AppColors.blueLink.color(), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
-        button.addTarget(self, action: #selector(self.registerButtonTapped), for: .touchUpInside)
         button.adjustsImageWhenHighlighted = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    private lazy var forgotView: UIView = {
+    private lazy var resetView: UIView = {
            var view = UIView()
            view.backgroundColor = .clear
            return view
        }()
        
-       private lazy var forgotLabel: UILabel = {
+       private lazy var resetLabel: UILabel = {
            var label = UILabel()
            label.font = .systemFont(ofSize: 15, weight: .regular)
            label.textColor = AppColors.textDarkColor.color()
@@ -148,19 +147,17 @@ class ZSAuthorizationViewController: UIViewController {
            return label
        }()
        
-       private lazy var forgotButton: UIButton = {
+       private lazy var resetButton: UIButton = {
            var button = UIButton(type: .system)
            button.backgroundColor = .clear
            button.setTitle("Восстановить", for: .normal)
            button.setTitleColor(AppColors.blueLink.color(), for: .normal)
            button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
-           button.addTarget(self, action: #selector(self.registerButtonTapped), for: .touchUpInside)
            button.adjustsImageWhenHighlighted = true
            button.translatesAutoresizingMaskIntoConstraints = false
            return button
        }()
       
-    
     // MARK: - View Lifecycles
 
     override func viewDidLoad() {
@@ -219,15 +216,15 @@ class ZSAuthorizationViewController: UIViewController {
             make.top.right.bottom.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-        self.forgotView.snp.makeConstraints { (make) in
+        self.resetView.snp.makeConstraints { (make) in
             make.top.equalTo(self.registerView.snp.bottom)
             make.centerX.equalToSuperview()
         }
-        self.forgotLabel.snp.makeConstraints { (make) in
+        self.resetLabel.snp.makeConstraints { (make) in
             make.left.top.bottom.equalToSuperview()
         }
-        self.forgotButton.snp.makeConstraints { (make) in
-            make.left.equalTo(self.forgotLabel.snp.right).offset(5)
+        self.resetButton.snp.makeConstraints { (make) in
+            make.left.equalTo(self.resetLabel.snp.right).offset(5)
             make.top.right.bottom.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -243,15 +240,17 @@ class ZSAuthorizationViewController: UIViewController {
         self.scrollView.addSubview(self.passwordField)
         self.scrollView.addSubview(self.loginButton)
         self.scrollView.addSubview(self.registerView)
-        self.scrollView.addSubview(self.forgotView)
+        self.scrollView.addSubview(self.resetView)
         self.registerView.addSubview(self.registerLabel)
         self.registerView.addSubview(self.registerButton)
-        self.forgotView.addSubview(self.forgotLabel)
-        self.forgotView.addSubview(self.forgotButton)
+        self.resetView.addSubview(self.resetLabel)
+        self.resetView.addSubview(self.resetButton)
     }
     
     private func setupGestures() {
         self.loginButton.addTarget(self, action: #selector(self.loginButtonTapped), for: .touchUpInside)
+        self.registerButton.addTarget(self, action: #selector(self.registerButtonTapped), for: .touchUpInside)
+        self.resetButton.addTarget(self, action: #selector(self.resetButtonTapped), for: .touchUpInside)
         self.emailField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
         self.passwordField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
     }
@@ -264,7 +263,7 @@ class ZSAuthorizationViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc private func registerButtonTapped(_ sender: UIBarButtonItem) {
+    @objc private func registerButtonTapped(_ sender: UIButton) {
         let registrVC = ZSRegistrationViewController()
         let navigVC = UINavigationController(rootViewController: registrVC)
         navigVC.modalPresentationStyle = .fullScreen
@@ -295,11 +294,27 @@ class ZSAuthorizationViewController: UIViewController {
                 })
         }) { [weak self] (error, code) in
             self?.dismiss(animated: true, completion: {
+                
                 self?.alertError(message: error.detail)
             })
         }
     }
     
+    @objc private func resetButtonTapped() {
+        let resetVC = ZSResetPasswordViewController()
+        let navigVC = UINavigationController(rootViewController: resetVC)
+        navigVC.modalPresentationStyle = .fullScreen
+        navigVC.navigationItem.backBarButtonItem =
+            UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigVC.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
+        navigVC.navigationBar.shadowImage = UIImage()
+        navigVC.navigationBar.isTranslucent = false
+        resetVC.dismissHandler = { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
+        self.present(navigVC, animated: true, completion: nil)
+
+    }
     @objc private func registrationIsSuccesfully() {
         self.dismiss(animated: true, completion: nil)
     }

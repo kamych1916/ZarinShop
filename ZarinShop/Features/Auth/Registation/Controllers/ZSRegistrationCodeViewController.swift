@@ -10,13 +10,7 @@ import UIKit
 
 class ZSRegistrationCodeViewController: UIViewController {
     
-    // MARK: - Public Variables
-    
-    var dismissHandler: (() -> Void)?
-    var registerHandler: (() -> Void)?
-    
     // MARK: - Private Variables
-    
     
     private var params: [String: String] = [:]
     private var email: String = ""
@@ -200,8 +194,8 @@ class ZSRegistrationCodeViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc private func retryButtonTapped(_ sender: UIBarButtonItem) {
-        self.dismissHandler?()
+    @objc private func retryButtonTapped(_ sender: UIButton) {
+        
     }
     
     @objc private func continueButtonTapped() {

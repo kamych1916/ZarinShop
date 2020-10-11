@@ -1,5 +1,5 @@
 //
-//  ZSResetPasswordViewController.swift
+//  ZSResetPasswordCodeViewController.swift
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov on 10/11/20.
@@ -8,15 +8,12 @@
 
 import UIKit
 
-class ZSResetPasswordViewController: UIViewController {
-    
-    // MARK: - Public Variables
-    
-    var dismissHandler: (() -> Void)?
+class ZSResetPasswordCodeViewController: UIViewController {
     
     // MARK: - Private Variables
     
     private var params: [String: String] = [:]
+    private var email: String = ""
     private var isContinueButtonEnable: Bool = false {
         willSet {
             if newValue {
@@ -54,11 +51,11 @@ class ZSResetPasswordViewController: UIViewController {
         label.textColor = AppColors.textDarkColor.color()
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.text = "Введите Вашу почту для восстановления пароля"
+        label.text = "Введите код подтверждения и Ваш новый пароль"
         return label
     }()
     
-    private lazy var emailField: UITextField = {
+    private lazy var codeField: UITextField = {
         var field = UITextField()
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
@@ -68,8 +65,24 @@ class ZSResetPasswordViewController: UIViewController {
         field.textColor = AppColors.textDarkColor.color()
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
-        field.keyboardType = .emailAddress
-        field.placeholder = "Email"
+        field.placeholder = "Код"
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
+    
+    private lazy var newPasswordField: UITextField = {
+        var field = UITextField()
+        field.autocapitalizationType = .none
+        field.autocorrectionType = .no
+        field.borderStyle = .none
+        field.layer.cornerRadius = 20
+        field.isSecureTextEntry = true
+        field.returnKeyType = .done
+        field.backgroundColor = AppColors.mainLightColor.color()
+        field.textColor = AppColors.textDarkColor.color()
+        field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
+        field.leftViewMode = .always
+        field.placeholder = "Новый пароль"
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -87,14 +100,6 @@ class ZSResetPasswordViewController: UIViewController {
         return button
     }()
     
-    private lazy var dismissButton: UIBarButtonItem = {
-        var button = UIBarButtonItem(
-            image: UIImage(named: "dismiss"), style: .plain,
-            target: self, action: #selector(self.dismissButtonTapped))
-        button.tintColor = AppColors.textDarkColor.color()
-        return button
-    }()
-    
     // MARK: - View Lifecycles
 
     override func viewDidLoad() {
@@ -102,10 +107,13 @@ class ZSResetPasswordViewController: UIViewController {
         
         self.view.backgroundColor = .white
         self.hideKeyboardWhenTappedAround()
-        self.setupNavigationBar()
         self.addSubviews()
         self.makeConstraints()
         self.setupGestures()
+    }
+    
+    func initController(email: String) {
+        self.email = email
     }
     
     // MARK: - Constraits
@@ -121,13 +129,18 @@ class ZSResetPasswordViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.width.equalTo(self.sectionSize.width)
         }
-        self.emailField.snp.makeConstraints { (make) in
+        self.codeField.snp.makeConstraints { (make) in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
             make.size.equalTo(self.sectionSize)
         }
+        self.newPasswordField.snp.makeConstraints { (make) in
+            make.top.equalTo(self.codeField.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(self.sectionSize)
+        }
         self.continueButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.emailField.snp.bottom).offset(20)
+            make.top.equalTo(self.newPasswordField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.size.equalTo(self.sectionSize)
         }
@@ -138,33 +151,44 @@ class ZSResetPasswordViewController: UIViewController {
     private func addSubviews() {
         self.view.addSubview(self.companyNameLabel)
         self.view.addSubview(self.titleLabel)
-        self.view.addSubview(self.emailField)
+        self.view.addSubview(self.codeField)
+        self.view.addSubview(self.newPasswordField)
         self.view.addSubview(self.continueButton)
-    }
-    
-    private func setupNavigationBar() {
-        self.navigationItem.leftBarButtonItem = self.dismissButton
     }
     
     private func setupGestures() {
         self.continueButton.addTarget(self, action: #selector(self.continueButtonTapped), for: .touchUpInside)
-        self.emailField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
+        self.codeField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
+        self.newPasswordField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
+    }
+    
+    // MARK: - Helpers
+    
+    private func showSuccessAlert() {
+        let alert = UIAlertController(
+            title: "Поздравляем", message: "Вы успешно сменили пароль",
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Продолжить", style: .default, handler: { (action) in
+            NotificationCenter.default.post(name: .registationIsSuccessfully, object: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Actions
     
+    @objc private func retryButtonTapped(_ sender: UIButton) {
+        
+    }
+    
     @objc private func continueButtonTapped() {
         self.loadingAlert()
-        
         Network.shared.request(
-            url: Path.resetPassword,
-            method: .get, parameters: self.params,
+            url: Path.changePassword,
+            method: .post, parameters: self.params,
             isQueryString: true,
-            success: { [weak self] (response: ZSSigninUserModel)in
+            success: { [weak self] (response: ZSSignupResponseModel)in
                 self?.dismiss(animated: true, completion: {
-                    let codeVC = ZSResetPasswordCodeViewController()
-                    codeVC.initController(email: response.email)
-                    self?.navigationController?.pushViewController(codeVC, animated: true)
+                    self?.showSuccessAlert()
                 })
         }) { [weak self] (error, code) in
             self?.dismiss(animated: true, completion: {
@@ -173,22 +197,22 @@ class ZSResetPasswordViewController: UIViewController {
         }
     }
     
-    @objc private func dismissButtonTapped() {
-        self.dismissHandler?()
-    }
-    
     @objc private func textFieldValueChanged(_ sender: UITextField) {
-        guard let email = self.emailField.text,
-            !email.isEmpty,
-            email.count >= 4 else {
-            if self.isContinueButtonEnable {
-                self.isContinueButtonEnable = false
-            }
+        guard let code = self.codeField.text,
+            let password = self.newPasswordField.text,
+            !code.isEmpty,
+            password.count >= 6 else {
+                if self.isContinueButtonEnable {
+                    self.isContinueButtonEnable = false
+                }
             return
         }
         
-        self.params = ["email": email]
+        self.params = ["email": self.email,
+                       "code": code,
+                       "new_password": password]
         self.isContinueButtonEnable = true
     }
     
 }
+

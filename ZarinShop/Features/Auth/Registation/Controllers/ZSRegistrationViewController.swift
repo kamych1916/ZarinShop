@@ -142,29 +142,11 @@ class ZSRegistrationViewController: UIViewController {
         return button
     }()
     
-    private lazy var loginView: UIView = {
-        var view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }()
-    
-    private lazy var loginLabel: UILabel = {
-        var label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .regular)
-        label.textColor = AppColors.textDarkColor.color()
-        label.textAlignment = .center
-        label.text = "Есть аккаунт?"
-        return label
-    }()
-    
-    private lazy var loginButton: UIButton = {
-        var button = UIButton(type: .system)
-        button.backgroundColor = .clear
-        button.setTitle("Авторизуйтесь", for: .normal)
-        button.setTitleColor(AppColors.blueLink.color(), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
-        button.adjustsImageWhenHighlighted = true
-        button.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var dismissButton: UIBarButtonItem = {
+        var button = UIBarButtonItem(
+            image: UIImage(named: "dismiss"), style: .plain,
+            target: self, action: #selector(self.dismissButtonTapped))
+        button.tintColor = AppColors.textDarkColor.color()
         return button
     }()
     
@@ -220,20 +202,9 @@ class ZSRegistrationViewController: UIViewController {
         }
         self.registerButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.passwordField.snp.bottom).offset(20)
+            make.bottom.lessThanOrEqualToSuperview().inset(50)
             make.centerX.equalToSuperview()
             make.size.equalTo(self.sectionSize)
-        }
-        self.loginView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.registerButton.snp.bottom).offset(20)
-            make.centerX.equalToSuperview()
-            make.bottom.lessThanOrEqualToSuperview().inset(50)
-        }
-        self.loginLabel.snp.makeConstraints { (make) in
-            make.left.top.bottom.equalToSuperview()
-        }
-        self.loginButton.snp.makeConstraints { (make) in
-            make.left.equalTo(self.loginLabel.snp.right).offset(5)
-            make.top.right.bottom.equalToSuperview()
         }
     }
     
@@ -248,17 +219,14 @@ class ZSRegistrationViewController: UIViewController {
         self.scrollView.addSubview(self.emailField)
         self.scrollView.addSubview(self.passwordField)
         self.scrollView.addSubview(self.registerButton)
-        self.scrollView.addSubview(self.loginView)
-        self.loginView.addSubview(self.loginLabel)
-        self.loginView.addSubview(self.loginButton)
     }
     
     private func setupNavigationBar() {
+        self.navigationItem.leftBarButtonItem = self.dismissButton
     }
     
     private func setupGestures() {
         self.registerButton.addTarget(self, action: #selector(self.registerButtonTapped), for: .touchUpInside)
-        self.loginButton.addTarget(self, action: #selector(self.loginButtonTapped), for: .touchUpInside)
         self.firstnameField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
         self.lastnameField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
         self.emailField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
@@ -267,7 +235,7 @@ class ZSRegistrationViewController: UIViewController {
     
     // MARK: - Actions
     
-    @objc private func loginButtonTapped(_ sender: UIBarButtonItem) {
+    @objc private func dismissButtonTapped() {
         self.dismissHandler?()
     }
     

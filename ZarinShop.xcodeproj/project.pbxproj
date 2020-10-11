@@ -42,6 +42,7 @@
 		2057B8ED2525AF22007D8D05 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8EC2525AF22007D8D05 /* AppColors.swift */; };
 		2057B8F02525CCB5007D8D05 /* ZSMainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8EF2525CCB5007D8D05 /* ZSMainTableViewCell.swift */; };
 		2057B8F22525ED2D007D8D05 /* ZSBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8F12525ED2D007D8D05 /* ZSBaseViewController.swift */; };
+		2098B14325337E0900A00D18 /* ZSResetPasswordCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2098B14225337E0900A00D18 /* ZSResetPasswordCodeViewController.swift */; };
 		20B2DFC42526DA370089BC55 /* ZSProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B2DFC32526DA370089BC55 /* ZSProductsViewController.swift */; };
 		20B2DFC72526E4600089BC55 /* ZSGategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B2DFC62526E4600089BC55 /* ZSGategoriesCollectionViewCell.swift */; };
 		20B2DFC92526FB1E0089BC55 /* ZSProductsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B2DFC82526FB1E0089BC55 /* ZSProductsCollectionViewCell.swift */; };
@@ -95,6 +96,7 @@
 		2057B8EC2525AF22007D8D05 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		2057B8EF2525CCB5007D8D05 /* ZSMainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSMainTableViewCell.swift; sourceTree = "<group>"; };
 		2057B8F12525ED2D007D8D05 /* ZSBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSBaseViewController.swift; sourceTree = "<group>"; };
+		2098B14225337E0900A00D18 /* ZSResetPasswordCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSResetPasswordCodeViewController.swift; sourceTree = "<group>"; };
 		20B2DFC32526DA370089BC55 /* ZSProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductsViewController.swift; sourceTree = "<group>"; };
 		20B2DFC62526E4600089BC55 /* ZSGategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSGategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		20B2DFC82526FB1E0089BC55 /* ZSProductsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 			isa = PBXGroup;
 			children = (
 				20B9A89E2532F72B00E2EF71 /* ZSResetPasswordViewController.swift */,
+				2098B14225337E0900A00D18 /* ZSResetPasswordCodeViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -840,6 +843,7 @@
 				205692B0253236700096DDD0 /* ZSRegistrationCodeViewController.swift in Sources */,
 				20411045252B2C0F0081A562 /* BadgedButtonItem.swift in Sources */,
 				20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */,
+				2098B14325337E0900A00D18 /* ZSResetPasswordCodeViewController.swift in Sources */,
 				20B9A89B2532E50600E2EF71 /* ZSSigninUserModel.swift in Sources */,
 				2057B8EB2525A208007D8D05 /* ZSSideMenuItemView.swift in Sources */,
 				20B2DFCB2526FE090089BC55 /* ZSProductModel.swift in Sources */,
