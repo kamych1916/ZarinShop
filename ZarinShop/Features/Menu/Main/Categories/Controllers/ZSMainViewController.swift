@@ -39,7 +39,7 @@ class ZSMainViewController: ZSBaseViewController {
     }()
     
     
-    // MARK: - View Lifecycle
+    // MARK: - View life cycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,6 +53,7 @@ class ZSMainViewController: ZSBaseViewController {
         self.view.backgroundColor = .white
         self.addSubviews()
         self.makeConstraints()
+        //self.loadCategories()
     }
     
     // MARK: - Constraints
@@ -61,6 +62,14 @@ class ZSMainViewController: ZSBaseViewController {
         self.tableView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+    }
+    
+    private func loadCategories() {
+        Network.shared.request(
+            url: Path.categories, method: .get,
+            success: { (data: ZSCategoriesModel) in
+                
+        })
     }
     
     // MARK: - Setters

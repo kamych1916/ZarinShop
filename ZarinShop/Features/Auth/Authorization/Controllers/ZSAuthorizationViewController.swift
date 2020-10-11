@@ -12,6 +12,22 @@ class ZSAuthorizationViewController: UIViewController {
     
     // MARK: - Private Variables
     
+    private var params: [String: String] = [:]
+    private var isLoginButtonEnable: Bool = false {
+        willSet {
+            if newValue {
+                UIView.animate(withDuration: 0.3) {
+                    self.loginButton.backgroundColor = AppColors.mainColor.color()
+                    self.loginButton.isEnabled = true
+                }
+            } else {
+                UIView.animate(withDuration: 0.3) {
+                    self.loginButton.backgroundColor = AppColors.mainLightColor.color()
+                    self.loginButton.isEnabled = false
+                }
+            }
+        }
+    }
     private var sectionSize: CGSize {
         return CGSize(width: self.view.bounds.width / 1.2, height: 60)
     }
@@ -21,6 +37,8 @@ class ZSAuthorizationViewController: UIViewController {
     private lazy var scrollView: UIScrollView = {
         var scroll = UIScrollView()
         scroll.clipsToBounds = true
+        scroll.isScrollEnabled = true
+        scroll.isUserInteractionEnabled = true
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
@@ -78,12 +96,11 @@ class ZSAuthorizationViewController: UIViewController {
     private lazy var loginButton: UIButton = {
         var button = UIButton(type: .system)
         button.layer.cornerRadius = 20
-        button.layer.borderWidth = 0.5
-        button.layer.borderColor = AppColors.textDarkColor.color().cgColor
         button.setTitle("Войти", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
-        button.backgroundColor = AppColors.mainColor.color()
+        button.backgroundColor = AppColors.mainLightColor.color()
+        button.isEnabled = false
         button.adjustsImageWhenHighlighted = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -108,7 +125,7 @@ class ZSAuthorizationViewController: UIViewController {
         var button = UIButton(type: .system)
         button.backgroundColor = .clear
         button.setTitle("Создайте", for: .normal)
-        button.setTitleColor(AppColors.darkGray.color(), for: .normal)
+        button.setTitleColor(AppColors.blueLink.color(), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
         button.addTarget(self, action: #selector(self.registerButtonTapped), for: .touchUpInside)
         button.adjustsImageWhenHighlighted = true
@@ -116,15 +133,46 @@ class ZSAuthorizationViewController: UIViewController {
         return button
     }()
     
+    private lazy var forgotView: UIView = {
+           var view = UIView()
+           view.backgroundColor = .clear
+           return view
+       }()
+       
+       private lazy var forgotLabel: UILabel = {
+           var label = UILabel()
+           label.font = .systemFont(ofSize: 15, weight: .regular)
+           label.textColor = AppColors.textDarkColor.color()
+           label.textAlignment = .center
+           label.text = "Забыли пороль?"
+           return label
+       }()
+       
+       private lazy var forgotButton: UIButton = {
+           var button = UIButton(type: .system)
+           button.backgroundColor = .clear
+           button.setTitle("Восстановить", for: .normal)
+           button.setTitleColor(AppColors.blueLink.color(), for: .normal)
+           button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
+           button.addTarget(self, action: #selector(self.registerButtonTapped), for: .touchUpInside)
+           button.adjustsImageWhenHighlighted = true
+           button.translatesAutoresizingMaskIntoConstraints = false
+           return button
+       }()
+      
+    
     // MARK: - View Lifecycles
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
+        self.view.isUserInteractionEnabled = true
+        self.hideKeyboardWhenTappedAround()
         self.addSubviews()
         self.makeConstraints()
         self.setupGestures()
+        self.addObservers()
     }
     
     // MARK: - Constraits
@@ -169,6 +217,19 @@ class ZSAuthorizationViewController: UIViewController {
         self.registerButton.snp.makeConstraints { (make) in
             make.left.equalTo(self.registerLabel.snp.right).offset(5)
             make.top.right.bottom.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        self.forgotView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.registerView.snp.bottom)
+            make.centerX.equalToSuperview()
+        }
+        self.forgotLabel.snp.makeConstraints { (make) in
+            make.left.top.bottom.equalToSuperview()
+        }
+        self.forgotButton.snp.makeConstraints { (make) in
+            make.left.equalTo(self.forgotLabel.snp.right).offset(5)
+            make.top.right.bottom.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     
@@ -182,37 +243,81 @@ class ZSAuthorizationViewController: UIViewController {
         self.scrollView.addSubview(self.passwordField)
         self.scrollView.addSubview(self.loginButton)
         self.scrollView.addSubview(self.registerView)
+        self.scrollView.addSubview(self.forgotView)
         self.registerView.addSubview(self.registerLabel)
         self.registerView.addSubview(self.registerButton)
+        self.forgotView.addSubview(self.forgotLabel)
+        self.forgotView.addSubview(self.forgotButton)
     }
     
     private func setupGestures() {
         self.loginButton.addTarget(self, action: #selector(self.loginButtonTapped), for: .touchUpInside)
+        self.emailField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
+        self.passwordField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(self.registrationIsSuccesfully),
+            name: .registationIsSuccessfully, object: nil)
     }
     
     // MARK: - Actions
     
     @objc private func registerButtonTapped(_ sender: UIBarButtonItem) {
-        let controller = ZSRegistrationViewController()
-        controller.modalPresentationStyle = .fullScreen
-        controller.dismissHandler = { [weak self] in
+        let registrVC = ZSRegistrationViewController()
+        let navigVC = UINavigationController(rootViewController: registrVC)
+        navigVC.modalPresentationStyle = .fullScreen
+        navigVC.navigationItem.backBarButtonItem =
+            UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigVC.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
+        navigVC.navigationBar.shadowImage = UIImage()
+        navigVC.navigationBar.isTranslucent = false
+        registrVC.dismissHandler = { [weak self] in
             self?.dismiss(animated: true, completion: nil)
         }
-        controller.registerHandler = { [weak self] in
+        registrVC.registerHandler = { [weak self] in
             self?.dismiss(animated: true, completion: {
                 AppDelegate.shared.rootViewController.switchToMainScreen()
             })
         }
-        self.present(controller, animated: true, completion: nil)
+        self.present(navigVC, animated: true, completion: nil)
     }
     
     @objc private func loginButtonTapped() {
-        AppDelegate.shared.rootViewController.switchToMainScreen()
+        self.loadingAlert()
+        Network.shared.request(
+            url: Path.signin, method: .post,
+            parameters: self.params,
+            success: { [weak self] (user: ZSSigninUserModel) in
+                self?.dismiss(animated: true, completion: {
+                    AppDelegate.shared.rootViewController.switchToMainScreen()
+                })
+        }) { [weak self] (error, code) in
+            self?.dismiss(animated: true, completion: {
+                self?.alertError(message: error.detail)
+            })
+        }
+    }
+    
+    @objc private func registrationIsSuccesfully() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func textFieldValueChanged(_ sender: UITextField) {
         guard let email = self.emailField.text,
             let password = self.passwordField.text,
             !email.isEmpty,
-            password.count >= 6 else { return }
+            !password.isEmpty,
+        password.count >= 6 else {
+            if self.isLoginButtonEnable {
+                self.isLoginButtonEnable = false
+            }
+            return
+        }
         
+        self.params = ["email": email,
+                       "password": password]
+        self.isLoginButtonEnable = true
     }
-    
 }

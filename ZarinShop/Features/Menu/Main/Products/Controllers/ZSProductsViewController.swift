@@ -124,6 +124,9 @@ extension ZSProductsViewController: UICollectionViewDelegate, UICollectionViewDa
                 self.products[i].price = Float.random(in: 10...100)
             }
             self.mainView.productsCollectionView.reloadData()
+        }  else {
+            let controller = ZSProductDetailViewController()
+            self.pushVC(controller)
         }
     }
     

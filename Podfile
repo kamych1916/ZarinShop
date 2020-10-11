@@ -6,8 +6,12 @@ target 'ZarinShop' do
   use_frameworks!
 
   # Pods for ZarinShop
+
   pod 'SnapKit', '4.2.0'
+  pod 'Alamofire', '4.9.1'
   pod 'SideMenuSwift'
+  pod 'ImageSlideshow' 
+  pod 'IQKeyboardManagerSwift', '6.5.0'
   pod 'BetterSegmentedControl', '~> 1.3'
   pod 'ColorMatchTabs'
   pod 'Reveal-SDK', :configurations => ['Debug']

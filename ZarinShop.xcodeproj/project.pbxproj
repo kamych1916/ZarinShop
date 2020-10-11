@@ -11,10 +11,21 @@
 		20242AAD252A37E800886949 /* ZSProductsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AAC252A37E800886949 /* ZSProductsMainView.swift */; };
 		20242AAF252A3E4100886949 /* Templates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AAE252A3E4100886949 /* Templates.swift */; };
 		20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AB2252A3F1D00886949 /* Notification.Name+Ex.swift */; };
+		203FD53F2531C82A00F57432 /* ZSNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD53E2531C82A00F57432 /* ZSNetwork.swift */; };
+		203FD5412531CA6500F57432 /* ZSErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5402531CA6500F57432 /* ZSErrorModel.swift */; };
+		203FD5462531D0F500F57432 /* ZSProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5442531D0F500F57432 /* ZSProductDetailViewController.swift */; };
+		203FD5482531D7F900F57432 /* ZSURLPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5472531D7F900F57432 /* ZSURLPath.swift */; };
+		203FD54A2531DBDC00F57432 /* ZSCategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5492531DBDC00F57432 /* ZSCategoriesModel.swift */; };
+		203FD5502532036F00F57432 /* ZSCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD54F2532036F00F57432 /* ZSCheckoutViewController.swift */; };
+		203FD553253204EB00F57432 /* ZSCheckoutAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD552253204EB00F57432 /* ZSCheckoutAddressViewController.swift */; };
+		203FD5552532051000F57432 /* ZSCheckoutPaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5542532051000F57432 /* ZSCheckoutPaymentViewController.swift */; };
+		203FD5572532056200F57432 /* ZSCheckoutFinalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5562532056200F57432 /* ZSCheckoutFinalViewController.swift */; };
 		2041103B252AD7C00081A562 /* ZSCartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2041103A252AD7C00081A562 /* ZSCartTableViewCell.swift */; };
 		2041103F252AF24C0081A562 /* UIImage+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2041103E252AF24C0081A562 /* UIImage+Ex.swift */; };
 		20411042252AFAB40081A562 /* UIColor+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20411041252AFAB40081A562 /* UIColor+Ex.swift */; };
 		20411045252B2C0F0081A562 /* BadgedButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20411044252B2C0F0081A562 /* BadgedButtonItem.swift */; };
+		2049103F2532509400154252 /* ZSSignupUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049103E2532509400154252 /* ZSSignupUserModel.swift */; };
+		205692B0253236700096DDD0 /* ZSRegistrationCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205692AF253236700096DDD0 /* ZSRegistrationCodeViewController.swift */; };
 		2057B88A252588EF007D8D05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B889252588EF007D8D05 /* AppDelegate.swift */; };
 		2057B8B02525894E007D8D05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2057B89F2525894E007D8D05 /* Assets.xcassets */; };
 		2057B8B12525894E007D8D05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2057B8A02525894E007D8D05 /* LaunchScreen.storyboard */; };
@@ -37,8 +48,11 @@
 		20B2DFCB2526FE090089BC55 /* ZSProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B2DFCA2526FE090089BC55 /* ZSProductModel.swift */; };
 		20B2DFD325274D7B0089BC55 /* ZSRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B2DFD225274D7B0089BC55 /* ZSRegistrationViewController.swift */; };
 		20B2DFD525274D900089BC55 /* ZSAuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B2DFD425274D900089BC55 /* ZSAuthorizationViewController.swift */; };
+		20B9A8992532DCCC00E2EF71 /* ZSSignupResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B9A8982532DCCC00E2EF71 /* ZSSignupResponseModel.swift */; };
+		20B9A89B2532E50600E2EF71 /* ZSSigninUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B9A89A2532E50600E2EF71 /* ZSSigninUserModel.swift */; };
+		20B9A89F2532F72B00E2EF71 /* ZSResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B9A89E2532F72B00E2EF71 /* ZSResetPasswordViewController.swift */; };
 		71D1887A99BB69ED3097A433 /* Pods_ZarinShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D82D5D61017505831B7C23 /* Pods_ZarinShop.framework */; };
-		844A97CC25306D0E00619BE3 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97CB25306D0E00619BE3 /* TabItem.swift */; };
+		844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */; };
 		844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97D02530819C00619BE3 /* UIViewController+Ex.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,10 +62,21 @@
 		20242AAC252A37E800886949 /* ZSProductsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductsMainView.swift; sourceTree = "<group>"; };
 		20242AAE252A3E4100886949 /* Templates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Templates.swift; sourceTree = "<group>"; };
 		20242AB2252A3F1D00886949 /* Notification.Name+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Ex.swift"; sourceTree = "<group>"; };
+		203FD53E2531C82A00F57432 /* ZSNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZSNetwork.swift; sourceTree = "<group>"; };
+		203FD5402531CA6500F57432 /* ZSErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSErrorModel.swift; sourceTree = "<group>"; };
+		203FD5442531D0F500F57432 /* ZSProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZSProductDetailViewController.swift; sourceTree = "<group>"; };
+		203FD5472531D7F900F57432 /* ZSURLPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZSURLPath.swift; path = ZarinShop/Resources/ZSURLPath.swift; sourceTree = SOURCE_ROOT; };
+		203FD5492531DBDC00F57432 /* ZSCategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZSCategoriesModel.swift; path = ZarinShop/Resources/ZSCategoriesModel.swift; sourceTree = SOURCE_ROOT; };
+		203FD54F2532036F00F57432 /* ZSCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutViewController.swift; sourceTree = "<group>"; };
+		203FD552253204EB00F57432 /* ZSCheckoutAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutAddressViewController.swift; sourceTree = "<group>"; };
+		203FD5542532051000F57432 /* ZSCheckoutPaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutPaymentViewController.swift; sourceTree = "<group>"; };
+		203FD5562532056200F57432 /* ZSCheckoutFinalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutFinalViewController.swift; sourceTree = "<group>"; };
 		2041103A252AD7C00081A562 /* ZSCartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCartTableViewCell.swift; sourceTree = "<group>"; };
 		2041103E252AF24C0081A562 /* UIImage+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ex.swift"; sourceTree = "<group>"; };
 		20411041252AFAB40081A562 /* UIColor+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ex.swift"; sourceTree = "<group>"; };
 		20411044252B2C0F0081A562 /* BadgedButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgedButtonItem.swift; sourceTree = "<group>"; };
+		2049103E2532509400154252 /* ZSSignupUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSignupUserModel.swift; sourceTree = "<group>"; };
+		205692AF253236700096DDD0 /* ZSRegistrationCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSRegistrationCodeViewController.swift; sourceTree = "<group>"; };
 		2057B886252588EE007D8D05 /* ZarinShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZarinShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2057B889252588EF007D8D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2057B897252588F0007D8D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,9 +101,12 @@
 		20B2DFCA2526FE090089BC55 /* ZSProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductModel.swift; sourceTree = "<group>"; };
 		20B2DFD225274D7B0089BC55 /* ZSRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSRegistrationViewController.swift; sourceTree = "<group>"; };
 		20B2DFD425274D900089BC55 /* ZSAuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSAuthorizationViewController.swift; sourceTree = "<group>"; };
+		20B9A8982532DCCC00E2EF71 /* ZSSignupResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSignupResponseModel.swift; sourceTree = "<group>"; };
+		20B9A89A2532E50600E2EF71 /* ZSSigninUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSigninUserModel.swift; sourceTree = "<group>"; };
+		20B9A89E2532F72B00E2EF71 /* ZSResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSResetPasswordViewController.swift; sourceTree = "<group>"; };
 		41D82D5D61017505831B7C23 /* Pods_ZarinShop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZarinShop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F583775B1B4F66CF0F93527 /* Pods-ZarinShop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZarinShop.release.xcconfig"; path = "Target Support Files/Pods-ZarinShop/Pods-ZarinShop.release.xcconfig"; sourceTree = "<group>"; };
-		844A97CB25306D0E00619BE3 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutTabItem.swift; sourceTree = "<group>"; };
 		844A97D02530819C00619BE3 /* UIViewController+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ex.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,6 +128,68 @@
 				20242AB2252A3F1D00886949 /* Notification.Name+Ex.swift */,
 			);
 			path = Foundation;
+			sourceTree = "<group>";
+		};
+		203FD5422531D0F500F57432 /* ProductDetail */ = {
+			isa = PBXGroup;
+			children = (
+				203FD5432531D0F500F57432 /* Controllers */,
+				203FD5452531D0F500F57432 /* Views */,
+			);
+			path = ProductDetail;
+			sourceTree = "<group>";
+		};
+		203FD5432531D0F500F57432 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				203FD5442531D0F500F57432 /* ZSProductDetailViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		203FD5452531D0F500F57432 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		203FD54C2532030500F57432 /* Cart list */ = {
+			isa = PBXGroup;
+			children = (
+				2057B8CC252591FC007D8D05 /* Models */,
+				2057B8CF252591FC007D8D05 /* Views */,
+				2057B8CD252591FC007D8D05 /* Controllers */,
+			);
+			path = "Cart list";
+			sourceTree = "<group>";
+		};
+		203FD54D2532032400F57432 /* Checkout */ = {
+			isa = PBXGroup;
+			children = (
+				203FD551253203C400F57432 /* Models */,
+				203FD54E2532034100F57432 /* Controlles */,
+			);
+			path = Checkout;
+			sourceTree = "<group>";
+		};
+		203FD54E2532034100F57432 /* Controlles */ = {
+			isa = PBXGroup;
+			children = (
+				203FD54F2532036F00F57432 /* ZSCheckoutViewController.swift */,
+				203FD552253204EB00F57432 /* ZSCheckoutAddressViewController.swift */,
+				203FD5542532051000F57432 /* ZSCheckoutPaymentViewController.swift */,
+				203FD5562532056200F57432 /* ZSCheckoutFinalViewController.swift */,
+			);
+			path = Controlles;
+			sourceTree = "<group>";
+		};
+		203FD551253203C400F57432 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		20411039252AD7A10081A562 /* Cells */ = {
@@ -142,6 +232,23 @@
 				20411044252B2C0F0081A562 /* BadgedButtonItem.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		2049103C2532472500154252 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				20B9A89A2532E50600E2EF71 /* ZSSigninUserModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2049103D2532503E00154252 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2049103E2532509400154252 /* ZSSignupUserModel.swift */,
+				20B9A8982532DCCC00E2EF71 /* ZSSignupResponseModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		2057B87D252588EE007D8D05 = {
@@ -209,6 +316,9 @@
 		2057B8A42525894E007D8D05 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				203FD53E2531C82A00F57432 /* ZSNetwork.swift */,
+				203FD5402531CA6500F57432 /* ZSErrorModel.swift */,
+				203FD5472531D7F900F57432 /* ZSURLPath.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -307,7 +417,6 @@
 		2057B8C7252591FC007D8D05 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				844A97CB25306D0E00619BE3 /* TabItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -330,9 +439,8 @@
 		2057B8CB252591FC007D8D05 /* Cart */ = {
 			isa = PBXGroup;
 			children = (
-				2057B8CC252591FC007D8D05 /* Models */,
-				2057B8CF252591FC007D8D05 /* Views */,
-				2057B8CD252591FC007D8D05 /* Controllers */,
+				203FD54C2532030500F57432 /* Cart list */,
+				203FD54D2532032400F57432 /* Checkout */,
 			);
 			path = Cart;
 			sourceTree = "<group>";
@@ -341,7 +449,8 @@
 			isa = PBXGroup;
 			children = (
 			);
-			path = Models;
+			name = Models;
+			path = ../Models;
 			sourceTree = "<group>";
 		};
 		2057B8CD252591FC007D8D05 /* Controllers */ = {
@@ -397,6 +506,7 @@
 			children = (
 				20B2DFBE2526D9510089BC55 /* Categories */,
 				20B2DFBF2526D9C30089BC55 /* Products */,
+				203FD5422531D0F500F57432 /* ProductDetail */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -420,6 +530,7 @@
 		2057B8E32525934D007D8D05 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				203FD5492531DBDC00F57432 /* ZSCategoriesModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -498,8 +609,9 @@
 		20B2DFCC25274C980089BC55 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				20B2DFCE25274D270089BC55 /* Registation */,
+				20B9A89C2532F6F200E2EF71 /* Reset Password */,
 				20B2DFCD25274CDB0089BC55 /* Authorization */,
+				20B2DFCE25274D270089BC55 /* Registation */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -507,6 +619,7 @@
 		20B2DFCD25274CDB0089BC55 /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
+				2049103C2532472500154252 /* Models */,
 				20B2DFD025274D470089BC55 /* Controllers */,
 			);
 			path = Authorization;
@@ -515,6 +628,7 @@
 		20B2DFCE25274D270089BC55 /* Registation */ = {
 			isa = PBXGroup;
 			children = (
+				2049103D2532503E00154252 /* Models */,
 				20B2DFCF25274D3E0089BC55 /* Controllers */,
 			);
 			path = Registation;
@@ -524,6 +638,7 @@
 			isa = PBXGroup;
 			children = (
 				20B2DFD225274D7B0089BC55 /* ZSRegistrationViewController.swift */,
+				205692AF253236700096DDD0 /* ZSRegistrationCodeViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -532,6 +647,22 @@
 			isa = PBXGroup;
 			children = (
 				20B2DFD425274D900089BC55 /* ZSAuthorizationViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		20B9A89C2532F6F200E2EF71 /* Reset Password */ = {
+			isa = PBXGroup;
+			children = (
+				20B9A89D2532F70E00E2EF71 /* Controllers */,
+			);
+			path = "Reset Password";
+			sourceTree = "<group>";
+		};
+		20B9A89D2532F70E00E2EF71 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				20B9A89E2532F72B00E2EF71 /* ZSResetPasswordViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -678,31 +809,45 @@
 			buildActionMask = 2147483647;
 			files = (
 				20242AAD252A37E800886949 /* ZSProductsMainView.swift in Sources */,
+				20B9A8992532DCCC00E2EF71 /* ZSSignupResponseModel.swift in Sources */,
+				203FD54A2531DBDC00F57432 /* ZSCategoriesModel.swift in Sources */,
 				2057B8F02525CCB5007D8D05 /* ZSMainTableViewCell.swift in Sources */,
 				20B2DFC42526DA370089BC55 /* ZSProductsViewController.swift in Sources */,
 				2057B88A252588EF007D8D05 /* AppDelegate.swift in Sources */,
 				2041103F252AF24C0081A562 /* UIImage+Ex.swift in Sources */,
 				2057B8DB252591FC007D8D05 /* ZSCartViewController.swift in Sources */,
+				203FD5572532056200F57432 /* ZSCheckoutFinalViewController.swift in Sources */,
 				2057B8DA252591FC007D8D05 /* ZSOrdersViewController.swift in Sources */,
 				20411042252AFAB40081A562 /* UIColor+Ex.swift in Sources */,
-				844A97CC25306D0E00619BE3 /* TabItem.swift in Sources */,
+				844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */,
 				2057B8ED2525AF22007D8D05 /* AppColors.swift in Sources */,
 				20B2DFC92526FB1E0089BC55 /* ZSProductsCollectionViewCell.swift in Sources */,
 				2057B8B32525894E007D8D05 /* RootViewController.swift in Sources */,
 				2057B8BA25258E01007D8D05 /* ZSSideMenuViewController.swift in Sources */,
 				2057B8DC252591FC007D8D05 /* ZSProfileViewController.swift in Sources */,
 				20242AAF252A3E4100886949 /* Templates.swift in Sources */,
+				203FD5412531CA6500F57432 /* ZSErrorModel.swift in Sources */,
 				20B2DFC72526E4600089BC55 /* ZSGategoriesCollectionViewCell.swift in Sources */,
+				20B9A89F2532F72B00E2EF71 /* ZSResetPasswordViewController.swift in Sources */,
 				2041103B252AD7C00081A562 /* ZSCartTableViewCell.swift in Sources */,
+				203FD5462531D0F500F57432 /* ZSProductDetailViewController.swift in Sources */,
+				203FD5552532051000F57432 /* ZSCheckoutPaymentViewController.swift in Sources */,
 				20B2DFD525274D900089BC55 /* ZSAuthorizationViewController.swift in Sources */,
 				2057B8F22525ED2D007D8D05 /* ZSBaseViewController.swift in Sources */,
+				203FD53F2531C82A00F57432 /* ZSNetwork.swift in Sources */,
 				2057B8E52525935E007D8D05 /* ZSMainViewController.swift in Sources */,
+				203FD5482531D7F900F57432 /* ZSURLPath.swift in Sources */,
+				205692B0253236700096DDD0 /* ZSRegistrationCodeViewController.swift in Sources */,
 				20411045252B2C0F0081A562 /* BadgedButtonItem.swift in Sources */,
 				20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */,
+				20B9A89B2532E50600E2EF71 /* ZSSigninUserModel.swift in Sources */,
 				2057B8EB2525A208007D8D05 /* ZSSideMenuItemView.swift in Sources */,
 				20B2DFCB2526FE090089BC55 /* ZSProductModel.swift in Sources */,
 				20B2DFD325274D7B0089BC55 /* ZSRegistrationViewController.swift in Sources */,
+				2049103F2532509400154252 /* ZSSignupUserModel.swift in Sources */,
 				20242AAB2529F58E00886949 /* ZSSideMenuFooterView.swift in Sources */,
+				203FD5502532036F00F57432 /* ZSCheckoutViewController.swift in Sources */,
+				203FD553253204EB00F57432 /* ZSCheckoutAddressViewController.swift in Sources */,
 				844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */,
 				2057B8B52525894E007D8D05 /* SplashViewController.swift in Sources */,
 			);

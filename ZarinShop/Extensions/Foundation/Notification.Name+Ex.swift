@@ -13,4 +13,5 @@ extension Notification.Name {
     static let cartValueChanged = Notification.Name("cartValueChanged")
     static let sortButtonTapped = Notification.Name("sortButtonTapped")
     static let filterButtonTapped = Notification.Name("filterButtonTapped")
+    static let registationIsSuccessfully = Notification.Name("registationIsSuccessfully")
 }

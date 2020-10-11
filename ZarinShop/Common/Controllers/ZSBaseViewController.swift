@@ -17,7 +17,7 @@ class ZSBaseViewController: UIViewController {
             if newValue {
                 self.navigationItem.leftBarButtonItem = self.menuBarButton
             } else {
-                self.navigationItem.rightBarButtonItem = nil
+                self.navigationItem.leftBarButtonItem = nil
             }
         }
     }
@@ -37,7 +37,7 @@ class ZSBaseViewController: UIViewController {
         var button = UIBarButtonItem(
             image: UIImage(named: "menu"), style: .plain,
             target: self, action: #selector(self.menuBarButtonTapped))
-        button.tintColor = AppColors.darkGray.color()
+        button.tintColor = AppColors.mainColor.color()
         return button
     }()
     
@@ -102,7 +102,7 @@ class ZSBaseViewController: UIViewController {
         self.navigationItem.rightBarButtonItems = [self.cartBarButton, self.favoritesBarButton]
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         //barButtonItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .normal)
-        self.navigationItem.backBarButtonItem?.tintColor = AppColors.darkGray.color()
+        self.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
     }
