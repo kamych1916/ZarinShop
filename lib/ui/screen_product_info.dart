@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:Zarin/ui/widgets/cart_icon.dart';
@@ -165,8 +166,16 @@ class _AddToCartButtonState extends State<AddToCartButton> {
   bool isGesureAllowed = true;
 
   @override
+  void setState(func) {
+    if (mounted) {
+      super.setState(func);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.deferToChild,
       onTap: () async {
         if (!isGesureAllowed) return;
 
@@ -269,6 +278,12 @@ class _AddToCartDotState extends State<AddToCartDot>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return buttonPosition == null
         ? Container()
@@ -284,27 +299,31 @@ class _AddToCartDotState extends State<AddToCartDot>
             // top: animate ? cartPosition.dy - 2 : buttonPosition.dy + 50 - 2,
             top: calculate(_animation.value).dy,
             left: calculate(_animation.value).dx,
-            child: Container(
-              padding: EdgeInsets.all(2),
-              decoration: ShapeDecoration(
-                  shape: CircleBorder(),
-                  color: animate ? Styles.backgroundColor : Colors.transparent),
+            child: IgnorePointer(
+              ignoring: true,
               child: Container(
-                width: 18,
-                height: 18,
-                padding: EdgeInsets.only(
-                    top: 3.5, bottom: 3.0, left: 3.0, right: 3.0),
-                child: Text(
-                  "1",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 10,
-                      decoration: TextDecoration.none,
-                      color: animate ? Colors.white : Colors.transparent),
-                ),
+                padding: EdgeInsets.all(2),
                 decoration: ShapeDecoration(
                     shape: CircleBorder(),
-                    color: animate ? Colors.deepPurple : Colors.transparent),
+                    color:
+                        animate ? Styles.backgroundColor : Colors.transparent),
+                child: Container(
+                  width: 18,
+                  height: 18,
+                  padding: EdgeInsets.only(
+                      top: 3.5, bottom: 3.0, left: 3.0, right: 3.0),
+                  child: Text(
+                    "1",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 10,
+                        decoration: TextDecoration.none,
+                        color: animate ? Colors.white : Colors.transparent),
+                  ),
+                  decoration: ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: animate ? Colors.deepPurple : Colors.transparent),
+                ),
               ),
             ),
           );
