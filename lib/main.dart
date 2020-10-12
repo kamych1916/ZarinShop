@@ -1,3 +1,4 @@
+import 'package:Zarin/ui/screen_splash.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/ui/screen_category.dart';
 import 'package:Zarin/ui/screen_login.dart';
@@ -53,9 +54,9 @@ class ZarinApp extends StatelessWidget {
             child: child,
           );
         },
-        home: CategoryScreen(),
-        initialRoute: "/home",
+        initialRoute: "/splash",
         routes: {
+          '/splash': (BuildContext context) => SplashScreen(),
           '/login': (BuildContext context) => LoginScreen(),
           '/home': (BuildContext context) => CategoryScreen(),
         },

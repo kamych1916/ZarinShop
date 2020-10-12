@@ -12,6 +12,7 @@ class ProductCard extends StatelessWidget {
         builder: (context) => ProductInfo(),
       )),
       child: Container(
+        padding: EdgeInsets.all(5),
         child: Column(
           children: [
             Expanded(
@@ -20,7 +21,8 @@ class ProductCard extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.yellow,
-                        borderRadius: BorderRadius.circular(25)),
+                        borderRadius: BorderRadius.circular(25),
+                        boxShadow: Styles.cardShadows),
                   ),
                   Align(
                     alignment: Alignment.bottomRight,

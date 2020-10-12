@@ -1,15 +1,15 @@
+import 'package:Zarin/models/category.dart';
 import 'package:Zarin/ui/widgets/cart_icon.dart';
 import 'package:Zarin/ui/widgets/product_card.dart';
+import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SubCategoryScreen extends StatelessWidget {
-  final String categoryName;
-  final List<String> subCategory = new List.from(
-      ["Халаты женские", "Халаты мужские", "Халаты детские", "Халаты носки"]);
+  final Category category;
 
-  SubCategoryScreen(this.categoryName);
+  const SubCategoryScreen({Key key, this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SubCategoryScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(40),
         child: AppBar(
           brightness: Brightness.light,
-          backgroundColor: Colors.white,
+          backgroundColor: Styles.backgroundColor,
           iconTheme: new IconThemeData(color: Colors.black87),
           elevation: 0,
           leading: GestureDetector(
@@ -29,10 +29,8 @@ class SubCategoryScreen extends StatelessWidget {
             ),
           ),
           title: Text(
-            categoryName,
-            style: TextStyle(
-              color: Colors.black87,
-            ),
+            category.name,
+            style: TextStyle(color: Colors.black87),
           ),
           actions: [
             GestureDetector(
@@ -45,24 +43,31 @@ class SubCategoryScreen extends StatelessWidget {
       body: Container(
         child: Column(
           children: [
-            Container(
-              height: 45,
-              padding: EdgeInsets.only(left: 20.0, top: 20.0),
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: subCategory.length,
-                itemBuilder: (context, index) => Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom:
-                              BorderSide(color: Styles.mainColor, width: 2))),
-                  margin: EdgeInsets.only(right: 20.0),
-                  child: Text(subCategory[index]),
-                ),
-              ),
-            ),
+            category.subcategories.isNotEmpty
+                ? Container(
+                    height: 45,
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: category.subcategories.length,
+                      itemBuilder: (context, index) => GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => Navigator.of(context).push(FadePageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) => SubCategoryScreen(
+                              category: category.subcategories[index]),
+                        )),
+                        child: Container(
+                          margin: EdgeInsets.only(right: 20.0),
+                          child: Text(category.subcategories[index].name),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(top: 20.0),

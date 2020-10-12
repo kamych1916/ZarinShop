@@ -166,7 +166,8 @@ class SliderMenuContainerState extends State<SliderMenuContainer>
             children: <Widget>[
               Container(
                 padding: widget.appBarPadding ??
-                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                    EdgeInsets.only(
+                        top: MediaQuery.of(context).padding.top - 4),
                 color: widget.appBarColor,
                 child: Row(
                   children: appBar(),

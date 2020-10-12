@@ -34,12 +34,15 @@ class PasswordField extends StatelessWidget {
 }
 
 class EmailField extends StatelessWidget {
+  final FocusNode focusNode = new FocusNode();
   @override
   Widget build(BuildContext context) {
+    if (userBloc.canFieldsRequestFocus) focusNode.requestFocus();
     return StreamBuilder(
         stream: userBloc.emailStream,
         builder: (context, snapshot) {
           return TextField(
+              focusNode: focusNode,
               keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
               onChanged: userBloc.changeEmail,

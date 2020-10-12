@@ -1,3 +1,6 @@
+import 'package:Zarin/blocs/product_bloc.dart';
+import 'package:Zarin/models/api_response_model.dart';
+import 'package:Zarin/models/category.dart';
 import 'package:Zarin/ui/widgets/cart_icon.dart';
 import 'package:Zarin/ui/widgets/category_card.dart';
 import 'package:Zarin/ui/widgets/drawer.dart';
@@ -5,17 +8,41 @@ import 'package:Zarin/ui/widgets/slider_menu.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Zarin/data.dart';
 
-class CategoryScreen extends StatefulWidget {
-  @override
-  _CategoryScreenState createState() => _CategoryScreenState();
-}
-
-class _CategoryScreenState extends State<CategoryScreen> {
-  final List<Map<String, int>> categories = Data.categories;
+class CategoryScreen extends StatelessWidget {
   final GlobalKey<SliderMenuContainerState> _key =
       new GlobalKey<SliderMenuContainerState>();
+
+  Widget _error(String message) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Icon(
+            Icons.error_outline,
+            size: 30.0,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+          ),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14),
+          ),
+          FlatButton(
+            child: Text(
+              "Повторить попытку",
+              style: TextStyle(color: Colors.blue[600], fontSize: 12.0),
+            ),
+            onPressed: () {
+              productBloc.getCategories();
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,43 +62,26 @@ class _CategoryScreenState extends State<CategoryScreen> {
             Container(padding: EdgeInsets.only(right: 10.0), child: CartIcon()),
         sliderMain: Container(
           color: Styles.backgroundColor,
-          child: CupertinoScrollbar(
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              physics: BouncingScrollPhysics(),
-              itemCount: categories.length,
-              itemBuilder: (context, index) =>
-                  CategoryCard(categories[index], index),
-            ),
-          ),
+          child: StreamBuilder(
+              stream: productBloc.categoriesStream,
+              builder: (context,
+                  AsyncSnapshot<ApiResponse<List<Category>>> snapshot) {
+                if (snapshot.data.status == Status.COMPLETED &&
+                    snapshot.data.data?.length != 0)
+                  return CupertinoScrollbar(
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: productBloc.categories.length,
+                      itemBuilder: (context, index) =>
+                          CategoryCard(productBloc.categories[index]),
+                    ),
+                  );
+                else
+                  return _error(snapshot.data.message);
+              }),
         ),
       ),
     );
-    // return Scaffold(
-    //   //drawer: ZarinDrawer(),
-    //   // appBar: PreferredSize(
-    //   //   preferredSize: Size.fromHeight(40),
-    //   //   child: AppBar(
-    //   //     automaticallyImplyLeading: false,
-    //   //     leading: GestureDetector(
-    //   //       child: Icon(Icons.menu),
-    //   //     ),
-    //   //     actions: [
-    //   //       Container(padding: EdgeInsets.only(right: 10.0), child: CartIcon())
-    //   //     ],
-    //   //   ),
-    //   // ),
-    //   body: Container(
-    //     color: Styles.backgroundColor,
-    //     child: CupertinoScrollbar(
-    //       child: ListView.builder(
-    //         physics: BouncingScrollPhysics(),
-    //         itemCount: categories.length,
-    //         itemBuilder: (context, index) =>
-    //             CategoryCard(categories[index], index),
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

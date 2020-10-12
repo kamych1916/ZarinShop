@@ -1,20 +1,18 @@
+import 'package:Zarin/models/category.dart';
 import 'package:Zarin/ui/screen_sub_category.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
-  final Map<String, int> category;
+  final Category category;
   final double cardHeight = 110;
   final double horizontalMargin = 20;
-  final int id;
 
-  CategoryCard(this.category, this.id);
+  CategoryCard(this.category);
 
   @override
   Widget build(BuildContext context) {
-    String categoryName = category.keys.elementAt(0);
-    int categoryCount = category.values.elementAt(0);
     final double cardWidth =
         MediaQuery.of(context).size.width - horizontalMargin;
 
@@ -26,13 +24,15 @@ class CategoryCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () => Navigator.of(context).push(FadePageRoute(
           fullscreenDialog: true,
-          builder: (context) => SubCategoryScreen(categoryName),
+          builder: (context) => SubCategoryScreen(category: category),
         )),
         child: Stack(
           children: [
             Container(
               decoration: BoxDecoration(
-                  color: Colors.amber, borderRadius: BorderRadius.circular(25)),
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: Styles.cardShadows),
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -49,7 +49,7 @@ class CategoryCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        categoryName,
+                        category.name,
                         maxLines: 2,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
@@ -60,7 +60,9 @@ class CategoryCard extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 5.0),
-                      child: Text(categoryCount.toString() + " шт."),
+                      child: Text("5 шт."),
+
+                      /// TODO: category.count
                     )
                   ],
                 ),
