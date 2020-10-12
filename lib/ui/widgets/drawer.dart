@@ -1,3 +1,4 @@
+import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/ui/screen_login.dart';
 import 'package:Zarin/ui/widgets/slider_menu.dart';
@@ -37,10 +38,9 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> drawerContainers = new List.from([
-      DrawerMenuContainer("Главная", Icons.home, homeEvent),
-      DrawerMenuContainer(
-          "Личный кабинет", Icons.supervised_user_circle, personalEvent),
-      DrawerMenuContainer("Мои заказы", Icons.list, null),
+      DrawerMenuContainer("Главная", AppIcons.home, homeEvent),
+      DrawerMenuContainer("Личный кабинет", AppIcons.user, personalEvent),
+      DrawerMenuContainer("Мои заказы", AppIcons.list, null),
     ]);
 
     return Container(
@@ -93,11 +93,11 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                   Row(
                     children: [
                       Icon(
-                        Icons.phone,
+                        AppIcons.phone_handset,
                         size: 18,
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.5),
+                        padding: EdgeInsets.symmetric(horizontal: 5),
                       ),
                       Text(
                         "+998 (78) 150-00-02",
@@ -110,14 +110,15 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                   Row(
                     children: [
                       Icon(
-                        Icons.location_on,
+                        AppIcons.map_marker,
                         size: 18,
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.5),
+                        padding: EdgeInsets.symmetric(horizontal: 5),
                       ),
                       Text(
-                        "Город Ташкент, улица Катта Дархон, дом 23",
+                        "Город Ташкент\nулица Катта Дархон, дом 23",
+                        overflow: TextOverflow.clip,
                         style: TextStyle(
                             fontSize: 11.0, fontWeight: FontWeight.w600),
                       )
@@ -134,13 +135,13 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                             Text(
                               "Zarin Shop",
                               style: TextStyle(
-                                  fontSize: 11.0, fontWeight: FontWeight.w600),
+                                  fontSize: 12.0, fontWeight: FontWeight.w600),
                             ),
                             Row(
                               children: [
                                 Icon(
                                   Icons.copyright,
-                                  size: 10,
+                                  size: 14,
                                 ),
                                 Padding(
                                   padding:
@@ -149,7 +150,7 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                                 Text(
                                   "2020",
                                   style: TextStyle(
-                                      fontSize: 11.0,
+                                      fontSize: 12.0,
                                       fontWeight: FontWeight.w600),
                                 )
                               ],
@@ -159,21 +160,21 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                       ),
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.only(left: 100.0),
+                          padding: EdgeInsets.only(left: 50.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Icon(
-                                Icons.chat,
+                                AppIcons.telegram_plane,
                                 size: 30.0,
                               ),
                               Icon(
-                                Icons.camera,
+                                AppIcons.instagram,
                                 size: 30.0,
                               ),
                               Icon(
-                                Icons.fast_forward,
+                                AppIcons.facebook_f,
                                 size: 30.0,
                               ),
                             ],
@@ -211,6 +212,7 @@ class DrawerMenuContainer extends StatelessWidget {
           children: [
             Icon(
               icon,
+              size: 18,
               color: Colors.grey[600],
             ),
             Padding(

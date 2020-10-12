@@ -42,7 +42,8 @@ class CategoryCard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: Styles.cardShadows),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

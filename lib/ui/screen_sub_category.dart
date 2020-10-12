@@ -1,5 +1,7 @@
+import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/ui/widgets/cart_icon.dart';
+import 'package:Zarin/ui/widgets/favorite_icon.dart';
 import 'package:Zarin/ui/widgets/product_card.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -30,13 +32,21 @@ class SubCategoryScreen extends StatelessWidget {
           ),
           title: Text(
             category.name,
-            style: TextStyle(color: Colors.black87),
+            overflow: TextOverflow.fade,
+            style:
+                TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
           ),
           actions: [
-            GestureDetector(
-              child: Container(
-                  padding: EdgeInsets.only(right: 10.0), child: CartIcon()),
-            )
+            Container(
+              padding: EdgeInsets.only(right: 10.0),
+              child: Row(
+                children: [
+                  FavoriteIcon(),
+                  Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
+                  CartIcon(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -45,9 +55,9 @@ class SubCategoryScreen extends StatelessWidget {
           children: [
             category.subcategories.isNotEmpty
                 ? Container(
-                    height: 45,
+                    height: 30,
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                    padding: EdgeInsets.only(left: 20.0, top: 8.0),
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
@@ -88,7 +98,10 @@ class SubCategoryScreen extends StatelessWidget {
                             decoration: TextDecoration.none,
                             decorationColor: Colors.white.withOpacity(0)),
                         decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.search),
+                          suffixIcon: Icon(
+                            AppIcons.magnifier,
+                            size: 16.0,
+                          ),
                           contentPadding:
                               EdgeInsets.only(left: 15, right: 15, top: 5),
                           filled: true,

@@ -4,6 +4,7 @@ import 'package:Zarin/models/category.dart';
 import 'package:Zarin/ui/widgets/cart_icon.dart';
 import 'package:Zarin/ui/widgets/category_card.dart';
 import 'package:Zarin/ui/widgets/drawer.dart';
+import 'package:Zarin/ui/widgets/favorite_icon.dart';
 import 'package:Zarin/ui/widgets/slider_menu.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,15 +59,24 @@ class CategoryScreen extends StatelessWidget {
         drawerIconSize: 22.0,
         isShadow: false,
         sliderAnimationTimeInMilliseconds: 500,
-        trailing:
-            Container(padding: EdgeInsets.only(right: 10.0), child: CartIcon()),
+        trailing: Container(
+          padding: EdgeInsets.only(right: 10.0),
+          child: Row(
+            children: [
+              FavoriteIcon(),
+              Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
+              CartIcon(),
+            ],
+          ),
+        ),
         sliderMain: Container(
           color: Styles.backgroundColor,
           child: StreamBuilder(
               stream: productBloc.categoriesStream,
               builder: (context,
                   AsyncSnapshot<ApiResponse<List<Category>>> snapshot) {
-                if (snapshot.data.status == Status.COMPLETED &&
+                if (snapshot.hasData) if (snapshot.data.status ==
+                        Status.COMPLETED &&
                     snapshot.data.data?.length != 0)
                   return CupertinoScrollbar(
                     child: ListView.builder(
@@ -79,6 +89,8 @@ class CategoryScreen extends StatelessWidget {
                   );
                 else
                   return _error(snapshot.data.message);
+                else
+                  return Container();
               }),
         ),
       ),

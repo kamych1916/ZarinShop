@@ -1,11 +1,17 @@
+import 'dart:math';
+
+import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/ui/screen_product_info.dart';
+import 'package:Zarin/ui/widgets/product_card_favorite_icon.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
+  final rng = new Random();
   @override
   Widget build(BuildContext context) {
+    int rnd = rng.nextInt(2);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => Navigator.of(context).push(FadePageRoute(
@@ -15,46 +21,32 @@ class ProductCard extends StatelessWidget {
         padding: EdgeInsets.all(5),
         child: Column(
           children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.yellow,
-                        borderRadius: BorderRadius.circular(25),
-                        boxShadow: Styles.cardShadows),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      margin: EdgeInsets.only(right: 15.0, bottom: 15.0),
-                      decoration: ShapeDecoration(
-                        shape: CircleBorder(),
-                        color: Styles.cardFavoriteIconBackgroundColor,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            top: 10.0, bottom: 8.0, left: 10, right: 10),
-                        child: Icon(Icons.favorite, color: Colors.white),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+            Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height / 3 - 15.0,
+                  decoration: BoxDecoration(
+                      color: Styles.mainColor,
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: Styles.cardShadows),
+                ),
+                ProductCardFavoriteIcon() //productId
+              ],
             ),
             Container(
-              padding: EdgeInsets.only(
-                top: 10.0,
-              ),
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
               alignment: Alignment.centerLeft,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Махровый халат",
+                    "Халат махровый",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: Colors.grey[600],
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: FontWeight.w500),
                   ),
                   Padding(
@@ -63,9 +55,9 @@ class ProductCard extends StatelessWidget {
                   Text(
                     "5000 сум",
                     style: TextStyle(
-                      color: Styles.cardTextColor,
-                      fontSize: 15.0,
-                    ),
+                        color: Styles.cardTextColor,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600),
                   )
                 ],
               ),

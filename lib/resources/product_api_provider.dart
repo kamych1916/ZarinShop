@@ -16,7 +16,6 @@ class ProductApiProvider {
 
     try {
       Response response = await client.get(url).timeout(Duration(seconds: 5));
-      await Future.delayed(Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         List<Category> categories = [];
