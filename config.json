@@ -1,0 +1,100 @@
+{
+  "name": "AppIcons",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "7c638496e4c7e626bc48bb5d8e6adc1d",
+      "css": "home",
+      "code": 59394,
+      "src": "linearicons"
+    },
+    {
+      "uid": "b75af8c5ac556bc6953f343d3ff5986b",
+      "css": "user",
+      "code": 59434,
+      "src": "linearicons"
+    },
+    {
+      "uid": "293bc9ec53a66586963ead5c45b791d0",
+      "css": "exit",
+      "code": 59424,
+      "src": "linearicons"
+    },
+    {
+      "uid": "cdf7270e5dcec27c452fb33f334f8284",
+      "css": "list",
+      "code": 59506,
+      "src": "linearicons"
+    },
+    {
+      "uid": "814cfaca1407bf45548558e1e2815bdf",
+      "css": "menu-1",
+      "code": 59505,
+      "src": "linearicons"
+    },
+    {
+      "uid": "2cc97ae9bea37bcaf9fb726816c2b2a7",
+      "css": "cart",
+      "code": 59438,
+      "src": "linearicons"
+    },
+    {
+      "uid": "7033a790a6eba30beda282944e6bae87",
+      "css": "heart",
+      "code": 59411,
+      "src": "linearicons"
+    },
+    {
+      "uid": "6ad074bda46c1f4c7cfe9c02199cedf0",
+      "css": "map-marker",
+      "code": 59443,
+      "src": "linearicons"
+    },
+    {
+      "uid": "825fbef3f7457a7f5bfb3a3c9680fade",
+      "css": "map",
+      "code": 59444,
+      "src": "linearicons"
+    },
+    {
+      "uid": "4bbdccd2dd2c02c55a8ec9a20dc50ee8",
+      "css": "phone-handset",
+      "code": 59440,
+      "src": "linearicons"
+    },
+    {
+      "uid": "076bd4cd22150e8237c5817a9a7e03a7",
+      "css": "magnifier",
+      "code": 59503,
+      "src": "linearicons"
+    },
+    {
+      "uid": "e9f1a465968111eab72aacfdce5a3d9f",
+      "css": "credit-card",
+      "code": 62241,
+      "src": "octicons"
+    },
+    {
+      "uid": "71064f0fa3be043351efdcaea9c5b8ea",
+      "css": "instagram",
+      "code": 61805,
+      "src": "fontawesome5"
+    },
+    {
+      "uid": "3d2ba268e0ff8128fe71d48c4631a6b9",
+      "css": "telegram_plane",
+      "code": 62462,
+      "src": "fontawesome5"
+    },
+    {
+      "uid": "c2b93e53641f7d8eb542120fa6996700",
+      "css": "facebook_f",
+      "code": 62366,
+      "src": "fontawesome5"
+    }
+  ]
+}

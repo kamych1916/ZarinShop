@@ -18,8 +18,11 @@ dependencies:
   connectivity: ^0.4.9+3
   rxdart: ^0.24.1
   http: ^0.12.2
-  flutter_verification_code: ^0.2.1
 
 flutter:
+  fonts:
+  - family: AppIcons
+    fonts:
+      - asset: assets/fonts/AppIcons.ttf
 
   uses-material-design: true
