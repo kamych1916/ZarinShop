@@ -7,14 +7,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ZSMainTableViewCell: UITableViewCell {
     
     static let reuseId = "ZSMainTableViewCell"
     
     // MARK: - Private Variables
-    
-    private var isLeftTitle: Bool = false
     
     // MARK: - GUI Variables
     
@@ -35,6 +34,7 @@ class ZSMainTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 19
         imageView.clipsToBounds = true
+        imageView.image = UIImage(named: "men")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -63,12 +63,10 @@ class ZSMainTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 17, weight: .regular)
         label.textColor = AppColors.textDarkColor.color()
         label.textAlignment = .right
-        label.text = "145 шт"
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     
     // MARK: - Initialization
     
@@ -85,10 +83,10 @@ class ZSMainTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func initCell(image: UIImage?, title: String, isLeftTitle: Bool) {
-        self.bigImageView.image = image
-        self.titleLabel.text = title
-        self.isLeftTitle = isLeftTitle
+    func initCell(with model: ZSCategoriesModel) {
+        self.countLabel.text = "\(model.kol)"
+        self.titleLabel.text = model.name
+        self.loadImage(from: model.image_url)
         
         self.setNeedsUpdateConstraints()
     }
@@ -109,12 +107,12 @@ class ZSMainTableViewCell: UITableViewCell {
             make.height.equalTo(80)
         }
         self.titleLabel.snp.updateConstraints { (make) in
-            make.left.equalToSuperview().inset(10)
+            make.left.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
         }
         self.countLabel.snp.updateConstraints { (make) in
             make.left.equalTo(self.titleLabel.snp.right).offset(5)
-            make.right.equalToSuperview().inset(10)
+            make.right.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
         }
         super.updateConstraints()
@@ -128,6 +126,21 @@ class ZSMainTableViewCell: UITableViewCell {
         self.containerView.addSubview(self.titleView)
         self.titleView.addSubview(self.titleLabel)
         self.titleView.addSubview(self.countLabel)
+    }
+    
+    // MARK: - Helpers
+    
+    private func loadImage(from url: String) {
+        guard let imageURL = URL(string: (url)) else { return }
+        self.bigImageView.kf.indicatorType = .activity
+        self.bigImageView.kf.setImage(
+            with: imageURL,
+            placeholder: .none,
+            options: [
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+        ])
     }
     
 }

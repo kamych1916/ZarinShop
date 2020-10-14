@@ -52,8 +52,8 @@ class ZSNetwork {
             headers: self.headers)
             .responseData { (response) in
                 
-                self.printJson(from: response)
-                self.printBody(from: response)
+                //self.printJson(from: response)
+                //self.printBody(from: response)
                 
                 switch (response.result) {
                 case .success(let data):

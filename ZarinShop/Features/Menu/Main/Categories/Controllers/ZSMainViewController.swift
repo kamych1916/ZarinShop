@@ -14,11 +14,7 @@ class ZSMainViewController: ZSBaseViewController {
     
     // MARK: - Private Variables
     
-    private var data: [String] = [
-        "Халаты", "Пижамы",
-        "Товары для ванной",
-        "Товары для кухни",
-        "Товары для спальни"]
+    private var data: [ZSCategoriesModel] = []
     
     // MARK: - GUI Variables
     
@@ -53,7 +49,7 @@ class ZSMainViewController: ZSBaseViewController {
         self.view.backgroundColor = .white
         self.addSubviews()
         self.makeConstraints()
-        //self.loadCategories()
+        self.loadCategories()
     }
     
     // MARK: - Constraints
@@ -65,10 +61,19 @@ class ZSMainViewController: ZSBaseViewController {
     }
     
     private func loadCategories() {
+        self.loadingAlert()
         Network.shared.request(
             url: Path.categories, method: .get,
-            success: { (data: ZSCategoriesModel) in
-                
+            success: { [weak self] (data: [ZSCategoriesModel]) in
+                guard let self = self else { return }
+                self.data = data
+                self.tableView.reloadData()
+                self.dismiss(animated: true, completion: nil)
+            }, feilure: { [weak self] (error, code) in
+                guard let self = self else { return }
+                self.dismiss(animated: true, completion: {
+                    self.alertError(message: error.detail)
+                })
         })
     }
     
@@ -92,11 +97,7 @@ extension ZSMainViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ZSMainTableViewCell.reuseId, for: indexPath)
         
         let model = self.data[indexPath.row]
-        let isLeftTitle = indexPath.row % 2 == 0 ? true : false
-        let image = indexPath.row % 2 == 0 ? UIImage(named: "men") : UIImage(named: "women")
-        
-        (cell as? ZSMainTableViewCell)?
-            .initCell(image: image, title: model, isLeftTitle: isLeftTitle)
+        (cell as? ZSMainTableViewCell)?.initCell(with: model)
         return cell
     }
     

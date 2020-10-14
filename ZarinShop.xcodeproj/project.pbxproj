@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		201332A225374C2E00548FF6 /* ZSSubcategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201332A125374C2E00548FF6 /* ZSSubcategoriesModel.swift */; };
 		20242AAB2529F58E00886949 /* ZSSideMenuFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AAA2529F58E00886949 /* ZSSideMenuFooterView.swift */; };
 		20242AAD252A37E800886949 /* ZSProductsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AAC252A37E800886949 /* ZSProductsMainView.swift */; };
 		20242AAF252A3E4100886949 /* Templates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AAE252A3E4100886949 /* Templates.swift */; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		0DE7CA78AE674A74E83BD40D /* Pods-ZarinShop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZarinShop.debug.xcconfig"; path = "Target Support Files/Pods-ZarinShop/Pods-ZarinShop.debug.xcconfig"; sourceTree = "<group>"; };
+		201332A125374C2E00548FF6 /* ZSSubcategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZSSubcategoriesModel.swift; path = "ZarinShop/Features/Auth/Reset Password/Controllers/ZSSubcategoriesModel.swift"; sourceTree = SOURCE_ROOT; };
 		20242AAA2529F58E00886949 /* ZSSideMenuFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSideMenuFooterView.swift; sourceTree = "<group>"; };
 		20242AAC252A37E800886949 /* ZSProductsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductsMainView.swift; sourceTree = "<group>"; };
 		20242AAE252A3E4100886949 /* Templates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Templates.swift; sourceTree = "<group>"; };
@@ -536,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				203FD5492531DBDC00F57432 /* ZSCategoriesModel.swift */,
+				201332A125374C2E00548FF6 /* ZSSubcategoriesModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -827,6 +830,7 @@
 				20411042252AFAB40081A562 /* UIColor+Ex.swift in Sources */,
 				844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */,
 				2057B8ED2525AF22007D8D05 /* AppColors.swift in Sources */,
+				201332A225374C2E00548FF6 /* ZSSubcategoriesModel.swift in Sources */,
 				20B2DFC92526FB1E0089BC55 /* ZSProductsCollectionViewCell.swift in Sources */,
 				2057B8B32525894E007D8D05 /* RootViewController.swift in Sources */,
 				2057B8BA25258E01007D8D05 /* ZSSideMenuViewController.swift in Sources */,
