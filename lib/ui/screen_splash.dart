@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   appInit() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    await productBloc.init();
+    await productBloc.init(context);
     Navigator.pushReplacement(
         context,
         FadePageRoute(

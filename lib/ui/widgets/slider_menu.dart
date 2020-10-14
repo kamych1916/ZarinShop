@@ -165,7 +165,8 @@ class SliderMenuContainerState extends State<SliderMenuContainer>
           child: Column(
             children: <Widget>[
               Container(
-                padding: widget.appBarPadding ??
+                padding: EdgeInsets.zero,
+                margin: widget.appBarPadding ??
                     EdgeInsets.only(
                         top: MediaQuery.of(context).padding.top - 4),
                 color: widget.appBarColor,
@@ -192,16 +193,15 @@ class SliderMenuContainerState extends State<SliderMenuContainer>
                 toggle();
               }),
       Expanded(
-        child: widget.isTitleCenter
-            ? Center(
-                child: widget.title,
-              )
-            : widget.title,
+        child: Container(
+          child: widget.isTitleCenter
+              ? Center(
+                  child: widget.title,
+                )
+              : widget.title,
+        ),
       ),
-      widget.trailing ??
-          SizedBox(
-            width: 35,
-          )
+      widget.trailing
     ];
 
     if (widget.sliderOpen == SliderOpen.RIGHT_TO_LEFT) {

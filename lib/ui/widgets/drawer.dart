@@ -67,7 +67,7 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                     "домашний текстиль",
                     style:
                         TextStyle(fontSize: 13.0, fontWeight: FontWeight.w500),
-                  )
+                  ),
                 ],
               ),
             ),

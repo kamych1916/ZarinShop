@@ -14,7 +14,7 @@ class CategoryScreen extends StatelessWidget {
   final GlobalKey<SliderMenuContainerState> _key =
       new GlobalKey<SliderMenuContainerState>();
 
-  Widget _error(String message) {
+  Widget _error(String message, BuildContext context) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -37,7 +37,7 @@ class CategoryScreen extends StatelessWidget {
               style: TextStyle(color: Colors.blue[600], fontSize: 12.0),
             ),
             onPressed: () {
-              productBloc.getCategories();
+              productBloc.getCategories(context);
             },
           ),
         ],
@@ -60,6 +60,7 @@ class CategoryScreen extends StatelessWidget {
         isShadow: false,
         sliderAnimationTimeInMilliseconds: 500,
         trailing: Container(
+          height: 40,
           padding: EdgeInsets.only(right: 10.0),
           child: Row(
             children: [
@@ -88,7 +89,7 @@ class CategoryScreen extends StatelessWidget {
                     ),
                   );
                 else
-                  return _error(snapshot.data.message);
+                  return _error(snapshot.data.message, context);
                 else
                   return Container();
               }),

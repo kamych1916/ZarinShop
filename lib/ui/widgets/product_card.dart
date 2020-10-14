@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/ui/screen_product_info.dart';
 import 'package:Zarin/ui/widgets/product_card_favorite_icon.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
@@ -8,10 +5,8 @@ import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  final rng = new Random();
   @override
   Widget build(BuildContext context) {
-    int rnd = rng.nextInt(2);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => Navigator.of(context).push(FadePageRoute(

@@ -23,9 +23,6 @@ class _ProductInfoState extends State<ProductInfo> {
   Offset cartPosition;
   Offset buttonPosition;
 
-  Path path;
-  bool isPathReady = false;
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -35,22 +32,10 @@ class _ProductInfoState extends State<ProductInfo> {
       final RenderBox renderBoxButton =
           _buttonKey.currentContext.findRenderObject();
       buttonPosition = renderBoxButton.localToGlobal(Offset.zero);
-      setState(() {
-        isPathReady = true;
-      });
-      path = drawPath();
-      addToCartOffsetsStream.sink.add([buttonPosition, cartPosition, path]);
+
+      addToCartOffsetsStream.sink.add([buttonPosition, cartPosition]);
     });
     super.initState();
-  }
-
-  Path drawPath() {
-    Size size = MediaQuery.of(context).size;
-    Path path = Path();
-    path.moveTo(size.width / 2 - 9, buttonPosition.dy + 50 - 2);
-    path.quadraticBezierTo(
-        size.width, 100, cartPosition.dx - 2, cartPosition.dy - 2);
-    return path;
   }
 
   @override
@@ -118,36 +103,9 @@ class _ProductInfoState extends State<ProductInfo> {
           ),
         ),
         AddToCartDot(addToCartOffsetsStream, startAnimationStream),
-        isPathReady
-            ? Positioned(
-                top: 0,
-                child: CustomPaint(
-                  painter: PathPainter(path),
-                ),
-              )
-            : Container(),
       ],
     );
   }
-}
-
-class PathPainter extends CustomPainter {
-  Path path;
-
-  PathPainter(this.path);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.redAccent.withOpacity(0.3)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.0;
-
-    canvas.drawPath(this.path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
 
 class AddToCartButton extends StatefulWidget {
@@ -162,6 +120,7 @@ class AddToCartButton extends StatefulWidget {
 
 class _AddToCartButtonState extends State<AddToCartButton> {
   bool isCollapsed = false;
+  bool buttonToDot = false;
   bool isAnimationStop = true;
   bool isGesureAllowed = true;
 
@@ -187,6 +146,8 @@ class _AddToCartButtonState extends State<AddToCartButton> {
 
         await Future.delayed(Duration(milliseconds: 800));
 
+        //setState(() => buttonToDot = false);
+
         widget.callback();
         setState(() => isCollapsed = false);
 
@@ -199,16 +160,25 @@ class _AddToCartButtonState extends State<AddToCartButton> {
       child: AnimatedContainer(
         key: widget.buttonKey,
         duration: Duration(milliseconds: 500),
-        width: isCollapsed ? 18 : 200,
-        height: 18,
+        width: isCollapsed ? 18 : MediaQuery.of(context).size.width - 100,
+        height: isCollapsed ? 18 : 40,
         alignment: Alignment.center,
-        margin: EdgeInsets.all(50),
+        margin: EdgeInsets.only(
+            top: isCollapsed ? 60 : 50, left: 50, bottom: 50, right: 50),
         decoration: isCollapsed
-            ? ShapeDecoration(shape: CircleBorder(), color: Colors.deepPurple)
+            ? ShapeDecoration(
+                shape: CircleBorder(),
+                color: Colors.deepPurple,
+                shadows: Styles.cardShadows)
             : BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.deepPurple),
-        child: isCollapsed ? null : isAnimationStop ? Text("В корзину") : null,
+                color: Colors.deepPurple,
+                boxShadow: Styles.cardShadows),
+        child: isCollapsed
+            ? null
+            : isAnimationStop
+                ? Text("В корзину", style: TextStyle(color: Colors.white))
+                : null,
       ),
     );
   }
@@ -241,7 +211,7 @@ class _AddToCartDotState extends State<AddToCartDot>
     widget.offsetsStream.listen((value) {
       buttonPosition = value[0];
       cartPosition = value[1];
-      path = value[2];
+      path = drawPath();
       setState(() {});
     });
 
@@ -267,6 +237,15 @@ class _AddToCartDotState extends State<AddToCartDot>
       }
     });
     super.initState();
+  }
+
+  Path drawPath() {
+    Size size = MediaQuery.of(context).size;
+    Path path = Path();
+    path.moveTo(size.width / 2 - 9, buttonPosition.dy + 50 - 2);
+    path.quadraticBezierTo(
+        size.width, 100, cartPosition.dx - 2, cartPosition.dy - 2);
+    return path;
   }
 
   Offset calculate(value) {

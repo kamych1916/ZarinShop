@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:Zarin/models/api_response_model.dart';
 import 'package:Zarin/models/category.dart';
+import 'package:Zarin/models/product.dart';
 import 'package:Zarin/utils/check_internet_connection.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
@@ -35,5 +36,10 @@ class ProductApiProvider {
               : ApiResponse.error('Возникла внутренняя ошибка')
           : ApiResponse.error('Отсутствует интернет-соединение');
     }
+  }
+
+  Future<ApiResponse<List<Product>>> getProducts(String id) async {
+    await Future.delayed(Duration(seconds: 1));
+    return ApiResponse.completed([]);
   }
 }

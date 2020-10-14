@@ -44,7 +44,7 @@ class CartIcon extends StatelessWidget {
                     child: Text(
                       "99",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 10),
+                      style: TextStyle(fontSize: 10, color: Colors.white),
                     ),
                   ),
                 ),
