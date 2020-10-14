@@ -290,6 +290,7 @@ class ZSAuthorizationViewController: UIViewController {
             parameters: self.params,
             success: { [weak self] (user: ZSSigninUserModel) in
                 self?.dismiss(animated: true, completion: {
+                    UserDefaults.standard.setSinginUser(user: user)
                     AppDelegate.shared.rootViewController.switchToMainScreen()
                 })
         }) { [weak self] (error, code) in

@@ -39,7 +39,11 @@ class SplashViewController: UIViewController {
         self.activityIndicatorViewAnimate(indicator: self.activityIndicator)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(1)) {
             self.activityIndicator.stopAnimating()
-            AppDelegate.shared.rootViewController.switchToLogout()
+            if UserDefaults.standard.isSingin() {
+                AppDelegate.shared.rootViewController.switchToMainScreen()
+            } else {
+                AppDelegate.shared.rootViewController.switchToLogout()
+            }
         }
     }
     

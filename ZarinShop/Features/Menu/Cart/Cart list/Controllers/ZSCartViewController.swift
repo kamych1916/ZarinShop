@@ -98,8 +98,6 @@ class ZSCartViewController: ZSBaseViewController {
     private lazy var buyButton: UIButton = {
         var button = UIButton(type: .system)
         button.layer.cornerRadius = 25
-        button.layer.borderWidth = 0.5
-        button.layer.borderColor = AppColors.textDarkColor.color().cgColor
         button.setTitle("Оплатить", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
@@ -149,7 +147,7 @@ class ZSCartViewController: ZSBaseViewController {
         self.buyButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.totalLabel.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(20)
-            make.height.equalTo(60)
+            make.height.equalTo(50)
         }
     }
     

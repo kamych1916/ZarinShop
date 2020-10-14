@@ -55,6 +55,7 @@
 		71D1887A99BB69ED3097A433 /* Pods_ZarinShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D82D5D61017505831B7C23 /* Pods_ZarinShop.framework */; };
 		844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */; };
 		844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97D02530819C00619BE3 /* UIViewController+Ex.swift */; };
+		84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,7 @@
 		7F583775B1B4F66CF0F93527 /* Pods-ZarinShop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZarinShop.release.xcconfig"; path = "Target Support Files/Pods-ZarinShop/Pods-ZarinShop.release.xcconfig"; sourceTree = "<group>"; };
 		844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutTabItem.swift; sourceTree = "<group>"; };
 		844A97D02530819C00619BE3 /* UIViewController+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ex.swift"; sourceTree = "<group>"; };
+		84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Ex.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				20242AB2252A3F1D00886949 /* Notification.Name+Ex.swift */,
+				84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -854,6 +857,7 @@
 				203FD553253204EB00F57432 /* ZSCheckoutAddressViewController.swift in Sources */,
 				844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */,
 				2057B8B52525894E007D8D05 /* SplashViewController.swift in Sources */,
+				84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

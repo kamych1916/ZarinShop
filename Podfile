@@ -10,6 +10,7 @@ target 'ZarinShop' do
   pod 'SnapKit', '4.2.0'
   pod 'Alamofire', '4.9.1'
   pod 'SideMenuSwift'
+  pod 'DropDown', '2.3.10'
   pod 'ImageSlideshow' 
   pod 'IQKeyboardManagerSwift', '6.5.0'
   pod 'BetterSegmentedControl', '~> 1.3'
