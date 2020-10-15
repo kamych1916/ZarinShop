@@ -9,7 +9,7 @@
 import UIKit
 import ImageSlideshow
 
-class ZSProductDetailViewController: UIViewController {
+class ZSProductDetailViewController: ZSBaseViewController {
     
     // MARK: - Public Variables
     
@@ -20,6 +20,7 @@ class ZSProductDetailViewController: UIViewController {
     private lazy var scrollView: UIScrollView = {
         var scroll = UIScrollView()
         scroll.clipsToBounds = true
+        scroll.showsVerticalScrollIndicator = false
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
@@ -37,43 +38,29 @@ class ZSProductDetailViewController: UIViewController {
         return imageSlideshow
     }()
     
-    private lazy var titleView: UIView = {
-        var view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 20
+    private lazy var titleView: ZSProductDetailTitleView = {
+        var view = ZSProductDetailTitleView()
+        view.initView(name: "Product name", price: "25700 сум")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private lazy var nameLabel: UILabel = {
-        var label = UILabel()
-        label.text = "Product name"
-        label.font = .systemFont(ofSize: 17, weight: .regular)
-        label.textColor = AppColors.textDarkColor.color()
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private lazy var descriptionView: ZSProductDetailDescriptionView = {
+        var view = ZSProductDetailDescriptionView()
+        view.initView(text: "Домашние халаты традиционно носятся дома, как правило поверх пижамы. Раньше пижама считалась нижним бельём, и было зазорным появиться в ней перед семьёй или гостями. Как правило, халат носится после сна, за завтраком, по дороге от спальни до ванной, в позднее вечернее время перед сном. В больших господских домах это имело большее значение, нежели в небольших квартирах.")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
-    
-    private lazy var priceLabel: UILabel = {
-        var label = UILabel()
-        label.text = "25700 сум"
-        label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textColor = AppColors.textGoldColor.color()
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var descriptionLabel: UILabel = {
-        var label = UILabel()
-        label.text = "25700 сум\nn25700 сум 25700 сум\n25700 сум 25700 сум 25700 сум\n25700 сум\n25700 сум 25700 сум 25700 сум 25700 сум 25700 сум\n25700 сум\nn25700 сум 25700 сум\n25700 сум 25700 сум 25700 сум\n25700 сум\n25700 сум 25700 сум 25700 сум 25700 сум 25700 сум"
-        label.numberOfLines = 0
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textColor = AppColors.textGoldColor.color()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+
+    private lazy var specificationView: ZSProductDetailSpecificationView = {
+        var view = ZSProductDetailSpecificationView()
+        view.initView(
+            items: [.init(title: "Модель", description: "Adidas"),
+                    .init(title: "Цвет", description: "Красный"),
+                    .init(title: "Страна", description: "Турция"),
+                    .init(title: "Размер", description: "М")])
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private lazy var addToCartButton: UIButton = {
@@ -83,6 +70,7 @@ class ZSProductDetailViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
         button.backgroundColor = AppColors.mainColor.color()
         button.layer.cornerRadius = 30
+        button.addTarget(self, action: #selector(self.addToCartButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -91,6 +79,7 @@ class ZSProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        super.isNeedMenuBarButton = false
         
         self.view.backgroundColor = AppColors.secondaryColor.color()
         self.addSubviews()
@@ -112,22 +101,18 @@ class ZSProductDetailViewController: UIViewController {
             make.top.equalTo(self.imageSlideshow.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(20)
         }
-        self.nameLabel.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview().inset(20)
-            make.right.equalToSuperview().inset(20)
-        }
-        self.priceLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.nameLabel.snp.bottom).offset(10)
-            make.left.equalToSuperview().inset(20)
-            make.right.bottom.equalToSuperview().inset(20)
-        }
-        self.descriptionLabel.snp.makeConstraints { (make) in
+        self.descriptionView.snp.makeConstraints { (make) in
             make.top.equalTo(self.titleView.snp.bottom).offset(20)
-            make.left.right.bottom.equalToSuperview().inset(40)
+            make.left.right.equalToSuperview().inset(20)
+        }
+        self.specificationView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.descriptionView.snp.bottom).offset(20)
+            make.left.right.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(90)
         }
         self.addToCartButton.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(40)
+            make.bottom.equalToSuperview().inset(20)
             make.height.equalTo(60)
         }
     }
@@ -139,11 +124,14 @@ class ZSProductDetailViewController: UIViewController {
         self.view.addSubview(self.addToCartButton)
         self.scrollView.addSubview(self.imageSlideshow)
         self.scrollView.addSubview(self.titleView)
-        self.scrollView.addSubview(self.descriptionLabel)
-        self.titleView.addSubview(self.nameLabel)
-        self.titleView.addSubview(self.priceLabel)
+        self.scrollView.addSubview(self.descriptionView)
+        self.scrollView.addSubview(self.specificationView)
     }
     
-    // MARK: - Helpers
+    // MARK: - Actions
+    
+    @objc private func addToCartButtonTapped(_ sender: UIButton) {
+        NotificationCenter.default.post(name: .cartValueChanged, object: nil)
+    }
     
 }

@@ -145,8 +145,7 @@ final class ZSProductsMainView: UIView {
     override func updateConstraints() {
       
         self.categoriesCollectionView.snp.updateConstraints { (make) in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.topMargin)
+            make.top.left.right.equalToSuperview()
             make.height.equalTo(50)
         }
         self.headerView.snp.updateConstraints { (make) in

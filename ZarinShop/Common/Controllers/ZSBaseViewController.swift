@@ -22,15 +22,6 @@ class ZSBaseViewController: UIViewController {
         }
     }
     
-    // MARK: - Private Variables
-    
-    private var favoritesCount: Int = 1 {
-        willSet {
-            self.favoritesBarButton.setBadge(with: newValue)
-        }
-    }
-    private var cartCount: Int = 1
-    
     // MARK: - GUI Variables
     
     private lazy var menuBarButton: UIBarButtonItem = {
@@ -43,22 +34,28 @@ class ZSBaseViewController: UIViewController {
     
     private lazy var favoritesBarButton: BadgedButtonItem = {
         var button = BadgedButtonItem(with: UIImage(named: "heart"))
+        button.tapAction = { [weak self] in
+            self?.favoriteBarButtonTapped()
+        }
         button.position = .left
         button.badgeTintColor = AppColors.mainColor.color()
         button.badgeSize = .large
         button.badgeAnimation = true
-        button.setBadge(with: self.favoritesCount)
+        button.setBadge(with: Values.shared.favoritesCount)
         button.tintColor = AppColors.mainLightColor.color()
         return button
     }()
     
     private lazy var cartBarButton: BadgedButtonItem = {
         var button = BadgedButtonItem(with: UIImage(named: "cart"))
+        button.tapAction = { [weak self] in
+            self?.cartBarButtonTapped()
+        }
         button.position = .left
         button.badgeTintColor = AppColors.mainColor.color()
         button.badgeSize = .large
         button.badgeAnimation = true
-        button.setBadge(with: self.cartCount)
+        button.setBadge(with: Values.shared.cartCount)
         button.tintColor = .red//AppColors.mainLightColor.color()
         return button
     }()
@@ -69,7 +66,18 @@ class ZSBaseViewController: UIViewController {
         super.viewDidLoad()
 
         self.setupNavigationBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.addObservers()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.removeObservers()
     }
     
     // MARK: - Actions
@@ -78,22 +86,22 @@ class ZSBaseViewController: UIViewController {
         self.sideMenuController?.revealMenu()
     }
     
-    @objc private func favoriteBarButtonTapped() {
+    private func favoriteBarButtonTapped() {
         print("favorite tapped")
     }
     
-    @objc private func cartBarButtonTapped() {
+    private func cartBarButtonTapped() {
         print("cart tapped")
     }
     
     @objc private func favoritesValueChanged(_ notification: Notification) {
-        guard let value = notification.userInfo?["favoritesCount"] as? Int else { return }
-        self.favoritesCount = value
+        Values.shared.favoritesCount += 1
+        self.favoritesBarButton.setBadge(with: Values.shared.favoritesCount)
     }
     
     @objc private func cartValueChanged(_ notification: Notification) {
-        self.cartCount += 1
-        self.cartBarButton.setBadge(with: self.favoritesCount)
+        Values.shared.cartCount += 1
+        self.cartBarButton.setBadge(with: Values.shared.cartCount)
     }
     
     // MARK: - Setters
@@ -114,6 +122,11 @@ class ZSBaseViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self, selector: #selector(self.cartValueChanged),
             name: .cartValueChanged, object: nil)
+    }
+    
+    private func removeObservers() {
+        NotificationCenter.default.removeObserver(self, name: .favoritesValueChanged, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .cartValueChanged, object: nil)
     }
     
     // MARK: - Helpers

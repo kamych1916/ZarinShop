@@ -54,6 +54,12 @@
 		20B9A89B2532E50600E2EF71 /* ZSSigninUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B9A89A2532E50600E2EF71 /* ZSSigninUserModel.swift */; };
 		20B9A89F2532F72B00E2EF71 /* ZSResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B9A89E2532F72B00E2EF71 /* ZSResetPasswordViewController.swift */; };
 		71D1887A99BB69ED3097A433 /* Pods_ZarinShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D82D5D61017505831B7C23 /* Pods_ZarinShop.framework */; };
+		840839A1253802300040EC63 /* ZSProductDetailDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839A0253802300040EC63 /* ZSProductDetailDescriptionView.swift */; };
+		840839A5253803A50040EC63 /* ZSProductDetailTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839A4253803A50040EC63 /* ZSProductDetailTitleView.swift */; };
+		840839A9253804DC0040EC63 /* ZSProductDetailSpecificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839A8253804DC0040EC63 /* ZSProductDetailSpecificationView.swift */; };
+		840839AD253806210040EC63 /* ZSSpecificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839AC253806210040EC63 /* ZSSpecificationModel.swift */; };
+		840839B12538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839B02538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift */; };
+		840839B925380EE80040EC63 /* ZSValuesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839B825380EE80040EC63 /* ZSValuesStore.swift */; };
 		844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */; };
 		844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97D02530819C00619BE3 /* UIViewController+Ex.swift */; };
 		84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */; };
@@ -111,6 +117,12 @@
 		20B9A89E2532F72B00E2EF71 /* ZSResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSResetPasswordViewController.swift; sourceTree = "<group>"; };
 		41D82D5D61017505831B7C23 /* Pods_ZarinShop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZarinShop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F583775B1B4F66CF0F93527 /* Pods-ZarinShop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZarinShop.release.xcconfig"; path = "Target Support Files/Pods-ZarinShop/Pods-ZarinShop.release.xcconfig"; sourceTree = "<group>"; };
+		840839A0253802300040EC63 /* ZSProductDetailDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductDetailDescriptionView.swift; sourceTree = "<group>"; };
+		840839A4253803A50040EC63 /* ZSProductDetailTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductDetailTitleView.swift; sourceTree = "<group>"; };
+		840839A8253804DC0040EC63 /* ZSProductDetailSpecificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductDetailSpecificationView.swift; sourceTree = "<group>"; };
+		840839AC253806210040EC63 /* ZSSpecificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSpecificationModel.swift; sourceTree = "<group>"; };
+		840839B02538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductDetailSpecificationItemView.swift; sourceTree = "<group>"; };
+		840839B825380EE80040EC63 /* ZSValuesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSValuesStore.swift; sourceTree = "<group>"; };
 		844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutTabItem.swift; sourceTree = "<group>"; };
 		844A97D02530819C00619BE3 /* UIViewController+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ex.swift"; sourceTree = "<group>"; };
 		84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Ex.swift"; sourceTree = "<group>"; };
@@ -140,8 +152,9 @@
 		203FD5422531D0F500F57432 /* ProductDetail */ = {
 			isa = PBXGroup;
 			children = (
+				840839AB253806010040EC63 /* Models */,
+				8408399F253802150040EC63 /* Views */,
 				203FD5432531D0F500F57432 /* Controllers */,
-				203FD5452531D0F500F57432 /* Views */,
 			);
 			path = ProductDetail;
 			sourceTree = "<group>";
@@ -152,13 +165,6 @@
 				203FD5442531D0F500F57432 /* ZSProductDetailViewController.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		203FD5452531D0F500F57432 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		203FD54C2532030500F57432 /* Cart list */ = {
@@ -313,6 +319,7 @@
 		2057B8A32525894E007D8D05 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				840839B725380EA50040EC63 /* Stored */,
 				2057B8A42525894E007D8D05 /* Network */,
 				2057B8A62525894E007D8D05 /* Controllers */,
 				2057B8A52525894E007D8D05 /* Enums */,
@@ -479,18 +486,9 @@
 		2057B8D0252591FC007D8D05 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				2057B8D1252591FC007D8D05 /* Models */,
-				2057B8D4252591FC007D8D05 /* Views */,
 				2057B8D2252591FC007D8D05 /* Controllers */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		2057B8D1252591FC007D8D05 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		2057B8D2252591FC007D8D05 /* Controllers */ = {
@@ -499,13 +497,6 @@
 				2057B8D3252591FC007D8D05 /* ZSProfileViewController.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		2057B8D4252591FC007D8D05 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		2057B8E025259337007D8D05 /* Main */ = {
@@ -684,6 +675,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8408399F253802150040EC63 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				840839A4253803A50040EC63 /* ZSProductDetailTitleView.swift */,
+				840839A0253802300040EC63 /* ZSProductDetailDescriptionView.swift */,
+				840839A8253804DC0040EC63 /* ZSProductDetailSpecificationView.swift */,
+				840839B02538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		840839AB253806010040EC63 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				840839AC253806210040EC63 /* ZSSpecificationModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		840839B725380EA50040EC63 /* Stored */ = {
+			isa = PBXGroup;
+			children = (
+				840839B825380EE80040EC63 /* ZSValuesStore.swift */,
+			);
+			path = Stored;
+			sourceTree = "<group>";
+		};
 		844A97CF2530818000619BE3 /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -818,9 +836,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				20242AAD252A37E800886949 /* ZSProductsMainView.swift in Sources */,
+				840839A1253802300040EC63 /* ZSProductDetailDescriptionView.swift in Sources */,
 				20B9A8992532DCCC00E2EF71 /* ZSSignupResponseModel.swift in Sources */,
 				203FD54A2531DBDC00F57432 /* ZSCategoriesModel.swift in Sources */,
 				2057B8F02525CCB5007D8D05 /* ZSMainTableViewCell.swift in Sources */,
+				840839B12538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift in Sources */,
 				20B2DFC42526DA370089BC55 /* ZSProductsViewController.swift in Sources */,
 				2057B88A252588EF007D8D05 /* AppDelegate.swift in Sources */,
 				2041103F252AF24C0081A562 /* UIImage+Ex.swift in Sources */,
@@ -830,6 +850,7 @@
 				20411042252AFAB40081A562 /* UIColor+Ex.swift in Sources */,
 				844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */,
 				2057B8ED2525AF22007D8D05 /* AppColors.swift in Sources */,
+				840839A9253804DC0040EC63 /* ZSProductDetailSpecificationView.swift in Sources */,
 				201332A225374C2E00548FF6 /* ZSSubcategoriesModel.swift in Sources */,
 				20B2DFC92526FB1E0089BC55 /* ZSProductsCollectionViewCell.swift in Sources */,
 				2057B8B32525894E007D8D05 /* RootViewController.swift in Sources */,
@@ -847,9 +868,11 @@
 				203FD53F2531C82A00F57432 /* ZSNetwork.swift in Sources */,
 				2057B8E52525935E007D8D05 /* ZSMainViewController.swift in Sources */,
 				203FD5482531D7F900F57432 /* ZSURLPath.swift in Sources */,
+				840839A5253803A50040EC63 /* ZSProductDetailTitleView.swift in Sources */,
 				205692B0253236700096DDD0 /* ZSRegistrationCodeViewController.swift in Sources */,
 				20411045252B2C0F0081A562 /* BadgedButtonItem.swift in Sources */,
 				20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */,
+				840839B925380EE80040EC63 /* ZSValuesStore.swift in Sources */,
 				2098B14325337E0900A00D18 /* ZSResetPasswordCodeViewController.swift in Sources */,
 				20B9A89B2532E50600E2EF71 /* ZSSigninUserModel.swift in Sources */,
 				2057B8EB2525A208007D8D05 /* ZSSideMenuItemView.swift in Sources */,
@@ -862,6 +885,7 @@
 				844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */,
 				2057B8B52525894E007D8D05 /* SplashViewController.swift in Sources */,
 				84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */,
+				840839AD253806210040EC63 /* ZSSpecificationModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1000,7 +1024,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1020,7 +1044,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

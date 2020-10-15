@@ -18,7 +18,7 @@ class RootViewController: UIViewController {
         return .lightContent
     }
     
-    // MARK: - Private Variables
+    // MARK: - Private variables
     
     private var isBlackStatusBar: Bool = true
     private var current: UIViewController

@@ -212,7 +212,7 @@ extension ZSProfileViewController: UITableViewDelegate, UITableViewDataSource {
             //some link
             break
         case 3:
-            self.notificationsSwitch.isOn = !self.notificationsSwitch.isOn
+            self.notificationsSwitch.setOn(!self.notificationsSwitch.isOn, animated: true)
             break
         case 4:
             //show reset password screen

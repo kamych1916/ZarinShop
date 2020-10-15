@@ -14,7 +14,10 @@ class ZSMainViewController: ZSBaseViewController {
     
     // MARK: - Private Variables
     
-    private var data: [ZSCategoriesModel] = []
+    private var data: [ZSCategoriesModel] = [
+        .init(id: "1", name: "Halati", kol: 23, image_url: "some_url", subcategories: []),
+        .init(id: "2", name: "Pizhami", kol: 44, image_url: "some_url", subcategories: []),
+        .init(id: "3", name: "Drugoe", kol: 72, image_url: "some_url", subcategories: [])]
     
     // MARK: - GUI Variables
     
@@ -49,7 +52,7 @@ class ZSMainViewController: ZSBaseViewController {
         self.view.backgroundColor = .white
         self.addSubviews()
         self.makeConstraints()
-        self.loadCategories()
+        //self.loadCategories()
     }
     
     // MARK: - Constraints

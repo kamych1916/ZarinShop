@@ -141,7 +141,8 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
             self.favoriteImageView.alpha = 1
             self.favoriteImageView.image = UIImage(named: "favoriteHighlighted")
         }
-        let randomInt = Int.random(in: 1...10)
-        NotificationCenter.default.post(name: .favoritesValueChanged, object: nil, userInfo: ["favoritesCount": randomInt])
+        //let randomInt = Int.random(in: 1...10)
+        //NotificationCenter.default.post(name: .favoritesValueChanged, object: nil, userInfo: ["favoritesCount": randomInt])
+        NotificationCenter.default.post(name: .favoritesValueChanged, object: nil)
     }
 }
