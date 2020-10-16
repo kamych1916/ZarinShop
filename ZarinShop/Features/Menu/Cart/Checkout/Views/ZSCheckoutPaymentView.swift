@@ -12,6 +12,8 @@ class ZSCheckoutPaymentView: UIView {
     
     //MARK: - Public variables
     
+    var addCardButtonTappedHandler: (() -> ())?
+    
     //MARK: - Private variables
     
     //MARK: - GUI variables
@@ -48,6 +50,7 @@ class ZSCheckoutPaymentView: UIView {
         var image = UIImage(named: "plus")
         image = image?.imageWithColor(color: AppColors.textDarkColor.color())
         button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(self.addCardButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -155,6 +158,12 @@ class ZSCheckoutPaymentView: UIView {
         self.cardDetailView.addSubview(self.cardDetailLabel)
         self.cardDetailView.addSubview(self.cardDetailIcon)
         self.cardDetailView.addSubview(self.cardNumberLabel)
+    }
+    
+    //MARK: - Actions
+    
+    @objc private func addCardButtonTapped() {
+        self.addCardButtonTappedHandler?()
     }
     
 }

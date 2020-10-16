@@ -36,9 +36,10 @@ class ZSCheckoutPaymentViewController: UIViewController {
     
     private lazy var mainView: ZSCheckoutPaymentView = {
         var view = ZSCheckoutPaymentView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 20
-        view.backgroundColor = AppColors.mainColor.color()
+        view.addCardButtonTappedHandler = { [weak self] in
+            let controller = ZSAddCardViewController()
+            self?.present(controller, animated: true, completion: nil)
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
