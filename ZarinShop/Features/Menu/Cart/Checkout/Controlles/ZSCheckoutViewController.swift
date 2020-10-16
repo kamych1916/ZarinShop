@@ -84,6 +84,15 @@ class ZSCheckoutViewController: ZSBaseViewController {
         controller.viewWillAppear(true)
         self.addChildToParent(controller, to: self.mainView)
     }
+   
+    func moveToNext() {
+        let nextIndex = self.topTabBar.selectedSegmentIndex + 1
+        if nextIndex < self.controllers.count {
+            self.topTabBar.selectedSegmentIndex = nextIndex
+            let controller = self.controllers[nextIndex]
+            self.addChildToParent(controller, to: self.mainView)
+        }
+    }
     
     //MARK: - Setters
     

@@ -60,6 +60,8 @@
 		840839AD253806210040EC63 /* ZSSpecificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839AC253806210040EC63 /* ZSSpecificationModel.swift */; };
 		840839B12538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839B02538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift */; };
 		840839B925380EE80040EC63 /* ZSValuesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839B825380EE80040EC63 /* ZSValuesStore.swift */; };
+		8443D9922539B9FC008AAC88 /* ZSCheckoutAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443D9912539B9FC008AAC88 /* ZSCheckoutAddressView.swift */; };
+		8443D9952539BE34008AAC88 /* ZSCheckoutPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443D9942539BE34008AAC88 /* ZSCheckoutPaymentView.swift */; };
 		844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */; };
 		844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97D02530819C00619BE3 /* UIViewController+Ex.swift */; };
 		84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */; };
@@ -123,6 +125,8 @@
 		840839AC253806210040EC63 /* ZSSpecificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSpecificationModel.swift; sourceTree = "<group>"; };
 		840839B02538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductDetailSpecificationItemView.swift; sourceTree = "<group>"; };
 		840839B825380EE80040EC63 /* ZSValuesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSValuesStore.swift; sourceTree = "<group>"; };
+		8443D9912539B9FC008AAC88 /* ZSCheckoutAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutAddressView.swift; sourceTree = "<group>"; };
+		8443D9942539BE34008AAC88 /* ZSCheckoutPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutPaymentView.swift; sourceTree = "<group>"; };
 		844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutTabItem.swift; sourceTree = "<group>"; };
 		844A97D02530819C00619BE3 /* UIViewController+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ex.swift"; sourceTree = "<group>"; };
 		84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Ex.swift"; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				203FD551253203C400F57432 /* Models */,
+				8443D9902539B9DC008AAC88 /* Views */,
 				203FD54E2532034100F57432 /* Controlles */,
 			);
 			path = Checkout;
@@ -702,6 +707,15 @@
 			path = Stored;
 			sourceTree = "<group>";
 		};
+		8443D9902539B9DC008AAC88 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8443D9912539B9FC008AAC88 /* ZSCheckoutAddressView.swift */,
+				8443D9942539BE34008AAC88 /* ZSCheckoutPaymentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		844A97CF2530818000619BE3 /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -845,6 +859,7 @@
 				2057B88A252588EF007D8D05 /* AppDelegate.swift in Sources */,
 				2041103F252AF24C0081A562 /* UIImage+Ex.swift in Sources */,
 				2057B8DB252591FC007D8D05 /* ZSCartViewController.swift in Sources */,
+				8443D9922539B9FC008AAC88 /* ZSCheckoutAddressView.swift in Sources */,
 				203FD5572532056200F57432 /* ZSCheckoutFinalViewController.swift in Sources */,
 				2057B8DA252591FC007D8D05 /* ZSOrdersViewController.swift in Sources */,
 				20411042252AFAB40081A562 /* UIColor+Ex.swift in Sources */,
@@ -867,6 +882,7 @@
 				2057B8F22525ED2D007D8D05 /* ZSBaseViewController.swift in Sources */,
 				203FD53F2531C82A00F57432 /* ZSNetwork.swift in Sources */,
 				2057B8E52525935E007D8D05 /* ZSMainViewController.swift in Sources */,
+				8443D9952539BE34008AAC88 /* ZSCheckoutPaymentView.swift in Sources */,
 				203FD5482531D7F900F57432 /* ZSURLPath.swift in Sources */,
 				840839A5253803A50040EC63 /* ZSProductDetailTitleView.swift in Sources */,
 				205692B0253236700096DDD0 /* ZSRegistrationCodeViewController.swift in Sources */,

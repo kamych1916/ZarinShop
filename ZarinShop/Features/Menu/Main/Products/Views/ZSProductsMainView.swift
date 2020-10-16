@@ -119,6 +119,7 @@ final class ZSProductsMainView: UIView {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
         collectionView.register(
             ZSProductsCollectionViewCell.self,
             forCellWithReuseIdentifier: ZSProductsCollectionViewCell.reuseId)
@@ -175,7 +176,8 @@ final class ZSProductsMainView: UIView {
         }
         self.productsCollectionView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview().inset(20)
-            make.top.equalTo(self.headerView.snp.bottom)
+            make.top.equalToSuperview()
+            //make.top.equalTo(self.headerView.snp.bottom)
         }
         
         super.updateConstraints()
@@ -184,9 +186,9 @@ final class ZSProductsMainView: UIView {
     // MARK: - Setters
 
     private func addSubviews() {
+        self.addSubview(self.productsCollectionView)
         self.addSubview(self.categoriesCollectionView)
         self.addSubview(self.headerView)
-        self.addSubview(self.productsCollectionView)
         self.headerView.addSubview(self.searchBar)
         self.headerView.addSubview(self.filterView)
         self.headerView.addSubview(self.sortView)
@@ -219,4 +221,5 @@ final class ZSProductsMainView: UIView {
         }
         NotificationCenter.default.post(name: .filterButtonTapped, object: nil)
     }
+    
 }
