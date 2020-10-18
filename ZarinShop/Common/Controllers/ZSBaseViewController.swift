@@ -72,6 +72,8 @@ class ZSBaseViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.addObservers()
+        self.updateCartValue()
+        self.updateFavoritesValue()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,12 +98,12 @@ class ZSBaseViewController: UIViewController {
     
     @objc private func favoritesValueChanged(_ notification: Notification) {
         Values.shared.favoritesCount += 1
-        self.favoritesBarButton.setBadge(with: Values.shared.favoritesCount)
+        self.updateFavoritesValue()
     }
     
     @objc private func cartValueChanged(_ notification: Notification) {
         Values.shared.cartCount += 1
-        self.cartBarButton.setBadge(with: Values.shared.cartCount)
+        self.updateCartValue()
     }
     
     // MARK: - Setters
@@ -109,7 +111,6 @@ class ZSBaseViewController: UIViewController {
     private func setupNavigationBar() {
         self.navigationItem.rightBarButtonItems = [self.cartBarButton, self.favoritesBarButton]
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        //barButtonItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .normal)
         self.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
@@ -129,6 +130,14 @@ class ZSBaseViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: .cartValueChanged, object: nil)
     }
     
+    private func updateCartValue() {
+        self.cartBarButton.setBadge(with: Values.shared.cartCount)
+    }
+    
+    private func updateFavoritesValue() {
+        self.favoritesBarButton.setBadge(with: Values.shared.favoritesCount)
+    }
+    
     // MARK: - Helpers
     
     func pushVC(_ viewController: UIViewController) {
@@ -146,4 +155,5 @@ class ZSBaseViewController: UIViewController {
     func popToRootVC() {
         self.navigationController?.popToRootViewController(animated: true)
     }
+    
 }

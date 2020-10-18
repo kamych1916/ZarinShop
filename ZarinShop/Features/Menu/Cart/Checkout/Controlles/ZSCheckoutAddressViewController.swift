@@ -36,6 +36,10 @@ class ZSCheckoutAddressViewController: UIViewController {
     
     private lazy var mainView: ZSCheckoutAddressView = {
         var view = ZSCheckoutAddressView()
+        view.addAddressButtonTappedHandler = { [weak self] in
+            let controller = ZSAddAddressViewController()
+            self?.present(controller, animated: true, completion: nil)
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

@@ -12,6 +12,8 @@ class ZSCheckoutAddressView: UIView {
     
     //MARK: - Public variables
     
+    var addAddressButtonTappedHandler: (() -> ())?
+    
     //MARK: - Private variables
     
     //MARK: - GUI variables
@@ -70,11 +72,12 @@ class ZSCheckoutAddressView: UIView {
         return label
     }()
     
-    private lazy var addressAddNewButton: UIButton = {
+    private lazy var addAddressButton: UIButton = {
         var button = UIButton()
         var image = UIImage(named: "plus")
         image = image?.imageWithColor(color: AppColors.textDarkColor.color())
         button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(self.addAddressButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -140,10 +143,10 @@ class ZSCheckoutAddressView: UIView {
         self.addressLabel.snp.updateConstraints { (make) in
             make.top.left.right.equalToSuperview().inset(20)
         }
-        self.addressAddNewButton.snp.updateConstraints { (make) in
+        self.addAddressButton.snp.updateConstraints { (make) in
             make.right.equalToSuperview().inset(20)
             make.centerY.equalTo(self.addressLabel.snp.centerY)
-            make.size.equalTo(48)
+            make.size.equalTo(56)
         }
         self.addressTextView.snp.updateConstraints { (make) in
             make.top.equalTo(self.addressLabel.snp.bottom).offset(20)
@@ -161,8 +164,12 @@ class ZSCheckoutAddressView: UIView {
         self.deliveryTypeView.addSubview(self.deliveryTypeLabel2)
         self.deliveryTypeView.addSubview(self.deliveryTypeDropButton)
         self.addressView.addSubview(self.addressLabel)
-        self.addressView.addSubview(self.addressAddNewButton)
+        self.addressView.addSubview(self.addAddressButton)
         self.addressView.addSubview(self.addressTextView)
+    }
+    
+    @objc private func addAddressButtonTapped() {
+        self.addAddressButtonTappedHandler?()
     }
     
 }

@@ -1,53 +1,16 @@
 //
-//  ZSAddCardViewController.swift
+//  ZSAddCardView.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 10/16/20.
+//  Created by Murad Ibrohimov on 10/18/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 
 import UIKit
 
-class ZSAddCardViewController: UIViewController {
-    
-    //MARK: - Public variables
-    
-    var dismissHandler: (() -> Void)?
-    
-    //MARK: - Private variables
-    
-    private var sectionSize: CGSize {
-        return CGSize(width: self.view.bounds.width / 1.2, height: 60)
-    }
+class ZSAddCardView: UIView {
     
     //MARK: - GUI variables
-    
-    private lazy var titleLabel: UILabel = {
-        var label = UILabel()
-        label.text = "Добавить новую карту"
-        label.textColor = AppColors.textDarkColor.color()
-        label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var scrollView: UIScrollView = {
-        var scroll = UIScrollView()
-        scroll.clipsToBounds = true
-        scroll.isScrollEnabled = true
-        scroll.isUserInteractionEnabled = true
-        scroll.translatesAutoresizingMaskIntoConstraints = false
-        return scroll
-    }()
-    
-    private lazy var mainView: UIView = {
-        var view = UIView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 20
-        view.backgroundColor = AppColors.mainLightColor.color()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
     
     private lazy var cardView: UIView = {
         var view = UIView()
@@ -57,7 +20,7 @@ class ZSAddCardViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
     private lazy var cartCVCView: UIView = {
         var view = UIView()
         view.backgroundColor = .white
@@ -74,7 +37,7 @@ class ZSAddCardViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     private lazy var cartNumberLable: UILabel = {
         var label = UILabel()
         label.text = "***********1234"
@@ -101,7 +64,7 @@ class ZSAddCardViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     private lazy var cartCVCField: UITextField = {
         var field = UITextField()
         field.autocapitalizationType = .none
@@ -177,139 +140,92 @@ class ZSAddCardViewController: UIViewController {
         return field
     }()
     
-    private lazy var dismissButton: UIBarButtonItem = {
-        var button = UIBarButtonItem(
-            image: UIImage(named: "dismiss"), style: .plain,
-            target: self, action: #selector(self.dismissButtonTapped))
-        button.tintColor = AppColors.textDarkColor.color()
-        return button
-    }()
+    //MARK: - Initialization
     
-    private lazy var doneButton: UIButton = {
-        var button = UIButton(type: .system)
-        button.layer.cornerRadius = 25
-        button.setTitle("Готово", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        button.backgroundColor = AppColors.mainColor.color()
-        button.adjustsImageWhenHighlighted = true
-        button.addTarget(self, action: #selector(self.doneButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    //MARK: - View life cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
-        self.view.backgroundColor = .groupTableViewBackground
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 20
+        self.backgroundColor = AppColors.mainLightColor.color()
         self.addSubviews()
-        self.makeConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        self.addSubviews()
     }
     
     //MARK: - Constraints
     
-    private func makeConstraints() {
-        self.titleLabel.snp.makeConstraints { (make) in
-            make.top.left.right.equalToSuperview().inset(20)
-        }
-        self.scrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
-            make.left.right.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-        self.mainView.snp.makeConstraints { (make) in
-            make.top.left.right.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(80)
-            make.width.equalTo(self.view.frame.width - 40)
-            //make.height.equalTo(700)
-        }
-        
-        self.cardView.snp.makeConstraints { (make) in
+    override func updateConstraints() {
+        self.cardView.snp.updateConstraints { (make) in
             make.top.left.right.equalToSuperview().inset(20)
             make.height.equalTo(180)
         }
-        self.cartCVCView.snp.makeConstraints { (make) in
+        self.cartCVCView.snp.updateConstraints { (make) in
             make.top.left.equalToSuperview().inset(20)
         }
-        self.cartCVCLable.snp.makeConstraints { (make) in
+        self.cartCVCLable.snp.updateConstraints { (make) in
             make.edges.equalToSuperview().inset(20)
         }
-        self.cartNumberLable.snp.makeConstraints { (make) in
+        self.cartNumberLable.snp.updateConstraints { (make) in
             make.right.equalToSuperview().inset(20)
             make.centerY.equalTo(self.cartCVCView.snp.centerY)
         }
-        self.cartNameLable.snp.makeConstraints { (make) in
+        self.cartNameLable.snp.updateConstraints { (make) in
             make.left.bottom.equalToSuperview().inset(20)
         }
-        self.cartDateLable.snp.makeConstraints { (make) in
+        self.cartDateLable.snp.updateConstraints { (make) in
             make.right.equalToSuperview().inset(20)
             make.centerY.equalTo(self.cartNameLable.snp.centerY)
         }
         
-        self.cartNumberField.snp.makeConstraints { (make) in
+        self.cartNumberField.snp.updateConstraints { (make) in
             make.top.equalTo(self.cardView.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(60)
         }
-        self.cartNameField.snp.makeConstraints { (make) in
+        self.cartNameField.snp.updateConstraints { (make) in
             make.top.equalTo(self.cartNumberField.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(60)
         }
-        self.cartCVCField.snp.makeConstraints { (make) in
+        self.cartCVCField.snp.updateConstraints { (make) in
             make.top.equalTo(self.cartNameField.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(20)
             make.height.equalTo(60)
         }
-        self.cartDateYearField.snp.makeConstraints { (make) in
+        self.cartDateYearField.snp.updateConstraints { (make) in
             make.top.equalTo(self.cartCVCField.snp.bottom).offset(20)
             make.left.equalToSuperview().inset(20)
             make.size.equalTo(CGSize(width: 150, height: 60))
             
         }
-        self.cartDateMonthField.snp.makeConstraints { (make) in
+        self.cartDateMonthField.snp.updateConstraints { (make) in
             make.top.equalTo(self.cartCVCField.snp.bottom).offset(20)
             make.right.bottom.equalToSuperview().inset(20)
             make.size.equalTo(CGSize(width: 150, height: 60))
         }
-        
-        self.doneButton.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalToSuperview().inset(20)
-            make.height.equalTo(50)
-        }
+        super.updateConstraints()
     }
     
     //MARK: - Setters
     
     private func addSubviews() {
-        self.view.addSubview(self.titleLabel)
-        self.view.addSubview(self.scrollView)
-        self.view.addSubview(self.doneButton)
-        self.scrollView.addSubview(self.mainView)
-        self.mainView.addSubview(self.cardView)
+        self.addSubview(self.cardView)
         self.cardView.addSubview(self.cartCVCView)
         self.cartCVCView.addSubview(self.cartCVCLable)
         self.cardView.addSubview(self.cartNameLable)
         self.cardView.addSubview(self.cartNumberLable)
         self.cardView.addSubview(self.cartDateLable)
         
-        self.mainView.addSubview(self.cartNumberField)
-        self.mainView.addSubview(self.cartNameField)
-        self.mainView.addSubview(self.cartCVCField)
-        self.mainView.addSubview(self.cartDateYearField)
-        self.mainView.addSubview(self.cartDateMonthField)
-    }
-    
-    //MARK: - Actions
-    
-    @objc private func dismissButtonTapped() {
-        self.dismissHandler?()
-    }
-    
-    @objc private func doneButtonTapped(_ sender: UIButton) {
-        print("done add cart")
+        self.addSubview(self.cartNumberField)
+        self.addSubview(self.cartNameField)
+        self.addSubview(self.cartCVCField)
+        self.addSubview(self.cartDateYearField)
+        self.addSubview(self.cartDateMonthField)
     }
     
 }

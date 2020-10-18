@@ -13,12 +13,13 @@ class ZSCheckoutPaymentView: UIView {
     //MARK: - Public variables
     
     var addCardButtonTappedHandler: (() -> ())?
+    var paymentTypeDropButtonTappedHandler: (() -> ())?
     
     //MARK: - Private variables
     
     //MARK: - GUI variables
     
-    private lazy var cardView: UIView = {
+    private lazy var paymentTypeView: UIView = {
         var view = UIView()
         view.clipsToBounds = true
         view.layer.cornerRadius = 20
@@ -27,30 +28,30 @@ class ZSCheckoutPaymentView: UIView {
         return view
     }()
     
-    private lazy var cardLabel1: UILabel = {
+    private lazy var paymentTypeLabel1: UILabel = {
         var label = UILabel()
-        label.text = "Добавить карту"
+        label.text = "Способ оплаты"
         label.textColor = AppColors.textDarkColor.color()
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private lazy var cardLabel2: UILabel = {
+    private lazy var paymentTypeLabel2: UILabel = {
         var label = UILabel()
-        label.text = "Master card/Visa"
+        label.text = "Безналичные (картой)"
         label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private lazy var cardAddButton: UIButton = {
+    private lazy var paymentTypeDropButton: UIButton = {
         var button = UIButton()
-        var image = UIImage(named: "plus")
+        var image = UIImage(named: "dropdown")
         image = image?.imageWithColor(color: AppColors.textDarkColor.color())
         button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(self.addCardButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.paymentTypeDropButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -66,7 +67,7 @@ class ZSCheckoutPaymentView: UIView {
     
     private lazy var cardDetailLabel: UILabel = {
         var label = UILabel()
-        label.text = "Адрес доставки"
+        label.text = "Карта"
         label.textColor = AppColors.textDarkColor.color()
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -91,6 +92,16 @@ class ZSCheckoutPaymentView: UIView {
         return imageView
     }()
 
+    private lazy var addCardButton: UIButton = {
+        var button = UIButton()
+        var image = UIImage(named: "plus")
+        image = image?.imageWithColor(color: AppColors.textDarkColor.color())
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(self.addCardButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     //MARK: - Initialization
     
     override init(frame: CGRect) {
@@ -111,27 +122,32 @@ class ZSCheckoutPaymentView: UIView {
     //MARK: - Constraints
     
     override func updateConstraints() {
-        self.cardView.snp.updateConstraints { (make) in
+        self.paymentTypeView.snp.updateConstraints { (make) in
             make.top.left.right.equalToSuperview().inset(20)
         }
-        self.cardLabel1.snp.updateConstraints { (make) in
+        self.paymentTypeLabel1.snp.updateConstraints { (make) in
             make.top.left.equalToSuperview().inset(20)
         }
-        self.cardLabel2.snp.updateConstraints { (make) in
-            make.top.equalTo(self.cardLabel1.snp.bottom)
+        self.paymentTypeLabel2.snp.updateConstraints { (make) in
+            make.top.equalTo(self.paymentTypeLabel1.snp.bottom)
             make.left.bottom.equalToSuperview().inset(20)
         }
-        self.cardAddButton.snp.updateConstraints { (make) in
+        self.paymentTypeDropButton.snp.updateConstraints { (make) in
             make.right.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
             make.size.equalTo(56)
         }
         self.cardDetailView.snp.updateConstraints { (make) in
-            make.top.equalTo(self.cardView.snp.bottom).offset(20)
+            make.top.equalTo(self.paymentTypeView.snp.bottom).offset(20)
             make.left.right.bottom.equalToSuperview().inset(20)
         }
         self.cardDetailLabel.snp.updateConstraints { (make) in
             make.top.left.right.equalToSuperview().inset(20)
+        }
+        self.addCardButton.snp.updateConstraints { (make) in
+            make.right.equalToSuperview().inset(20)
+            make.centerY.equalTo(self.cardDetailLabel.snp.centerY)
+            make.size.equalTo(56)
         }
         self.cardDetailIcon.snp.updateConstraints { (make) in
             make.top.equalTo(self.cardDetailLabel.snp.bottom).offset(20)
@@ -150,17 +166,22 @@ class ZSCheckoutPaymentView: UIView {
     //MARK: - Setters
     
     private func addSubviews() {
-        self.addSubview(self.cardView)
+        self.addSubview(self.paymentTypeView)
         self.addSubview(self.cardDetailView)
-        self.cardView.addSubview(self.cardLabel1)
-        self.cardView.addSubview(self.cardLabel2)
-        self.cardView.addSubview(self.cardAddButton)
+        self.paymentTypeView.addSubview(self.paymentTypeLabel1)
+        self.paymentTypeView.addSubview(self.paymentTypeLabel2)
+        self.paymentTypeView.addSubview(self.paymentTypeDropButton)
         self.cardDetailView.addSubview(self.cardDetailLabel)
+        self.cardDetailView.addSubview(self.addCardButton)
         self.cardDetailView.addSubview(self.cardDetailIcon)
         self.cardDetailView.addSubview(self.cardNumberLabel)
     }
     
     //MARK: - Actions
+    
+    @objc private func paymentTypeDropButtonTapped() {
+        self.paymentTypeDropButtonTappedHandler?()
+    }
     
     @objc private func addCardButtonTapped() {
         self.addCardButtonTappedHandler?()
