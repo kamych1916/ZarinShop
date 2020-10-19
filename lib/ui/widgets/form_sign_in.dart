@@ -1,8 +1,10 @@
 import 'package:Zarin/blocs/user_bloc.dart';
-import 'package:Zarin/models/api_response_model.dart';
+import 'package:Zarin/models/api_response.dart';
+import 'package:Zarin/ui/screen_personal.dart';
 import 'package:Zarin/ui/widgets/error_message.dart';
 import 'package:Zarin/ui/widgets/fields.dart';
 import 'package:Zarin/ui/widgets/form_button.dart';
+import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
 
 import 'package:flutter/material.dart';
@@ -89,16 +91,17 @@ class _SignInFormState extends State<SignInForm> {
       title: "Войти",
       onTap: () async {
         if (userBloc.validateFields()) {
-          ApiResponse<bool> authResult = await userBloc.signIn();
+          ApiResponse<dynamic> authResult = await userBloc.signIn();
 
           if (authResult.status != Status.COMPLETED) {
             showErrorMessage(authResult.message, context);
-          } else if (authResult.status == Status.COMPLETED && !authResult.data)
+          } else if (authResult.status == Status.COMPLETED && !userBloc.auth)
             showErrorMessage(
                 "Проверьте правильность введенного пароля", context);
           else {
-            //Navigator
-            print("Auth true");
+            Navigator.of(context).pushReplacement(FadePageRoute(
+              builder: (context) => PersonalScreen(),
+            ));
           }
         }
       },

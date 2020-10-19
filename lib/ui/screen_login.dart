@@ -1,7 +1,6 @@
 import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/ui/widgets/form_password_reset.dart';
 import 'package:Zarin/ui/widgets/form_password_reset_code_verify.dart';
-import 'package:Zarin/ui/widgets/form_password_reset_new.dart';
 import 'package:Zarin/ui/widgets/form_sign_up.dart';
 import 'package:Zarin/ui/widgets/form_sign_up_code_verify.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +9,7 @@ import 'widgets/form_sign_in.dart';
 
 class LoginScreen extends StatelessWidget {
   final List<Widget> pages = [
-    PasswordResetNewForm(),
-    PasswordResetCodeVerify(),
+    PasswordResetCodeVerify(false),
     PasswordResetForm(),
     SignInForm(),
     SignUpForm(),
@@ -43,7 +41,7 @@ class LoginScreen extends StatelessWidget {
       ),
       body: PageView(
         controller: userBloc.pageController,
-        //physics: NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         children: pages,
       ),
     );

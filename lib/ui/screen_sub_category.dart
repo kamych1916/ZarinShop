@@ -1,6 +1,6 @@
 import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
-import 'package:Zarin/models/api_response_model.dart';
+import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/ui/widgets/cart_icon.dart';

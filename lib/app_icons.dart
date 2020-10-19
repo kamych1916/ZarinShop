@@ -12,6 +12,14 @@
 ///       - asset: fonts/AppIcons.ttf
 ///
 /// 
+/// * Linecons, Copyright (C) 2013 by Designmodo
+///         Author:    Designmodo for Smashing Magazine
+///         License:   CC BY ()
+///         Homepage:  http://designmodo.com/linecons-free/
+/// * Entypo, Copyright (C) 2012 by Daniel Bruce
+///         Author:    Daniel Bruce
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://www.entypo.com
 /// * Linearicons Free, Copyright (C) Linearicons.com
 ///         Author:    Perxis
 ///         License:   CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
@@ -33,7 +41,11 @@ class AppIcons {
   static const _kFontFam = 'AppIcons';
   static const _kFontPkg = null;
 
+  static const IconData key = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData language = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData paper_plane = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData trash = IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData heart = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData exit = IconData(0xe820, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData user = IconData(0xe82a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -41,9 +53,11 @@ class AppIcons {
   static const IconData phone_handset = IconData(0xe830, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData map_marker = IconData(0xe833, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData map = IconData(0xe834, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData location = IconData(0xe835, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData magnifier = IconData(0xe86f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData menu_1 = IconData(0xe871, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData list = IconData(0xe872, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData question_circle = IconData(0xe87d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData instagram = IconData(0xf16d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData credit_card = IconData(0xf321, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData facebook_f = IconData(0xf39e, fontFamily: _kFontFam, fontPackage: _kFontPkg);

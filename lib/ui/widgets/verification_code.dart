@@ -12,7 +12,6 @@ class VerificationCode extends StatefulWidget {
   // in case underline color is null it will use primaryColor from Theme
   final Color underlineColor;
   final TextStyle textStyle;
-  //TODO autofocus == true bug
   final bool autofocus;
 
   ///takes any widget, display it, when tap on that element - clear all fields
@@ -94,7 +93,6 @@ class _VerificationCodeState extends State<VerificationCode> {
       maxLengthEnforced: true,
       autocorrect: false,
       textAlign: TextAlign.center,
-      autofocus: widget.autofocus,
       style: widget.textStyle,
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(

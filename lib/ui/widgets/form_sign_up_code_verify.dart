@@ -1,5 +1,5 @@
 import 'package:Zarin/blocs/user_bloc.dart';
-import 'package:Zarin/models/api_response_model.dart';
+import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/ui/widgets/error_message.dart';
 import 'package:Zarin/ui/widgets/verification_code.dart';
 import 'package:Zarin/utils/styles.dart';

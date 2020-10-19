@@ -1,6 +1,7 @@
 import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/ui/screen_login.dart';
+import 'package:Zarin/ui/screen_personal.dart';
 import 'package:Zarin/ui/widgets/slider_menu.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -27,6 +28,10 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
 
   personalEvent() async {
     if (userBloc.auth) {
+      await widget.sliderKey.currentState.closeDrawer();
+      Navigator.of(context).push(FadePageRoute(
+        builder: (context) => PersonalScreen(),
+      ));
     } else {
       await widget.sliderKey.currentState.closeDrawer();
       Navigator.of(context).push(FadePageRoute(
@@ -217,7 +222,7 @@ class DrawerMenuContainer extends StatelessWidget {
             ),
             Padding(
                 padding: EdgeInsets.symmetric(
-              horizontal: 10.0,
+              horizontal: 5.0,
             )),
             Text(title),
           ],

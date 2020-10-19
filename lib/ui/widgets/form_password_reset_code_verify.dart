@@ -1,5 +1,5 @@
 import 'package:Zarin/blocs/user_bloc.dart';
-import 'package:Zarin/models/api_response_model.dart';
+import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/ui/widgets/error_message.dart';
 import 'package:Zarin/ui/widgets/form_button.dart';
 import 'package:Zarin/ui/widgets/verification_code.dart';
@@ -7,6 +7,11 @@ import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class PasswordResetCodeVerify extends StatefulWidget {
+  final bool isNavigatorPop;
+
+  const PasswordResetCodeVerify(this.isNavigatorPop, {Key key})
+      : super(key: key);
+
   @override
   _PasswordResetCodeVerifyState createState() =>
       _PasswordResetCodeVerifyState();
@@ -154,8 +159,11 @@ class _PasswordResetCodeVerifyState extends State<PasswordResetCodeVerify> {
                   showErrorMessage("Неверный код", context);
                 } else {
                   showMessage("Пароль успешно изменен", context);
-                  Future.delayed(Duration(seconds: 1),
-                      () => userBloc.animateLoginScreenToMainPage());
+                  await Future.delayed(Duration(seconds: 1));
+                  if (widget.isNavigatorPop)
+                    Navigator.of(context).pop();
+                  else
+                    userBloc.animateLoginScreenToMainPage();
                 }
               },
             ),

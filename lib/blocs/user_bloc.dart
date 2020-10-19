@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:Zarin/models/api_response_model.dart';
+import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/resources/user_api_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +13,9 @@ class UserBloc {
   final _clearCodeVerifyInputsSubject = PublishSubject<bool>();
 
   bool auth = false;
+  String firstName;
+  String lastName;
+  String userID;
 
   List<String> signUpInputStrings = new List(2);
 
@@ -69,10 +72,22 @@ class UserBloc {
 
   bool validateFields() => validateEmail() && validatePassword();
 
-  Future<ApiResponse<bool>> signIn() async {
+  Future<ApiResponse<dynamic>> signIn() async {
     this.responseAwait;
-    ApiResponse<bool> response = await _userApiProvider.signIn(email, password);
-    auth = response.status == Status.COMPLETED && response.data;
+    ApiResponse<dynamic> response =
+        await _userApiProvider.signIn(email, password);
+
+    if (response.data is bool &&
+        response.status == Status.COMPLETED &&
+        !response.data)
+      auth = false;
+    else if (response.data is Map && response.status == Status.COMPLETED) {
+      auth = true;
+      userID = response.data["id"];
+      firstName = response.data["first_name"];
+      lastName = response.data["last_name"];
+    }
+
     this.responseDone;
     return response;
   }
@@ -96,9 +111,9 @@ class UserBloc {
     return response;
   }
 
-  final int mainLoginPage = 3;
-  int currentPage = 3;
-  final PageController pageController = new PageController(initialPage: 3);
+  final int mainLoginPage = 2;
+  int currentPage = 2;
+  final PageController pageController = new PageController(initialPage: 2);
   bool canFieldsRequestFocus = true;
 
   Future animateLoginScreenLeft() async =>
@@ -139,6 +154,10 @@ class UserBloc {
         await _userApiProvider.checkPasswordResetCode(code, email, password);
     this.responseDone;
     return response;
+  }
+
+  logout() {
+    auth = false;
   }
 }
 

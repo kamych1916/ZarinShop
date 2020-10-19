@@ -1,4 +1,4 @@
-import 'package:Zarin/models/api_response_model.dart';
+import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/utils/check_internet_connection.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
@@ -8,7 +8,7 @@ import 'dart:convert' show json, utf8;
 import 'dart:io';
 
 class UserApiProvider {
-  Future<ApiResponse<bool>> signIn(String email, String password) async {
+  Future<ApiResponse<dynamic>> signIn(String email, String password) async {
     String url = "http://zarinshop.site:49354/api/v1/signin";
 
     IOClient client = new IOClient();
@@ -18,7 +18,9 @@ class UserApiProvider {
       Response response =
           await client.post(url, body: body).timeout(Duration(seconds: 5));
 
-      if (response.statusCode == 200) return ApiResponse.completed(true);
+      if (response.statusCode == 200)
+        return ApiResponse.completed(
+            json.decode(utf8.decode(response.bodyBytes)));
       if (response.statusCode == 401) return ApiResponse.completed(false);
 
       return ApiResponse.error("При входе возникла ошибка");

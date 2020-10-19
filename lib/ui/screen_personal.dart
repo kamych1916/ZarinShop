@@ -1,0 +1,223 @@
+import 'package:Zarin/app_icons.dart';
+import 'package:Zarin/blocs/user_bloc.dart';
+import 'package:Zarin/ui/screen_login.dart';
+import 'package:Zarin/ui/screen_password_reset.dart';
+import 'package:Zarin/ui/widgets/cart_icon.dart';
+import 'package:Zarin/ui/widgets/favorite_icon.dart';
+import 'package:Zarin/utils/fade_page_route.dart';
+import 'package:Zarin/utils/styles.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class PersonalScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(40),
+        child: AppBar(
+          brightness: Brightness.light,
+          backgroundColor: Styles.backgroundColor,
+          iconTheme: new IconThemeData(color: Colors.black87),
+          elevation: 0,
+          leading: GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Icon(
+              Icons.arrow_back_ios,
+              size: 16,
+            ),
+          ),
+          actions: [
+            Container(
+              padding: EdgeInsets.only(right: 10.0),
+              child: Row(
+                children: [
+                  FavoriteIcon(),
+                  Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
+                  CartIcon(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+        child: Column(
+          children: [
+            Icon(
+              AppIcons.user,
+              size: 50,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+            ),
+            Text(
+              userBloc.firstName + " " + userBloc.lastName,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.5),
+            ),
+            Text(userBloc.email),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 20.0),
+            ),
+            Row(
+              children: [
+                Icon(
+                  AppIcons.language,
+                  size: 20.0,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.0),
+                ),
+                Expanded(child: Text("Язык приложения")),
+                DropdownButton<String>(
+                  isDense: true,
+                  dropdownColor: Styles.backgroundColor,
+                  elevation: 1,
+                  icon: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 10,
+                  ),
+                  underline: Container(),
+                  onChanged: (value) {},
+                  items: [
+                    DropdownMenuItem(
+                      child: Text(
+                        "Русский",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      child: Text(
+                        "Узбекский",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+            ),
+            Row(
+              children: [
+                Icon(
+                  AppIcons.map_marker,
+                  size: 20.0,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.0),
+                ),
+                Expanded(child: Text("Мои адреса")),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 10,
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+            ),
+            Row(
+              children: [
+                Icon(
+                  AppIcons.question_circle,
+                  size: 20.0,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.0),
+                ),
+                Expanded(child: Text("Помощь и связь")),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 10,
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.0),
+            ),
+            Row(
+              children: [
+                Icon(
+                  AppIcons.paper_plane,
+                  size: 20.0,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.0),
+                ),
+                Expanded(child: Text("Уведомления")),
+                Transform.scale(
+                    scale: 0.7,
+                    child: CupertinoSwitch(
+                      onChanged: (value) {},
+                      value: true,
+                      activeColor: Styles.mainColor,
+                    ))
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.0),
+            ),
+            GestureDetector(
+              onTap: () {
+                userBloc.resetPassword();
+                Navigator.of(context).push(FadePageRoute(
+                  builder: (context) => PasswordResetScreen(),
+                ));
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    AppIcons.key,
+                    size: 20.0,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.0),
+                  ),
+                  Expanded(child: Text("Сменить пароль")),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 10,
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+            ),
+            GestureDetector(
+              onTap: () {
+                userBloc.logout();
+                Navigator.of(context).pushReplacement(FadePageRoute(
+                  builder: (context) => LoginScreen(),
+                ));
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    AppIcons.exit,
+                    size: 20.0,
+                    color: Colors.red[400],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.0),
+                  ),
+                  Expanded(
+                      child: Text(
+                    "Выйти",
+                    style: TextStyle(color: Colors.red[400]),
+                  )),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

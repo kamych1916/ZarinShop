@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:Zarin/models/api_response_model.dart';
+import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/utils/check_internet_connection.dart';

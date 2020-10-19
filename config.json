@@ -95,6 +95,42 @@
       "css": "facebook_f",
       "code": 62366,
       "src": "fontawesome5"
+    },
+    {
+      "uid": "75347b319511175da51af3955919dbac",
+      "css": "key",
+      "code": 59392,
+      "src": "linecons"
+    },
+    {
+      "uid": "3aa3605e05eca766cb9080d99828c764",
+      "css": "question-circle",
+      "code": 59517,
+      "src": "linearicons"
+    },
+    {
+      "uid": "ddecf5ad7935e3fb1b70dac6ed00d06a",
+      "css": "language",
+      "code": 59393,
+      "src": "entypo"
+    },
+    {
+      "uid": "7b141e965921dcc9c31613d81de38775",
+      "css": "location",
+      "code": 59445,
+      "src": "linearicons"
+    },
+    {
+      "uid": "5765936043953e1f53668fca1bc51f7f",
+      "css": "trash",
+      "code": 59409,
+      "src": "linearicons"
+    },
+    {
+      "uid": "6fbd93c0d220507921015a15575009e5",
+      "css": "paper-plane",
+      "code": 59395,
+      "src": "linecons"
     }
   ]
 }
