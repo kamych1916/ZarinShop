@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           leading: GestureDetector(
             onTap: () async {
-              await SystemChannels.textInput.invokeMethod('TextInput.hide');
+              //await SystemChannels.textInput.invokeMethod('TextInput.hide');
               if (userBloc.pageController.page != userBloc.mainLoginPage) {
                 userBloc.canFieldsRequestFocus = false;
                 userBloc.animateLoginScreenToMainPage();

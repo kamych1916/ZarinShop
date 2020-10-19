@@ -61,3 +61,6 @@ class ZarinApp extends StatelessWidget {
     );
   }
 }
+
+/// TODO: Добавить галку при регистрации с пользовательскуим соглашением
+///
