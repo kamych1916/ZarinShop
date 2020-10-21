@@ -72,7 +72,6 @@ class _ProductInfoState extends State<ProductInfo> {
                   child: Row(
                     children: [
                       FavoriteIcon(),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
                       CartIcon(cartKey: _cartKey),
                     ],
                   ),

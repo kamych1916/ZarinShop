@@ -4,7 +4,6 @@ import 'package:Zarin/ui/widgets/form_password_reset_code_verify.dart';
 import 'package:Zarin/ui/widgets/form_sign_up.dart';
 import 'package:Zarin/ui/widgets/form_sign_up_code_verify.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'widgets/form_sign_in.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -25,7 +24,6 @@ class LoginScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           leading: GestureDetector(
             onTap: () async {
-              //await SystemChannels.textInput.invokeMethod('TextInput.hide');
               if (userBloc.pageController.page != userBloc.mainLoginPage) {
                 userBloc.canFieldsRequestFocus = false;
                 userBloc.animateLoginScreenToMainPage();
@@ -41,7 +39,7 @@ class LoginScreen extends StatelessWidget {
       ),
       body: PageView(
         controller: userBloc.pageController,
-        physics: NeverScrollableScrollPhysics(),
+        //physics: NeverScrollableScrollPhysics(),
         children: pages,
       ),
     );

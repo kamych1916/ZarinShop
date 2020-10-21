@@ -1,3 +1,4 @@
+import 'package:Zarin/models/product.dart';
 import 'package:Zarin/ui/screen_product_info.dart';
 import 'package:Zarin/ui/widgets/product_card_favorite_icon.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
@@ -5,6 +6,10 @@ import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
+  final Product product;
+
+  const ProductCard(this.product, {Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,7 +31,7 @@ class ProductCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(25),
                       boxShadow: Styles.cardShadows),
                 ),
-                ProductCardFavoriteIcon() //productId
+                ProductCardFavoriteIcon(product)
               ],
             ),
             Container(
@@ -35,24 +40,19 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(product.name + " asdasd asdas sd sadas sd asdasd",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 12,
+                          fontFamily: "SegoeUIBold")),
                   Text(
-                    "Халат махровый",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2.5),
-                  ),
-                  Text(
-                    "5000 сум",
+                    product.price.floor().toString() + " сум",
                     style: TextStyle(
                         color: Styles.cardTextColor,
                         fontSize: 16.0,
-                        fontWeight: FontWeight.w600),
+                        fontFamily: "SegoeUISemiBold"),
                   )
                 ],
               ),

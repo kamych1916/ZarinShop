@@ -2,9 +2,15 @@ class Product {
   String id;
   String name;
   String description;
-  String price;
+  String image; // TODO: implement
+  double price;
 
   Product(this.id, this.name, this.description, this.price);
+
+  /// !!!: для Map исправить
+  @override
+  // ignore: hash_and_equals
+  bool operator ==(covariant Product other) => other.id == id;
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json["id"];

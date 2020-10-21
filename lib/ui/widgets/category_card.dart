@@ -30,8 +30,8 @@ class CategoryCard extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                  image:
-                      DecorationImage(fit: BoxFit.cover, image: category.img),
+                  //image:
+                  //    DecorationImage(fit: BoxFit.cover, image: category.img),
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: Styles.cardShadows),
             ),
@@ -57,12 +57,15 @@ class CategoryCard extends StatelessWidget {
                         style: TextStyle(
                             color: Styles.textColor,
                             fontSize: 22.0,
-                            fontWeight: FontWeight.w600),
+                            fontFamily: "SegoeUIBold"),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 5.0),
-                      child: Text(category.count.toString() + " шт."),
+                      child: Text(
+                        category.count.toString() + " шт.",
+                        style: TextStyle(fontFamily: "SegoeUISemiBold"),
+                      ),
                     )
                   ],
                 ),

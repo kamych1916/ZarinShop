@@ -91,6 +91,7 @@ class _VerificationCodeState extends State<VerificationCode> {
       focusNode: _listFocusNode[index],
       showCursor: true,
       maxLengthEnforced: true,
+      cursorColor: Colors.black54,
       autocorrect: false,
       textAlign: TextAlign.center,
       style: widget.textStyle,

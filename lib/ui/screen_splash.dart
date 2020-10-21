@@ -1,4 +1,4 @@
-import 'package:Zarin/blocs/product_bloc.dart';
+import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/ui/screen_category.dart';
 import 'package:Zarin/ui/widgets/progress_indicator.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   appInit() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    await productBloc.init(context);
+    await appBloc.init(context);
     Navigator.pushReplacement(
         context,
         FadePageRoute(
@@ -31,22 +31,25 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Styles.mainColor,
+      color: Styles.backgroundColor,
       child: Column(
         children: [
           Expanded(
-            child: Center(
-                child: Text(
-              "Zarin Shop",
-              style: TextStyle(
-                  fontSize: 30.0,
-                  color: Styles.textColor,
-                  decoration: TextDecoration.none),
-            )),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                "Zarin Shop",
+                style: TextStyle(
+                    fontSize: 30.0,
+                    color: Colors.black54,
+                    decoration: TextDecoration.none),
+              ),
+            ),
           ),
           Expanded(
             child: Center(
                 child: AppCircularProgressIndicator(
+              color: Colors.black54,
               size: 25,
             )),
           )

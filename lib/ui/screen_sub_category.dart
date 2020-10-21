@@ -48,12 +48,15 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
           Text(
             message,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: 14, fontFamily: "SegoeUI"),
           ),
           FlatButton(
             child: Text(
               "Повторить попытку",
-              style: TextStyle(color: Colors.blue[600], fontSize: 12.0),
+              style: TextStyle(
+                  color: Colors.blue[600],
+                  fontSize: 12.0,
+                  fontFamily: "SegoeUISemiBold"),
             ),
             onPressed: () => refresh(),
           ),
@@ -82,8 +85,8 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
           title: Text(
             widget.category.name,
             overflow: TextOverflow.fade,
-            style:
-                TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
+            style: TextStyle(
+                color: Colors.black87, fontFamily: "SegoeUIBold", fontSize: 18),
           ),
           actions: [
             Container(
@@ -91,7 +94,6 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
               child: Row(
                 children: [
                   FavoriteIcon(),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
                   CartIcon(),
                 ],
               ),
@@ -104,7 +106,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
           children: [
             widget.category.subcategories.isNotEmpty
                 ? Container(
-                    height: 30,
+                    height: 35,
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(left: 20.0, top: 8.0),
                     child: ListView.builder(
@@ -124,8 +126,11 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 20.0),
-                          child:
-                              Text(widget.category.subcategories[index].name),
+                          child: Text(
+                            widget.category.subcategories[index].name,
+                            style:
+                                TextStyle(fontFamily: "SegoeUI", fontSize: 14),
+                          ),
                         ),
                       ),
                     ),
@@ -192,7 +197,10 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(25.0)),
-                              child: Text("Фильтр"),
+                              child: Text(
+                                "Фильтр",
+                                style: TextStyle(fontFamily: "SegoeUI"),
+                              ),
                             ),
                           ),
                           Padding(
@@ -214,7 +222,10 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(25.0)),
-                                child: Text("Сортировка"),
+                                child: Text(
+                                  "Сортировка",
+                                  style: TextStyle(fontFamily: "SegoeUI"),
+                                ),
                               ),
                             ),
                           )
@@ -265,8 +276,10 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                 physics: BouncingScrollPhysics(),
                                 shrinkWrap: true,
                                 crossAxisCount: 2,
-                                children: List.generate(100, (index) {
-                                  return ProductCard();
+                                children: List.generate(
+                                    productBloc.products.length, (index) {
+                                  return ProductCard(
+                                      productBloc.products[index]);
                                 }),
                               ),
                             );

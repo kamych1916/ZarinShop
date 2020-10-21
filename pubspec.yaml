@@ -18,11 +18,22 @@ dependencies:
   connectivity: ^0.4.9+3
   rxdart: ^0.24.1
   http: ^0.12.2
+  circular_check_box: ^1.0.4
+  shared_preferences: ^0.5.12+2
 
 flutter:
   fonts:
   - family: AppIcons
     fonts:
       - asset: assets/fonts/AppIcons.ttf
+  - family: SegoeUI
+    fonts:
+      - asset: assets/fonts/SegoeUI.ttf
+  - family: SegoeUIBold
+    fonts:
+      - asset: assets/fonts/SegoeUIBold.ttf
+  - family: SegoeUISemiBold
+    fonts:
+      - asset: assets/fonts/SegoeUI-SemiBold.ttf
 
   uses-material-design: true

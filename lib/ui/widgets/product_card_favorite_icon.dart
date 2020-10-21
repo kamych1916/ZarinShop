@@ -1,8 +1,13 @@
 import 'package:Zarin/app_icons.dart';
+import 'package:Zarin/blocs/product_bloc.dart';
+import 'package:Zarin/models/product.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class ProductCardFavoriteIcon extends StatefulWidget {
+  final Product product;
+
+  const ProductCardFavoriteIcon(this.product, {Key key}) : super(key: key);
   @override
   _ProductCardFavoriteIconState createState() =>
       _ProductCardFavoriteIconState();
@@ -21,6 +26,9 @@ class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
     _colorTween = ColorTween(begin: Colors.white, end: Colors.red[400])
         .animate(_animationController);
 
+    if (productBloc.favorites.contains(widget.product))
+      _animationController.forward();
+
     super.initState();
   }
 
@@ -35,8 +43,10 @@ class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
     return GestureDetector(
       onTap: () {
         if (_animationController.status == AnimationStatus.completed) {
+          productBloc.removeProductFromFavorite(widget.product);
           _animationController.reverse();
         } else {
+          productBloc.addProductToFavorite(widget.product);
           _animationController.forward();
         }
       },

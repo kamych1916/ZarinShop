@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/resources/user_api_provider.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class UserBloc {
   String lastName;
   String userID;
 
-  List<String> signUpInputStrings = new List(2);
+  List<String> signUpInputStrings = new List(3);
 
   Stream<String> get emailStream => _emailSubject.stream;
 
@@ -86,6 +87,7 @@ class UserBloc {
       userID = response.data["id"];
       firstName = response.data["first_name"];
       lastName = response.data["last_name"];
+      saveUser();
     }
 
     this.responseDone;
@@ -103,6 +105,9 @@ class UserBloc {
     this.responseAwait;
     String firstName = signUpInputStrings[0];
     String lastName = signUpInputStrings[1];
+    String phone = signUpInputStrings[1];
+
+    /// TODO: Добавить номер телефона
 
     ApiResponse<bool> response =
         await _userApiProvider.signUp(email, password, firstName, lastName);
@@ -158,6 +163,12 @@ class UserBloc {
 
   logout() {
     auth = false;
+  }
+
+  saveUser() {}
+
+  bool getUser() {
+    return false;
   }
 }
 

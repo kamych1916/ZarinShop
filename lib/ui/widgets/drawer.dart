@@ -65,13 +65,12 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                 children: [
                   Text(
                     "Zarin Shop",
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 18.0, fontFamily: "SegoeUIBold"),
                   ),
                   Text(
-                    "домашний текстиль",
-                    style:
-                        TextStyle(fontSize: 13.0, fontWeight: FontWeight.w500),
+                    "Домашний текстиль",
+                    style: TextStyle(
+                        fontSize: 13.0, fontFamily: "SegoeUISemiBold"),
                   ),
                 ],
               ),
@@ -104,10 +103,10 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5),
                       ),
-                      Text(
+                      SelectableText(
                         "+998 (78) 150-00-02",
                         style: TextStyle(
-                            fontSize: 11.0, fontWeight: FontWeight.w600),
+                            fontSize: 11.0, fontFamily: "SegoeUISemiBold"),
                       )
                     ],
                   ),
@@ -121,11 +120,10 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5),
                       ),
-                      Text(
+                      SelectableText(
                         "Город Ташкент\nулица Катта Дархон, дом 23",
-                        overflow: TextOverflow.clip,
                         style: TextStyle(
-                            fontSize: 11.0, fontWeight: FontWeight.w600),
+                            fontSize: 11.0, fontFamily: "SegoeUISemiBold"),
                       )
                     ],
                   ),
@@ -140,13 +138,17 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                             Text(
                               "Zarin Shop",
                               style: TextStyle(
-                                  fontSize: 12.0, fontWeight: FontWeight.w600),
+                                  fontSize: 12.0,
+                                  fontFamily: "SegoeUISemiBold"),
                             ),
                             Row(
                               children: [
-                                Icon(
-                                  Icons.copyright,
-                                  size: 14,
+                                Padding(
+                                  padding: EdgeInsets.only(top: 1.5),
+                                  child: Icon(
+                                    Icons.copyright,
+                                    size: 16,
+                                  ),
                                 ),
                                 Padding(
                                   padding:
@@ -156,7 +158,7 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                                   "2020",
                                   style: TextStyle(
                                       fontSize: 12.0,
-                                      fontWeight: FontWeight.w600),
+                                      fontFamily: "SegoeUISemiBold"),
                                 )
                               ],
                             )
@@ -172,15 +174,15 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
                             children: [
                               Icon(
                                 AppIcons.telegram_plane,
-                                size: 30.0,
+                                size: 25.0,
                               ),
                               Icon(
                                 AppIcons.instagram,
-                                size: 30.0,
+                                size: 25.0,
                               ),
                               Icon(
                                 AppIcons.facebook_f,
-                                size: 30.0,
+                                size: 25.0,
                               ),
                             ],
                           ),
@@ -224,7 +226,10 @@ class DrawerMenuContainer extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
               horizontal: 5.0,
             )),
-            Text(title),
+            Text(
+              title,
+              style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 12),
+            ),
           ],
         ),
       ),

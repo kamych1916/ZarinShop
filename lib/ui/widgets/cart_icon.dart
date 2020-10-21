@@ -1,4 +1,5 @@
 import 'package:Zarin/app_icons.dart';
+import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/ui/screen_cart.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -36,15 +37,20 @@ class CartIcon extends StatelessWidget {
                     height: 18,
                     key: cartKey,
                     padding: EdgeInsets.only(
-                        top: 3.5, bottom: 3.0, left: 3.0, right: 3.0),
+                        top: 1.5, bottom: 3.0, left: 3.0, right: 3.0),
                     decoration: ShapeDecoration(
                       shape: CircleBorder(),
                       color: Colors.deepPurple,
                     ),
                     child: Text(
-                      "99",
+                      productBloc.cart == null
+                          ? "0"
+                          : productBloc.cart.length.toString(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 10, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontFamily: "SegoeUIBold"),
                     ),
                   ),
                 ),

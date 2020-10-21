@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+/// TODO: Написать Диме. По поводу сортировки по умолчанию ORDER BY или на клиенте. Новый get за товарами со списком id
+/// Камолу: нужно ли сбрасывать сессию для юзера?
+/// Номер телефона
+
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Styles.backgroundColor,
@@ -28,6 +32,7 @@ class ZarinApp extends StatelessWidget {
     return MaterialApp(
       title: 'Zarin Shop',
       theme: ThemeData(
+        fontFamily: 'SegoeUI',
         appBarTheme: AppBarTheme(
             brightness: Brightness.light,
             color: Styles.backgroundColor,
@@ -61,6 +66,3 @@ class ZarinApp extends StatelessWidget {
     );
   }
 }
-
-/// TODO: Добавить галку при регистрации с пользовательскуим соглашением
-///

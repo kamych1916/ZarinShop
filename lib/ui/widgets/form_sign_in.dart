@@ -27,7 +27,7 @@ class _SignInFormState extends State<SignInForm> {
     userBloc.canFieldsRequestFocus = true;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 36.0),
+      padding: EdgeInsets.symmetric(horizontal: 30.0),
       decoration: BoxDecoration(color: Styles.backgroundColor),
       child: Center(
         child: SingleChildScrollView(
@@ -38,30 +38,32 @@ class _SignInFormState extends State<SignInForm> {
                 alignment: Alignment.center,
                 child: Text(
                   "Войти в Zarin Shop",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'SegoeUISemiBold',
+                  ),
                 ),
               ),
               EmailField(),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
+                padding: EdgeInsets.symmetric(vertical: 5.0),
               ),
               PasswordField(),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.0),
+                padding: EdgeInsets.symmetric(vertical: 10.0),
               ),
               button(context),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 5.0),
+                padding: EdgeInsets.symmetric(vertical: 7.5),
               ),
               GestureDetector(
                   onTap: () {
                     userBloc.changeEmail("");
                     userBloc.animateLoginScreenLeft();
                   },
-                  child: Text(
-                    "Забыли пароль?",
-                    style: TextStyle(decoration: TextDecoration.underline),
-                  )),
+                  child: Text("Забыли пароль?",
+                      style:
+                          TextStyle(color: Colors.blue[600], fontSize: 12.0))),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.0),
               ),
@@ -73,7 +75,11 @@ class _SignInFormState extends State<SignInForm> {
                 },
                 child: Text(
                   "Регистрация",
-                  style: TextStyle(decoration: TextDecoration.underline),
+                  style: TextStyle(
+                    color: Colors.blue[600],
+                    fontSize: 16.0,
+                    fontFamily: 'SegoeUISemiBold',
+                  ),
                 ),
               ),
               Padding(

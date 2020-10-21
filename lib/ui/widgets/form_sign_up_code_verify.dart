@@ -9,7 +9,7 @@ class SignUpCodeVerify extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: 30.0),
       decoration: BoxDecoration(color: Styles.backgroundColor),
       child: Column(
         children: [
@@ -19,10 +19,13 @@ class SignUpCodeVerify extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 20.0),
               alignment: Alignment.center,
               child: Text(
-                "На ваш email " +
+                "На ваш email\n" +
                     userBloc.email +
-                    " был отправлен код подтверждения",
-                style: TextStyle(fontSize: 20),
+                    "\nбыл отправлен код подтверждения",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'SegoeUISemiBold',
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -33,7 +36,7 @@ class SignUpCodeVerify extends StatelessWidget {
               textStyle: TextStyle(fontSize: 30.0, color: Styles.cardTextColor),
               underlineColor: Styles.cartFooterTotalTextColor,
               keyboardType: TextInputType.number,
-              itemSize: MediaQuery.of(context).size.width / 4 - 20,
+              itemSize: MediaQuery.of(context).size.width / 4 - 40,
               autofocus: true,
               length: 4,
               onCompleted: (value) async {

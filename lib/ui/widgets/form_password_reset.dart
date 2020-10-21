@@ -10,7 +10,7 @@ class PasswordResetForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 36.0),
+      padding: EdgeInsets.symmetric(horizontal: 30.0),
       decoration: BoxDecoration(color: Styles.backgroundColor),
       child: Center(
         child: Column(
@@ -21,12 +21,15 @@ class PasswordResetForm extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 "Восстановить пароль",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'SegoeUISemiBold',
+                ),
               ),
             ),
             EmailField(),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 20.0),
+              padding: EdgeInsets.symmetric(vertical: 10.0),
             ),
             FormButton(
               title: "Продолжить",

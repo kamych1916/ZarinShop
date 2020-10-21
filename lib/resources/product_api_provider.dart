@@ -39,7 +39,30 @@ class ProductApiProvider {
   }
 
   Future<ApiResponse<List<Product>>> getProducts(String id) async {
-    await Future.delayed(Duration(seconds: 1));
-    return ApiResponse.completed([]);
+    String url = "http://zarinshop.site:49354/api/v1/items_cat/$id";
+
+    IOClient client = new IOClient();
+
+    try {
+      Response response = await client.get(url).timeout(Duration(seconds: 5));
+
+      if (response.statusCode == 200) {
+        List<Product> products = [];
+        final responseDecode = json.decode(utf8.decode(response.bodyBytes));
+        for (dynamic product in responseDecode)
+          products.add(Product.fromJson(product));
+        return ApiResponse.completed(products);
+      }
+      throw SocketException;
+    } catch (exception) {
+      bool internetStatus = await checkInternetConnection();
+
+      return internetStatus
+          ? exception.runtimeType == SocketException ||
+                  exception.runtimeType == TimeoutException
+              ? ApiResponse.error('Сервис недоступен')
+              : ApiResponse.error('Возникла внутренняя ошибка')
+          : ApiResponse.error('Отсутствует интернет-соединение');
+    }
   }
 }

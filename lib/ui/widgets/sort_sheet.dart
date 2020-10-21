@@ -56,7 +56,10 @@ class SortSheet extends StatelessWidget {
               ),
             ),
             Text('Сортировка по:',
-                style: TextStyle(color: Colors.black87, fontSize: 16.0)),
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 16.0,
+                    fontFamily: "SegoeUIBold")),
             Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
             ListView.separated(
                 separatorBuilder: (context, index) => Divider(),

@@ -29,12 +29,15 @@ class CategoryScreen extends StatelessWidget {
           Text(
             message,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: 14, fontFamily: "SegoeUI"),
           ),
           FlatButton(
             child: Text(
               "Повторить попытку",
-              style: TextStyle(color: Colors.blue[600], fontSize: 12.0),
+              style: TextStyle(
+                  color: Colors.blue[600],
+                  fontSize: 12.0,
+                  fontFamily: "SegoeUISemiBold"),
             ),
             onPressed: () {
               productBloc.getCategories(context);
@@ -65,7 +68,6 @@ class CategoryScreen extends StatelessWidget {
           child: Row(
             children: [
               FavoriteIcon(),
-              Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
               CartIcon(),
             ],
           ),

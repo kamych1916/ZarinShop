@@ -39,7 +39,7 @@ class _FormButtonState extends State<FormButton> {
         child: Container(
             padding: responseAwait
                 ? EdgeInsets.symmetric(vertical: 13.0)
-                : EdgeInsets.symmetric(vertical: 15),
+                : EdgeInsets.symmetric(vertical: 12),
             alignment: Alignment.center,
             width: double.infinity,
             decoration: BoxDecoration(
@@ -50,7 +50,7 @@ class _FormButtonState extends State<FormButton> {
                 : Text(
                     widget.title,
                     style: TextStyle(
-                        fontWeight: FontWeight.w600, color: Colors.white),
+                        fontFamily: 'SegoeUIBold', color: Colors.white),
                   )),
         onTap: widget.onTap);
   }

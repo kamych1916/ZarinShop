@@ -5,6 +5,7 @@ showErrorMessage(String message, BuildContext context) {
     content: Text(
       message,
       textAlign: TextAlign.center,
+      style: TextStyle(fontFamily: "SegoeUISemiBold"),
     ),
     duration: new Duration(seconds: 2),
     backgroundColor: Colors.red,
@@ -24,9 +25,10 @@ showMessage(String message, BuildContext context) async {
     content: Text(
       message,
       textAlign: TextAlign.center,
+      style: TextStyle(fontFamily: "SegoeUISemiBold"),
     ),
     duration: new Duration(seconds: 2),
-    backgroundColor: Colors.green,
+    backgroundColor: Colors.green[300],
   );
 
   try {
