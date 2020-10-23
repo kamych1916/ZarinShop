@@ -49,7 +49,7 @@ class ZSCheckoutPaymentView: UIView {
     private lazy var paymentTypeDropButton: UIButton = {
         var button = UIButton()
         var image = UIImage(named: "dropdown")
-        image = image?.imageWithColor(color: AppColors.textDarkColor.color())
+        image = image?.with(color: AppColors.textDarkColor.color())
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(self.paymentTypeDropButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +87,7 @@ class ZSCheckoutPaymentView: UIView {
         var imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         var image = UIImage(named: "creditCard")
-        imageView.image = image?.imageWithColor(color: AppColors.mainColor.color())
+        imageView.image = image?.with(color: AppColors.mainColor.color())
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -95,7 +95,7 @@ class ZSCheckoutPaymentView: UIView {
     private lazy var addCardButton: UIButton = {
         var button = UIButton()
         var image = UIImage(named: "plus")
-        image = image?.imageWithColor(color: AppColors.textDarkColor.color())
+        image = image?.with(color: AppColors.textDarkColor.color())
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(self.addCardButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

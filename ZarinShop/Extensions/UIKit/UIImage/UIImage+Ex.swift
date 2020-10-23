@@ -22,7 +22,7 @@ extension UIImage {
         self.init(cgImage: cgImage)
     }
     
-    func imageWithColor(color: UIColor) -> UIImage {
+    func with(color: UIColor) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         color.setFill()
 

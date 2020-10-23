@@ -21,11 +21,38 @@ class ZSSideMenuViewController: UIViewController {
         return view
     }()
     
+    private lazy var companyNameLabel: UILabel = {
+        var label = UILabel()
+        label.text = "Zapin Shop"
+        label.textColor = AppColors.mainColor.color()
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var signInButton: UIButton = {
+        var button = UIButton(type: .system)
+        button.setTitle("Войти в профиль", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.isHidden = true
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(self.signinButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private lazy var userView: UIView = {
+        var view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private lazy var userNameLabel: UILabel = {
         var label = UILabel()
         label.textColor = AppColors.textDarkColor.color()
-        label.font = .systemFont(ofSize: 17, weight: .semibold)
-        label.textAlignment = .left
+        label.font = .systemFont(ofSize: 17, weight: .medium)
+        label.textAlignment = .center
         label.text = "Some user name"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -35,7 +62,7 @@ class ZSSideMenuViewController: UIViewController {
         var label = UILabel()
         label.textColor = AppColors.textDarkColor.color()
         label.font = .systemFont(ofSize: 17, weight: .regular)
-        label.textAlignment = .left
+        label.textAlignment = .center
         label.text = "user@mail.some"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -92,12 +119,12 @@ class ZSSideMenuViewController: UIViewController {
         return view
     }()
     
-    
     private lazy var footerView: ZSSideMenuFooterView = {
         var view = ZSSideMenuFooterView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
@@ -110,6 +137,13 @@ class ZSSideMenuViewController: UIViewController {
         self.setupPreferences()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print("ss")
+        self.setupViewWithSingin()
+    }
+    
     // MARK: - Constraints
     
     private func makeConstraints() {
@@ -117,17 +151,28 @@ class ZSSideMenuViewController: UIViewController {
             make.left.equalToSuperview().offset(50)
             make.top.right.bottom.equalToSuperview()
         }
-        self.userNameLabel.snp.makeConstraints { (make) in
+        self.companyNameLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().inset(50)
             make.left.right.equalToSuperview().inset(30)
-            make.top.equalToSuperview().offset(80)
+        }
+        self.signInButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.companyNameLabel.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+        }
+        self.userView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.companyNameLabel.snp.bottom).offset(10)
+            make.left.right.equalToSuperview().inset(30)
+        }
+        self.userNameLabel.snp.makeConstraints { (make) in
+            make.top.left.right.equalToSuperview()
         }
         self.userEmailLabel.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview().inset(30)
             make.top.equalTo(self.userNameLabel.snp.bottom)
+            make.left.right.bottom.equalToSuperview()
         }
         self.menuView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.userView.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(20)
-            make.top.equalTo(self.userEmailLabel.snp.bottom).offset(20)
         }
         self.itemsStackView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview().inset(20)
@@ -155,18 +200,23 @@ class ZSSideMenuViewController: UIViewController {
         self.setContentViewController(with: "profileSide")
     }
     
-    @objc private func logoutButtonTapped() {
-        AppDelegate.shared.rootViewController.switchToLogout()
+    @objc private func signinButtonTapped(_ sener: UIButton) {
+        AppDelegate.shared.rootViewController.switchToLoginScreen()
+        //let authVC = ZSAuthorizationViewController()
+        //self.present(authVC, animated: true, completion: nil)
     }
     
     // MARK: - Setters
     
     private func addSubviews() {
         self.view.addSubview(self.contantView)
-        self.contantView.addSubview(self.userNameLabel)
-        self.contantView.addSubview(self.userEmailLabel)
+        self.contantView.addSubview(self.companyNameLabel)
+        self.contantView.addSubview(self.signInButton)
+        self.contantView.addSubview(self.userView)
         self.contantView.addSubview(self.menuView)
         self.contantView.addSubview(self.footerView)
+        self.userView.addSubview(self.userNameLabel)
+        self.userView.addSubview(self.userEmailLabel)
         self.menuView.addSubview(self.itemsStackView)
         self.itemsStackView.addArrangedSubview(self.mainItem)
         self.itemsStackView.addArrangedSubview(self.profileItem)
@@ -193,6 +243,21 @@ class ZSSideMenuViewController: UIViewController {
         SideMenuController.preferences.basic.menuWidth = UIScreen.main.bounds.width - 50
     }
     
+    private func setupViewWithSingin() {
+        if UserDefaults.standard.isSingin() {
+            self.signInButton.isHidden = true
+            self.signInButton.isEnabled = false
+            self.userView.isHidden = false
+            if let user = UserDefaults.standard.getUser() {
+                self.userNameLabel.text = user.firstname + " " + user.lastname
+                self.userEmailLabel.text = user.email
+            }
+        } else {
+            self.signInButton.isHidden = false
+            self.signInButton.isEnabled = true
+            self.userView.isHidden = true
+        }
+    }
 
     // MARK: - Helpers
     
@@ -200,11 +265,14 @@ class ZSSideMenuViewController: UIViewController {
         self.sideMenuController?.setContentViewController(with: id, animated: true, completion: nil)
         self.sideMenuController?.hideMenu()
     }
+    
 }
 
+// MARK: - SideMenuControllerDelegate
 
 extension ZSSideMenuViewController: SideMenuControllerDelegate {
     func sideMenuController(_ sideMenuController: SideMenuController, animationControllerFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return BasicTransitionAnimator(options: .curveEaseIn, duration: 0.6)
     }
+    
 }

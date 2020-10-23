@@ -134,29 +134,37 @@ class ZSAuthorizationViewController: UIViewController {
     
     private lazy var resetView: UIView = {
            var view = UIView()
-           view.backgroundColor = .clear
-           return view
-       }()
-       
-       private lazy var resetLabel: UILabel = {
-           var label = UILabel()
-           label.font = .systemFont(ofSize: 15, weight: .regular)
-           label.textColor = AppColors.textDarkColor.color()
-           label.textAlignment = .center
-           label.text = "Забыли пороль?"
-           return label
-       }()
-       
-       private lazy var resetButton: UIButton = {
-           var button = UIButton(type: .system)
-           button.backgroundColor = .clear
-           button.setTitle("Восстановить", for: .normal)
-           button.setTitleColor(AppColors.blueLink.color(), for: .normal)
-           button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
-           button.adjustsImageWhenHighlighted = true
-           button.translatesAutoresizingMaskIntoConstraints = false
-           return button
-       }()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    private lazy var resetLabel: UILabel = {
+        var label = UILabel()
+        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.textColor = AppColors.textDarkColor.color()
+        label.textAlignment = .center
+        label.text = "Забыли пороль?"
+        return label
+    }()
+    
+    private lazy var resetButton: UIButton = {
+        var button = UIButton(type: .system)
+        button.backgroundColor = .clear
+        button.setTitle("Восстановить", for: .normal)
+        button.setTitleColor(AppColors.blueLink.color(), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
+        button.adjustsImageWhenHighlighted = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var dismissButton: UIButton = {
+        var button = UIButton(type: .system)
+        button.setImage(UIImage(named: "dismiss"), for: .normal)
+        button.addTarget(self, action: #selector(self.dismissButtonTapped), for: .touchUpInside)
+        button.tintColor = AppColors.textDarkColor.color()
+        return button
+    }()
       
     // MARK: - View Lifecycles
 
@@ -175,6 +183,10 @@ class ZSAuthorizationViewController: UIViewController {
     // MARK: - Constraits
     
     private func makeConstraints() {
+        self.dismissButton.snp.makeConstraints { (make) in
+            make.top.left.equalToSuperview().inset(20)
+            make.size.equalTo(40)
+        }
         self.scrollView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
@@ -234,6 +246,7 @@ class ZSAuthorizationViewController: UIViewController {
     
     private func addSubviews() {
         self.view.addSubview(self.scrollView)
+        self.view.addSubview(self.dismissButton)
         self.scrollView.addSubview(self.companyNameLabel)
         self.scrollView.addSubview(self.titleLabel)
         self.scrollView.addSubview(self.emailField)
@@ -262,6 +275,10 @@ class ZSAuthorizationViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    @objc private func dismissButtonTapped() {
+        AppDelegate.shared.rootViewController.switchToMainScreen()
+    }
     
     @objc private func registerButtonTapped(_ sender: UIButton) {
         let registrVC = ZSRegistrationViewController()
@@ -295,7 +312,6 @@ class ZSAuthorizationViewController: UIViewController {
                 })
         }) { [weak self] (error, code) in
             self?.dismiss(animated: true, completion: {
-                
                 self?.alertError(message: error.detail)
             })
         }
@@ -336,4 +352,5 @@ class ZSAuthorizationViewController: UIViewController {
                        "password": password]
         self.isLoginButtonEnable = true
     }
+    
 }

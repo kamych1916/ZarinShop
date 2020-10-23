@@ -14,17 +14,22 @@ struct ZSURLPath {
     
     //MARK: - Auth
     
-    static let signin = "signin"    //login
-    static let signup = "signup"    //registration
+    static let signin = "signin"    ///login
+    static let signup = "signup"    ///registration
     
     //MARK: - Get
     
     static let categories = "categories"
     static let checkCode = "checkcode_activ/"
     static let resetPassword = "reset_password"
+    static let productsByID = "items_cat/"
     
     //MARK: - Post
     
     static let changePassword = "change_password" 
+   
+    //MARK: - Delete
+    
+    static let logout = "logout"
     
 }

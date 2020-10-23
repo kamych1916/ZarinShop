@@ -8,8 +8,14 @@
 
 import UIKit
 
-struct ZSProductModel {
-    var name: String
-    var price: Float
-    var image: UIImage
+struct ZSProductModel: Codable {
+    let id: String
+    let name: String
+    let description: String
+    let image: String
+    let price: Float
+    let discount: Float
+    let hit_sales: Bool
+    let special_offer: Bool
+    let categories: [String]
 }

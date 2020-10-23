@@ -17,13 +17,18 @@ class ZSProfileViewController: ZSBaseViewController {
     
     private let tableViewCellReuseIdentifier = "SettingsTableViewCellReuseIdentifier"
     
-    private let currenUser = UserDefaults.standard.getUser()
+    private var isSignin: Bool {
+        return UserDefaults.standard.isSingin()
+    }
+    private var currenUser: ZSSigninUserModel? {
+        return UserDefaults.standard.getUser()
+    }
     private let settings: [String] = [
         "Язык приложения",
         "Мои адреса и карты",
         "Помощь и связь",
         "Уведомления",
-        "Сменить пароль",
+        "Сменить/восстановить пароль",
         "Выйти"]
     
     //MARK: - GUI variables
@@ -65,6 +70,17 @@ class ZSProfileViewController: ZSBaseViewController {
         return label
     }()
 
+    private lazy var signInButton: UIButton = {
+        var button = UIButton(type: .system)
+        button.setTitle("Войти в профиль", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.isHidden = true
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(self.signinButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private lazy var tableView: UITableView = {
         var tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
@@ -99,7 +115,7 @@ class ZSProfileViewController: ZSBaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.setupViews()
+        self.setupViewWithSingin()
     }
     
     //MARK: - Constraints
@@ -112,6 +128,10 @@ class ZSProfileViewController: ZSBaseViewController {
             make.top.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
             make.size.equalTo(80)
+        }
+        self.signInButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.profileImageView.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
         }
         self.profileNameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.profileImageView.snp.bottom).offset(10)
@@ -129,6 +149,12 @@ class ZSProfileViewController: ZSBaseViewController {
         }
     }
     
+    //MARK: - Actions
+    
+    @objc private func signinButtonTapped(_ sener: UIButton) {
+        AppDelegate.shared.rootViewController.switchToLoginScreen()
+    }
+    
     //MARK: - Setters
     
     private func addSubviews() {
@@ -137,13 +163,57 @@ class ZSProfileViewController: ZSBaseViewController {
         self.topContainerView.addSubview(self.profileImageView)
         self.topContainerView.addSubview(self.profileNameLabel)
         self.topContainerView.addSubview(self.profileEmailLabel)
+        self.topContainerView.addSubview(self.signInButton)
     }
     
-    private func setupViews() {
-        if let user = self.currenUser {
-            self.profileNameLabel.text = user.firstname + " " + user.lastname
-            self.profileEmailLabel.text = user.email
+    private func setupViewWithSingin() {
+        if self.isSignin {
+            self.signInButton.isHidden = true
+            self.signInButton.isEnabled = false
+            self.profileNameLabel.isHidden = false
+            self.profileEmailLabel.isHidden = false
+            if let user = self.currenUser {
+                self.profileNameLabel.text = user.firstname + " " + user.lastname
+                self.profileEmailLabel.text = user.email
+            }
+        } else {
+            self.signInButton.isHidden = false
+            self.signInButton.isEnabled = true
+            self.profileNameLabel.isHidden = true
+            self.profileEmailLabel.isHidden = true
         }
+    }
+    
+    //MARK: - Helpers
+    
+    private func logoutUser() {
+        let alert = UIAlertController(title: "Выход из профиля", message: "Вы уверены, что хотите выйти из профиля?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { [weak self] (action) in
+            self?.loadingAlert()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(2)) {
+                UserDefaults.standard.setLogoutUser()
+                self?.setupViewWithSingin()
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func showResetPasswordScreeen() {
+        let resetVC = ZSResetPasswordViewController()
+        let navigVC = UINavigationController(rootViewController: resetVC)
+        navigVC.modalPresentationStyle = .fullScreen
+        navigVC.navigationItem.backBarButtonItem =
+            UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigVC.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
+        navigVC.navigationBar.shadowImage = UIImage()
+        navigVC.navigationBar.isTranslucent = false
+        resetVC.dismissHandler = { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
+        self.present(navigVC, animated: true, completion: nil)
     }
     
 }
@@ -189,7 +259,6 @@ extension ZSProfileViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
@@ -206,7 +275,11 @@ extension ZSProfileViewController: UITableViewDelegate, UITableViewDataSource {
             }
             break
         case 1:
-            //show addresses and cards screen
+            if self.isSignin {
+                self.alertError(message: "Сначала авторизуйтесь")
+            } else {
+                //show addresses and cards screen
+            }
             break
         case 2:
             //some link
@@ -215,10 +288,10 @@ extension ZSProfileViewController: UITableViewDelegate, UITableViewDataSource {
             self.notificationsSwitch.setOn(!self.notificationsSwitch.isOn, animated: true)
             break
         case 4:
-            //show reset password screen
+            self.showResetPasswordScreeen()
             break
         case 5:
-            //logout current user
+            self.logoutUser()
             break
         default:
             break

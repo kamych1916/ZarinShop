@@ -48,7 +48,7 @@ class ZSCheckoutAddressView: UIView {
     private lazy var deliveryTypeDropButton: UIButton = {
         var button = UIButton()
         var image = UIImage(named: "dropdown")
-        image = image?.imageWithColor(color: AppColors.textDarkColor.color())
+        image = image?.with(color: AppColors.textDarkColor.color())
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -75,7 +75,7 @@ class ZSCheckoutAddressView: UIView {
     private lazy var addAddressButton: UIButton = {
         var button = UIButton()
         var image = UIImage(named: "plus")
-        image = image?.imageWithColor(color: AppColors.textDarkColor.color())
+        image = image?.with(color: AppColors.textDarkColor.color())
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(self.addAddressButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

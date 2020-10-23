@@ -44,7 +44,7 @@ class ZSNetwork {
         
         let fullPath = self.baseURL + url
         guard let url = URL(string: fullPath) else { return }
-    
+        print(fullPath)
         Alamofire.request(
             url, method: method,
             parameters: parameters,

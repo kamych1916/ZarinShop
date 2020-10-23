@@ -92,11 +92,11 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    func initCell(image: UIImage?, title: String, price: Float) {
-        self.bigImageView.image = image
-        self.titleLabel.text = title
-        self.descriptionLabel.text = String(format: "%0.2f", price) + " сум"
+    
+    func initCell(with model: ZSProductModel) {
+        self.titleLabel.text = model.name
+        self.descriptionLabel.text = String(format: "%0.2f", model.price) + " сум"
+        self.loadImage(from: model.image)
         
         self.setNeedsUpdateConstraints()
     }
@@ -141,8 +141,21 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
             self.favoriteImageView.alpha = 1
             self.favoriteImageView.image = UIImage(named: "favoriteHighlighted")
         }
-        //let randomInt = Int.random(in: 1...10)
-        //NotificationCenter.default.post(name: .favoritesValueChanged, object: nil, userInfo: ["favoritesCount": randomInt])
         NotificationCenter.default.post(name: .favoritesValueChanged, object: nil)
+    }
+    
+    // MARK: - Helpers
+    
+    private func loadImage(from url: String) {
+        guard let imageURL = URL(string: (url)) else { return }
+        self.bigImageView.kf.indicatorType = .activity
+        self.bigImageView.kf.setImage(
+            with: imageURL,
+            placeholder: .none,
+            options: [
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+        ])
     }
 }

@@ -55,18 +55,6 @@ class RootViewController: UIViewController {
     
     // MARK: - helpers
     
-    func showLoginScreen() {
-        /*let new = UINavigationController(rootViewController: AuthorizationViewController())
-        self.addChild(new)
-        new.view.frame = view.bounds
-        self.view.addSubview(new.view)
-        new.didMove(toParent: self)
-        self.current.willMove(toParent: nil)
-        self.current.view.removeFromSuperview()
-        self.current.removeFromParent()
-        self.current = new*/
-    }
-    
     func switchToMainScreen() {
         let contentVC = UINavigationController(rootViewController: ZSMainViewController())
         let menuVC = ZSSideMenuViewController()
@@ -75,7 +63,7 @@ class RootViewController: UIViewController {
         self.animateFadeTransition(to: sideMenuVC)
     }
     
-    func switchToLogout() {
+    func switchToLoginScreen() {
         let loginVC = ZSAuthorizationViewController()
         self.animateDismissTransition(to: loginVC)
     }

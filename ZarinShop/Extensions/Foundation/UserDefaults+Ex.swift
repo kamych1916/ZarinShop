@@ -19,7 +19,7 @@ extension UserDefaults {
         synchronize()
     }
     
-    func setLogutUser() {
+    func setLogoutUser() {
         set(false, forKey: "isSingin")
         removeObject(forKey: "signinUserModel")
         synchronize()

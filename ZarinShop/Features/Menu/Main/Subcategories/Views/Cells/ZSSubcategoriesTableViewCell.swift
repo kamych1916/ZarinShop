@@ -1,17 +1,17 @@
 //
-//  ZSMainTableViewCell.swift
+//  ZSSubcategoriesTableViewCell.swift
 //  ZarinShop
 //
-//  Created by Murad Ibrohimov on 10/1/20.
+//  Created by Humo Programmer  on 10/20/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 
 import UIKit
 import Kingfisher
 
-class ZSMainTableViewCell: UITableViewCell {
+class ZSSubcategoriesTableViewCell: UITableViewCell {
     
-    static let identifier = "ZSMainTableViewCell"
+    static let identifier = "ZSSubcategoriesTableViewCell"
     
     // MARK: - Private Variables
     
@@ -20,11 +20,15 @@ class ZSMainTableViewCell: UITableViewCell {
     private lazy var containerView: UIView = {
         var view = UIView()
         view.layer.cornerRadius = 20
-        view.layer.shadowOpacity = 0.3
-        view.layer.shadowOffset = CGSize(width: 0, height: 3)
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowRadius = 5
-        view.layer.masksToBounds = false
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var darkOverView: UIView = {
+        var view = UIView()
+        view.backgroundColor = .black
+        view.alpha = 0.3
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -51,9 +55,9 @@ class ZSMainTableViewCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 26, weight: .semibold)
-        label.textColor = AppColors.textGoldColor.color()
-        label.textAlignment = .left
-        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.textColor = AppColors.mainLightColor.color()
+        label.textAlignment = .center
+        label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -61,9 +65,10 @@ class ZSMainTableViewCell: UITableViewCell {
     private lazy var countLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .regular)
-        label.textColor = AppColors.textDarkColor.color()
-        label.textAlignment = .right
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        label.textColor = AppColors.mainLightColor.color()
+        label.textAlignment = .center
+        label.isHidden = true
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -83,10 +88,9 @@ class ZSMainTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func initCell(with model: ZSCategoriesModel) {
-        self.countLabel.text = "\(model.kol)"
+    func initCell(with model: ZSSubcategoriesModel) {
         self.titleLabel.text = model.name
-        self.loadImage(from: model.image_url)
+        //self.loadImage(from: model.image_url)
         
         self.setNeedsUpdateConstraints()
     }
@@ -96,24 +100,21 @@ class ZSMainTableViewCell: UITableViewCell {
     override func updateConstraints() {
         
         self.containerView.snp.updateConstraints { (make) in
-            make.edges.equalToSuperview().inset(20)
+            make.top.bottom.equalToSuperview().inset(10)
+            make.left.right.equalToSuperview().inset(20)
+        }
+        self.darkOverView.snp.updateConstraints { (make) in
+            make.edges.equalToSuperview()
         }
         self.bigImageView.snp.updateConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        self.titleView.snp.updateConstraints { (make) in
-            make.left.right.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(10)
-            make.height.equalTo(80)
-        }
         self.titleLabel.snp.updateConstraints { (make) in
-            make.left.equalToSuperview().inset(20)
-            make.centerY.equalToSuperview()
+            make.center.equalToSuperview()
         }
         self.countLabel.snp.updateConstraints { (make) in
-            make.left.equalTo(self.titleLabel.snp.right).offset(5)
-            make.right.equalToSuperview().inset(20)
-            make.centerY.equalToSuperview()
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
         }
         super.updateConstraints()
     }
@@ -122,10 +123,10 @@ class ZSMainTableViewCell: UITableViewCell {
     
     private func addSubviews() {
         self.contentView.addSubview(self.containerView)
-        self.containerView.addSubview(self.bigImageView)
-        self.containerView.addSubview(self.titleView)
-        self.titleView.addSubview(self.titleLabel)
-        self.titleView.addSubview(self.countLabel)
+        self.containerView.insertSubview(self.bigImageView, at: 0)
+        self.containerView.insertSubview(self.darkOverView, at: 1)
+        self.containerView.insertSubview(self.titleLabel, at: 2)
+        self.containerView.insertSubview(self.countLabel, at: 3)
     }
     
     // MARK: - Helpers

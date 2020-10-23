@@ -14,10 +14,10 @@ struct ZSCheckoutTabItem {
     let tintColor: UIColor
     let image: UIImage
     var normalImage: UIImage {
-        return self.image.imageWithColor(color: AppColors.mainColor.color())
+        return self.image.with(color: AppColors.mainColor.color())
     }
     var highlightedImage: UIImage {
-        return self.image.imageWithColor(color: .white)
+        return self.image.with(color: .white)
     }
     
 }

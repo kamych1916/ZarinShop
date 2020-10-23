@@ -66,6 +66,9 @@
 		8443D9922539B9FC008AAC88 /* ZSCheckoutAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443D9912539B9FC008AAC88 /* ZSCheckoutAddressView.swift */; };
 		8443D9952539BE34008AAC88 /* ZSCheckoutPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443D9942539BE34008AAC88 /* ZSCheckoutPaymentView.swift */; };
 		8443D99A2539D697008AAC88 /* ZSAddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443D9992539D697008AAC88 /* ZSAddCardViewController.swift */; };
+		8443DA1B253EFD69008AAC88 /* ZSSubcategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443DA1A253EFD69008AAC88 /* ZSSubcategoriesViewController.swift */; };
+		8443DA20253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443DA1F253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift */; };
+		8443DA6F25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443DA6E25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift */; };
 		844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */; };
 		844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97D02530819C00619BE3 /* UIViewController+Ex.swift */; };
 		84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */; };
@@ -135,6 +138,9 @@
 		8443D9912539B9FC008AAC88 /* ZSCheckoutAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutAddressView.swift; sourceTree = "<group>"; };
 		8443D9942539BE34008AAC88 /* ZSCheckoutPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutPaymentView.swift; sourceTree = "<group>"; };
 		8443D9992539D697008AAC88 /* ZSAddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSAddCardViewController.swift; sourceTree = "<group>"; };
+		8443DA1A253EFD69008AAC88 /* ZSSubcategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSubcategoriesViewController.swift; sourceTree = "<group>"; };
+		8443DA1F253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSubcategoriesTableViewCell.swift; sourceTree = "<group>"; };
+		8443DA6E25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSubcategoriesHeaderView.swift; sourceTree = "<group>"; };
 		844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutTabItem.swift; sourceTree = "<group>"; };
 		844A97D02530819C00619BE3 /* UIViewController+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ex.swift"; sourceTree = "<group>"; };
 		84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Ex.swift"; sourceTree = "<group>"; };
@@ -518,6 +524,7 @@
 			isa = PBXGroup;
 			children = (
 				20B2DFBE2526D9510089BC55 /* Categories */,
+				8443DA18253EFD3E008AAC88 /* Subcategories */,
 				20B2DFBF2526D9C30089BC55 /* Products */,
 				203FD5422531D0F500F57432 /* ProductDetail */,
 			);
@@ -776,6 +783,40 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		8443DA18253EFD3E008AAC88 /* Subcategories */ = {
+			isa = PBXGroup;
+			children = (
+				8443DA1D253EFD82008AAC88 /* Views */,
+				8443DA19253EFD4E008AAC88 /* Controllers */,
+			);
+			path = Subcategories;
+			sourceTree = "<group>";
+		};
+		8443DA19253EFD4E008AAC88 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8443DA1A253EFD69008AAC88 /* ZSSubcategoriesViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		8443DA1D253EFD82008AAC88 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8443DA6E25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift */,
+				8443DA1E253EFD90008AAC88 /* Cells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8443DA1E253EFD90008AAC88 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8443DA1F253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		844A97CF2530818000619BE3 /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -933,8 +974,10 @@
 				2057B8B32525894E007D8D05 /* RootViewController.swift in Sources */,
 				2057B8BA25258E01007D8D05 /* ZSSideMenuViewController.swift in Sources */,
 				2057B8DC252591FC007D8D05 /* ZSProfileViewController.swift in Sources */,
+				8443DA1B253EFD69008AAC88 /* ZSSubcategoriesViewController.swift in Sources */,
 				20242AAF252A3E4100886949 /* Templates.swift in Sources */,
 				203FD5412531CA6500F57432 /* ZSErrorModel.swift in Sources */,
+				8443DA6F25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift in Sources */,
 				20B2DFC72526E4600089BC55 /* ZSGategoriesCollectionViewCell.swift in Sources */,
 				20B9A89F2532F72B00E2EF71 /* ZSResetPasswordViewController.swift in Sources */,
 				2041103B252AD7C00081A562 /* ZSCartTableViewCell.swift in Sources */,
@@ -945,6 +988,7 @@
 				8443D99A2539D697008AAC88 /* ZSAddCardViewController.swift in Sources */,
 				203FD53F2531C82A00F57432 /* ZSNetwork.swift in Sources */,
 				2057B8E52525935E007D8D05 /* ZSMainViewController.swift in Sources */,
+				8443DA20253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift in Sources */,
 				8443D9952539BE34008AAC88 /* ZSCheckoutPaymentView.swift in Sources */,
 				203FD5482531D7F900F57432 /* ZSURLPath.swift in Sources */,
 				840839A5253803A50040EC63 /* ZSProductDetailTitleView.swift in Sources */,

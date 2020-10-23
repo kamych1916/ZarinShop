@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class ZSMainViewController: ZSBaseViewController {
     
     // MARK: - Private Variables
@@ -32,7 +30,7 @@ class ZSMainViewController: ZSBaseViewController {
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ZSMainTableViewCell.self,
-                           forCellReuseIdentifier: ZSMainTableViewCell.reuseId)
+                           forCellReuseIdentifier: ZSMainTableViewCell.identifier)
         tableView.tableFooterView = UIView()
         return tableView
     }()
@@ -40,19 +38,19 @@ class ZSMainViewController: ZSBaseViewController {
     
     // MARK: - View life cycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        super.isNeedMenuBarButton = true
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
         self.addSubviews()
         self.makeConstraints()
-        //self.loadCategories()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        super.isNeedMenuBarButton = true
+        self.loadCategories()
     }
     
     // MARK: - Constraints
@@ -97,7 +95,7 @@ extension ZSMainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ZSMainTableViewCell.reuseId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ZSMainTableViewCell.identifier, for: indexPath)
         
         let model = self.data[indexPath.row]
         (cell as? ZSMainTableViewCell)?.initCell(with: model)
@@ -105,7 +103,7 @@ extension ZSMainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = ZSProductsViewController()
+        let controller = ZSSubcategoriesViewController(category: self.data[indexPath.row])
         self.pushVC(controller)
     }
     
