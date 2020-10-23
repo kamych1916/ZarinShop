@@ -3,11 +3,9 @@ import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/ui/widgets/cart_product_card.dart';
 import 'package:Zarin/ui/widgets/cart_product_card_loading.dart';
-import 'package:Zarin/ui/widgets/product_card_loading.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:number_slide_animation/number_slide_animation_widget.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -17,8 +15,13 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
-    productBloc.getCart();
+    cartInit();
     super.initState();
+  }
+
+  cartInit() async {
+    await productBloc.getCart();
+    productBloc.calculateCartTotal();
   }
 
   refresh() => productBloc.getCart();
@@ -168,23 +171,31 @@ class _CartScreenState extends State<CartScreen> {
                       "Итого",
                       style: TextStyle(
                           color: Styles.cartFooterTotalTextColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                          fontSize: 18,
+                          fontFamily: "SegoeUIBold"),
                     ),
-                    StreamBuilder<double>(
-                        stream: productBloc.cartTotalStream,
-                        builder: (context, snapshot) {
-                          print(snapshot.data.floor().toString());
-                          return NumberSlideAnimation(
-                            number: snapshot.data.floor().toString(),
-                            duration: const Duration(seconds: 2),
-                            curve: Curves.bounceIn,
-                            textStyle: TextStyle(
-                                color: Styles.cartFooterTotalTextColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          );
-                        }),
+                    Row(
+                      children: [
+                        StreamBuilder<double>(
+                            stream: productBloc.cartTotalStream,
+                            builder: (context, snapshot) {
+                              return AnimatedCount(
+                                count: snapshot.hasData
+                                    ? snapshot.data.floor()
+                                    : 0,
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.fastOutSlowIn,
+                              );
+                            }),
+                        Text(
+                          " сум",
+                          style: TextStyle(
+                              color: Styles.cartFooterTotalTextColor,
+                              fontSize: 14,
+                              fontFamily: "SegoeUIBold"),
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -194,7 +205,7 @@ class _CartScreenState extends State<CartScreen> {
               Container(
                 width: double.infinity,
                 alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(vertical: 15.0),
+                padding: EdgeInsets.symmetric(vertical: 10.0),
                 decoration: BoxDecoration(
                     color: Styles.mainColor,
                     borderRadius: BorderRadius.circular(25)),
@@ -203,7 +214,7 @@ class _CartScreenState extends State<CartScreen> {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,
-                      fontWeight: FontWeight.w600),
+                      fontFamily: 'SegoeUIBold'),
                 ),
               )
             ]),
@@ -211,5 +222,41 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
     );
+  }
+}
+
+class AnimatedCount extends ImplicitlyAnimatedWidget {
+  final int count;
+
+  AnimatedCount(
+      {Key key,
+      @required this.count,
+      @required Duration duration,
+      Curve curve = Curves.linear})
+      : super(duration: duration, curve: curve, key: key);
+
+  @override
+  ImplicitlyAnimatedWidgetState<ImplicitlyAnimatedWidget> createState() =>
+      _AnimatedCountState();
+}
+
+class _AnimatedCountState extends AnimatedWidgetBaseState<AnimatedCount> {
+  IntTween _count;
+
+  @override
+  Widget build(BuildContext context) {
+    return new Text(
+      _count.evaluate(animation).toString(),
+      style: TextStyle(
+          color: Styles.cartFooterTotalTextColor,
+          fontSize: 18,
+          fontFamily: "SegoeUIBold"),
+    );
+  }
+
+  @override
+  void forEachTween(TweenVisitor visitor) {
+    _count = visitor(
+        _count, widget.count, (dynamic value) => new IntTween(begin: value));
   }
 }

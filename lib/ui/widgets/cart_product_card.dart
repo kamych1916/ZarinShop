@@ -59,8 +59,10 @@ class _CartProductCardState extends State<CartProductCard> {
                             fontFamily: "SegoeUIBold"),
                       ),
                       GestureDetector(
-                        onTap: () =>
-                            productBloc.removeProductFromCart(widget.product),
+                        onTap: () {
+                          productBloc.removeProductFromCart(widget.product);
+                          productBloc.calculateCartTotal();
+                        },
                         child: Container(
                           padding: EdgeInsets.symmetric(
                               vertical: 2.5, horizontal: 5.0),
@@ -132,9 +134,11 @@ class _CartProductCardState extends State<CartProductCard> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             GestureDetector(
+                              behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 if (cartProduct.count > 1) {
                                   setState(() => cartProduct.count--);
+                                  productBloc.calculateCartTotal();
                                   productBloc.saveCartToLocal();
                                 }
                               },
@@ -151,12 +155,14 @@ class _CartProductCardState extends State<CartProductCard> {
                               ),
                             ),
                             GestureDetector(
+                              behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 if (cartProduct.count <
                                     widget.product.maxCount) {
                                   setState(() {
                                     cartProduct.count++;
                                   });
+                                  productBloc.calculateCartTotal();
                                   productBloc.saveCartToLocal();
                                 }
                               },

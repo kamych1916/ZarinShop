@@ -25,23 +25,7 @@ class ProductBloc {
       _categoriesSubject.stream;
   Stream<List<CartProduct>> get cartProductsStream =>
       _cartProductsSubject.stream;
-  Stream<ApiResponse<List<Product>>> get cartStream => _cartSubject.stream
-    ..listen((event) {
-      if (event.status == Status.COMPLETED && event.data.isNotEmpty) {
-        double total = 0;
-
-        for (Product product in event.data) {
-          CartProduct cartProduct =
-              // ignore: unrelated_type_equality_checks
-              cartProducts.firstWhere((element) => element == product);
-
-          total += cartProduct.count * product.price;
-        }
-
-        _cartTotalSubject.sink.add(total);
-      } else
-        _cartTotalSubject.sink.add(0);
-    });
+  Stream<ApiResponse<List<Product>>> get cartStream => _cartSubject.stream;
   Stream<ApiResponse<List<Product>>> get favoritesStream =>
       _favoritesSubject.stream;
   Stream<List<String>> get favoritesIDStream => _favoritesIDSubject.stream;
@@ -185,6 +169,23 @@ class ProductBloc {
       _cartProductsSubject.sink.add(cartProducts);
       saveCartToLocal();
     }
+  }
+
+  calculateCartTotal() async {
+    if (cartProducts.isNotEmpty && cart.isNotEmpty) {
+      double total = 0;
+
+      for (CartProduct cartProduct in cartProducts) {
+        Product product =
+            // ignore: unrelated_type_equality_checks
+            cart.firstWhere((element) => cartProduct == element);
+
+        total += cartProduct.count * product.price;
+      }
+
+      _cartTotalSubject.sink.add(total);
+    } else
+      _cartTotalSubject.sink.add(0);
   }
 
   /// Избранное
