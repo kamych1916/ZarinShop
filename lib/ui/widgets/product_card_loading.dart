@@ -13,14 +13,14 @@ class _ProductCardLoadingState extends State<ProductCardLoading>
 
   @override
   void initState() {
-    super.initState();
     controller =
         AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    animationOpacity = Tween<double>(begin: 0.6, end: 1).animate(controller)
+    animationOpacity = Tween<double>(begin: 0.3, end: 1).animate(controller)
       ..addListener(() {
         setState(() {});
       });
     controller.repeat(reverse: true);
+    super.initState();
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/product.dart';
@@ -15,9 +17,9 @@ class ProductCardFavoriteIcon extends StatefulWidget {
 
 class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
     with SingleTickerProviderStateMixin {
-  bool isFavorite = false;
   AnimationController _animationController;
   Animation _colorTween;
+  StreamSubscription streamSubscription;
 
   @override
   void initState() {
@@ -26,14 +28,19 @@ class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
     _colorTween = ColorTween(begin: Colors.white, end: Colors.red[400])
         .animate(_animationController);
 
-    if (productBloc.favorites.contains(widget.product))
+    if (productBloc.favoritesID.contains(widget.product.id))
       _animationController.forward();
+
+    streamSubscription = productBloc.favoritesIDStream.listen((event) {
+      if (!event.contains(widget.product.id)) _animationController.reset();
+    });
 
     super.initState();
   }
 
   @override
   void dispose() {
+    streamSubscription.cancel();
     _animationController.dispose();
     super.dispose();
   }

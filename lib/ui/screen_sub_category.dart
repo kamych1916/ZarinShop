@@ -27,11 +27,11 @@ class SubCategoryScreen extends StatefulWidget {
 class _SubCategoryScreenState extends State<SubCategoryScreen> {
   @override
   void initState() {
-    productBloc.getProducts(widget.category.id);
+    productBloc.getProductsByCategoryId(widget.category.id, context);
     super.initState();
   }
 
-  refresh() => productBloc.getProducts(widget.category.id);
+  refresh() => productBloc.getProductsByCategoryId(widget.category.id, context);
 
   Widget _error(String message) {
     return Center(
@@ -254,7 +254,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                                   physics: BouncingScrollPhysics(),
                                   shrinkWrap: true,
                                   crossAxisCount: 2,
-                                  children: List.generate(100, (index) {
+                                  children: List.generate(6, (index) {
                                     return ProductCardLoading();
                                   }),
                                 ),

@@ -6,10 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-/// TODO: Написать Диме. По поводу сортировки по умолчанию ORDER BY или на клиенте. Новый get за товарами со списком id
-/// Камолу: нужно ли сбрасывать сессию для юзера?
-/// Номер телефона
-
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Styles.backgroundColor,

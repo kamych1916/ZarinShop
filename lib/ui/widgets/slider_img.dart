@@ -84,8 +84,8 @@ class _DotState extends State<Dot> {
       height: dotSize,
       margin: EdgeInsets.all(5.0),
       decoration: ShapeDecoration(
-        color: Colors.white,
-        shape: CircleBorder(),
+        color: Colors.grey,
+        shape: CircleBorder(side: BorderSide(color: Colors.white, width: 0.6)),
       ),
     );
   }

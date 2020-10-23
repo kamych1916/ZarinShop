@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:Zarin/blocs/product_bloc.dart';
+import 'package:Zarin/models/product.dart';
 import 'package:Zarin/ui/widgets/cart_icon.dart';
 import 'package:Zarin/ui/widgets/favorite_icon.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -9,6 +11,10 @@ import 'package:Zarin/ui/widgets/slider_img.dart' as Zarin;
 import 'package:rxdart/rxdart.dart';
 
 class ProductInfo extends StatefulWidget {
+  final Product product;
+
+  const ProductInfo(this.product, {Key key}) : super(key: key);
+
   @override
   _ProductInfoState createState() => _ProductInfoState();
 }
@@ -17,15 +23,21 @@ class _ProductInfoState extends State<ProductInfo> {
   final GlobalKey _cartKey = GlobalKey();
   final GlobalKey _buttonKey = GlobalKey();
 
-  final PublishSubject<List<dynamic>> addToCartOffsetsStream = PublishSubject();
-  final PublishSubject<bool> startAnimationStream = PublishSubject();
+  final PublishSubject<List<dynamic>> addToCartOffsetsSubject =
+      PublishSubject();
+  final PublishSubject<bool> startDotAnimationSubject = PublishSubject();
+  final BehaviorSubject<int> countSubject = BehaviorSubject();
 
   Offset cartPosition;
   Offset buttonPosition;
 
+  int initCount = 1;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      countSubject.sink.add(initCount);
+
       final RenderBox renderBoxCart =
           _cartKey.currentContext.findRenderObject();
       cartPosition = renderBoxCart.localToGlobal(Offset.zero);
@@ -33,19 +45,25 @@ class _ProductInfoState extends State<ProductInfo> {
           _buttonKey.currentContext.findRenderObject();
       buttonPosition = renderBoxButton.localToGlobal(Offset.zero);
 
-      addToCartOffsetsStream.sink.add([buttonPosition, cartPosition]);
+      addToCartOffsetsSubject.sink.add([buttonPosition, cartPosition]);
     });
     super.initState();
   }
 
   @override
   void dispose() {
-    addToCartOffsetsStream.close();
-    startAnimationStream.close();
+    addToCartOffsetsSubject.close();
+    startDotAnimationSubject.close();
+    countSubject.close();
     super.dispose();
   }
 
-  callback() => startAnimationStream.sink.add(true);
+  buttonCallback() => startDotAnimationSubject.sink.add(true);
+
+  counterCallback(int count) => countSubject.sink.add(count);
+
+  addToCartCallback() =>
+      productBloc.addProductToCart(widget.product, countSubject.value);
 
   @override
   Widget build(BuildContext context) {
@@ -79,29 +97,102 @@ class _ProductInfoState extends State<ProductInfo> {
               ],
             ),
           ),
-          body: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height / 1.7,
-                child: Zarin.Slider(
-                  children: List.generate(
-                      5,
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height / 1.8,
+                  margin: EdgeInsets.only(top: 10.0),
+                  child: Zarin.Slider(
+                    children: List.generate(
+                      4,
                       (index) => Container(
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                            ),
-                            child: Center(
-                              child: Text(index.toString()),
-                            ),
-                          )),
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                fit: BoxFit.contain,
+                                image: widget.product.image)),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              AddToCartButton(_buttonKey, callback)
-            ],
+                Container(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      children: [
+                        Text(
+                          (widget.product.price -
+                                      widget.product.price *
+                                          (widget.product.discount / 100))
+                                  .floor()
+                                  .toString() +
+                              " сум",
+                          style: TextStyle(
+                              fontFamily: "SegoeUIBold", fontSize: 20),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.0),
+                        ),
+                        Text(
+                          (widget.product.price).floor().toString() + " сум",
+                          style: TextStyle(
+                              fontFamily: "SegoeUI",
+                              fontSize: 14,
+                              color: Colors.red[300],
+                              decoration: TextDecoration.lineThrough),
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        Counter(widget.product.maxCount, counterCallback)
+                      ],
+                    )),
+                Container(
+                  margin:
+                      EdgeInsets.only(left: 20.0, right: 20.0, bottom: 80.0),
+                  width: double.infinity,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SelectableText(
+                        widget.product.name,
+                        style: TextStyle(
+                            height: 0.9,
+                            color: Styles.textColor,
+                            fontFamily: "SegoeUIBold",
+                            fontSize: 20),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.0),
+                      ),
+                      SelectableText(
+                        widget.product.description,
+                        style: TextStyle(
+                            fontSize: 13, fontFamily: "SegoeUISemiBold"),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-        AddToCartDot(addToCartOffsetsStream, startAnimationStream),
+        AddToCartButton(_buttonKey, buttonCallback, countSubject),
+        AddToCartDot(addToCartOffsetsSubject, startDotAnimationSubject,
+            countSubject, addToCartCallback),
       ],
     );
   }
@@ -110,8 +201,10 @@ class _ProductInfoState extends State<ProductInfo> {
 class AddToCartButton extends StatefulWidget {
   final GlobalKey buttonKey;
   final Function callback;
+  final BehaviorSubject<int> countSubject;
 
-  AddToCartButton(this.buttonKey, this.callback, {Key key}) : super(key: key);
+  AddToCartButton(this.buttonKey, this.callback, this.countSubject, {Key key})
+      : super(key: key);
 
   @override
   _AddToCartButtonState createState() => _AddToCartButtonState();
@@ -119,9 +212,17 @@ class AddToCartButton extends StatefulWidget {
 
 class _AddToCartButtonState extends State<AddToCartButton> {
   bool isCollapsed = false;
-  bool buttonToDot = false;
   bool isAnimationStop = true;
   bool isGesureAllowed = true;
+  int count;
+
+  StreamSubscription streamSubscription;
+
+  @override
+  void initState() {
+    streamSubscription = widget.countSubject.listen((value) => count = value);
+    super.initState();
+  }
 
   @override
   void setState(func) {
@@ -131,63 +232,87 @@ class _AddToCartButtonState extends State<AddToCartButton> {
   }
 
   @override
+  void dispose() {
+    streamSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.deferToChild,
-      onTap: () async {
-        if (!isGesureAllowed) return;
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: GestureDetector(
+        behavior: HitTestBehavior.deferToChild,
+        onTap: () async {
+          if (!isGesureAllowed) return;
 
-        setState(() {
-          isCollapsed = true;
-          isAnimationStop = false;
-          isGesureAllowed = false;
-        });
+          setState(() {
+            isCollapsed = true;
+            isAnimationStop = false;
+            isGesureAllowed = false;
+          });
 
-        await Future.delayed(Duration(milliseconds: 800));
+          await Future.delayed(Duration(milliseconds: 800));
 
-        //setState(() => buttonToDot = false);
+          widget.callback();
+          setState(() => isCollapsed = false);
 
-        widget.callback();
-        setState(() => isCollapsed = false);
+          await Future.delayed(Duration(milliseconds: 500));
+          setState(() => isAnimationStop = true);
 
-        await Future.delayed(Duration(milliseconds: 500));
-        setState(() => isAnimationStop = true);
-
-        await Future.delayed(Duration(milliseconds: 500));
-        setState(() => isGesureAllowed = true);
-      },
-      child: AnimatedContainer(
-        key: widget.buttonKey,
-        duration: Duration(milliseconds: 500),
-        width: isCollapsed ? 18 : MediaQuery.of(context).size.width - 100,
-        height: isCollapsed ? 18 : 40,
-        alignment: Alignment.center,
-        margin: EdgeInsets.only(
-            top: isCollapsed ? 60 : 50, left: 50, bottom: 50, right: 50),
-        decoration: isCollapsed
-            ? ShapeDecoration(
-                shape: CircleBorder(),
-                color: Colors.deepPurple,
-                shadows: Styles.cardShadows)
-            : BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.deepPurple,
-                boxShadow: Styles.cardShadows),
-        child: isCollapsed
-            ? null
-            : isAnimationStop
-                ? Text("В корзину", style: TextStyle(color: Colors.white))
-                : null,
+          await Future.delayed(Duration(milliseconds: 500));
+          setState(() => isGesureAllowed = true);
+        },
+        child: AnimatedContainer(
+          key: widget.buttonKey,
+          duration: Duration(milliseconds: 500),
+          width: isCollapsed ? 18 : MediaQuery.of(context).size.width - 100,
+          height: isCollapsed ? 18 : 40,
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(left: 50, bottom: 10, right: 50),
+          decoration: isCollapsed
+              ? ShapeDecoration(
+                  shape: CircleBorder(),
+                  color: Colors.deepPurple,
+                  shadows: Styles.cardShadows)
+              : BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.deepPurple,
+                  boxShadow: Styles.cardShadows),
+          child: isCollapsed
+              ? Padding(
+                  padding: EdgeInsets.only(
+                      top: 1.5, bottom: 3.0, left: 3.0, right: 3.0),
+                  child: Text(count.toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          decoration: TextDecoration.none,
+                          fontSize: 10,
+                          fontFamily: "SegoeUI")),
+                )
+              : isAnimationStop
+                  ? Text("В корзину",
+                      style: TextStyle(
+                          color: Colors.white,
+                          decoration: TextDecoration.none,
+                          fontSize: 16,
+                          fontFamily: "SegoeUI"))
+                  : null,
+        ),
       ),
     );
   }
 }
 
 class AddToCartDot extends StatefulWidget {
-  final PublishSubject<List<dynamic>> offsetsStream;
-  final PublishSubject<bool> startAnimationStream;
+  final PublishSubject<List<dynamic>> addToCartOffsetsSubject;
+  final PublishSubject<bool> startDotAnimationSubject;
+  final BehaviorSubject<int> countSubject;
+  final Function callback;
 
-  const AddToCartDot(this.offsetsStream, this.startAnimationStream, {Key key})
+  const AddToCartDot(this.addToCartOffsetsSubject,
+      this.startDotAnimationSubject, this.countSubject, this.callback,
+      {Key key})
       : super(key: key);
 
   @override
@@ -199,6 +324,9 @@ class _AddToCartDotState extends State<AddToCartDot>
   Offset cartPosition;
   Offset buttonPosition;
   Path path;
+  int count;
+
+  StreamSubscription streamSubscription;
 
   AnimationController _controller;
   Animation _animation;
@@ -207,14 +335,16 @@ class _AddToCartDotState extends State<AddToCartDot>
 
   @override
   void initState() {
-    widget.offsetsStream.listen((value) {
+    widget.addToCartOffsetsSubject.listen((value) {
       buttonPosition = value[0];
       cartPosition = value[1];
       path = drawPath();
       setState(() {});
     });
 
-    widget.startAnimationStream.listen((value) => setState((() {
+    streamSubscription = widget.countSubject.listen((value) => count = value);
+
+    widget.startDotAnimationSubject.listen((value) => setState((() {
           animate = value;
           _controller.forward();
         })));
@@ -229,6 +359,7 @@ class _AddToCartDotState extends State<AddToCartDot>
 
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
+        widget.callback();
         setState(() {
           animate = false;
           _controller.reverse();
@@ -241,7 +372,7 @@ class _AddToCartDotState extends State<AddToCartDot>
   Path drawPath() {
     Size size = MediaQuery.of(context).size;
     Path path = Path();
-    path.moveTo(size.width / 2 - 9, buttonPosition.dy + 50 - 2);
+    path.moveTo(size.width / 2 - 9, buttonPosition.dy + 10 - 2);
     path.quadraticBezierTo(
         size.width, 100, cartPosition.dx - 2, cartPosition.dy - 2);
     return path;
@@ -258,6 +389,7 @@ class _AddToCartDotState extends State<AddToCartDot>
   @override
   void dispose() {
     _controller.dispose();
+    streamSubscription.cancel();
     super.dispose();
   }
 
@@ -266,15 +398,6 @@ class _AddToCartDotState extends State<AddToCartDot>
     return buttonPosition == null
         ? Container()
         : Positioned(
-            // onEnd: () {
-            //   setState(() => animate = false);
-            // },
-            // curve: Curves.easeInOut,
-            //duration: Duration(seconds: 1),
-            // left: animate
-            //     ? cartPosition.dx - 2
-            //     : MediaQuery.of(context).size.width / 2 - 9,
-            // top: animate ? cartPosition.dy - 2 : buttonPosition.dy + 50 - 2,
             top: calculate(_animation.value).dy,
             left: calculate(_animation.value).dx,
             child: IgnorePointer(
@@ -291,7 +414,7 @@ class _AddToCartDotState extends State<AddToCartDot>
                   padding: EdgeInsets.only(
                       top: 3.5, bottom: 3.0, left: 3.0, right: 3.0),
                   child: Text(
-                    "1",
+                    count.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 10,
@@ -305,5 +428,65 @@ class _AddToCartDotState extends State<AddToCartDot>
               ),
             ),
           );
+  }
+}
+
+class Counter extends StatefulWidget {
+  final int maxCount;
+  final Function(int) callback;
+
+  const Counter(this.maxCount, this.callback, {Key key}) : super(key: key);
+
+  @override
+  _CounterState createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  int current = 1;
+  int productMaxCount = 5;
+
+  @override
+  void initState() {
+    productMaxCount = widget.maxCount ?? 1;
+    super.initState();
+  }
+
+  @override
+  void setState(func) {
+    super.setState(func);
+    widget.callback(current);
+  }
+
+  increment() => current < productMaxCount ? setState(() => current++) : null;
+  decrement() => current > 1 ? setState(() => current--) : null;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => decrement(),
+          child: Text("-",
+              style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16)),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+        ),
+        Text(
+          current.toString(),
+          style: TextStyle(fontFamily: "SegoeUIBold", fontSize: 18),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+        ),
+        GestureDetector(
+          onTap: () => increment(),
+          child: Text(
+            "+",
+            style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16),
+          ),
+        )
+      ],
+    );
   }
 }

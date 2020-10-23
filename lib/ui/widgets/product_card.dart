@@ -15,7 +15,7 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => Navigator.of(context).push(FadePageRoute(
-        builder: (context) => ProductInfo(),
+        builder: (context) => ProductInfo(product),
       )),
       child: Container(
         padding: EdgeInsets.all(5),
@@ -27,7 +27,8 @@ class ProductCard extends StatelessWidget {
                 Container(
                   height: MediaQuery.of(context).size.height / 3 - 15.0,
                   decoration: BoxDecoration(
-                      color: Styles.mainColor,
+                      image: DecorationImage(
+                          fit: BoxFit.cover, image: product.image),
                       borderRadius: BorderRadius.circular(25),
                       boxShadow: Styles.cardShadows),
                 ),
@@ -40,7 +41,7 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(product.name + " asdasd asdas sd sadas sd asdasd",
+                  Text(product.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

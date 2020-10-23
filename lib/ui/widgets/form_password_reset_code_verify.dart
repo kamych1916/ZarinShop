@@ -113,6 +113,7 @@ class _PasswordResetCodeVerifyState extends State<PasswordResetCodeVerify> {
                     SizedBox(
                       height: 60,
                       child: TextFormField(
+                        obscureText: true,
                         cursorColor: Colors.black54,
                         keyboardType: TextInputType.visiblePassword,
                         textAlign: TextAlign.center,

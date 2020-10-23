@@ -157,17 +157,47 @@ class UserBloc {
     this.responseAwait;
     ApiResponse<bool> response =
         await _userApiProvider.checkPasswordResetCode(code, email, password);
+
+    if (response.data == true && response.status == Status.COMPLETED) {
+      _passwordSubject.sink.add(password);
+      saveUser();
+    }
+
     this.responseDone;
     return response;
   }
 
   logout() {
     auth = false;
+    appBloc.prefs.setBool("auth", auth);
   }
 
-  saveUser() {}
+  saveUser() {
+    appBloc.prefs.setBool("auth", auth);
+    appBloc.storage.write(key: "email", value: email);
+    appBloc.storage.write(key: "password", value: password);
+  }
 
-  bool getUser() {
+  Future<bool> getUser() async {
+    bool auth = appBloc.prefs.getBool("auth");
+    if (auth == null || !auth) return false;
+
+    String email = await appBloc.storage.read(key: "email");
+    String password = await appBloc.storage.read(key: "password");
+
+    ApiResponse<dynamic> response =
+        await _userApiProvider.signIn(email, password);
+
+    if (response.data is Map && response.status == Status.COMPLETED) {
+      this.auth = true;
+      userID = response.data["id"];
+      firstName = response.data["first_name"];
+      lastName = response.data["last_name"];
+
+      _emailSubject.sink.add(response.data["email"]);
+      return true;
+    }
+
     return false;
   }
 }

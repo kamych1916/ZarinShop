@@ -33,7 +33,6 @@ class PersonalScreen extends StatelessWidget {
               child: Row(
                 children: [
                   FavoriteIcon(),
-                  Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
                   CartIcon(),
                 ],
               ),

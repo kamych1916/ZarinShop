@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
-import 'package:Zarin/ui/screen_cart.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
+import '../screen_favorites.dart';
+
 class FavoriteIcon extends StatefulWidget {
+  const FavoriteIcon({Key key}) : super(key: key);
+
   @override
   _FavoriteIconState createState() => _FavoriteIconState();
 }
@@ -18,7 +21,7 @@ class _FavoriteIconState extends State<FavoriteIcon> {
 
   @override
   void initState() {
-    streamSubscription = productBloc.favoritesStream.listen((event) {
+    streamSubscription = productBloc.favoritesIDStream.listen((event) {
       if (event.length <= 99)
         setState(() {
           count = event.length;
@@ -40,9 +43,11 @@ class _FavoriteIconState extends State<FavoriteIcon> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.of(context).push(FadePageRoute(
-              builder: (context) => CartScreen(),
-            )),
+        onTap: () {
+          Navigator.of(context).push(FadePageRoute(
+            builder: (context) => FavoritesScreen(),
+          ));
+        },
         child: Container(
           width: 50,
           child: Stack(
