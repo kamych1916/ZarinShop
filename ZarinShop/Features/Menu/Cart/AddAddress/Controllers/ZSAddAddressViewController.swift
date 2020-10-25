@@ -36,6 +36,7 @@ class ZSAddAddressViewController: UIViewController {
         scroll.clipsToBounds = true
         scroll.isScrollEnabled = true
         scroll.isUserInteractionEnabled = true
+        scroll.showsVerticalScrollIndicator = false
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
@@ -81,7 +82,8 @@ class ZSAddAddressViewController: UIViewController {
     
     private func makeConstraints() {
         self.titleLabel.snp.makeConstraints { (make) in
-            make.top.left.right.equalToSuperview().inset(20)
+            make.top.equalTo(self.topLayoutGuide.snp.bottom).offset(20)
+            make.left.right.equalToSuperview().inset(20)
         }
         self.scrollView.snp.makeConstraints { (make) in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
@@ -106,6 +108,7 @@ class ZSAddAddressViewController: UIViewController {
         self.view.addSubview(self.scrollView)
         self.view.addSubview(self.doneButton)
         self.scrollView.addSubview(self.mainView)
+        self.navigationItem.leftBarButtonItem = self.dismissButton
     }
     
     //MARK: - Actions
@@ -115,7 +118,7 @@ class ZSAddAddressViewController: UIViewController {
     }
     
     @objc private func doneButtonTapped(_ sender: UIButton) {
-        print("done add cart")
+        print("done add address")
     }
     
 }

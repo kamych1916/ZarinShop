@@ -1,14 +1,14 @@
 //
-//  ZSMainViewController.swift
-//  ZaraShop
+//  ZSFavoritesViewController.swift
+//  ZarinShop
 //
-//  Created by Murad Ibrohimov on 10/1/20.
+//  Created by Murad Ibrohimov on 10/25/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 
 import UIKit
 
-class ZSCartViewController: ZSBaseViewController {
+class ZSFavoritesViewController: ZSBaseViewController {
     
     // MARK: - Public Variables
     
@@ -112,8 +112,7 @@ class ZSCartViewController: ZSBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        super.isNeedMenuBarButton = true
-        super.isNeedCartBarButton = false
+        super.isNeedFavoriteBarButton = false
         
         self.view.backgroundColor = .groupTableViewBackground
         self.navigationItem.title = "Корзина"
@@ -184,7 +183,7 @@ class ZSCartViewController: ZSBaseViewController {
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
 
-extension ZSCartViewController: UITableViewDelegate, UITableViewDataSource {
+extension ZSFavoritesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.data.count

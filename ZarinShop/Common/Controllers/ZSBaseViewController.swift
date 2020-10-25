@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SideMenuSwift
 
 class ZSBaseViewController: UIViewController {
     
@@ -18,6 +19,26 @@ class ZSBaseViewController: UIViewController {
                 self.navigationItem.leftBarButtonItem = self.menuBarButton
             } else {
                 self.navigationItem.leftBarButtonItem = nil
+            }
+        }
+    }
+    
+    var isNeedCartBarButton: Bool = false {
+        willSet {
+            if newValue {
+                self.navigationItem.rightBarButtonItems = [self.cartBarButton, self.favoritesBarButton]
+            } else {
+                self.navigationItem.rightBarButtonItems = [self.favoritesBarButton]
+            }
+        }
+    }
+    
+    var isNeedFavoriteBarButton: Bool = false {
+        willSet {
+            if newValue {
+                self.navigationItem.rightBarButtonItems = [self.cartBarButton, self.favoritesBarButton]
+            } else {
+                self.navigationItem.rightBarButtonItems = [self.cartBarButton]
             }
         }
     }
@@ -89,11 +110,12 @@ class ZSBaseViewController: UIViewController {
     }
     
     private func favoriteBarButtonTapped() {
-        print("favorite tapped")
+        let controller = ZSFavoritesViewController()
+        self.pushVC(controller)
     }
     
     private func cartBarButtonTapped() {
-        print("cart tapped")
+        self.setContentViewController(with: "cartSide")
     }
     
     @objc private func favoritesValueChanged(_ notification: Notification) {
@@ -116,6 +138,13 @@ class ZSBaseViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
     }
     
+    private func setContentViewController(with id: String) {
+        self.sideMenuController?.setContentViewController(with: id, animated: true, completion: nil)
+        self.sideMenuController?.hideMenu()
+    }
+    
+    // MARK: - Helpers
+    
     private func addObservers() {
         NotificationCenter.default.addObserver(
             self, selector: #selector(self.favoritesValueChanged),
@@ -137,8 +166,6 @@ class ZSBaseViewController: UIViewController {
     private func updateFavoritesValue() {
         self.favoritesBarButton.setBadge(with: Values.shared.favoritesCount)
     }
-    
-    // MARK: - Helpers
     
     func pushVC(_ viewController: UIViewController) {
         self.navigationController?.pushViewController(viewController, animated: true)

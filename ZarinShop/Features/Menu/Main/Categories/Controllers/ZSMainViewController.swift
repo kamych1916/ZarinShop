@@ -42,6 +42,7 @@ class ZSMainViewController: ZSBaseViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
+        self.navigationItem.title = "Главная"
         self.addSubviews()
         self.makeConstraints()
     }
@@ -50,7 +51,7 @@ class ZSMainViewController: ZSBaseViewController {
         super.viewWillAppear(animated)
         
         super.isNeedMenuBarButton = true
-        self.loadCategories()
+        //self.loadCategories()
     }
     
     // MARK: - Constraints

@@ -2,7 +2,7 @@
 //  ZSSubcategoriesViewController.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 10/20/20.
+//  Created by Murad Ibrohimov  on 10/20/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 
@@ -57,6 +57,7 @@ class ZSSubcategoriesViewController: ZSBaseViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
+        self.navigationItem.title = self.mainCategory.name
         self.addSubviews()
         self.makeConstraints()
     }

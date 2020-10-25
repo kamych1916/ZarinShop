@@ -163,8 +163,9 @@ class ZSAddAddressView: UIView {
         }
         self.apartmentField.snp.updateConstraints { (make) in
             make.top.equalTo(self.streetField.snp.bottom).offset(20)
+            make.left.lessThanOrEqualTo(self.houseField.snp.right).offset(20)
             make.right.equalToSuperview().inset(20)
-            make.size.equalTo(CGSize(width: 150, height: 60))
+            make.height.equalTo(60)
         }
         self.codeField.snp.updateConstraints { (make) in
             make.top.equalTo(self.houseField.snp.bottom).offset(20)

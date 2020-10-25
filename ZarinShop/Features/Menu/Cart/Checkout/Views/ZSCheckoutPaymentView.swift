@@ -2,11 +2,12 @@
 //  ZSCheckoutPaymentView.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 10/16/20.
+//  Created by Murad Ibrohimov  on 10/16/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 
 import UIKit
+import DropDown
 
 class ZSCheckoutPaymentView: UIView {
     
@@ -24,6 +25,9 @@ class ZSCheckoutPaymentView: UIView {
         view.clipsToBounds = true
         view.layer.cornerRadius = 20
         view.backgroundColor = .white
+        let tap = UITapGestureRecognizer(
+            target: self, action: #selector(self.paymentTypeViewTapped))
+        view.addGestureRecognizer(tap)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -51,7 +55,7 @@ class ZSCheckoutPaymentView: UIView {
         var image = UIImage(named: "dropdown")
         image = image?.with(color: AppColors.textDarkColor.color())
         button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(self.paymentTypeDropButtonTapped), for: .touchUpInside)
+        button.isUserInteractionEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -107,15 +111,14 @@ class ZSCheckoutPaymentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.clipsToBounds = true
-        self.layer.cornerRadius = 20
-        self.backgroundColor = AppColors.mainColor.color()
+        self.setup()
         self.addSubviews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
+        self.setup()
         self.addSubviews()
     }
     
@@ -129,7 +132,7 @@ class ZSCheckoutPaymentView: UIView {
             make.top.left.equalToSuperview().inset(20)
         }
         self.paymentTypeLabel2.snp.updateConstraints { (make) in
-            make.top.equalTo(self.paymentTypeLabel1.snp.bottom)
+            make.top.equalTo(self.paymentTypeLabel1.snp.bottom).offset(10)
             make.left.bottom.equalToSuperview().inset(20)
         }
         self.paymentTypeDropButton.snp.updateConstraints { (make) in
@@ -150,7 +153,7 @@ class ZSCheckoutPaymentView: UIView {
             make.size.equalTo(56)
         }
         self.cardDetailIcon.snp.updateConstraints { (make) in
-            make.top.equalTo(self.cardDetailLabel.snp.bottom).offset(20)
+            make.top.equalTo(self.cardDetailLabel.snp.bottom).offset(10)
             make.left.equalToSuperview().inset(20)
             make.size.equalTo(24)
         }
@@ -164,6 +167,12 @@ class ZSCheckoutPaymentView: UIView {
     }
     
     //MARK: - Setters
+    
+    private func setup() {
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 20
+        self.backgroundColor = AppColors.mainColor.color()
+    }
     
     private func addSubviews() {
         self.addSubview(self.paymentTypeView)
@@ -179,12 +188,21 @@ class ZSCheckoutPaymentView: UIView {
     
     //MARK: - Actions
     
-    @objc private func paymentTypeDropButtonTapped() {
-        self.paymentTypeDropButtonTappedHandler?()
-    }
-    
     @objc private func addCardButtonTapped() {
         self.addCardButtonTappedHandler?()
+    }
+    
+    @objc private func paymentTypeViewTapped() {
+        let dropDown = DropDown()
+        dropDown.dataSource = ["Безналичные (картой)", "Наличные"]
+        dropDown.anchorView = self.paymentTypeView
+        dropDown.textFont = .systemFont(ofSize: 17)
+        dropDown.backgroundColor = .white
+        dropDown.bottomOffset = .init(x: 0, y: self.paymentTypeView.bounds.maxY)
+        dropDown.show()
+        dropDown.selectionAction = { [weak self] (index: Int, item: String) in
+            self?.paymentTypeLabel2.text = item
+        }
     }
     
 }

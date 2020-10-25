@@ -21,6 +21,7 @@ class ZSCheckoutFinalViewController: UIViewController {
         scroll.clipsToBounds = true
         scroll.isScrollEnabled = true
         scroll.isUserInteractionEnabled = true
+        scroll.showsVerticalScrollIndicator = false
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
@@ -34,11 +35,8 @@ class ZSCheckoutFinalViewController: UIViewController {
         return label
     }()
     
-    private lazy var mainView: UIView = {
-        var view = UIView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 20
-        view.backgroundColor = AppColors.mainColor.color()
+    private lazy var mainView: ZSCheckoutFinalView = {
+        var view = ZSCheckoutFinalView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -85,8 +83,7 @@ class ZSCheckoutFinalViewController: UIViewController {
             make.top.equalTo(self.titleLabel.snp.bottom).offset(30)
             make.left.right.equalToSuperview().inset(20)
             make.width.equalTo(self.view.frame.width - 40)
-            make.bottom.lessThanOrEqualToSuperview().inset(20)
-            make.height.equalTo(200)
+            make.bottom.equalToSuperview().inset(80)
         }
         self.doneButton.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview().inset(20)

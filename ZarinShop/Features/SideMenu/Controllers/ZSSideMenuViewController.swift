@@ -140,7 +140,6 @@ class ZSSideMenuViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("ss")
         self.setupViewWithSingin()
     }
     
@@ -201,27 +200,38 @@ class ZSSideMenuViewController: UIViewController {
     }
     
     @objc private func signinButtonTapped(_ sener: UIButton) {
-        AppDelegate.shared.rootViewController.switchToLoginScreen()
-        //let authVC = ZSAuthorizationViewController()
-        //self.present(authVC, animated: true, completion: nil)
+        let authVC = ZSAuthorizationViewController()
+        authVC.modalPresentationStyle = .fullScreen
+        authVC.dismissHandler = { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
+        authVC.loginHandler = { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+            self?.setupViewWithSingin()
+        }
+        self.present(authVC, animated: true, completion: nil)
     }
     
     // MARK: - Setters
     
     private func addSubviews() {
         self.view.addSubview(self.contantView)
+        
         self.contantView.addSubview(self.companyNameLabel)
         self.contantView.addSubview(self.signInButton)
+        
         self.contantView.addSubview(self.userView)
-        self.contantView.addSubview(self.menuView)
-        self.contantView.addSubview(self.footerView)
         self.userView.addSubview(self.userNameLabel)
         self.userView.addSubview(self.userEmailLabel)
+        
+        self.contantView.addSubview(self.menuView)
         self.menuView.addSubview(self.itemsStackView)
         self.itemsStackView.addArrangedSubview(self.mainItem)
         self.itemsStackView.addArrangedSubview(self.profileItem)
         self.itemsStackView.addArrangedSubview(self.orderItem)
         self.itemsStackView.addArrangedSubview(self.cartItem)
+        
+        self.contantView.addSubview(self.footerView)
     }
     
     private func setupSideBar() {

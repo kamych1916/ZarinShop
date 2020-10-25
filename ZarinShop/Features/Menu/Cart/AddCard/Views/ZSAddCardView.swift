@@ -201,12 +201,12 @@ class ZSAddCardView: UIView {
             make.top.equalTo(self.cartCVCField.snp.bottom).offset(20)
             make.left.equalToSuperview().inset(20)
             make.size.equalTo(CGSize(width: 150, height: 60))
-            
         }
         self.cartDateMonthField.snp.updateConstraints { (make) in
             make.top.equalTo(self.cartCVCField.snp.bottom).offset(20)
+            make.left.equalTo(self.cartDateYearField.snp.right).offset(20)
             make.right.bottom.equalToSuperview().inset(20)
-            make.size.equalTo(CGSize(width: 150, height: 60))
+            make.height.equalTo(60)
         }
         super.updateConstraints()
     }

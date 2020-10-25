@@ -55,8 +55,10 @@ class ZSCheckoutViewController: ZSBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         super.isNeedMenuBarButton = false
+        super.isNeedCartBarButton = false
+        
+        self.navigationItem.title = "Заказ"
         self.view.backgroundColor = .groupTableViewBackground
         self.addSubviews()
         self.makeConstraints()

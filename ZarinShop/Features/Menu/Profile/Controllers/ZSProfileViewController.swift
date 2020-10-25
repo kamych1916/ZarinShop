@@ -108,6 +108,7 @@ class ZSProfileViewController: ZSBaseViewController {
         super.isNeedMenuBarButton = true
         
         self.view.backgroundColor = .white
+        self.navigationItem.title = "Личный кабинет"
         self.addSubviews()
         self.makeConstraints()
     }
@@ -152,7 +153,16 @@ class ZSProfileViewController: ZSBaseViewController {
     //MARK: - Actions
     
     @objc private func signinButtonTapped(_ sener: UIButton) {
-        AppDelegate.shared.rootViewController.switchToLoginScreen()
+        let authVC = ZSAuthorizationViewController()
+        authVC.modalPresentationStyle = .fullScreen
+        authVC.dismissHandler = { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
+        authVC.loginHandler = { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+            self?.setupViewWithSingin()
+        }
+        self.present(authVC, animated: true, completion: nil)
     }
     
     //MARK: - Setters

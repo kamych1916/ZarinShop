@@ -10,6 +10,11 @@ import UIKit
 
 class ZSAuthorizationViewController: UIViewController {
     
+    // MARK: - Public Variables
+    
+    var dismissHandler: (() -> Void)?
+    var loginHandler: (() -> Void)?
+    
     // MARK: - Private Variables
     
     private var params: [String: String] = [:]
@@ -184,7 +189,8 @@ class ZSAuthorizationViewController: UIViewController {
     
     private func makeConstraints() {
         self.dismissButton.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview().inset(20)
+            make.top.equalToSuperview().inset(20)
+            make.left.equalToSuperview().inset(10)
             make.size.equalTo(40)
         }
         self.scrollView.snp.makeConstraints { (make) in
@@ -277,7 +283,8 @@ class ZSAuthorizationViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func dismissButtonTapped() {
-        AppDelegate.shared.rootViewController.switchToMainScreen()
+        self.dismissHandler?()
+        //AppDelegate.shared.rootViewController.switchToMainScreen()
     }
     
     @objc private func registerButtonTapped(_ sender: UIButton) {
@@ -294,7 +301,7 @@ class ZSAuthorizationViewController: UIViewController {
         }
         registrVC.registerHandler = { [weak self] in
             self?.dismiss(animated: true, completion: {
-                AppDelegate.shared.rootViewController.switchToMainScreen()
+                self?.loginHandler?()
             })
         }
         self.present(navigVC, animated: true, completion: nil)
@@ -308,7 +315,7 @@ class ZSAuthorizationViewController: UIViewController {
             success: { [weak self] (user: ZSSigninUserModel) in
                 self?.dismiss(animated: true, completion: {
                     UserDefaults.standard.setSinginUser(user: user)
-                    AppDelegate.shared.rootViewController.switchToMainScreen()
+                    self?.loginHandler?()
                 })
         }) { [weak self] (error, code) in
             self?.dismiss(animated: true, completion: {

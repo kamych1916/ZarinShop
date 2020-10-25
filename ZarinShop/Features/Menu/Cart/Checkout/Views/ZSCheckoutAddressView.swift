@@ -2,11 +2,12 @@
 //  ZSCheckoutAddressView.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 10/16/20.
+//  Created by Murad Ibrohimov  on 10/16/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 
 import UIKit
+import DropDown
 
 class ZSCheckoutAddressView: UIView {
     
@@ -23,6 +24,9 @@ class ZSCheckoutAddressView: UIView {
         view.clipsToBounds = true
         view.layer.cornerRadius = 20
         view.backgroundColor = .white
+        let tap = UITapGestureRecognizer(
+            target: self, action: #selector(self.deliveryTypeViewTapped))
+        view.addGestureRecognizer(tap)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -38,7 +42,7 @@ class ZSCheckoutAddressView: UIView {
     
     private lazy var deliveryTypeLabel2: UILabel = {
         var label = UILabel()
-        label.text = "На дом"
+        label.text = "Доставка на адрес"
         label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -50,6 +54,7 @@ class ZSCheckoutAddressView: UIView {
         var image = UIImage(named: "dropdown")
         image = image?.with(color: AppColors.textDarkColor.color())
         button.setImage(image, for: .normal)
+        button.isUserInteractionEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -106,15 +111,14 @@ class ZSCheckoutAddressView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.clipsToBounds = true
-        self.layer.cornerRadius = 20
-        self.backgroundColor = AppColors.mainColor.color()
+        self.setup()
         self.addSubviews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
+        self.setup()
         self.addSubviews()
     }
     
@@ -128,7 +132,7 @@ class ZSCheckoutAddressView: UIView {
             make.top.left.equalToSuperview().inset(20)
         }
         self.deliveryTypeLabel2.snp.updateConstraints { (make) in
-            make.top.equalTo(self.deliveryTypeLabel1.snp.bottom)
+            make.top.equalTo(self.deliveryTypeLabel1.snp.bottom).offset(10)
             make.left.bottom.equalToSuperview().inset(20)
         }
         self.deliveryTypeDropButton.snp.updateConstraints { (make) in
@@ -149,13 +153,19 @@ class ZSCheckoutAddressView: UIView {
             make.size.equalTo(56)
         }
         self.addressTextView.snp.updateConstraints { (make) in
-            make.top.equalTo(self.addressLabel.snp.bottom).offset(20)
+            make.top.equalTo(self.addressLabel.snp.bottom).offset(10)
             make.left.right.bottom.equalToSuperview().inset(20)
         }
         super.updateConstraints()
     }
     
     //MARK: - Setters
+    
+    private func setup() {
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 20
+        self.backgroundColor = AppColors.mainColor.color()
+    }
     
     private func addSubviews() {
         self.addSubview(self.deliveryTypeView)
@@ -168,8 +178,23 @@ class ZSCheckoutAddressView: UIView {
         self.addressView.addSubview(self.addressTextView)
     }
     
+    //MARK: - Actions
+    
     @objc private func addAddressButtonTapped() {
         self.addAddressButtonTappedHandler?()
+    }
+    
+    @objc private func deliveryTypeViewTapped() {
+        let dropDown = DropDown()
+        dropDown.dataSource = ["Доставка на адрес", "Самовывоз"]
+        dropDown.anchorView = self.deliveryTypeView
+        dropDown.textFont = .systemFont(ofSize: 17)
+        dropDown.backgroundColor = .white
+        dropDown.bottomOffset = .init(x: 0, y: self.deliveryTypeView.bounds.maxY)
+        dropDown.show()
+        dropDown.selectionAction = { [weak self] (index: Int, item: String) in
+            self?.deliveryTypeLabel2.text = item
+        }
     }
     
 }

@@ -38,7 +38,11 @@ class ZSCheckoutPaymentViewController: UIViewController {
         var view = ZSCheckoutPaymentView()
         view.addCardButtonTappedHandler = { [weak self] in
             let controller = ZSAddCardViewController()
-            self?.present(controller, animated: true, completion: nil)
+            let navController = UINavigationController(rootViewController: controller)
+            controller.dismissHandler = {
+                self?.dismiss(animated: true, completion: nil)
+            }
+            self?.present(navController, animated: true, completion: nil)
         }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

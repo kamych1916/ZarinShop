@@ -2,7 +2,7 @@
 //  UIPageViewController+Ex.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 10/9/20.
+//  Created by Murad Ibrohimov  on 10/9/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 

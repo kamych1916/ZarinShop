@@ -2,7 +2,7 @@
 //  ZSSubcategoriesHeaderView.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 10/22/20.
+//  Created by Murad Ibrohimov  on 10/22/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 
