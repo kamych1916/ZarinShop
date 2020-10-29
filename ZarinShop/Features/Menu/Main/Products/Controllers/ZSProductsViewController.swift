@@ -113,14 +113,17 @@ class ZSProductsViewController: ZSBaseViewController {
     
     private func loadProducts(with id: String) {
         self.loadingAlert()
+        
         Network.shared.request(
             url: ZSURLPath.productsByID + id,
-            method: .get, success: { [weak self] (products: [ZSProductModel]) in
-            guard let self = self else { return }
-            self.products = products
-            self.mainView.productsCollectionView.reloadData()
-            self.dismiss(animated: true, completion: nil)
-            }, feilure: { [weak self] (error, code) in
+            method: .get,
+            success: { [weak self] (products: [ZSProductModel]) in
+                guard let self = self else { return }
+                self.products = products
+                self.mainView.productsCollectionView.reloadData()
+                self.dismiss(animated: true, completion: nil)
+            },
+            feilure: { [weak self] (error, code) in
                 guard let self = self else { return }
                 self.dismiss(animated: true, completion: {
                     self.alertError(message: error.detail)
@@ -157,7 +160,7 @@ extension ZSProductsViewController: UICollectionViewDelegate, UICollectionViewDa
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             self.loadProducts(with: self.categories[indexPath.row].id)
         }  else {
-            let controller = ZSProductDetailViewController()
+            let controller = ZSProductDetailViewController(product: self.products[indexPath.row])
             self.pushVC(controller)
         }
     }

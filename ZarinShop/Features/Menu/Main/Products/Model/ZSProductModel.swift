@@ -12,7 +12,9 @@ struct ZSProductModel: Codable {
     let id: String
     let name: String
     let description: String
-    let image: String
+    let size: [String]
+    let color: String
+    let image: [String]
     let price: Float
     let discount: Float
     let hit_sales: Bool

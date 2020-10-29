@@ -23,6 +23,7 @@ struct ZSURLPath {
     static let checkCode = "checkcode_activ/"
     static let resetPassword = "reset_password"
     static let productsByID = "items_cat/"
+    static let getCartList = "cart/shopping_cart"
     
     //MARK: - Post
     

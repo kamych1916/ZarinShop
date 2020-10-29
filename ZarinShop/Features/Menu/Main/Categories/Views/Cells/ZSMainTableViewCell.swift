@@ -86,7 +86,7 @@ class ZSMainTableViewCell: UITableViewCell {
     func initCell(with model: ZSCategoriesModel) {
         self.countLabel.text = "\(model.kol)"
         self.titleLabel.text = model.name
-        //self.loadImage(from: model.image_url)
+        self.loadImage(from: model.image_url)
         
         self.setNeedsUpdateConstraints()
     }

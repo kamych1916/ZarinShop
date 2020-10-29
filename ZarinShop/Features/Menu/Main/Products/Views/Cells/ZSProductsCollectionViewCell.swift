@@ -96,7 +96,11 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     func initCell(with model: ZSProductModel) {
         self.titleLabel.text = model.name
         self.descriptionLabel.text = String(format: "%0.2f", model.price) + " сум"
-        self.loadImage(from: model.image)
+        if model.image.count > 0 {
+            self.loadImage(from: model.image[0])
+        } else {
+            self.bigImageView.image = UIImage(named: "defauldProduct")
+        }
         
         self.setNeedsUpdateConstraints()
     }
@@ -147,7 +151,10 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     // MARK: - Helpers
     
     private func loadImage(from url: String) {
-        guard let imageURL = URL(string: (url)) else { return }
+        guard let imageURL = URL(string: (url)) else {
+            self.bigImageView.image = UIImage(named: "defauldProduct")
+            return
+        }
         self.bigImageView.kf.indicatorType = .activity
         self.bigImageView.kf.setImage(
             with: imageURL,

@@ -200,10 +200,13 @@ class ZSProfileViewController: ZSBaseViewController {
         let alert = UIAlertController(title: "Выход из профиля", message: "Вы уверены, что хотите выйти из профиля?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { [weak self] (action) in
             self?.loadingAlert()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(2)) {
+            Network.shared.delete(
+                url: ZSURLPath.logout) {
                 UserDefaults.standard.setLogoutUser()
                 self?.setupViewWithSingin()
                 self?.dismiss(animated: true, completion: nil)
+            } feilure: { (error) in
+                self?.alertError(message: error.detail)
             }
         }))
         

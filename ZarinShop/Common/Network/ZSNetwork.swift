@@ -33,15 +33,9 @@ class ZSNetwork {
     
     func request<T: Decodable>(url: String, method: HTTPMethod,
                                parameters: Parameters? = nil,
-                               headers: [String: String]? = nil,
                                isQueryString: Bool = false,
                                success: @escaping Success<T>,
                                feilure: Failure? = nil) {
-        
-        /*if let headers = headers {
-            self.headers.merge(headers) { (_, new) in new }
-        }*/
-        
         let fullPath = self.baseURL + url
         guard let url = URL(string: fullPath) else { return }
         print(fullPath)
@@ -60,21 +54,17 @@ class ZSNetwork {
                     guard let code = response.response?.statusCode else { return }
                     switch code {
                     case 200...299:
-                        
                         if let json = try? JSONDecoder().decode(T.self, from: data) {
                             success(json)
                         }
                         break
                     case 401:
-                        //UserDefaults.standard.setLoggedOutUser()
-                        //AppDelegate.shared.rootViewController.switchToLogout()
                         feilure?(.init(detail: "Не авторизован"), 401)
-                        return
+                        break
                     case 400...500:
                         if let errorJson = try? JSONDecoder().decode(ZSErrorModel.self, from: data) {
                             guard let code = response.response?.statusCode else { return }
                             feilure?(errorJson, code)
-                            print(errorJson)
                             return
                         }
                         break
@@ -82,8 +72,40 @@ class ZSNetwork {
                     }
                     break
                 case .failure(let error):
-                    print(error)
                     feilure?(.init(detail: error.localizedDescription), 404)
+                    break
+                }
+        }
+    }
+    
+    func delete(url: String,
+                success: @escaping () -> Void,
+                feilure: @escaping (ZSErrorModel) -> Void) {
+        
+        let fullPath = self.baseURL + url
+        guard let url = URL(string: fullPath) else { return }
+        
+        Alamofire.request(
+            url, method: .delete, parameters: nil,
+            encoding: JSONEncoding.default, headers: self.headers)
+            .responseData { (response) in
+                switch (response.result) {
+                case .success(_):
+                    guard let code = response.response?.statusCode else { return }
+                    switch code {
+                    case 200...299:
+                        success()
+                        break
+                    case 401:
+                        feilure(.init(detail: "Unauthorized"))
+                        break
+                    default:
+                        feilure(.init(detail: "Unknowed error"))
+                        break
+                    }
+                    break
+                case .failure(let error):
+                    feilure(.init(detail: error.localizedDescription))
                     break
                 }
         }

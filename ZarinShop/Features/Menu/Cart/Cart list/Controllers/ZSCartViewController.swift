@@ -121,6 +121,12 @@ class ZSCartViewController: ZSBaseViewController {
         self.makeConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.loadCart()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -176,6 +182,19 @@ class ZSCartViewController: ZSBaseViewController {
         self.buyView.addSubview(self.totalLabel)
         self.buyView.addSubview(self.totalValueLabel)
         self.buyView.addSubview(self.buyButton)
+    }
+    
+    // MARK: - Network
+    
+    private func loadCart() {
+        
+        Network.shared.request(
+            url: ZSURLPath.getCartList, method: .get) { (data: CartModel) in
+            print(data)
+        } feilure: { (error, code) in
+            self.alertError(message: error.detail)
+        }
+
     }
     
     // MARK: - Helpers

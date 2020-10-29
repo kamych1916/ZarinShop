@@ -14,6 +14,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
     // MARK: - Public Variables
     
     // MARK: - Private Variables
+    private var product: ZSProductModel?
     
     // MARK: - GUI Variables
     
@@ -27,11 +28,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
     
     private lazy var imageSlideshow: ImageSlideshow = {
         var imageSlideshow = ImageSlideshow()
-        let images: [InputSource] = [ImageSource(image: UIImage(named: "men")!),
-        ImageSource(image: UIImage(named: "women")!),
-        ImageSource(image: UIImage(named: "men")!),
-        ImageSource(image: UIImage(named: "women")!),
-        ImageSource(image: UIImage(named: "women")!)]
+        let images: [InputSource] = []
         imageSlideshow.setImageInputs(images)
         imageSlideshow.contentScaleMode = .scaleAspectFill
         imageSlideshow.translatesAutoresizingMaskIntoConstraints = false
@@ -40,14 +37,13 @@ class ZSProductDetailViewController: ZSBaseViewController {
     
     private lazy var titleView: ZSProductDetailTitleView = {
         var view = ZSProductDetailTitleView()
-        view.initView(name: "Product name", price: "25700 сум")
+        view.initView(name: "Name", price: "0 сум")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private lazy var descriptionView: ZSProductDetailDescriptionView = {
         var view = ZSProductDetailDescriptionView()
-        view.initView(text: "Домашние халаты традиционно носятся дома, как правило поверх пижамы. Раньше пижама считалась нижним бельём, и было зазорным появиться в ней перед семьёй или гостями. Как правило, халат носится после сна, за завтраком, по дороге от спальни до ванной, в позднее вечернее время перед сном. В больших господских домах это имело большее значение, нежели в небольших квартирах.")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -55,10 +51,10 @@ class ZSProductDetailViewController: ZSBaseViewController {
     private lazy var specificationView: ZSProductDetailSpecificationView = {
         var view = ZSProductDetailSpecificationView()
         view.initView(
-            items: [.init(title: "Модель", description: "Adidas"),
-                    .init(title: "Цвет", description: "Красный"),
-                    .init(title: "Страна", description: "Турция"),
-                    .init(title: "Размер", description: "М")])
+            items: [.init(title: "Модель", description: "nil"),
+                    .init(title: "Цвет", description: "nil"),
+                    .init(title: "Страна", description: "nil"),
+                    .init(title: "Размер", description: "nil")])
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -75,6 +71,14 @@ class ZSProductDetailViewController: ZSBaseViewController {
         return button
     }()
     
+    // MARK: - Initialization
+    
+    convenience init(product: ZSProductModel) {
+        self.init()
+        
+        self.product = product
+    }
+    
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
@@ -84,6 +88,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
         self.view.backgroundColor = AppColors.secondaryColor.color()
         self.addSubviews()
         self.makeConstraints()
+        self.setupWithProduct()
     }
     
     // MARK: - Constraints
@@ -128,10 +133,32 @@ class ZSProductDetailViewController: ZSBaseViewController {
         self.scrollView.addSubview(self.specificationView)
     }
     
+    private func setupWithProduct() {
+        guard let product = self.product else { return }
+        self.titleView.initView(name: product.name, price: "\(product.price) сум")
+        self.descriptionView.initView(text: product.description)
+        var images: [InputSource] = [ImageSource(image: <#T##UIImage#>)]
+        
+        
+    }
+    
     // MARK: - Actions
     
     @objc private func addToCartButtonTapped(_ sender: UIButton) {
         NotificationCenter.default.post(name: .cartValueChanged, object: nil)
     }
+    
+//    private func loadImage(from url: String) {
+//        guard let imageURL = URL(string: (url)) else { return }
+//        self.bigImageView.kf.indicatorType = .activity
+//        self.bigImageView.kf.setImage(
+//            with: imageURL,
+//            placeholder: .none,
+//            options: [
+//                .scaleFactor(UIScreen.main.scale),
+//                .transition(.fade(1)),
+//                .cacheOriginalImage
+//        ])
+//    }
     
 }

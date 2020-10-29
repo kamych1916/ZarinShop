@@ -51,7 +51,7 @@ class ZSMainViewController: ZSBaseViewController {
         super.viewWillAppear(animated)
         
         super.isNeedMenuBarButton = true
-        //self.loadCategories()
+        self.loadCategories()
     }
     
     // MARK: - Constraints
