@@ -22,25 +22,25 @@ class ZSProductDetailSpecificationView: UIView {
         return label
     }()
     
-    private lazy var firstItem: ZSProductDetailSpecificationItemView = {
+    lazy var firstItem: ZSProductDetailSpecificationItemView = {
         var view = ZSProductDetailSpecificationItemView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    private lazy var secondItem: ZSProductDetailSpecificationItemView = {
+    lazy var secondItem: ZSProductDetailSpecificationItemView = {
         var view = ZSProductDetailSpecificationItemView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private lazy var thirdItem: ZSProductDetailSpecificationItemView = {
+    lazy var thirdItem: ZSProductDetailSpecificationItemView = {
         var view = ZSProductDetailSpecificationItemView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private lazy var fourthItem: ZSProductDetailSpecificationItemView = {
+    lazy var fourthItem: ZSProductDetailSpecificationItemView = {
         var view = ZSProductDetailSpecificationItemView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

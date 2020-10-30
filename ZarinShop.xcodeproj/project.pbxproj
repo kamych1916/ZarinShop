@@ -75,6 +75,15 @@
 		844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */; };
 		844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97D02530819C00619BE3 /* UIViewController+Ex.swift */; };
 		84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */; };
+		84BBE06E254BCD58004A3341 /* SizesColorsPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE06D254BCD58004A3341 /* SizesColorsPresentationController.swift */; };
+		84BBE073254BCDA1004A3341 /* UIView+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE072254BCDA1004A3341 /* UIView+Ex.swift */; };
+		84BBE076254BCE4E004A3341 /* ZSColorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE075254BCE4E004A3341 /* ZSColorsViewController.swift */; };
+		84BBE079254BCE9B004A3341 /* ZSColorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE078254BCE9B004A3341 /* ZSColorsTableViewCell.swift */; };
+		84BBE07F254BD24A004A3341 /* ColorsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE07E254BD24A004A3341 /* ColorsModel.swift */; };
+		84BBE083254BD5CB004A3341 /*  ZSSizesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE082254BD5CB004A3341 /*  ZSSizesViewController.swift */; };
+		84BBE086254BD66B004A3341 /* ZSSizesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE085254BD66B004A3341 /* ZSSizesTableViewCell.swift */; };
+		84BBE089254BE576004A3341 /* ZSColorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE088254BE576004A3341 /* ZSColorsCollectionViewCell.swift */; };
+		84BBE08C254BEC36004A3341 /* ZSSizesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE08B254BEC36004A3341 /* ZSSizesCollectionViewCell.swift */; };
 		84F33F8E254A91DF004125F0 /* CartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F33F8D254A91DF004125F0 /* CartModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +160,15 @@
 		844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutTabItem.swift; sourceTree = "<group>"; };
 		844A97D02530819C00619BE3 /* UIViewController+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ex.swift"; sourceTree = "<group>"; };
 		84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Ex.swift"; sourceTree = "<group>"; };
+		84BBE06D254BCD58004A3341 /* SizesColorsPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizesColorsPresentationController.swift; sourceTree = "<group>"; };
+		84BBE072254BCDA1004A3341 /* UIView+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ex.swift"; sourceTree = "<group>"; };
+		84BBE075254BCE4E004A3341 /* ZSColorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSColorsViewController.swift; sourceTree = "<group>"; };
+		84BBE078254BCE9B004A3341 /* ZSColorsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSColorsTableViewCell.swift; sourceTree = "<group>"; };
+		84BBE07E254BD24A004A3341 /* ColorsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsModel.swift; sourceTree = "<group>"; };
+		84BBE082254BD5CB004A3341 /*  ZSSizesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " ZSSizesViewController.swift"; sourceTree = "<group>"; };
+		84BBE085254BD66B004A3341 /* ZSSizesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSizesTableViewCell.swift; sourceTree = "<group>"; };
+		84BBE088254BE576004A3341 /* ZSColorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSColorsCollectionViewCell.swift; sourceTree = "<group>"; };
+		84BBE08B254BEC36004A3341 /* ZSSizesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSizesCollectionViewCell.swift; sourceTree = "<group>"; };
 		84F33F8D254A91DF004125F0 /* CartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,6 +196,7 @@
 		203FD5422531D0F500F57432 /* ProductDetail */ = {
 			isa = PBXGroup;
 			children = (
+				84BBE06C254BCCF0004A3341 /* Presentation */,
 				840839AB253806010040EC63 /* Models */,
 				8408399F253802150040EC63 /* Views */,
 				203FD5432531D0F500F57432 /* Controllers */,
@@ -189,6 +208,8 @@
 			isa = PBXGroup;
 			children = (
 				203FD5442531D0F500F57432 /* ZSProductDetailViewController.swift */,
+				84BBE075254BCE4E004A3341 /* ZSColorsViewController.swift */,
+				84BBE082254BD5CB004A3341 /*  ZSSizesViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -326,6 +347,7 @@
 		2057B89D2525894E007D8D05 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				84BBE071254BCD8D004A3341 /* UIView */,
 				2041103C252AF2380081A562 /* UIKit */,
 				20242AB0252A3EE600886949 /* Foundation */,
 			);
@@ -763,6 +785,7 @@
 				840839A0253802300040EC63 /* ZSProductDetailDescriptionView.swift */,
 				840839A8253804DC0040EC63 /* ZSProductDetailSpecificationView.swift */,
 				840839B02538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift */,
+				84BBE07B254BCEA2004A3341 /* Cells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -771,6 +794,7 @@
 			isa = PBXGroup;
 			children = (
 				840839AC253806210040EC63 /* ZSSpecificationModel.swift */,
+				84BBE07E254BD24A004A3341 /* ColorsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -850,6 +874,33 @@
 				844A97D02530819C00619BE3 /* UIViewController+Ex.swift */,
 			);
 			path = UIViewController;
+			sourceTree = "<group>";
+		};
+		84BBE06C254BCCF0004A3341 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				84BBE06D254BCD58004A3341 /* SizesColorsPresentationController.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		84BBE071254BCD8D004A3341 /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				84BBE072254BCDA1004A3341 /* UIView+Ex.swift */,
+			);
+			path = UIView;
+			sourceTree = "<group>";
+		};
+		84BBE07B254BCEA2004A3341 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				84BBE078254BCE9B004A3341 /* ZSColorsTableViewCell.swift */,
+				84BBE085254BD66B004A3341 /* ZSSizesTableViewCell.swift */,
+				84BBE088254BE576004A3341 /* ZSColorsCollectionViewCell.swift */,
+				84BBE08B254BEC36004A3341 /* ZSSizesCollectionViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		84F33F8C254A91CC004125F0 /* Models */ = {
@@ -987,9 +1038,12 @@
 			files = (
 				20242AAD252A37E800886949 /* ZSProductsMainView.swift in Sources */,
 				840839A1253802300040EC63 /* ZSProductDetailDescriptionView.swift in Sources */,
+				84BBE089254BE576004A3341 /* ZSColorsCollectionViewCell.swift in Sources */,
 				20B9A8992532DCCC00E2EF71 /* ZSSignupResponseModel.swift in Sources */,
 				203FD54A2531DBDC00F57432 /* ZSCategoriesModel.swift in Sources */,
 				2057B8F02525CCB5007D8D05 /* ZSMainTableViewCell.swift in Sources */,
+				84BBE083254BD5CB004A3341 /*  ZSSizesViewController.swift in Sources */,
+				84BBE076254BCE4E004A3341 /* ZSColorsViewController.swift in Sources */,
 				840839B12538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift in Sources */,
 				20B2DFC42526DA370089BC55 /* ZSProductsViewController.swift in Sources */,
 				2057B88A252588EF007D8D05 /* AppDelegate.swift in Sources */,
@@ -1004,9 +1058,12 @@
 				208483CB253C8E3C0044D4A9 /* ZSAddAddressViewController.swift in Sources */,
 				2057B8ED2525AF22007D8D05 /* AppColors.swift in Sources */,
 				840839A9253804DC0040EC63 /* ZSProductDetailSpecificationView.swift in Sources */,
+				84BBE086254BD66B004A3341 /* ZSSizesTableViewCell.swift in Sources */,
+				84BBE06E254BCD58004A3341 /* SizesColorsPresentationController.swift in Sources */,
 				201332A225374C2E00548FF6 /* ZSSubcategoriesModel.swift in Sources */,
 				20FD49BF2545C51D0006F50C /* ZSFavoritesViewController.swift in Sources */,
 				20B2DFC92526FB1E0089BC55 /* ZSProductsCollectionViewCell.swift in Sources */,
+				84BBE073254BCDA1004A3341 /* UIView+Ex.swift in Sources */,
 				2057B8B32525894E007D8D05 /* RootViewController.swift in Sources */,
 				2057B8BA25258E01007D8D05 /* ZSSideMenuViewController.swift in Sources */,
 				2057B8DC252591FC007D8D05 /* ZSProfileViewController.swift in Sources */,
@@ -1040,12 +1097,15 @@
 				20B9A89B2532E50600E2EF71 /* ZSSigninUserModel.swift in Sources */,
 				2057B8EB2525A208007D8D05 /* ZSSideMenuItemView.swift in Sources */,
 				20B2DFCB2526FE090089BC55 /* ZSProductModel.swift in Sources */,
+				84BBE08C254BEC36004A3341 /* ZSSizesCollectionViewCell.swift in Sources */,
 				20B2DFD325274D7B0089BC55 /* ZSRegistrationViewController.swift in Sources */,
 				2049103F2532509400154252 /* ZSSignupUserModel.swift in Sources */,
 				20242AAB2529F58E00886949 /* ZSSideMenuFooterView.swift in Sources */,
 				203FD5502532036F00F57432 /* ZSCheckoutViewController.swift in Sources */,
 				203FD553253204EB00F57432 /* ZSCheckoutAddressViewController.swift in Sources */,
 				844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */,
+				84BBE07F254BD24A004A3341 /* ColorsModel.swift in Sources */,
+				84BBE079254BCE9B004A3341 /* ZSColorsTableViewCell.swift in Sources */,
 				2057B8B52525894E007D8D05 /* SplashViewController.swift in Sources */,
 				84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */,
 				840839AD253806210040EC63 /* ZSSpecificationModel.swift in Sources */,

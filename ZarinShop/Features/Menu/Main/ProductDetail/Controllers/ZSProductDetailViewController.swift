@@ -53,8 +53,8 @@ class ZSProductDetailViewController: ZSBaseViewController {
         view.initView(
             items: [.init(title: "Модель", description: "nil"),
                     .init(title: "Цвет", description: "nil"),
-                    .init(title: "Страна", description: "nil"),
-                    .init(title: "Размер", description: "nil")])
+                    .init(title: "Размер", description: "nil"),
+                    .init(title: "Страна", description: "nil")])
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -137,28 +137,63 @@ class ZSProductDetailViewController: ZSBaseViewController {
         guard let product = self.product else { return }
         self.titleView.initView(name: product.name, price: "\(product.price) сум")
         self.descriptionView.initView(text: product.description)
-        var images: [InputSource] = [ImageSource(image: <#T##UIImage#>)]
-        
-        
+        self.loadImages()
+    }
+    
+    // MARK: - Helpers
+    
+    private func loadImages() {
+        guard let product = self.product else { return }
+        var images: [InputSource] = []
+        let group = DispatchGroup()
+        for imageURL in product.image {
+            group.enter()
+            let imageView = UIImageView()
+            guard let imageURL = URL(string: (imageURL)) else {
+                group.leave()
+                return
+            }
+            imageView.kf.setImage(
+                with: imageURL,
+                options: [
+                    .scaleFactor(UIScreen.main.scale),
+                    .transition(.fade(1)),
+                    .cacheOriginalImage],
+                completionHandler:  { (result) in
+                    guard let image = imageView.image else {
+                        group.leave()
+                        return
+                    }
+                    images.append(ImageSource(image: image))
+                    group.leave()
+                })
+        }
+        group.notify(queue: .main) { [weak self] in
+            guard images.count > 0 else {
+                guard let defaultImage = UIImage(named: "defauldProduct") else { return }
+                images.append(ImageSource(image: defaultImage))
+                self?.imageSlideshow.setImageInputs(images)
+                return
+            }
+            self?.imageSlideshow.setImageInputs(images)
+        }
     }
     
     // MARK: - Actions
     
     @objc private func addToCartButtonTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(name: .cartValueChanged, object: nil)
+        let colorsVC = ZSColorsViewController()
+        colorsVC.modalPresentationStyle = .custom
+        colorsVC.transitioningDelegate = self
+        self.present(colorsVC, animated: true, completion: nil)
     }
     
-//    private func loadImage(from url: String) {
-//        guard let imageURL = URL(string: (url)) else { return }
-//        self.bigImageView.kf.indicatorType = .activity
-//        self.bigImageView.kf.setImage(
-//            with: imageURL,
-//            placeholder: .none,
-//            options: [
-//                .scaleFactor(UIScreen.main.scale),
-//                .transition(.fade(1)),
-//                .cacheOriginalImage
-//        ])
-//    }
-    
+}
+
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension ZSProductDetailViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        SizesColorsPresentationController(presentedViewController: presented, presenting: presenting)
+    }
 }
