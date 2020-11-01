@@ -11,3 +11,4 @@ class Config(object):
     ACCESS_TOKEN_EXPIRE_MINUTES = 30
     EMAIL_TEXT = "Для подтверждения регистрации введите код  - "
     EMAIL_TEXT_PWD = "Для воостановаления пароля введите код - "
+    ADMIN_LIST=[1,48]
