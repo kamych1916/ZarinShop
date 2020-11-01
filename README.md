@@ -1,2 +1,0 @@
-# ZarinShop
-Zarin Shop Project 
