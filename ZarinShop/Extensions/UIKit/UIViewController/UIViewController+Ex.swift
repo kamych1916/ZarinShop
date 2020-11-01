@@ -57,6 +57,21 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func alertSignin() {
+        let alert = UIAlertController(
+            title: "Ошибка", message: "Чтобы продолжить, нужно автризоваться", preferredStyle: .alert)
+        alert.addAction(.init(title: "Скрыть", style: .cancel, handler: nil))
+        alert.addAction(.init(title: "Авторизация", style: .default, handler: { [weak self] (_) in
+            let controller = ZSAuthorizationViewController()
+            controller.modalPresentationStyle = .fullScreen
+            controller.loginHandler = { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
+            self?.present(controller, animated: true, completion: nil)
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
     func loadingAlert() {
         let alert = UIAlertController(title: nil, message: "", preferredStyle: .alert)
         
@@ -70,5 +85,12 @@ extension UIViewController {
         alert.view.addSubview(loadingIndicator)
         loadingIndicator.startAnimating()
         present(alert, animated: false, completion: nil)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) { [weak self] in
+            if self?.presentedViewController is UIAlertController {
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
+        
     }
 }

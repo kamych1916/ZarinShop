@@ -18,4 +18,7 @@ struct CartItemModel: Codable {
     let id: Int
     let size: String
     let kol: Int
+    let image: [String]
+    let price: Float
+    let discount: Float
 }

@@ -57,8 +57,12 @@ class ZSColorsCollectionViewCell: UICollectionViewCell {
         self.addSubviews()
     }
     
-    func initCell() {
-        
+    func initCell(hexColor: String) {
+        let hex = "#" + hexColor
+        if let color = UIColor(hex: hex) {
+            self.сolorView.backgroundColor = color
+        }
+
         self.setNeedsUpdateConstraints()
     }
     

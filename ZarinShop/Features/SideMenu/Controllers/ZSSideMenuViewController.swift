@@ -202,9 +202,6 @@ class ZSSideMenuViewController: UIViewController {
     @objc private func signinButtonTapped(_ sener: UIButton) {
         let authVC = ZSAuthorizationViewController()
         authVC.modalPresentationStyle = .fullScreen
-        authVC.dismissHandler = { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
         authVC.loginHandler = { [weak self] in
             self?.dismiss(animated: true, completion: nil)
             self?.setupViewWithSingin()

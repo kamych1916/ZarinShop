@@ -66,7 +66,8 @@ class ZSSizesCollectionViewCell: UICollectionViewCell {
         self.addSubviews()
     }
     
-    func initCell() {
+    func initCell(size: String) {
+        self.sizeLabel.text = size
         
         self.setNeedsUpdateConstraints()
     }

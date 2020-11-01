@@ -54,7 +54,7 @@ class ZSSubcategoriesHeaderView: UIView {
         return label
     }()
 
-    private lazy var showAllButton: UIButton = {
+    lazy var showAllButton: UIButton = {
         var button = UIButton(type: .system)
         button.layer.cornerRadius = 10
         button.setTitle("Показать все", for: .normal)

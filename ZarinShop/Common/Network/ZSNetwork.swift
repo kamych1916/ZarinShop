@@ -38,7 +38,7 @@ class ZSNetwork {
                                feilure: Failure? = nil) {
         let fullPath = self.baseURL + url
         guard let url = URL(string: fullPath) else { return }
-        print(fullPath)
+        print("full path: " + fullPath)
         Alamofire.request(
             url, method: method,
             parameters: parameters,
@@ -59,6 +59,7 @@ class ZSNetwork {
                         }
                         break
                     case 401:
+                        UserDefaults.standard.setLogoutUser()
                         feilure?(.init(detail: "Не авторизован"), 401)
                         break
                     case 400...500:

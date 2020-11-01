@@ -12,10 +12,7 @@ class ZSMainViewController: ZSBaseViewController {
     
     // MARK: - Private Variables
     
-    private var data: [ZSCategoriesModel] = [
-        .init(id: "1", name: "Halati", kol: 23, image_url: "some_url", subcategories: []),
-        .init(id: "2", name: "Pizhami", kol: 44, image_url: "some_url", subcategories: []),
-        .init(id: "3", name: "Drugoe", kol: 72, image_url: "some_url", subcategories: [])]
+    private var data: [ZSCategoriesModel] = []
     
     // MARK: - GUI Variables
     
@@ -23,18 +20,23 @@ class ZSMainViewController: ZSBaseViewController {
         var tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-//        tableView.estimatedRowHeight = 400
-//        tableView.rowHeight = UITableView.automaticDimensionr
         tableView.rowHeight = 350
+        tableView.estimatedRowHeight = 350
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ZSMainTableViewCell.self,
                            forCellReuseIdentifier: ZSMainTableViewCell.identifier)
         tableView.tableFooterView = UIView()
+        tableView.refreshControl = self.refreshControl
         return tableView
     }()
     
+    private lazy var refreshControl: UIRefreshControl = {
+         var refreshControl = UIRefreshControl()
+         refreshControl.addTarget(self, action: #selector(self.refreshData), for: .valueChanged)
+         return refreshControl
+     }()
     
     // MARK: - View life cycle
     
@@ -70,9 +72,11 @@ class ZSMainViewController: ZSBaseViewController {
                 guard let self = self else { return }
                 self.data = data
                 self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
                 self.dismiss(animated: true, completion: nil)
             }, feilure: { [weak self] (error, code) in
                 guard let self = self else { return }
+                self.refreshControl.endRefreshing()
                 self.dismiss(animated: true, completion: {
                     self.alertError(message: error.detail)
                 })
@@ -85,6 +89,13 @@ class ZSMainViewController: ZSBaseViewController {
         self.view.addSubview(self.tableView)
     }
 
+    // MARK: - Actions
+    
+    @objc private func refreshData(_ sender: UIRefreshControl) {
+        sender.beginRefreshing()
+        self.loadCategories()
+    }
+    
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource

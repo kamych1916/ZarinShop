@@ -149,16 +149,21 @@ class ZSCartTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func initCell(image: UIImage?, title: String) {
-        self.bigImageView.image = image
-        self.titleLabel.text = title
+    func initCell(model: CartItemModel) {
+        self.titleLabel.text = "\(model.id)"
+        self.priceLabel.text = "\(model.price)"
+        if model.image.count > 0 {
+            self.loadImage(from: model.image[0])
+        }
         
         self.setNeedsUpdateConstraints()
     }
     
     override func prepareForReuse() {
         self._productCount = 0
+        self.bigImageView.image = nil
     }
+
     
     // MARK: - Constraints
     
@@ -244,5 +249,20 @@ class ZSCartTableViewCell: UITableViewCell {
         if self._productCount > 1 {
             self._productCount -= 1
         }
+    }
+    
+    // MARK: - Helpers
+    
+    private func loadImage(from url: String) {
+        guard let imageURL = URL(string: (url)) else { return }
+        self.bigImageView.kf.indicatorType = .activity
+        self.bigImageView.kf.setImage(
+            with: imageURL,
+            placeholder: .none,
+            options: [
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+        ])
     }
 }

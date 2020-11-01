@@ -1,5 +1,5 @@
 //
-//  ZSColorsViewController.swift
+//  ZSColorsSizesViewController.swift
 //  ZarinShop
 //
 //  Created by Humo Programmer  on 10/30/20.
@@ -8,13 +8,23 @@
 
 import UIKit
 
-class ZSColorsViewController: UIViewController {
+class ZSColorsSizesViewController: UIViewController {
     
     //MARK: - Public variables
     
-    //MARK: - Private variables
+    var productId: String?
+    var colors: [String] = [] {
+        didSet {
+            self.colorsCollectionView.reloadData()
+        }
+    }
+    var sizes: [String] = [] {
+        didSet {
+            self.sizesCollectionView.reloadData()
+        }
+    }
     
-    var data: [String] = []
+    //MARK: - Private variables
     
     private var hasSetPointOrigin = false
     private var pointOrigin: CGPoint?
@@ -207,20 +217,31 @@ class ZSColorsViewController: UIViewController {
     }
     
     @objc private func addToCartButtonTapped(_ sender: UIButton) {
-        print("add to cart")
+        guard let id = self.productId else { return }
+        self.loadingAlert()
+        let parameters: [String: Any] = ["id": id, "size": "XXL", "kol": 1]
+        Network.shared.request(
+            url: ZSURLPath.addToCart, method: .post, parameters: parameters,
+            success: { [weak self] (data: CartModel) in
+                self?.dismiss(animated: true, completion: nil)
+        }, feilure: { [weak self] (error, code) in
+            self?.dismiss(animated: true, completion: {
+                self?.alertError(message: error.detail)
+            })
+        })
     }
     
 }
 
 //MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension ZSColorsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ZSColorsSizesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView === self.colorsCollectionView {
-            return 6
+            return self.colors.count
         }
-        return 4
+        return self.sizes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -234,14 +255,14 @@ extension ZSColorsViewController: UICollectionViewDelegate, UICollectionViewData
     private func getColorsCollectionViewCell(at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.colorsCollectionView.dequeueReusableCell(
             withReuseIdentifier: ZSColorsCollectionViewCell.identifier, for: indexPath)
-        (cell as? ZSColorsCollectionViewCell)?.initCell()
+        (cell as? ZSColorsCollectionViewCell)?.initCell(hexColor: self.colors[indexPath.row])
         return cell
     }
 
     private func getSizesCollectionViewCell(at indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.sizesCollectionView.dequeueReusableCell(
             withReuseIdentifier: ZSSizesCollectionViewCell.identifier, for: indexPath)
-        (cell as? ZSSizesCollectionViewCell)?.initCell()
+        (cell as? ZSSizesCollectionViewCell)?.initCell(size: self.sizes[indexPath.row])
         return cell
     }
 

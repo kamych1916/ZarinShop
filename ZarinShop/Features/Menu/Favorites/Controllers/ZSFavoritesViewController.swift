@@ -195,8 +195,6 @@ extension ZSFavoritesViewController: UITableViewDelegate, UITableViewDataSource 
         let model = self.data[indexPath.row]
         let image = indexPath.row % 2 == 0 ? UIImage(named: "men") : UIImage(named: "women")
         
-        (cell as? ZSCartTableViewCell)?
-            .initCell(image: image, title: model)
         return cell
     }
     

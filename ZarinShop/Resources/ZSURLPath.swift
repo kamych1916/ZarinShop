@@ -27,7 +27,8 @@ struct ZSURLPath {
     
     //MARK: - Post
     
-    static let changePassword = "change_password" 
+    static let changePassword = "change_password"
+    static let addToCart = "cart/addProduct" 
    
     //MARK: - Delete
     

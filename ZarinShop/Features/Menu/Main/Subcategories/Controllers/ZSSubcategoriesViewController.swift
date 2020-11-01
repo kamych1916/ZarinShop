@@ -19,6 +19,7 @@ class ZSSubcategoriesViewController: ZSBaseViewController {
     
     private lazy var headerView: ZSSubcategoriesHeaderView = {
         var view = ZSSubcategoriesHeaderView()
+        view.showAllButton.addTarget(self, action: #selector(showAllButtonTapped), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -81,6 +82,13 @@ class ZSSubcategoriesViewController: ZSBaseViewController {
         self.view.addSubview(self.headerView)
         self.view.addSubview(self.tableView)
     }
+    
+    // MARK: - Actions
+    
+    @objc private func showAllButtonTapped(_ sender: UIButton) {
+        let controller = ZSProductsViewController(category: self.mainCategory)
+        self.pushVC(controller)
+    }
 
 }
 
@@ -101,7 +109,7 @@ extension ZSSubcategoriesViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = ZSProductsViewController(category: self.categories[indexPath.row])
+        let controller = ZSProductsViewController(subcategory: self.categories[indexPath.row])
         self.pushVC(controller)
     }
     

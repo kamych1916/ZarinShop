@@ -17,12 +17,7 @@ class ZSCartViewController: ZSBaseViewController {
     private var buyViewHeight: CGFloat {
         return self.view.frame.height * 0.20
     }
-    private var data: [String] = [
-        "Халаты", "Пижамы",
-        "Товары для ванной",
-        "Товары для кухни",
-        "Товары для спальни"]
-    
+    private var data: [CartItemModel] = []
     
     // MARK: - GUI Variables
     
@@ -187,13 +182,18 @@ class ZSCartViewController: ZSBaseViewController {
     // MARK: - Network
     
     private func loadCart() {
-        
+        self.loadingAlert()
         Network.shared.request(
-            url: ZSURLPath.getCartList, method: .get) { (data: CartModel) in
-            print(data)
-        } feilure: { (error, code) in
-            self.alertError(message: error.detail)
-        }
+            url: ZSURLPath.getCartList, method: .get,
+            success: { [weak self] (data: CartModel) in
+                self?.dismiss(animated: true, completion: nil)
+                self?.data = data.items
+                self?.tableView.reloadData()
+        }, feilure: { [weak self] (error, code) in
+            self?.dismiss(animated: true, completion: {
+                self?.alertError(message: error.detail)
+            })
+        })
 
     }
     
@@ -211,12 +211,8 @@ extension ZSCartViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ZSCartTableViewCell.reuseId, for: indexPath)
-        
         let model = self.data[indexPath.row]
-        let image = indexPath.row % 2 == 0 ? UIImage(named: "men") : UIImage(named: "women")
-        
-        (cell as? ZSCartTableViewCell)?
-            .initCell(image: image, title: model)
+        (cell as? ZSCartTableViewCell)?.initCell(model: model)
         return cell
     }
     

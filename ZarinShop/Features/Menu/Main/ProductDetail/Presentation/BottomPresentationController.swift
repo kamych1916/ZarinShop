@@ -8,19 +8,25 @@
 
 import UIKit
 
-class SizesColorsPresentationController: UIPresentationController {
+class BottomPresentationController: UIPresentationController {
 
     //MARK: - GUI variables
     
     let blurEffectView: UIVisualEffectView!
     var tapGesture = UITapGestureRecognizer()
     
+    var presentedViewFrame: CGRect?
+    
     //MARK: - Override properties
     
     override var frameOfPresentedViewInContainerView: CGRect {
-        CGRect(origin: CGPoint(x: 0, y: self.containerView!.frame.height * 0.5),
+        if let frame = self.presentedViewFrame {
+            return frame
+        }
+        return CGRect(origin: CGPoint(x: 0, y: self.containerView!.frame.height * 0.5),
                size: CGSize(width: self.containerView!.frame.width,
-                            height: self.containerView!.frame.height * 0.5))
+                            height: self.containerView!.frame.height * 0.5
+        ))
     }
     
     //MARK: - Initinalization

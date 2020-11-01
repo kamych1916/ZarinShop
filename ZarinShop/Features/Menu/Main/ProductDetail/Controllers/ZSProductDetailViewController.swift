@@ -137,7 +137,27 @@ class ZSProductDetailViewController: ZSBaseViewController {
         guard let product = self.product else { return }
         self.titleView.initView(name: product.name, price: "\(product.price) сум")
         self.descriptionView.initView(text: product.description)
-        self.loadImages()
+        var sizesString = ""
+        for i in 0..<product.size.count {
+            if i != 0 {
+                sizesString.append("/" + product.size[i])
+            } else if i == 0 {
+                sizesString.append(product.size[i])
+            }
+        }
+        self.specificationView.initView(
+            items: [
+                .init(title: "Цвет", description: "Red"),
+                .init(title: "Размер", description: sizesString),
+                .init(title: "Модель", description: "Adidas"),
+                .init(title: "Страна", description: "Turkey")
+        ])
+
+        self.imageSlideshow.setImageInputs([
+            ImageSource(image: UIImage(named: "defauldProduct")!),
+            ImageSource(image: UIImage(named: "defauldProduct")!),
+            ImageSource(image: UIImage(named: "defauldProduct")!)])
+        //self.loadImages()
     }
     
     // MARK: - Helpers
@@ -182,10 +202,18 @@ class ZSProductDetailViewController: ZSBaseViewController {
     // MARK: - Actions
     
     @objc private func addToCartButtonTapped(_ sender: UIButton) {
-        let colorsVC = ZSColorsViewController()
-        colorsVC.modalPresentationStyle = .custom
-        colorsVC.transitioningDelegate = self
-        self.present(colorsVC, animated: true, completion: nil)
+        if UserDefaults.standard.isSingin() {
+            guard let product = self.product else { return }
+            let controller = ZSColorsSizesViewController()
+            controller.modalPresentationStyle = .custom
+            controller.transitioningDelegate = self
+            controller.productId = product.id
+            controller.colors = [product.color]
+            controller.sizes = product.size
+            self.present(controller, animated: true, completion: nil)
+        } else {
+            self.alertSignin()
+        }
     }
     
 }
@@ -194,6 +222,6 @@ class ZSProductDetailViewController: ZSBaseViewController {
 
 extension ZSProductDetailViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        SizesColorsPresentationController(presentedViewController: presented, presenting: presenting)
+        BottomPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

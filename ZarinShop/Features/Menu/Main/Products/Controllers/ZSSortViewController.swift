@@ -1,29 +1,31 @@
 //
-//   ZSSizesViewController.swift
+//  ZSSortViewController.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 10/30/20.
+//  Created by Murad Ibrohimov on 11/1/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 
 import UIKit
 
-class ZSSizesViewController: UIViewController {
+class ZSSortViewController: UIViewController {
     
-    //MARK: - Public variables
+    // MARK: - Public Variables
     
-    //MARK: - Private variables
+    var selected: ((Int) -> ())?
     
-    var data: [String] = [] {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
+    // MARK: - Private Variables
     
     private var hasSetPointOrigin = false
     private var pointOrigin: CGPoint?
+    private let identifier = "SortTableViewCell"
+    private let data: [String] = [
+        "Цена по убыванию",
+        "Цена по возрастанию",
+        "Скидки по убыванию",
+        "Скидки по возрастанию"]
     
-    //MARK: - GUI variables
+    // MARK: - GUI Variables
     
     private lazy var topView: UIView = {
         var view = UIView()
@@ -43,11 +45,11 @@ class ZSSizesViewController: UIViewController {
         return view
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         var label = UILabel()
-        label.text = "Выберите размер"
-        label.textAlignment = .center
-        label.textColor = .black
+        label.text = "Сортировать по"
+        label.textAlignment = .left
+        label.textColor = AppColors.textDarkColor.color()
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -59,14 +61,13 @@ class ZSSizesViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-        tableView.tableHeaderView = UIView()
-        tableView.tableFooterView = UIView()
-        tableView.register(ZSSizesTableViewCell.self, forCellReuseIdentifier: ZSSizesTableViewCell.identifier)
+        tableView.isScrollEnabled = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: self.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-
-    //MARK: - View life cycle
+    
+    // MARK: - View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +86,7 @@ class ZSSizesViewController: UIViewController {
         }
     }
     
-    //MARK: - Constraints
+    // MARK: - Constraints
     
     private func makeConstraints() {
         self.topView.snp.makeConstraints { (make) in
@@ -99,22 +100,23 @@ class ZSSizesViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         self.titleLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(28)
+            make.top.equalToSuperview().inset(30)
             make.centerX.equalToSuperview()
         }
         self.tableView.snp.makeConstraints { (make) in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(20)
-            make.left.right.bottom.equalToSuperview().inset(20)
+            make.left.right.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(10)
         }
     }
     
-    //MARK: - Setters
+    // MARK: - Setters
     
     private func addSubviews() {
         self.view.addSubview(self.topView)
         self.topView.addSubview(self.topDarkIndicatorView)
-        self.view.addSubview(self.tableView)
         self.view.addSubview(self.titleLabel)
+        self.view.addSubview(self.tableView)
     }
     
     //MARK: - Actions
@@ -140,29 +142,25 @@ class ZSSizesViewController: UIViewController {
     
 }
 
-//MARK: - UITableViewDelegate, UITableViewDataSource
+// MARK: - UITableViewDelegate, UITableViewDataSource
 
-extension ZSSizesViewController: UITableViewDelegate, UITableViewDataSource {
+extension ZSSortViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ZSSizesTableViewCell.identifier, for: indexPath)
-        let model = self.data[indexPath.row]
-        var size = ""
-        if model == "M" {
-            size = "Средний"
-        } else if model == "S" {
-            size = "Маленький"
-        } else if model == "L" {
-            size = "Большой"
-        } else {
-            size = "Экстра"
-        }
-        (cell as? ZSSizesTableViewCell)?.initCell(model, size)
+        let cell = tableView.dequeueReusableCell(withIdentifier: self.identifier, for: indexPath)
+        cell.textLabel?.text = self.data[indexPath.row]
+        cell.textLabel?.font = .systemFont(ofSize: 17)
+        cell.textLabel?.textAlignment = .center
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selected?(indexPath.row)
+        self.dismiss(animated: true, completion: nil)
     }
     
 }

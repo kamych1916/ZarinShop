@@ -12,7 +12,6 @@ class ZSAuthorizationViewController: UIViewController {
     
     // MARK: - Public Variables
     
-    var dismissHandler: (() -> Void)?
     var loginHandler: (() -> Void)?
     
     // MARK: - Private Variables
@@ -283,8 +282,7 @@ class ZSAuthorizationViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func dismissButtonTapped() {
-        self.dismissHandler?()
-        //AppDelegate.shared.rootViewController.switchToMainScreen()
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc private func registerButtonTapped(_ sender: UIButton) {

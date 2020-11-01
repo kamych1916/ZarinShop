@@ -155,9 +155,6 @@ class ZSProfileViewController: ZSBaseViewController {
     @objc private func signinButtonTapped(_ sener: UIButton) {
         let authVC = ZSAuthorizationViewController()
         authVC.modalPresentationStyle = .fullScreen
-        authVC.dismissHandler = { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
         authVC.loginHandler = { [weak self] in
             self?.dismiss(animated: true, completion: nil)
             self?.setupViewWithSingin()
@@ -197,19 +194,28 @@ class ZSProfileViewController: ZSBaseViewController {
     //MARK: - Helpers
     
     private func logoutUser() {
-        let alert = UIAlertController(title: "Выход из профиля", message: "Вы уверены, что хотите выйти из профиля?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { [weak self] (action) in
-            self?.loadingAlert()
-            Network.shared.delete(
-                url: ZSURLPath.logout) {
-                UserDefaults.standard.setLogoutUser()
-                self?.setupViewWithSingin()
-                self?.dismiss(animated: true, completion: nil)
-            } feilure: { (error) in
-                self?.alertError(message: error.detail)
-            }
-        }))
+        let alert = UIAlertController(
+            title: "Выход из профиля",
+            message: "Вы уверены, что хотите выйти из профиля?",
+            preferredStyle: .alert)
         
+        alert.addAction(UIAlertAction(
+            title: "Подтвердить",
+            style: .default, handler: { [weak self] (action) in
+                self?.loadingAlert()
+                Network.shared.delete(
+                    url: Path.logout,
+                    success: { [weak self] in
+                        UserDefaults.standard.setLogoutUser()
+                        self?.setupViewWithSingin()
+                        self?.dismiss(animated: true, completion: nil)
+                    },
+                    feilure: { [weak self] (error) in
+                        self?.dismiss(animated: true, completion: {
+                            self?.alertError(message: error.detail)
+                        })
+                })
+        }))
         alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

@@ -13,14 +13,12 @@ class ZSProductsViewController: ZSBaseViewController {
     
     // MARK: - Private Variables
     
-    private var mainCategory: ZSSubcategoriesModel!
-    private var categories: [ZSSubcategoriesModel]!
-    
+    private var controllerTitle: String = ""
+    private var initId: String = ""
+    private var categories: [ZSSubcategoriesModel] = []
     private var products: [ZSProductModel] = []
-    
     private var isSearching: Bool = false
     private var searchedProducts: [ZSProductModel] = []
-    
     private var itemsAspect: CGFloat {
         return UIScreen.main.bounds.width - 20 - 20 - 10
     }
@@ -37,21 +35,23 @@ class ZSProductsViewController: ZSBaseViewController {
         view.translatesAutoresizingMaskIntoConstraints = true
         return view
     }()
-
-    private lazy var titleLabel: UILabel = {
-        var label = UILabel()
-        label.text = "My Custom Label"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
         
     // MARK: - Initialization
     
-    convenience init(category: ZSSubcategoriesModel) {
+    convenience init(subcategory: ZSSubcategoriesModel) {
         self.init()
         
-        self.mainCategory = category
-        self.categories = category.subcategories
+        self.controllerTitle = subcategory.name
+        self.initId = subcategory.id
+        self.categories = subcategory.subcategories
+    }
+    
+    convenience init(category: ZSCategoriesModel) {
+        self.init()
+        
+        self.controllerTitle = category.name
+        self.initId = category.id
+        self.categories = []
     }
     
     // MARK: - View Lifecycle
@@ -63,7 +63,7 @@ class ZSProductsViewController: ZSBaseViewController {
         self.setupNavigationBar()
         self.addSubviews()
         self.makeConstraints()
-        self.loadProducts(with: self.mainCategory.id)
+        self.loadProducts(with: self.initId)
         self.addObservers()
     }
     
@@ -78,11 +78,20 @@ class ZSProductsViewController: ZSBaseViewController {
     // MARK: - Actions
     
     @objc private func sortButtonTapped(_ notification: Notification) {
-        print("sort")
+        let controller = ZSSortViewController()
+        controller.modalPresentationStyle = .custom
+        controller.transitioningDelegate = self
+        controller.selected = { [weak self] index in
+            self?.sortProducts(index)
+        }
+        self.present(controller, animated: true, completion: nil)
     }
     
     @objc private func filterButtonTapped(_ notification: Notification) {
-        print("filter")
+        let controller = ZSFilterViewController()
+        controller.modalPresentationStyle = .custom
+        controller.transitioningDelegate = self
+        self.present(controller, animated: true, completion: nil)
     }
     
     // MARK: - Setters
@@ -106,7 +115,7 @@ class ZSProductsViewController: ZSBaseViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationItem.title = self.mainCategory.name
+        self.navigationItem.title = self.controllerTitle
     }
     
     // MARK: - Network
@@ -129,6 +138,29 @@ class ZSProductsViewController: ZSBaseViewController {
                     self.alertError(message: error.detail)
                 })
         })
+    }
+    
+    // MARK: - Helpers
+    
+    private func sortProducts(_ selectedIndex: Int) {
+        switch selectedIndex {
+        case 0:
+            self.searchedProducts = self.products.sorted{ return $0.price > $1.price }
+            break
+        case 1:
+            self.searchedProducts = self.products.sorted{ return $0.price < $1.price }
+            break
+        case 2:
+            self.searchedProducts = self.products.sorted{ return $0.discount > $1.discount }
+            break
+        case 3:
+            self.searchedProducts = self.products.sorted{ return $0.discount < $1.discount }
+            break
+        default:
+            break
+        }
+        self.isSearching = true
+        self.mainView.productsCollectionView.reloadData()
     }
     
 }
@@ -199,12 +231,15 @@ extension ZSProductsViewController: UICollectionViewDelegate, UICollectionViewDa
 
 extension ZSProductsViewController: UISearchBarDelegate {
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text else { return }
-        self.searchedProducts = self.products.filter({ (data: ZSProductModel) -> Bool in
-            return data.name.lowercased().contains(text.lowercased())
-        })
-        self.isSearching = true
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText == "" {
+            self.mainView.productsCollectionView.reloadData()
+        } else {
+            self.searchedProducts = self.products.filter({ (data: ZSProductModel) -> Bool in
+                return data.name.lowercased().contains(searchText.lowercased())
+            })
+            self.isSearching = true
+        }
         self.mainView.productsCollectionView.reloadData()
     }
     
@@ -213,4 +248,19 @@ extension ZSProductsViewController: UISearchBarDelegate {
         self.mainView.productsCollectionView.reloadData()
     }
     
+}
+
+
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension ZSProductsViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        let present = BottomPresentationController(presentedViewController: presented, presenting: presenting)
+        if presented is ZSFilterViewController {
+            present.presentedViewFrame = CGRect(
+                origin: CGPoint(x: 0, y: presented.view.frame.height * 0.4),
+                size: CGSize(width: presented.view.frame.width, height: presented.view.frame.height * 0.6))
+        }
+        return present
+    }
 }
