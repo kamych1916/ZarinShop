@@ -21,7 +21,7 @@ class _FavoriteIconState extends State<FavoriteIcon> {
 
   @override
   void initState() {
-    streamSubscription = productBloc.favoritesIDStream.listen((event) {
+    streamSubscription = productBloc.favoritesEntitiesStream.listen((event) {
       if (event.length <= 99)
         setState(() {
           count = event.length;
@@ -68,19 +68,20 @@ class _FavoriteIconState extends State<FavoriteIcon> {
                   child: Container(
                       width: 18,
                       height: 18,
-                      padding: EdgeInsets.only(
-                          top: 1.5, bottom: 3.0, left: 3.0, right: 3.0),
+                      padding: EdgeInsets.only(bottom: 3.0),
                       decoration: ShapeDecoration(
                         shape: CircleBorder(),
-                        color: Colors.deepPurple,
+                        color: Styles.mainColor,
                       ),
-                      child: Text(
-                        count.toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.white,
-                            fontFamily: "SegoeUIBold"),
+                      child: Center(
+                        child: Text(
+                          count.toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                              fontFamily: "SegoeUIBold"),
+                        ),
                       )),
                 ),
               )

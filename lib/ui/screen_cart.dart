@@ -1,3 +1,4 @@
+import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/product.dart';
@@ -7,24 +8,40 @@ import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:async';
+
 class CartScreen extends StatefulWidget {
   @override
   _CartScreenState createState() => _CartScreenState();
 }
 
 class _CartScreenState extends State<CartScreen> {
+  StreamSubscription streamSubscribtion;
+
   @override
   void initState() {
     cartInit();
+
+    streamSubscribtion = productBloc.cartEntitiesStream.listen((event) async {
+      await productBloc.getCartProducts();
+      productBloc.calculateCartTotal();
+    });
+
     super.initState();
   }
 
   cartInit() async {
-    await productBloc.getCart();
+    await productBloc.getCartProducts();
     productBloc.calculateCartTotal();
   }
 
-  refresh() => productBloc.getCart();
+  refresh() => productBloc.getCartProducts();
+
+  @override
+  void dispose() {
+    streamSubscribtion.cancel();
+    super.dispose();
+  }
 
   Widget _error(String message) {
     return Center(
@@ -32,7 +49,7 @@ class _CartScreenState extends State<CartScreen> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Icon(
-            Icons.error_outline,
+            AppIcons.warning,
             size: 30.0,
           ),
           Padding(
@@ -92,7 +109,7 @@ class _CartScreenState extends State<CartScreen> {
             child: Padding(
               padding: EdgeInsets.only(top: 10.0),
               child: StreamBuilder(
-                stream: productBloc.cartStream,
+                stream: productBloc.cartProductsStream,
                 builder: (context,
                     AsyncSnapshot<ApiResponse<List<Product>>> snapshot) {
                   if (!snapshot.hasData ||
@@ -111,7 +128,7 @@ class _CartScreenState extends State<CartScreen> {
                       child: _error(snapshot.data.message),
                     );
 
-                  if (productBloc.cart.isEmpty)
+                  if (productBloc.cartProducts.isEmpty)
                     return Center(
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 100.0),
@@ -122,9 +139,9 @@ class _CartScreenState extends State<CartScreen> {
                   return CupertinoScrollbar(
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
-                        itemCount: productBloc.cart.length,
+                        itemCount: productBloc.cartProducts.length,
                         itemBuilder: (context, index) =>
-                            CartProductCard(productBloc.cart[index])),
+                            CartProductCard(productBloc.cartEntities[index])),
                   );
                 },
               ),

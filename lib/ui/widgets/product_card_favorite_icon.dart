@@ -28,10 +28,10 @@ class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
     _colorTween = ColorTween(begin: Colors.white, end: Colors.red[400])
         .animate(_animationController);
 
-    if (productBloc.favoritesID.contains(widget.product.id))
+    if (productBloc.favoritesEntities.contains(widget.product.id))
       _animationController.forward();
 
-    streamSubscription = productBloc.favoritesIDStream.listen((event) {
+    streamSubscription = productBloc.favoritesEntitiesStream.listen((event) {
       if (!event.contains(widget.product.id)) _animationController.reset();
     });
 

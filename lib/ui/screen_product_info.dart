@@ -5,10 +5,20 @@ import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/ui/widgets/cart_icon.dart';
 import 'package:Zarin/ui/widgets/favorite_icon.dart';
+import 'package:Zarin/ui/widgets/sizes.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:Zarin/ui/widgets/slider_img.dart' as Zarin;
 import 'package:rxdart/rxdart.dart';
+
+extension HexColor on Color {
+  static Color fromHex(String hexString) {
+    String color = "0x" + hexString;
+    print(color);
+    print(Color(int.parse(color)));
+    return Color(int.parse(color));
+  }
+}
 
 class ProductInfo extends StatefulWidget {
   final Product product;
@@ -27,6 +37,7 @@ class _ProductInfoState extends State<ProductInfo> {
       PublishSubject();
   final PublishSubject<bool> startDotAnimationSubject = PublishSubject();
   final BehaviorSubject<int> countSubject = BehaviorSubject();
+  final BehaviorSubject<int> sizeSubject = BehaviorSubject()..sink.add(-1);
 
   Offset cartPosition;
   Offset buttonPosition;
@@ -55,18 +66,26 @@ class _ProductInfoState extends State<ProductInfo> {
     addToCartOffsetsSubject.close();
     startDotAnimationSubject.close();
     countSubject.close();
+    sizeSubject.close();
     super.dispose();
   }
 
-  buttonCallback() => startDotAnimationSubject.sink.add(true);
+  buttonCallback() {
+    if (widget.product.sizes.isEmpty || sizeSubject.value == -1) {
+      sizeSubject.sink.add(-2);
+    } else
+      startDotAnimationSubject.sink.add(true);
+  }
 
   counterCallback(int count) => countSubject.sink.add(count);
 
-  addToCartCallback() =>
-      productBloc.addProductToCart(widget.product, countSubject.value);
+  addToCartCallback() => productBloc.addProductToCart(
+      widget.product, countSubject.value, sizeSubject.value);
 
   @override
   Widget build(BuildContext context) {
+    widget.product.precacheImages(context);
+
     return Stack(
       children: [
         Scaffold(
@@ -97,96 +116,131 @@ class _ProductInfoState extends State<ProductInfo> {
               ],
             ),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height / 1.8,
-                  margin: EdgeInsets.only(top: 10.0),
-                  child: Zarin.Slider(
-                    children: List.generate(
-                      4,
-                      (index) => Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                fit: BoxFit.contain,
-                                image: widget.product.image)),
+          body: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height / 1.8,
+                    margin: EdgeInsets.only(top: 5.0),
+                    child: Zarin.Slider(
+                      children: List.generate(
+                        widget.product.images.length,
+                        (index) => Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.contain,
+                                  image: widget.product.images[index])),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Container(
+                  Padding(padding: EdgeInsets.symmetric(vertical: 2.5)),
+                  Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                      width: double.infinity,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                      // decoration: BoxDecoration(
+                      //     color: Colors.white,
+                      //     borderRadius: BorderRadius.circular(20)),
+                      child: Row(
+                        children: [
+                          Text(
+                            widget.product.totalPrice.floor().toString() +
+                                " сум",
+                            style: TextStyle(
+                                fontFamily: "SegoeUIBold", fontSize: 20),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.0),
+                          ),
+                          Text(
+                            (widget.product.price).floor().toString() + " сум",
+                            style: TextStyle(
+                                fontFamily: "SegoeUI",
+                                fontSize: 14,
+                                color: Colors.red[300],
+                                decoration: TextDecoration.lineThrough),
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Counter(widget.product.maxCount, counterCallback)
+                        ],
+                      )),
+                  //Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                    // decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(20)),
+                    child: Sizes(widget.product.sizes, sizeSubject),
+                  ),
+                  //Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+                  Container(
                     margin:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 80.0),
                     width: double.infinity,
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Row(
+                    // decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          (widget.product.price -
-                                      widget.product.price *
-                                          (widget.product.discount / 100))
-                                  .floor()
-                                  .toString() +
-                              " сум",
+                        SelectableText(
+                          widget.product.name,
                           style: TextStyle(
-                              fontFamily: "SegoeUIBold", fontSize: 20),
+                              height: 0.9,
+                              color: Styles.textColor,
+                              fontFamily: "SegoeUIBold",
+                              fontSize: 20),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: EdgeInsets.symmetric(vertical: 5.0),
                         ),
-                        Text(
-                          (widget.product.price).floor().toString() + " сум",
+                        Row(
+                          children: [
+                            Text(
+                              "Цвет",
+                              style: TextStyle(fontFamily: "SegoeUISemiBold"),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.0),
+                            ),
+                            Container(
+                              width: 15,
+                              height: 15,
+                              decoration: ShapeDecoration(
+
+                                  /// TODO: цвет
+                                  //color: HexColor.fromHex(widget.product.color),
+                                  color: Colors.red,
+                                  shadows: Styles.cardShadows,
+                                  shape: CircleBorder()),
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 5.0),
+                        ),
+                        SelectableText(
+                          widget.product.description,
                           style: TextStyle(
-                              fontFamily: "SegoeUI",
-                              fontSize: 14,
-                              color: Colors.red[300],
-                              decoration: TextDecoration.lineThrough),
-                        ),
-                        Expanded(
-                          child: Container(),
-                        ),
-                        Counter(widget.product.maxCount, counterCallback)
+                              fontSize: 13, fontFamily: "SegoeUISemiBold"),
+                        )
                       ],
-                    )),
-                Container(
-                  margin:
-                      EdgeInsets.only(left: 20.0, right: 20.0, bottom: 80.0),
-                  width: double.infinity,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SelectableText(
-                        widget.product.name,
-                        style: TextStyle(
-                            height: 0.9,
-                            color: Styles.textColor,
-                            fontFamily: "SegoeUIBold",
-                            fontSize: 20),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5.0),
-                      ),
-                      SelectableText(
-                        widget.product.description,
-                        style: TextStyle(
-                            fontSize: 13, fontFamily: "SegoeUISemiBold"),
-                      )
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

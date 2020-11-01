@@ -45,13 +45,13 @@ class _CartProductCardLoadingState extends State<CartProductCardLoading>
       decoration: BoxDecoration(
           boxShadow: Styles.cardShadows,
           color: Colors.white,
-          borderRadius: BorderRadius.circular(25.0)),
+          borderRadius: BorderRadius.circular(15.0)),
       child: Row(
         children: [
           Container(
               width: 75,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   color: Color.fromRGBO(218, 221, 232, 1)
                       .withOpacity(animationOpacity.value))),
           Expanded(
@@ -61,69 +61,27 @@ class _CartProductCardLoadingState extends State<CartProductCardLoading>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 25,
-                        decoration: borderContainerDecoration,
-                      ),
-                      Container(
-                        width: 25,
-                        height: 25,
-                        decoration: borderContainerDecoration,
-                      )
-                    ],
+                  Container(
+                    width: 100,
+                    height: 25,
+                    decoration: borderContainerDecoration,
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 1),
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        width: 35,
-                        height: 25,
-                        decoration: borderContainerDecoration,
-                      ),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-                      Container(
-                        width: 25,
-                        height: 25,
-                        decoration: borderContainerDecoration,
-                      )
-                    ],
+                  Container(
+                    width: 60,
+                    height: 25,
+                    decoration: borderContainerDecoration,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 15,
-                            height: 25,
-                            decoration: borderContainerDecoration,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 7.5),
-                          ),
-                          Container(
-                            width: 60,
-                            height: 25,
-                            decoration: borderContainerDecoration,
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: 100,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Color.fromRGBO(218, 221, 232, 1)
-                                .withOpacity(animationOpacity.value)),
-                      )
-                    ],
-                  )
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 1),
+                  ),
+                  Container(
+                    width: 80,
+                    height: 25,
+                    decoration: borderContainerDecoration,
+                  ),
                 ],
               ),
             ),

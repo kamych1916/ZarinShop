@@ -9,11 +9,13 @@ class AppBloc {
 
   init(context) async {
     prefs = await SharedPreferences.getInstance();
-    //prefs.clear();
+    prefs.clear();
     storage = new FlutterSecureStorage();
     bool auth = await userBloc.getUser();
-    auth ? productBloc.getUserCartID() : productBloc.getLocalCartID();
-    productBloc.getFavoritesIDFromLocal();
+    auth
+        ? await productBloc.getCartEntities()
+        : productBloc.getLocalCartEntities();
+    productBloc.getFavoritesEntitiesFromLocal();
     await productBloc.getCategories(context);
   }
 }

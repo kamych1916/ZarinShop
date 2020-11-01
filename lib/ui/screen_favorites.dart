@@ -1,3 +1,4 @@
+import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/product.dart';
@@ -15,11 +16,11 @@ class FavoritesScreen extends StatefulWidget {
 class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   void initState() {
-    productBloc.getFavorites();
+    productBloc.getFavoritesProducts();
     super.initState();
   }
 
-  refresh() => productBloc.getFavorites();
+  refresh() => productBloc.getFavoritesProducts();
 
   Widget _error(String message) {
     return Center(
@@ -27,7 +28,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Icon(
-            Icons.error_outline,
+            AppIcons.warning,
             size: 30.0,
           ),
           Padding(
@@ -82,7 +83,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       body: Padding(
         padding: EdgeInsets.only(top: 20.0),
         child: StreamBuilder(
-          stream: productBloc.favoritesStream,
+          stream: productBloc.favoritesProductsStream,
           builder:
               (context, AsyncSnapshot<ApiResponse<List<Product>>> snapshot) {
             if (!snapshot.hasData || snapshot.data.status == Status.LOADING)
@@ -110,7 +111,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 child: _error(snapshot.data.message),
               );
 
-            if (productBloc.favorites.isEmpty)
+            if (productBloc.favoritesProducts.isEmpty)
               return Center(
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 100.0),
@@ -130,8 +131,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
                 crossAxisCount: 2,
-                children: List.generate(productBloc.favorites.length, (index) {
-                  return ProductCard(productBloc.favorites[index]);
+                children: List.generate(productBloc.favoritesProducts.length,
+                    (index) {
+                  return ProductCard(productBloc.favoritesProducts[index]);
                 }),
               ),
             );

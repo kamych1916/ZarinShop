@@ -1,3 +1,4 @@
+import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -26,66 +27,62 @@ class _SliderState extends State<Slider> {
   }
 
   Widget build(BuildContext context) {
-    return Stack(
+    double size = MediaQuery.of(context).size.width / widget.children.length;
+    return Column(
       children: [
-        PageView(
-          children: widget.children,
-          onPageChanged: (value) => currentIndex.sink.add(value),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: 30.0,
-            margin: EdgeInsets.only(bottom: 10.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: List.generate(
-                  widget.children.length,
-                  (index) => Dot(
-                        index: index,
-                        currentIndex: currentIndex,
-                      )),
-            ),
+        Expanded(
+          child: PageView(
+            children: widget.children,
+            onPageChanged: (value) => currentIndex.sink.add(value),
           ),
-        )
+        ),
+        widget.children.length >= 2
+            ? Container(
+                height: 2,
+                width: double.infinity,
+                color: Styles.backgroundColor,
+                alignment: Alignment.centerLeft,
+                child: Line(
+                  size: size,
+                  currentIndex: currentIndex,
+                ),
+              )
+            : Container()
       ],
     );
   }
 }
 
-class Dot extends StatefulWidget {
-  final int index;
+class Line extends StatefulWidget {
+  final double size;
   final BehaviorSubject currentIndex;
 
-  const Dot({Key key, this.index, this.currentIndex}) : super(key: key);
+  const Line({Key key, this.size, this.currentIndex}) : super(key: key);
   @override
-  _DotState createState() => _DotState();
+  _LineState createState() => _LineState();
 }
 
-class _DotState extends State<Dot> {
-  double dotSize = 5.0;
+class _LineState extends State<Line> {
+  double position;
 
   @override
   void initState() {
-    widget.currentIndex.listen((value) {
-      if (value == widget.index)
-        setState(() => dotSize = 8.5);
-      else if (dotSize == 8.5) setState(() => dotSize = 5);
-    });
+    position = 0;
+    widget.currentIndex
+        .listen((value) => setState(() => position = value * widget.size));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
-      width: dotSize,
-      height: dotSize,
-      margin: EdgeInsets.all(5.0),
-      decoration: ShapeDecoration(
-        color: Colors.grey,
-        shape: CircleBorder(side: BorderSide(color: Colors.white, width: 0.6)),
+      duration: Duration(milliseconds: 250),
+      height: 2,
+      margin: EdgeInsets.only(left: position),
+      width: widget.size,
+      decoration: BoxDecoration(
+        boxShadow: Styles.cardShadows,
+        color: Colors.black,
       ),
     );
   }

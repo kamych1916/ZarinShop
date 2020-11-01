@@ -21,6 +21,8 @@ dependencies:
   circular_check_box: ^1.0.4
   shared_preferences: ^0.5.12+2
   flutter_secure_storage: ^3.3.5
+  requests: ^3.3.0
+  
 flutter:
   fonts:
   - family: AppIcons

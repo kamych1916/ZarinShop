@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:Zarin/blocs/app_bloc.dart';
+import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
-import 'package:Zarin/models/cart_product.dart';
+import 'package:Zarin/models/cart_entity.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/resources/product_api_provider.dart';
@@ -12,33 +13,40 @@ import 'package:rxdart/rxdart.dart';
 
 class ProductBloc {
   final _productApiProvider = ProductApiProvider();
+
   final _categoriesSubject = BehaviorSubject<ApiResponse<List<Category>>>();
-  final _cartProductsSubject = BehaviorSubject<List<CartProduct>>();
-  final _cartSubject = BehaviorSubject<ApiResponse<List<Product>>>();
-  final _favoritesIDSubject = BehaviorSubject<List<String>>();
-  final _favoritesSubject = BehaviorSubject<ApiResponse<List<Product>>>();
+
+  final _cartEntitiesSubject = BehaviorSubject<List<CartEntity>>();
+  final _cartProductsSubject = BehaviorSubject<ApiResponse<List<Product>>>();
+
+  final _favoritesEntitiesSubject = BehaviorSubject<List<String>>();
+  final _favoritesProductsSubject =
+      BehaviorSubject<ApiResponse<List<Product>>>();
+
   final _productsSubject = BehaviorSubject<ApiResponse<List<Product>>>();
 
   final _cartTotalSubject = BehaviorSubject<double>()..sink.add(0);
 
   Stream<ApiResponse<List<Category>>> get categoriesStream =>
       _categoriesSubject.stream;
-  Stream<List<CartProduct>> get cartProductsStream =>
+  Stream<List<CartEntity>> get cartEntitiesStream =>
+      _cartEntitiesSubject.stream;
+  Stream<ApiResponse<List<Product>>> get cartProductsStream =>
       _cartProductsSubject.stream;
-  Stream<ApiResponse<List<Product>>> get cartStream => _cartSubject.stream;
-  Stream<ApiResponse<List<Product>>> get favoritesStream =>
-      _favoritesSubject.stream;
-  Stream<List<String>> get favoritesIDStream => _favoritesIDSubject.stream;
+  Stream<ApiResponse<List<Product>>> get favoritesProductsStream =>
+      _favoritesProductsSubject.stream;
+  Stream<List<String>> get favoritesEntitiesStream =>
+      _favoritesEntitiesSubject.stream;
   Stream<ApiResponse<List<Product>>> get productsStream =>
       _productsSubject.stream;
 
   Stream<double> get cartTotalStream => _cartTotalSubject.stream;
 
   List<Category> get categories => _categoriesSubject.value?.data;
-  List<CartProduct> get cartProducts => _cartProductsSubject.value;
-  List<Product> get cart => _cartSubject.value?.data;
-  List<Product> get favorites => _favoritesSubject.value?.data;
-  List<String> get favoritesID => _favoritesIDSubject.value;
+  List<CartEntity> get cartEntities => _cartEntitiesSubject.value;
+  List<Product> get cartProducts => _cartProductsSubject.value?.data;
+  List<Product> get favoritesProducts => _favoritesProductsSubject.value?.data;
+  List<String> get favoritesEntities => _favoritesEntitiesSubject.value;
   List<Product> get products => _productsSubject.value?.data;
 
   double get cartTotal => _cartTotalSubject.value;
@@ -61,6 +69,7 @@ class ProductBloc {
   /// Товары
 
   getProductsByCategoryId(String id, context) async {
+    print(id);
     _productsSubject.sink.add(ApiResponse.loading("Загрузка товара"));
 
     ApiResponse<List<Product>> products =
@@ -68,7 +77,11 @@ class ProductBloc {
 
     if (products.status == Status.COMPLETED) {
       for (Product product in products.data) {
-        await precacheImage(product.image, context);
+        try {
+          await precacheImage(product.firstImage, context);
+        } catch (ex) {
+          print(ex);
+        }
       }
     }
 
@@ -86,6 +99,8 @@ class ProductBloc {
 
   sortProducts() {
     List<Product> products = this.products;
+    if (products == null || products.isEmpty) return;
+
     _productsSubject.sink.add(ApiResponse.loading("Сортировка товара"));
 
     switch (currentSort) {
@@ -107,80 +122,94 @@ class ProductBloc {
 
   /// Корзина
 
-  getCart() async {
-    _cartSubject.sink.add(ApiResponse.loading("Загрузка товара"));
+  getCartProducts() async {
+    _cartProductsSubject.sink.add(ApiResponse.loading("Загрузка товара"));
 
     ApiResponse<List<Product>> cart = await _productApiProvider
-        .getProductsByID(cartProducts.map((e) => e.id).toList());
+        .getProductsByID(cartEntities.map((e) => e.id).toList());
 
-    _cartSubject.sink.add(cart);
+    _cartProductsSubject.sink.add(cart);
   }
 
-  getLocalCartID() {
+  getCartEntities() async {
+    ApiResponse<List<CartEntity>> response =
+        await _productApiProvider.getUserCart();
+
+    if (response.status == Status.COMPLETED && response.data.isNotEmpty)
+      _cartEntitiesSubject.sink.add(response.data);
+    else
+      _cartEntitiesSubject.sink.add([]);
+  }
+
+  getLocalCartEntities() {
     String cartEncode = appBloc.prefs.getString("cart");
 
     if (cartEncode != null && cartEncode.isNotEmpty) {
-      List<CartProduct> cart = [];
+      List<CartEntity> cart = [];
       List<dynamic> cartEncode = json.decode(appBloc.prefs.getString("cart"));
 
       for (dynamic cartEntity in cartEncode)
-        cart.add(CartProduct.fromJson(cartEntity));
+        cart.add(CartEntity.fromJson(cartEntity));
 
-      if (cart != null) _cartProductsSubject.sink.add(cart);
-
-      return;
+      if (cart != null) {
+        _cartEntitiesSubject.sink.add(cart);
+        return;
+      }
     }
 
-    _cartProductsSubject.sink.add([]);
+    _cartEntitiesSubject.sink.add([]);
   }
 
-  saveCartToLocal() =>
-      appBloc.prefs.setString("cart", json.encode(cartProducts));
+  saveCartEntitiesToLocal() =>
+      appBloc.prefs.setString("cart", json.encode(cartEntities));
 
-  getUserCartID() {}
+  addProductToCart(Product product, count, sizeIndex) {
+    CartEntity cartEntity =
+        CartEntity(product.id, count, product.sizes[sizeIndex]);
 
-  addProductToCart(Product product, count) {
-    if (cartProducts != null) {
-      if (!cartProducts.contains(product)) {
-        CartProduct cartProduct = CartProduct(product.id, count);
+    if (cartEntities != null) {
+      if (!cartEntities.contains(cartEntity)) {
+        cartEntities.add(cartEntity);
+        _cartEntitiesSubject.sink.add(cartEntities);
 
-        cartProducts.add(cartProduct);
-        _cartProductsSubject.sink.add(cartProducts);
+        if (userBloc.auth) _productApiProvider.addProductToCart(cartEntity);
       } else {
-        CartProduct cartProduct =
+        CartEntity cartEntityinCart =
             // ignore: unrelated_type_equality_checks
-            cartProducts.firstWhere((element) => element == product);
-        cartProduct.count += count;
+            cartEntities.firstWhere((element) => element == cartEntity);
+        cartEntityinCart.count += count;
+
+        if (userBloc.auth) {
+          _productApiProvider.addProductToCart(cartEntity);
+        }
       }
 
-      saveCartToLocal();
+      if (!userBloc.auth) saveCartEntitiesToLocal();
     }
   }
 
-  removeProductFromCart(Product product) {
-    if (cartProducts != null && cartProducts.contains(product)) {
-      cart.remove(product);
-      _cartSubject.sink.add(ApiResponse.completed(cart));
+  removeProductFromCart(CartEntity cartEntity) {
+    if (cartEntities.contains(cartEntity)) {
+      cartEntities.remove(cartEntity);
+      _cartEntitiesSubject.sink.add(cartEntities);
 
-      CartProduct cartProduct =
-          // ignore: unrelated_type_equality_checks
-          cartProducts.firstWhere((element) => element == product);
-      cartProducts.remove(cartProduct);
-      _cartProductsSubject.sink.add(cartProducts);
-      saveCartToLocal();
+      if (userBloc.auth)
+        _productApiProvider.removeProductFromCart(cartEntity);
+      else
+        saveCartEntitiesToLocal();
     }
   }
 
   calculateCartTotal() async {
-    if (cartProducts.isNotEmpty && cart.isNotEmpty) {
+    if (cartEntities.isNotEmpty && cartProducts.isNotEmpty) {
       double total = 0;
 
-      for (CartProduct cartProduct in cartProducts) {
+      for (CartEntity cartEntity in cartEntities) {
         Product product =
             // ignore: unrelated_type_equality_checks
-            cart.firstWhere((element) => cartProduct == element);
+            cartProducts.firstWhere((element) => cartEntity == element);
 
-        total += cartProduct.count * product.price;
+        total += cartEntity.count * product.totalPrice;
       }
 
       _cartTotalSubject.sink.add(total);
@@ -188,55 +217,60 @@ class ProductBloc {
       _cartTotalSubject.sink.add(0);
   }
 
+  clearCart() {
+    cartEntities.clear();
+    _cartEntitiesSubject.sink.add(cartEntities);
+  }
+
   /// Избранное
 
-  getFavorites() async {
-    _favoritesSubject.sink.add(ApiResponse.loading("Загрузка товара"));
+  getFavoritesProducts() async {
+    _favoritesProductsSubject.sink.add(ApiResponse.loading("Загрузка товара"));
 
     ApiResponse<List<Product>> favorites =
-        await _productApiProvider.getProductsByID(favoritesID);
+        await _productApiProvider.getProductsByID(favoritesEntities);
 
-    _favoritesSubject.sink.add(favorites);
+    _favoritesProductsSubject.sink.add(favorites);
   }
 
-  getFavoritesIDFromLocal() {
+  getFavoritesEntitiesFromLocal() {
     List<String> favorites = appBloc.prefs.getStringList("favorites");
     if (favorites != null) {
-      _favoritesIDSubject.sink.add(favorites);
+      _favoritesEntitiesSubject.sink.add(favorites);
     } else
-      _favoritesIDSubject.sink.add([]);
+      _favoritesEntitiesSubject.sink.add([]);
   }
 
-  saveFavoritesToLocal() =>
-      appBloc.prefs.setStringList("favorites", favoritesID);
+  saveFavoritesEntitiesToLocal() =>
+      appBloc.prefs.setStringList("favorites", favoritesEntities);
 
   addProductToFavorite(Product product) {
-    if (favoritesID != null && !favoritesID.contains(product.id)) {
-      favoritesID.add(product.id);
-      _favoritesIDSubject.sink.add(favoritesID);
-      saveFavoritesToLocal();
+    if (favoritesEntities != null && !favoritesEntities.contains(product.id)) {
+      favoritesEntities.add(product.id);
+      _favoritesEntitiesSubject.sink.add(favoritesEntities);
+      saveFavoritesEntitiesToLocal();
     }
   }
 
   removeProductFromFavorite(Product product) {
-    if (favoritesID != null && favoritesID.contains(product.id)) {
-      favoritesID.remove(product.id);
-      _favoritesIDSubject.sink.add(favoritesID);
-      saveFavoritesToLocal();
+    if (favoritesEntities != null && favoritesEntities.contains(product.id)) {
+      favoritesEntities.remove(product.id);
+      _favoritesEntitiesSubject.sink.add(favoritesEntities);
+      saveFavoritesEntitiesToLocal();
     }
   }
 
   void dispose() async {
     await _categoriesSubject.drain();
     _categoriesSubject.close();
-    await _cartSubject.drain();
-    _cartSubject.close();
+    await _cartEntitiesSubject.drain();
+    _cartEntitiesSubject.close();
     await _productsSubject.drain();
     _productsSubject.close();
-    await _favoritesIDSubject.drain();
-    _favoritesIDSubject.close();
-    await _favoritesSubject.drain();
-    _favoritesSubject.close();
+    await _favoritesEntitiesSubject.drain();
+    _favoritesEntitiesSubject.close();
+    await _favoritesProductsSubject.drain();
+    _favoritesProductsSubject.close();
     await _cartProductsSubject.drain();
     _cartProductsSubject.close();
     await _cartTotalSubject.drain();

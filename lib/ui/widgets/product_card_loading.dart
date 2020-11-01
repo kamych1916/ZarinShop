@@ -45,7 +45,7 @@ class _ProductCardLoadingState extends State<ProductCardLoading>
             decoration: BoxDecoration(
                 color: Color.fromRGBO(218, 221, 232, 1)
                     .withOpacity(animationOpacity.value),
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(10),
                 boxShadow: Styles.cardShadows),
           ),
           Container(

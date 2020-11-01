@@ -28,8 +28,8 @@ class ProductCard extends StatelessWidget {
                   height: MediaQuery.of(context).size.height / 3 - 15.0,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          fit: BoxFit.cover, image: product.image),
-                      borderRadius: BorderRadius.circular(25),
+                          fit: BoxFit.cover, image: product.firstImage),
+                      borderRadius: BorderRadius.circular(10),
                       boxShadow: Styles.cardShadows),
                 ),
                 ProductCardFavoriteIcon(product)
@@ -49,7 +49,7 @@ class ProductCard extends StatelessWidget {
                           fontSize: 12,
                           fontFamily: "SegoeUIBold")),
                   Text(
-                    product.price.floor().toString() + " сум",
+                    product.totalPrice.floor().toString() + " сум",
                     style: TextStyle(
                         color: Styles.cardTextColor,
                         fontSize: 16.0,

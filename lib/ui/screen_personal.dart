@@ -53,12 +53,15 @@ class PersonalScreen extends StatelessWidget {
             ),
             Text(
               userBloc.firstName + " " + userBloc.lastName,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 14, fontFamily: "SegoeUiSemiBold"),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 2.5),
             ),
-            Text(userBloc.email),
+            Text(
+              userBloc.email,
+              style: TextStyle(fontFamily: "SegoeUiBold"),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 20.0),
             ),
@@ -71,7 +74,11 @@ class PersonalScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.0),
                 ),
-                Expanded(child: Text("Язык приложения")),
+                Expanded(
+                    child: Text(
+                  "Язык приложения",
+                  style: TextStyle(fontFamily: "SegoeUiSemiBold"),
+                )),
                 DropdownButton<String>(
                   isDense: true,
                   dropdownColor: Styles.backgroundColor,
@@ -111,7 +118,11 @@ class PersonalScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.0),
                 ),
-                Expanded(child: Text("Мои адреса")),
+                Expanded(
+                    child: Text(
+                  "Мои адреса",
+                  style: TextStyle(fontFamily: "SegoeUiSemiBold"),
+                )),
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 10,
@@ -130,7 +141,11 @@ class PersonalScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.0),
                 ),
-                Expanded(child: Text("Помощь и связь")),
+                Expanded(
+                    child: Text(
+                  "Помощь и связь",
+                  style: TextStyle(fontFamily: "SegoeUiSemiBold"),
+                )),
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 10,
@@ -138,29 +153,7 @@ class PersonalScreen extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.0),
-            ),
-            Row(
-              children: [
-                Icon(
-                  AppIcons.paper_plane,
-                  size: 20.0,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.0),
-                ),
-                Expanded(child: Text("Уведомления")),
-                Transform.scale(
-                    scale: 0.7,
-                    child: CupertinoSwitch(
-                      onChanged: (value) {},
-                      value: true,
-                      activeColor: Styles.mainColor,
-                    ))
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.0),
+              padding: EdgeInsets.symmetric(vertical: 10.0),
             ),
             GestureDetector(
               onTap: () {
@@ -178,7 +171,11 @@ class PersonalScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.0),
                   ),
-                  Expanded(child: Text("Сменить пароль")),
+                  Expanded(
+                      child: Text(
+                    "Сменить пароль",
+                    style: TextStyle(fontFamily: "SegoeUiSemiBold"),
+                  )),
                   Icon(
                     Icons.arrow_forward_ios,
                     size: 10,
@@ -209,7 +206,8 @@ class PersonalScreen extends StatelessWidget {
                   Expanded(
                       child: Text(
                     "Выйти",
-                    style: TextStyle(color: Colors.red[400]),
+                    style: TextStyle(
+                        color: Colors.red[400], fontFamily: "SegoeUiSemiBold"),
                   )),
                 ],
               ),

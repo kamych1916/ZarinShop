@@ -1,3 +1,4 @@
+import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/category.dart';
@@ -20,7 +21,7 @@ class CategoryScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Icon(
-            Icons.error_outline,
+            AppIcons.warning,
             size: 30.0,
           ),
           Padding(

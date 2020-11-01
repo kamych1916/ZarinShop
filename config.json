@@ -131,6 +131,12 @@
       "css": "paper-plane",
       "code": 59395,
       "src": "linecons"
+    },
+    {
+      "uid": "872d83d24ea3666d5896d60c5867db68",
+      "css": "warning",
+      "code": 59516,
+      "src": "linearicons"
     }
   ]
 }

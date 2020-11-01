@@ -37,14 +37,12 @@ class _FormButtonState extends State<FormButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Container(
-            padding: responseAwait
-                ? EdgeInsets.symmetric(vertical: 13.0)
-                : EdgeInsets.symmetric(vertical: 12),
             alignment: Alignment.center,
             width: double.infinity,
+            height: 40,
             decoration: BoxDecoration(
                 color: Styles.mainColor,
-                borderRadius: BorderRadius.circular(25)),
+                borderRadius: BorderRadius.circular(10)),
             child: responseAwait
                 ? AppCircularProgressIndicator()
                 : Text(
@@ -52,6 +50,6 @@ class _FormButtonState extends State<FormButton> {
                     style: TextStyle(
                         fontFamily: 'SegoeUIBold', color: Colors.white),
                   )),
-        onTap: widget.onTap);
+        onTap: responseAwait ? null : widget.onTap);
   }
 }

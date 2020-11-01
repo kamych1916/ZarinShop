@@ -1,13 +1,13 @@
 import 'package:Zarin/blocs/product_bloc.dart';
-import 'package:Zarin/models/cart_product.dart';
+import 'package:Zarin/models/cart_entity.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class CartProductCard extends StatefulWidget {
-  final Product product;
+  final CartEntity cartEntity;
 
-  const CartProductCard(this.product, {Key key}) : super(key: key);
+  const CartProductCard(this.cartEntity, {Key key}) : super(key: key);
 
   @override
   _CartProductCardState createState() => _CartProductCardState();
@@ -16,10 +16,9 @@ class CartProductCard extends StatefulWidget {
 class _CartProductCardState extends State<CartProductCard> {
   @override
   Widget build(BuildContext context) {
-    CartProduct cartProduct =
+    Product product = productBloc.cartProducts
         // ignore: unrelated_type_equality_checks
-        productBloc.cartProducts
-            .firstWhere((element) => element == widget.product);
+        .firstWhere((element) => widget.cartEntity == element);
 
     return Container(
       margin: EdgeInsets.only(left: 15.0, right: 15.0, top: 7.5, bottom: 7.5),
@@ -29,15 +28,15 @@ class _CartProductCardState extends State<CartProductCard> {
       decoration: BoxDecoration(
           boxShadow: Styles.cardShadows,
           color: Colors.white,
-          borderRadius: BorderRadius.circular(25.0)),
+          borderRadius: BorderRadius.circular(10.0)),
       child: Row(
         children: [
           Container(
             width: 75,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: widget.product.image)),
+                    fit: BoxFit.cover, image: product.firstImage)),
           ),
           Expanded(
             child: Container(
@@ -50,7 +49,7 @@ class _CartProductCardState extends State<CartProductCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.product.name,
+                        product.name,
                         maxLines: 2,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
@@ -60,7 +59,7 @@ class _CartProductCardState extends State<CartProductCard> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          productBloc.removeProductFromCart(widget.product);
+                          productBloc.removeProductFromCart(widget.cartEntity);
                           productBloc.calculateCartTotal();
                         },
                         child: Container(
@@ -85,7 +84,7 @@ class _CartProductCardState extends State<CartProductCard> {
                       ),
                       Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
                       Text(
-                        "М",
+                        widget.cartEntity.size,
                         style: TextStyle(
                             color: Styles.cardTextColor,
                             fontFamily: "SegoeUISemiBold",
@@ -100,7 +99,7 @@ class _CartProductCardState extends State<CartProductCard> {
                         child: Row(
                           children: [
                             Text(
-                              cartProduct.count.toString(),
+                              widget.cartEntity.count.toString(),
                               style: TextStyle(
                                   fontFamily: "SegoeUI", fontSize: 14),
                             ),
@@ -113,7 +112,7 @@ class _CartProductCardState extends State<CartProductCard> {
                             ),
                             Expanded(
                               child: Text(
-                                  widget.product.price.floor().toString() +
+                                  product.totalPrice.floor().toString() +
                                       " сум",
                                   maxLines: 1,
                                   style: TextStyle(
@@ -126,7 +125,7 @@ class _CartProductCardState extends State<CartProductCard> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(15),
                             border:
                                 Border.all(color: Styles.mainColor, width: 2)),
                         child: Row(
@@ -136,10 +135,10 @@ class _CartProductCardState extends State<CartProductCard> {
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
-                                if (cartProduct.count > 1) {
-                                  setState(() => cartProduct.count--);
+                                if (widget.cartEntity.count > 1) {
+                                  setState(() => widget.cartEntity.count--);
                                   productBloc.calculateCartTotal();
-                                  productBloc.saveCartToLocal();
+                                  productBloc.saveCartEntitiesToLocal();
                                 }
                               },
                               child: Container(
@@ -157,13 +156,11 @@ class _CartProductCardState extends State<CartProductCard> {
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
-                                if (cartProduct.count <
-                                    widget.product.maxCount) {
-                                  setState(() {
-                                    cartProduct.count++;
-                                  });
+                                if (widget.cartEntity.count <
+                                    product.maxCount) {
+                                  setState(() => widget.cartEntity.count++);
                                   productBloc.calculateCartTotal();
-                                  productBloc.saveCartToLocal();
+                                  productBloc.saveCartEntitiesToLocal();
                                 }
                               },
                               child: Container(

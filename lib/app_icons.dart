@@ -57,6 +57,7 @@ class AppIcons {
   static const IconData magnifier = IconData(0xe86f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData menu_1 = IconData(0xe871, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData list = IconData(0xe872, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData warning = IconData(0xe87c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData question_circle = IconData(0xe87d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData instagram = IconData(0xf16d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData credit_card = IconData(0xf321, fontFamily: _kFontFam, fontPackage: _kFontPkg);

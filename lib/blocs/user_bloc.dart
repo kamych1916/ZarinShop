@@ -3,6 +3,9 @@ import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/resources/user_api_provider.dart';
 import 'package:flutter/material.dart';
+import 'product_bloc.dart';
+
+import 'package:requests/requests.dart' as package;
 
 import 'package:rxdart/rxdart.dart';
 
@@ -105,9 +108,9 @@ class UserBloc {
     this.responseAwait;
     String firstName = signUpInputStrings[0];
     String lastName = signUpInputStrings[1];
-    String phone = signUpInputStrings[1];
 
     /// TODO: Добавить номер телефона
+    String phone = signUpInputStrings[1];
 
     ApiResponse<bool> response =
         await _userApiProvider.signUp(email, password, firstName, lastName);
@@ -170,6 +173,9 @@ class UserBloc {
   logout() {
     auth = false;
     appBloc.prefs.setBool("auth", auth);
+
+    productBloc.clearCart();
+    package.Requests.clearStoredCookies("zarinshop.site:49354");
   }
 
   saveUser() {

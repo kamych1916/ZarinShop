@@ -7,20 +7,28 @@ import 'dart:async';
 import 'dart:convert' show json, utf8;
 import 'dart:io';
 
+import 'package:requests/requests.dart' as package;
+
 class UserApiProvider {
   Future<ApiResponse<dynamic>> signIn(String email, String password) async {
     String url = "http://zarinshop.site:49354/api/v1/signin";
 
-    IOClient client = new IOClient();
     String body = '{"email": "$email", "password": "$password"}';
 
+    await Future.delayed(Duration(seconds: 1));
+    return ApiResponse.error("message");
+
     try {
-      Response response =
-          await client.post(url, body: body).timeout(Duration(seconds: 5));
+      var response = await package.Requests.post(url,
+          body: body,
+          timeoutSeconds: 10,
+          bodyEncoding: package.RequestBodyEncoding.PlainText);
+
+      response.raiseForStatus();
 
       if (response.statusCode == 200)
         return ApiResponse.completed(
-            json.decode(utf8.decode(response.bodyBytes)));
+            json.decode(utf8.decode(response.bytes())));
       if (response.statusCode == 401) return ApiResponse.completed(false);
 
       return ApiResponse.error("При входе возникла ошибка");

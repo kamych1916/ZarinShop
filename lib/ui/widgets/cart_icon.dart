@@ -22,7 +22,7 @@ class _CartIconState extends State<CartIcon> {
 
   @override
   void initState() {
-    streamSubscription = productBloc.cartProductsStream.listen((event) {
+    streamSubscription = productBloc.cartEntitiesStream.listen((event) {
       if (event.length <= 99)
         setState(() {
           count = event.length;
@@ -69,18 +69,19 @@ class _CartIconState extends State<CartIcon> {
                       height: 18,
                       key: widget.cartKey,
                       padding: EdgeInsets.only(
-                          top: 1.5, bottom: 3.0, left: 3.0, right: 3.0),
-                      decoration: ShapeDecoration(
-                        shape: CircleBorder(),
-                        color: Colors.deepPurple,
+                        bottom: 2.0,
                       ),
-                      child: Text(
-                        count.toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.white,
-                            fontFamily: "SegoeUIBold"),
+                      decoration: ShapeDecoration(
+                          shape: CircleBorder(), color: Styles.mainColor),
+                      child: Center(
+                        child: Text(
+                          count.toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                              fontFamily: "SegoeUIBold"),
+                        ),
                       )),
                 ),
               )

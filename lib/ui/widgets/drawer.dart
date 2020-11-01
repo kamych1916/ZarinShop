@@ -85,7 +85,7 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
               ),
               decoration: BoxDecoration(
                   color: Styles.mainColor,
-                  borderRadius: BorderRadius.circular(25)),
+                  borderRadius: BorderRadius.circular(10)),
             ),
             Expanded(
               child: Container(),
@@ -214,7 +214,7 @@ class DrawerMenuContainer extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+            color: Colors.white, borderRadius: BorderRadius.circular(15)),
         child: Row(
           children: [
             Icon(

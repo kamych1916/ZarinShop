@@ -1,4 +1,5 @@
 import 'package:Zarin/models/category.dart';
+import 'package:Zarin/ui/screen_products.dart';
 import 'package:Zarin/ui/screen_sub_category.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -22,17 +23,25 @@ class CategoryCard extends StatelessWidget {
       height: cardWidth,
       color: Styles.backgroundColor,
       child: GestureDetector(
-        onTap: () => Navigator.of(context).push(FadePageRoute(
-          fullscreenDialog: true,
-          builder: (context) => SubCategoryScreen(category: category),
-        )),
+        onTap: () {
+          if (category.subcategories.isEmpty)
+            Navigator.of(context).push(FadePageRoute(
+              fullscreenDialog: true,
+              builder: (context) => ProductsScreen(category),
+            ));
+          else
+            Navigator.of(context).push(FadePageRoute(
+              fullscreenDialog: true,
+              builder: (context) => SubCategoryScreen(category),
+            ));
+        },
         child: Stack(
           children: [
             Container(
               decoration: BoxDecoration(
                   image:
                       DecorationImage(fit: BoxFit.cover, image: category.img),
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(10),
                   boxShadow: Styles.cardShadows),
             ),
             Align(
@@ -43,7 +52,7 @@ class CategoryCard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: Styles.cardShadows),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
