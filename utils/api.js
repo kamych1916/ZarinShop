@@ -1,7 +1,7 @@
 
 import axios from "axios";
-import { get } from "http";
 const API_BASE_URL = 'http://zarinshop.site:49354/api/v1';
+
 
 export default class Api {
     instance = null
@@ -33,8 +33,7 @@ export default class Api {
                 {
                     email,
                     password,
-                }
-                
+                }               
             )
         },
         async logout() {
@@ -46,6 +45,26 @@ export default class Api {
         async reset_password(code, password, email) {
             return axios.post(`${API_BASE_URL}/change_password?code=${code}&new_password=${password}&email=${email}`)
         },
+
+        async check_is_admin() {
+            return axios.get(`${API_BASE_URL}/is_admin`)
+        },
+
+        async send_new_category(category) {
+            return axios.post(`${API_BASE_URL}/categories`, category)
+        },
+        async upload_file(formData) {
+            console.log(formData)
+            return axios.post(`${API_BASE_URL}/uploadfile`, formData, 
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+           )
+        },
+        
+        
         
     }
     
