@@ -3,14 +3,12 @@
   "version": "1.0.0",
   "description": "My awe-inspiring Nuxt.js project",
   "author": "pixelstrap",
-  "private": true,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
-  
   "dependencies": {
     "@inotom/vue-go-top": "^1.1.0",
     "@nuxtjs/axios": "^5.12.2",

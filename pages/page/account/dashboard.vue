@@ -339,9 +339,9 @@ export default {
     Breadcrumbs
   },
   mounted(){
-    if(!this.$store.state.auth.login_access){
-      this.$router.push("/page/account/login")
-    }
+    // if(!this.$store.state.auth.login_access){
+    //   this.$router.push("/page/account/login")
+    // }
   }
 }
 </script>

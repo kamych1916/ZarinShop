@@ -109,7 +109,7 @@ export default {
           })
           this.$store.dispatch("auth/load__login_access", response.data)
           console.log(this.$store.state.auth.login_access)
-          setTimeout(()=>{this.$router.push('/page/account/dashboard')}, 1500)
+          // setTimeout(()=>{this.$router.push('/page/account/dashboard')}, 1500)
         })
         .catch((error) => {
           this.$bvToast.toast("Аторизация прошла безуспешно.", {
