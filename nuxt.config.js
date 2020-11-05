@@ -1,44 +1,76 @@
+
 export default {
-  // Global page headers (https://go.nuxtjs.dev/config-head)
+  mode: 'spa',
+  subdirectory: '/',
+  /*
+  ** Headers of the page
+  */
   head: {
-    title: 'ZarinShop',
+    title: 'Multikart Ecommerce | Vuejs shopping theme',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/multikartvue/favicon.png' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700,900' }
+    ],
+    script: [
+      { src: 'https://checkout.stripe.com/checkout.js'}
     ]
   },
 
-  // Global CSS (https://go.nuxtjs.dev/config-css)
+  router: {
+    base: '/'
+  },
+  /*
+  ** Customize the progress-bar color
+  */
+  loading: { color: '#ff4c3b', throttle: 200, height: '3px', css: true },
+  /*
+  ** Global CSS
+  */
   css: [
+    '@/assets/scss/app.scss',
+    'swiper/dist/css/swiper.css'
   ],
-
-  // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
+  /*
+  ** Plugins to load before mounting the App
+  */
   plugins: [
+     { src: '~/plugins/plugin.js', ssr:false },
+     { src: '~/plugins/localStorage.js', ssr:false },
   ],
-
-  // Auto import components (https://go.nuxtjs.dev/config-components)
-  components: true,
-
-  // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
-  buildModules: [
-  ],
-
-  // Modules (https://go.nuxtjs.dev/config-modules)
+  /*
+  ** Nuxt.js modules
+  */
   modules: [
-    // https://go.nuxtjs.dev/bootstrap
+    // Doc: https://axios.nuxtjs.org/usage
     'bootstrap-vue/nuxt',
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'vue-scrollto/nuxt'
   ],
-
-  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
-
-  // Build Configuration (https://go.nuxtjs.dev/config-build)
+  /*
+  ** Axios module configuration
+  ** See https://axios.nuxtjs.org/options
+  */
+  axios: {
+  },
+  generate: {
+    fallback: true
+  },
+  /*
+  ** Build configuration
+  */
   build: {
+    transpile: [
+      "vee-validate/dist/rules"
+    ],
+    /*
+    ** You can extend webpack config here
+    */
+    extend(config, ctx) {
+    }
   }
 }
