@@ -73,9 +73,11 @@ class ZSProfileViewController: ZSBaseViewController {
     private lazy var signInButton: UIButton = {
         var button = UIButton(type: .system)
         button.setTitle("Войти в профиль", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.isHidden = true
         button.isEnabled = false
+        button.layer.cornerRadius = 10
+        button.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         button.addTarget(self, action: #selector(self.signinButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -133,6 +135,7 @@ class ZSProfileViewController: ZSBaseViewController {
         self.signInButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.profileImageView.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
+            make.width.equalTo(150)
         }
         self.profileNameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.profileImageView.snp.bottom).offset(10)

@@ -18,7 +18,7 @@ class ZSSizesCollectionViewCell: UICollectionViewCell {
         willSet {
             if newValue {
                 UIView.animate(withDuration: 0.33) {
-                    self.contentView.layer.borderWidth = 2
+                    self.contentView.layer.borderWidth = 1.2
                     self.contentView.layer.borderColor = AppColors.textDarkColor.color().cgColor
                 }
             } else {
@@ -35,7 +35,7 @@ class ZSSizesCollectionViewCell: UICollectionViewCell {
     private lazy var containerView: UIView = {
         var view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.25)
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 12
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -45,6 +45,7 @@ class ZSSizesCollectionViewCell: UICollectionViewCell {
         var label = UILabel()
         label.text = "L"
         label.textColor = .white
+        label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -56,7 +57,8 @@ class ZSSizesCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         self.backgroundColor = .clear
-        self.contentView.layer.cornerRadius = 10
+        self.contentView.clipsToBounds = true
+        self.contentView.layer.cornerRadius = 16
         self.addSubviews()
     }
     
@@ -76,7 +78,8 @@ class ZSSizesCollectionViewCell: UICollectionViewCell {
     
     override func updateConstraints() {
         self.containerView.snp.updateConstraints { (make) in
-            make.edges.equalToSuperview().inset(5)
+            make.center.equalToSuperview()
+            make.size.equalTo(24)
         }
         self.sizeLabel.snp.updateConstraints { (make) in
             make.center.equalToSuperview()

@@ -65,7 +65,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
         button.backgroundColor = AppColors.mainColor.color()
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(self.addToCartButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -118,7 +118,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
         self.addToCartButton.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(20)
-            make.height.equalTo(60)
+            make.height.equalTo(50)
         }
     }
     
@@ -204,24 +204,33 @@ class ZSProductDetailViewController: ZSBaseViewController {
     @objc private func addToCartButtonTapped(_ sender: UIButton) {
         if UserDefaults.standard.isSingin() {
             guard let product = self.product else { return }
-            let controller = ZSColorsSizesViewController()
-            controller.modalPresentationStyle = .custom
-            controller.transitioningDelegate = self
-            controller.productId = product.id
-            controller.colors = [product.color]
-            controller.sizes = product.size
-            self.present(controller, animated: true, completion: nil)
+            self.loadingAlert()
+            let parameters: [String: Any] = [
+                "id": product.id,
+                "size": self.specificationView.secondItem.selectedSize,
+                "kol": 1]
+            Network.shared.request(
+                url: ZSURLPath.addToCart, method: .post, parameters: parameters,
+                success: { [weak self] (data: CartModel) in
+                    self?.dismiss(animated: true, completion: {
+                        self?.showSuccessAlert()
+                    })
+            }, feilure: { [weak self] (error, code) in
+                self?.dismiss(animated: true, completion: {
+                    self?.alertError(message: error.detail)
+                })
+            })
         } else {
             self.alertSignin()
         }
     }
     
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-
-extension ZSProductDetailViewController: UIViewControllerTransitioningDelegate {
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        BottomPresentationController(presentedViewController: presented, presenting: presenting)
+    private func showSuccessAlert() {
+        let alert = UIAlertController(
+            title: "Поздравляем!",
+            message: "Товар успешно добавлен в корзину.",
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Скрыть", style: .cancel, handler: nil))
     }
+    
 }

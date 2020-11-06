@@ -22,14 +22,16 @@ class ZSProductDetailSpecificationView: UIView {
         return label
     }()
     
-    lazy var firstItem: ZSProductDetailSpecificationItemView = {
-        var view = ZSProductDetailSpecificationItemView()
+    lazy var firstItem: ZSProductDetailSpecificationColors = {
+        var view = ZSProductDetailSpecificationColors()
+        view.colors = ["1", "2", "3", "4"]
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    lazy var secondItem: ZSProductDetailSpecificationItemView = {
-        var view = ZSProductDetailSpecificationItemView()
+    lazy var secondItem: ZSProductDetailSpecificationSizes = {
+        var view = ZSProductDetailSpecificationSizes()
+        view.sizes = ["S", "M", "L", "XS", "XM", "XL"]
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

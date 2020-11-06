@@ -150,10 +150,14 @@ class ZSCartTableViewCell: UITableViewCell {
     }
 
     func initCell(model: CartItemModel) {
+        print(model)
         self.titleLabel.text = "\(model.id)"
         self.priceLabel.text = "\(model.price)"
         if model.image.count > 0 {
-            self.loadImage(from: model.image[0])
+            //self.loadImage(from: model.image[0])
+            self.bigImageView.image = UIImage(named: "defauldProduct")
+        } else {
+            self.bigImageView.image = UIImage(named: "defauldProduct")
         }
         
         self.setNeedsUpdateConstraints()
@@ -255,6 +259,7 @@ class ZSCartTableViewCell: UITableViewCell {
     
     private func loadImage(from url: String) {
         guard let imageURL = URL(string: (url)) else { return }
+        
         self.bigImageView.kf.indicatorType = .activity
         self.bigImageView.kf.setImage(
             with: imageURL,

@@ -34,9 +34,11 @@ class ZSSideMenuViewController: UIViewController {
     private lazy var signInButton: UIButton = {
         var button = UIButton(type: .system)
         button.setTitle("Войти в профиль", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.isHidden = true
         button.isEnabled = false
+        button.layer.cornerRadius = 10
+        button.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         button.addTarget(self, action: #selector(self.signinButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -157,6 +159,7 @@ class ZSSideMenuViewController: UIViewController {
         self.signInButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.companyNameLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
+            make.width.equalTo(150)
         }
         self.userView.snp.makeConstraints { (make) in
             make.top.equalTo(self.companyNameLabel.snp.bottom).offset(10)

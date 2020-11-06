@@ -18,7 +18,7 @@ class ZSColorsCollectionViewCell: UICollectionViewCell {
         willSet {
             if newValue {
                 UIView.animate(withDuration: 0.33) {
-                    self.contentView.layer.borderWidth = 2
+                    self.contentView.layer.borderWidth = 1.2
                     self.contentView.layer.borderColor = AppColors.textDarkColor.color().cgColor
                 }
             } else {
@@ -35,7 +35,7 @@ class ZSColorsCollectionViewCell: UICollectionViewCell {
     private lazy var сolorView: UIView = {
         var view = UIView()
         view.backgroundColor = .blue
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 12
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -47,7 +47,7 @@ class ZSColorsCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         self.backgroundColor = .clear
-        self.contentView.layer.cornerRadius = 10
+        self.contentView.layer.cornerRadius = 16
         self.addSubviews()
     }
     
@@ -71,7 +71,7 @@ class ZSColorsCollectionViewCell: UICollectionViewCell {
     override func updateConstraints() {
         self.сolorView.snp.updateConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalTo(40)
+            make.size.equalTo(24)
         }
         super.updateConstraints()
     }

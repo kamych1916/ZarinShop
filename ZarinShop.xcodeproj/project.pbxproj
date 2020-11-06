@@ -60,6 +60,8 @@
 		20BACF68254EAA41003F5A29 /* ZSSortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BACF67254EAA41003F5A29 /* ZSSortViewController.swift */; };
 		20BACF6A254EDB63003F5A29 /* ZSFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BACF69254EDB63003F5A29 /* ZSFilterViewController.swift */; };
 		20BACF6D254EDEC0003F5A29 /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BACF6C254EDEC0003F5A29 /* RangeSlider.swift */; };
+		20BF823825556E97004A9CF3 /* ZSProductDetailSpecificationColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BF823725556E97004A9CF3 /* ZSProductDetailSpecificationColors.swift */; };
+		20BF823A25557A05004A9CF3 /* ZSProductDetailSpecificationSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BF823925557A05004A9CF3 /* ZSProductDetailSpecificationSizes.swift */; };
 		20FD49B825459E190006F50C /* ZSOrdersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD49B725459E190006F50C /* ZSOrdersTableViewCell.swift */; };
 		20FD49BF2545C51D0006F50C /* ZSFavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD49BE2545C51D0006F50C /* ZSFavoritesViewController.swift */; };
 		71D1887A99BB69ED3097A433 /* Pods_ZarinShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D82D5D61017505831B7C23 /* Pods_ZarinShop.framework */; };
@@ -144,6 +146,8 @@
 		20BACF67254EAA41003F5A29 /* ZSSortViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSortViewController.swift; sourceTree = "<group>"; };
 		20BACF69254EDB63003F5A29 /* ZSFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSFilterViewController.swift; sourceTree = "<group>"; };
 		20BACF6C254EDEC0003F5A29 /* RangeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
+		20BF823725556E97004A9CF3 /* ZSProductDetailSpecificationColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductDetailSpecificationColors.swift; sourceTree = "<group>"; };
+		20BF823925557A05004A9CF3 /* ZSProductDetailSpecificationSizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductDetailSpecificationSizes.swift; sourceTree = "<group>"; };
 		20FD49B725459E190006F50C /* ZSOrdersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSOrdersTableViewCell.swift; sourceTree = "<group>"; };
 		20FD49BE2545C51D0006F50C /* ZSFavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSFavoritesViewController.swift; sourceTree = "<group>"; };
 		41D82D5D61017505831B7C23 /* Pods_ZarinShop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZarinShop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -199,7 +203,6 @@
 				84BBE06C254BCCF0004A3341 /* Presentation */,
 				840839AB253806010040EC63 /* Models */,
 				8408399F253802150040EC63 /* Views */,
-				203FD5432531D0F500F57432 /* Controllers */,
 			);
 			path = ProductDetail;
 			sourceTree = "<group>";
@@ -787,7 +790,10 @@
 				840839A0253802300040EC63 /* ZSProductDetailDescriptionView.swift */,
 				840839A8253804DC0040EC63 /* ZSProductDetailSpecificationView.swift */,
 				840839B02538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift */,
+				20BF823725556E97004A9CF3 /* ZSProductDetailSpecificationColors.swift */,
+				20BF823925557A05004A9CF3 /* ZSProductDetailSpecificationSizes.swift */,
 				84BBE07B254BCEA2004A3341 /* Cells */,
+				203FD5432531D0F500F57432 /* Controllers */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1073,6 +1079,7 @@
 				8443DA6F25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift in Sources */,
 				20B2DFC72526E4600089BC55 /* ZSGategoriesCollectionViewCell.swift in Sources */,
 				20B9A89F2532F72B00E2EF71 /* ZSResetPasswordViewController.swift in Sources */,
+				20BF823825556E97004A9CF3 /* ZSProductDetailSpecificationColors.swift in Sources */,
 				2041103B252AD7C00081A562 /* ZSCartTableViewCell.swift in Sources */,
 				20FD49B825459E190006F50C /* ZSOrdersTableViewCell.swift in Sources */,
 				20A7086125457B5D00E227D5 /* ZSCheckoutFinalView.swift in Sources */,
@@ -1097,6 +1104,7 @@
 				2098B14325337E0900A00D18 /* ZSResetPasswordCodeViewController.swift in Sources */,
 				20B9A89B2532E50600E2EF71 /* ZSSigninUserModel.swift in Sources */,
 				2057B8EB2525A208007D8D05 /* ZSSideMenuItemView.swift in Sources */,
+				20BF823A25557A05004A9CF3 /* ZSProductDetailSpecificationSizes.swift in Sources */,
 				20B2DFCB2526FE090089BC55 /* ZSProductModel.swift in Sources */,
 				84BBE08C254BEC36004A3341 /* ZSSizesCollectionViewCell.swift in Sources */,
 				20B2DFD325274D7B0089BC55 /* ZSRegistrationViewController.swift in Sources */,
@@ -1247,7 +1255,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1267,7 +1275,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

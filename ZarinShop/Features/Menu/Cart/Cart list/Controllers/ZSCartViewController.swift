@@ -220,4 +220,20 @@ extension ZSCartViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+            let deleteAction = UIContextualAction(
+                style: .normal, title:  "",
+                handler: { (ac: UIContextualAction, view: UIView, success:(Bool) -> Void) in
+                    print("delete item")
+            })
+            if let cgImage = UIImage(named: "trash")?.cgImage {
+                deleteAction.image = ImageWithoutRender(
+                    cgImage: cgImage, scale: 2, orientation: .up)
+                deleteAction.backgroundColor = .groupTableViewBackground
+            }
+            let config = UISwipeActionsConfiguration(actions: [deleteAction])
+            config.performsFirstActionWithFullSwipe = false
+            return config
+    }
+    
 }

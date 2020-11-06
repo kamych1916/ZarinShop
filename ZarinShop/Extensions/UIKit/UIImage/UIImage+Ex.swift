@@ -41,3 +41,9 @@ extension UIImage {
         return newImage!
     }
 }
+
+class ImageWithoutRender: UIImage {
+    override func withRenderingMode(_ renderingMode: UIImage.RenderingMode) -> UIImage {
+        return self
+    }
+}
