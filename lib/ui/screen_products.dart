@@ -154,44 +154,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 color: Styles.subBackgroundColor,
                 child: Column(
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(
-                        left: 20.0,
-                        right: 20.0,
-                      ),
-                      width: double.infinity,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          boxShadow: Styles.cardShadows,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        cursorColor: Colors.black87,
-                        maxLines: 1,
-                        style: TextStyle(
-                            decoration: TextDecoration.none,
-                            decorationColor: Colors.white.withOpacity(0)),
-                        decoration: InputDecoration(
-                          suffixIcon: Icon(
-                            AppIcons.magnifier,
-                            size: 16.0,
-                          ),
-                          contentPadding:
-                              EdgeInsets.only(left: 15, right: 15, top: 5),
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: "Поиск",
-                          hintMaxLines: 1,
-                          hintStyle: TextStyle(
-                              color: Color.fromRGBO(134, 145, 173, 1),
-                              fontSize: 14.0),
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(
-                                  width: 0, style: BorderStyle.none)),
-                        ),
-                      ),
-                    ),
+                    SearchField(),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                     ),
@@ -290,23 +253,26 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 child: _searchError("Товары не найдены"),
                               );
 
-                            return CupertinoScrollbar(
-                              child: GridView.count(
-                                childAspectRatio: 1 / 2,
-                                mainAxisSpacing: 0.0,
-                                crossAxisSpacing: 30.0,
-                                padding: EdgeInsets.only(
-                                  left: 20.0,
-                                  right: 20.0,
+                            return RefreshIndicator(
+                              onRefresh: () {},
+                              child: CupertinoScrollbar(
+                                child: GridView.count(
+                                  childAspectRatio: 1 / 2,
+                                  mainAxisSpacing: 0.0,
+                                  crossAxisSpacing: 30.0,
+                                  padding: EdgeInsets.only(
+                                    left: 20.0,
+                                    right: 20.0,
+                                  ),
+                                  physics: BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  crossAxisCount: 2,
+                                  children: List.generate(
+                                      productBloc.products.length, (index) {
+                                    return ProductCard(
+                                        productBloc.products[index]);
+                                  }),
                                 ),
-                                physics: BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                crossAxisCount: 2,
-                                children: List.generate(
-                                    productBloc.products.length, (index) {
-                                  return ProductCard(
-                                      productBloc.products[index]);
-                                }),
                               ),
                             );
                           },
@@ -318,6 +284,87 @@ class _ProductsScreenState extends State<ProductsScreen> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class SearchField extends StatefulWidget {
+  @override
+  _SearchFieldState createState() => _SearchFieldState();
+}
+
+class _SearchFieldState extends State<SearchField> {
+  TextEditingController textEditingController;
+  FocusNode focusNode;
+  bool isSearching = false;
+  String prevText = "";
+
+  @override
+  void initState() {
+    textEditingController = TextEditingController();
+
+    textEditingController.addListener(() {
+      if (textEditingController.text.length == 0 && isSearching) {
+        setState(() => isSearching = false);
+        productBloc.unSearch();
+        return;
+      }
+
+      if (textEditingController.text.length != 0 && !isSearching) {
+        setState(() => isSearching = true);
+        productBloc.searchInit();
+      }
+
+      if (textEditingController.text.length > 3) {
+        if (textEditingController.text != prevText) {
+          prevText = textEditingController.text;
+          productBloc.search(textEditingController.text);
+        }
+      }
+    });
+
+    focusNode = FocusNode();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(
+        left: 20.0,
+        right: 20.0,
+      ),
+      width: double.infinity,
+      height: 30,
+      decoration: BoxDecoration(
+          boxShadow: Styles.cardShadows,
+          borderRadius: BorderRadius.circular(10)),
+      child: TextField(
+        controller: textEditingController,
+        focusNode: focusNode,
+        cursorColor: Colors.black87,
+        maxLines: 1,
+        style: TextStyle(
+            decoration: TextDecoration.none,
+            decorationColor: Colors.white.withOpacity(0)),
+        decoration: InputDecoration(
+          prefixIcon:
+              Icon(AppIcons.magnifier, size: 16.0, color: Colors.black87),
+          suffixIcon: isSearching
+              ? Icon(Icons.close, size: 16, color: Colors.black87)
+              : null,
+          contentPadding: EdgeInsets.only(left: 15, right: 15, top: 5),
+          filled: true,
+          fillColor: Colors.white,
+          hintText: "Поиск",
+          hintMaxLines: 1,
+          hintStyle: TextStyle(
+              color: Color.fromRGBO(134, 145, 173, 1), fontSize: 14.0),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide(width: 0, style: BorderStyle.none)),
         ),
       ),
     );

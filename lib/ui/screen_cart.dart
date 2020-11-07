@@ -2,8 +2,10 @@ import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/product.dart';
+import 'package:Zarin/ui/screen_order.dart';
 import 'package:Zarin/ui/widgets/cart_product_card.dart';
 import 'package:Zarin/ui/widgets/cart_product_card_loading.dart';
+import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -219,19 +221,26 @@ class _CartScreenState extends State<CartScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
               ),
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                decoration: BoxDecoration(
-                    color: Styles.mainColor,
-                    borderRadius: BorderRadius.circular(25)),
-                child: Text(
-                  "Оплатить",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontFamily: 'SegoeUIBold'),
+              GestureDetector(
+                onTap: () => productBloc.cartEntities.isNotEmpty
+                    ? Navigator.of(context).push(FadePageRoute(
+                        builder: (context) => OrderScreen(),
+                      ))
+                    : null,
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  decoration: BoxDecoration(
+                      color: Styles.mainColor,
+                      borderRadius: BorderRadius.circular(25)),
+                  child: Text(
+                    "Оплатить",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontFamily: 'SegoeUIBold'),
+                  ),
                 ),
               )
             ]),

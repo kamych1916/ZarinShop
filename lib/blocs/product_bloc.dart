@@ -69,7 +69,7 @@ class ProductBloc {
   /// Товары
 
   getProductsByCategoryId(String id, context) async {
-    print(id);
+    print("Получение продуктов категории $id");
     _productsSubject.sink.add(ApiResponse.loading("Загрузка товара"));
 
     ApiResponse<List<Product>> products =
@@ -86,34 +86,51 @@ class ProductBloc {
     }
 
     _productsSubject.sink.add(products);
+    sortProducts();
+  }
+
+  List<Product> productsSearch;
+
+  searchInit() {
+    productsSearch = products;
+  }
+
+  unSearch() {
+    _productsSubject.sink.add(ApiResponse.completed(productsSearch));
+  }
+
+  search(String text) {
+    List<Product> result = productsSearch
+        .where((e) => e.name.toLowerCase().contains(text.toLowerCase()))
+        .toList();
+    sortProducts(list: result);
   }
 
   final Map<SortType, String> sort = {
-    SortType.NameAsc: "По алфавиту ↓",
-    SortType.NameDesc: "По алфавиту ↑",
+    SortType.NameAsc: "По алфавиту ↑",
+    SortType.NameDesc: "По алфавиту ↓",
     SortType.PriceAsc: "По возрастанию цены",
     SortType.PriceDesc: "По уменьшению цены"
   };
 
-  SortType currentSort = SortType.PriceAsc;
+  SortType currentSort = SortType.NameAsc;
 
-  sortProducts() {
-    List<Product> products = this.products;
+  sortProducts({List<Product> list}) {
+    List<Product> products = list ?? this.products;
     if (products == null || products.isEmpty) return;
-
-    _productsSubject.sink.add(ApiResponse.loading("Сортировка товара"));
 
     switch (currentSort) {
       case SortType.PriceAsc:
-        products.sort((a, b) => a.price.compareTo(b.price));
+        products.sort((a, b) => a.totalPrice.compareTo(b.totalPrice));
         break;
       case SortType.PriceDesc:
-        products.sort((a, b) => b.price.compareTo(a.price));
+        products.sort((a, b) => b.totalPrice.compareTo(a.totalPrice));
         break;
       case SortType.NameAsc:
+        products.sort((a, b) => a.name.compareTo(b.name));
         break;
       case SortType.NameDesc:
-        // TODO: Handle this case.
+        products.sort((a, b) => b.name.compareTo(a.name));
         break;
     }
 
