@@ -96,7 +96,7 @@ class ProductBloc {
   }
 
   unSearch() {
-    _productsSubject.sink.add(ApiResponse.completed(productsSearch));
+    sortProducts(list: productsSearch);
   }
 
   search(String text) {
