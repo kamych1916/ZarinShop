@@ -61,6 +61,7 @@ class add_items(BaseModel):
     hit_sales: bool
     special_offer: bool
     categories: list
+    link_color: list = []
 
 class patch_items(BaseModel):
     id: int
@@ -74,6 +75,7 @@ class patch_items(BaseModel):
     hit_sales: Optional[bool] = None
     special_offer: Optional[bool] = None
     categories: Optional[list] = None
+    link_color: Optional[list] = None
 
 class items(BaseModel):
     id: str
@@ -87,6 +89,7 @@ class items(BaseModel):
     hit_sales: bool
     special_offer: bool
     categories: list
+    link_color: list
 
 class cat_json_main(BaseModel):
     id: str

@@ -298,26 +298,28 @@ async def edit_categories(id: int, edit_cat: models.patch_categories, response: 
 async def items_cat(id:str,response: Response):
     list_of_items=[]
     items_collection = db.items
+    link_collection = db.link_color
     items = items_collection.find({"categories":id}).sort("name",1)
     for post in items:
         list_of_items.append(models.items(id=post['_id'],
                                           name=post['name'],
                                             description=post['description'],
                                             size=post['size'],
-                                            color=items['color'],
+                                            color=post['color'],
                                             image=post['image'],
                                             price=post['price'],
                                             discount=post['discount'],
                                             hit_sales=post['hit_sales'],
                                             special_offer=post['special_offer'],
-                                            categories=post['categories']))
+                                            categories=post['categories'],
+                                            link_color=link_collection.find_one({"_id":post['link_color']})['color_link']))
 
-    print(list_of_items)
     return list_of_items
 
 @app.post("/api/v1/items_ind")
 async def items_ind(index:list,response: Response):
     items_collection = db.items
+    link_collection = db.link_color
     list_of_items = []
     for post in index:
         items= items_collection.find_one({"_id":int(post)})
@@ -332,7 +334,8 @@ async def items_ind(index:list,response: Response):
                                             discount=items['discount'],
                                             hit_sales=items['hit_sales'],
                                             special_offer=items['special_offer'],
-                                            categories=items['categories']))
+                                            categories=items['categories'],
+                                            link_color=link_collection.find_one({"_id":items['link_color']})['color_link']))
     return list_of_items
 
 @app.post("/api/v1/items")
@@ -346,8 +349,19 @@ async def add_items(new_item: models.add_items, response: Response):
     cur_cat = cat_collection.find_one({"name":new_item.categories[0],"subtype":new_item.categories[1],"lasttype":new_item.categories[2]})
     if not cur_cat:
         raise HTTPException(status_code=403)
-
-    new_item = {
+    link_color_collectoin = db.link_color
+    if new_item.link_color:
+        currnet_link_color = link_color_collectoin.find_one({"color_link":{"$elemMatch":{"id":new_item.link_color[0]}}})
+        link_color_collectoin.update_one({"_id":currnet_link_color['_id']},{"$push":{"color_link":{"id":l+1,"color":new_item.color}}})
+    else:
+        new_link_color = {
+            "_id": l+1,
+            "color_link":[{
+                "id":l+1,
+                "color":new_item.color
+        }]}
+        link_color_collectoin.insert_one(new_link_color)
+    new_i = {
         '_id': l+1,
         "name": new_item.name,
         "description": new_item.description,
@@ -358,16 +372,18 @@ async def add_items(new_item: models.add_items, response: Response):
         "discount": new_item.discount,
         "hit_sales": new_item.hit_sales,
         "special_offer": new_item.special_offer,
-        "categories": [str(cur_cat['id_name']),str(cur_cat['id_subtype']),str(cur_cat['id_lasttype'])]
+        "categories": [str(cur_cat['id_name']),str(cur_cat['id_subtype']),str(cur_cat['id_lasttype'])],
+        "link_color":  link_color_collectoin.find_one({"color_link":{"$elemMatch":{"id":l+1}}})['_id']
     }
-    users_collection.insert_one(new_item)
+    users_collection.insert_one(new_i)
     response.status_code = status.HTTP_200_OK
-    return new_item
+    return new_i
 
 
 @app.get("/api/v1/items")
 async def get_items(response: Response):
     users_collection = db.items
+    link_collection = db.link_color
     all_items = users_collection.find()
     a_i = []
     for post in all_items:
@@ -381,7 +397,8 @@ async def get_items(response: Response):
                                 discount=post['discount'],
                                 hit_sales=post['hit_sales'],
                                 special_offer=post['special_offer'],
-                                categories=post['categories']))
+                                categories=post['categories'],
+                                link_color=link_collection.find_one({"_id":post['link_color']})['color_link']))
     response.status_code = status.HTTP_200_OK
     return a_i
 
@@ -389,26 +406,28 @@ async def get_items(response: Response):
 async def get_items(id:int,response: Response):
     users_collection = db.items
     items = users_collection.find_one({"_id":id})
-
+    link_collection = db.link_color
     if not items:
         raise HTTPException(status_code=403)
     response.status_code = status.HTTP_200_OK
     return models.items(id=items['_id'],name=items['name'],description=items['description'],size=items['size'],
                         color=items['color'],image=items['image'],price= items['price'],discount= items['discount'],
                         hit_sales= items['hit_sales'],special_offer= items['special_offer'],
-                        categories= items['categories'])
+                        categories= items['categories'],link_color=link_collection.find_one({"_id":items['link_color']})['color_link'])
 
 
 
 @app.patch("/api/v1/items")
 async def patch_items(patch_item: models.patch_items, response: Response):
     users_collection = db.items
+    link_collection = db.link_color
     items = users_collection.find_one({"_id":patch_item.id})
     if not items:
         raise HTTPException(status_code=403)
     cat_collection=db.categories_items
     cur_cat = cat_collection.find_one(
         {"name": patch_item.categories[0], "subtype": patch_item.categories[1], "lasttype": patch_item.categories[2]})
+    
     if not cur_cat:
         raise HTTPException(status_code=403)
     current_item = users_collection.update_one({'_id': patch_item.id},
@@ -422,20 +441,30 @@ async def patch_items(patch_item: models.patch_items, response: Response):
                                                         "hit_sales": patch_item.hit_sales,
                                                         "special_offer": patch_item.special_offer,
                                                         "categories": [str(cur_cat['id_name']),str(cur_cat['id_subtype']),
-                                                                      str(cur_cat['id_lasttype'])]}})
+                                                                      str(cur_cat['id_lasttype'])],
+                                                         "link_color": patch_item.link_color}})
     if not current_item:
         raise HTTPException(status_code=403)
-
     return models.items(id=patch_item.id,name=patch_item.name,description=patch_item.description,size=patch_item.size,
                         color=patch_item.color,image=patch_item.image,price= patch_item.price,discount= patch_item.discount,
                         hit_sales= patch_item.hit_sales,special_offer= patch_item.special_offer,
-                        categories= [str(cur_cat['id_name']),str(cur_cat['id_subtype']),str(cur_cat['id_lasttype'])])
+                        categories= [str(cur_cat['id_name']),str(cur_cat['id_subtype']),str(cur_cat['id_lasttype'])],
+                        link_color=patch_item.link_color)
 
 
 @app.delete("/api/v1/items")
-async def delete_items(id: str):
+async def delete_items(id: int):
     users_collection = db.items
+    link_collection = db.link_color
+    del_items =  users_collection.find_one({"_id":id})
+    link_collection.update_one({"_id":del_items['link_color']},
+                               {"$pull":{"color_link":{
+                                                "id":id,
+                                   "color":del_items['color']}}})
     users_collection.remove({"_id": id})
+    user_shopping_cart = db.shopping_cart
+    for i in range(len(user_shopping_cart.distinct('_id'))):
+        user_shopping_cart.update({"_id":i+1},{"$pull": {"items": {'id': id}}})
     return HTTPException(status_code=200)
 
 
@@ -481,14 +510,14 @@ async def search(poisk: str, response: Response):
             list_of_items.append(models.items(id=p['_id'], name=p['name'], description=p['description'],size=p['size'],
                                               color=p['color'],image=p['image'], price=p['price'], discount=p['discount'],
                                               hit_sales=p['hit_sales'], special_offer=p['special_offer'],
-                                              categories=p['categories']))
+                                              categories=p['categories'],link_color=p['link_color']))
     if not list_of_items:
         items = users_collection.find({"name": {'$regex': poisk}})
         for p in items:
             list_of_items.append(models.items(id=p['_id'], name=p['name'], description=p['description'],size=p['size'],
                                               color=p['color'],image=p['image'], price=p['price'], discount=p['discount'],
                                               hit_sales=p['hit_sales'], special_offer=p['special_offer'],
-                                              categories=p['categories']))
+                                              categories=p['categories'],link_color=p['link_color']))
     return list_of_items
 
 #------------------------------------------корзина
@@ -507,8 +536,8 @@ async def add_Product_in_shopping_cart(add_product: models.product_in_sc,respons
         l = 0
     if not shopping_cart:
         list_of_items = []
-        list_of_items.append({'id':add_product.id,'size':add_product.size,'kol':add_product.kol,'image':items['image'],'price':items['price'],'discount':items['discount']})
-        print(list_of_items)
+        list_of_items.append({'id':add_product.id,'name':items['name'],'size':add_product.size,'kol':add_product.kol,
+			'image':items['image'],'color':items['color'],'price':items['price'],'discount':items['discount']})
         new_shopping_cart={
             '_id':l+1,
             'id_users':user['_id'],
@@ -525,11 +554,13 @@ async def add_Product_in_shopping_cart(add_product: models.product_in_sc,respons
                 raise HTTPException(status_code=409)
         shopping_cart_collection.update_one({"_id":shopping_cart['_id']},
                                             {"$push":{"items":{'id':add_product.id,
-                                                               'size':add_product.size,
-                                                               'kol':add_product.kol,
-                                                               'image':items['image'],
-                                                               'price':items['price'],
-                                                               'discount':items['discount']}}})
+						                                        'name':items['name'],
+                                                                'size':add_product.size,
+                                                                'kol':add_product.kol,
+						                                        'image':items['image'],
+						                                        'color':items['color'],
+                                                                'price':items['price'],
+                                                                'discount':items['discount']}}})
     return models.shopping_cart(id=shopping_cart['_id'],
                                 id_user=user['_id'],
                                 items =shopping_cart_collection.find_one({"_id":shopping_cart['_id']})['items'] )
