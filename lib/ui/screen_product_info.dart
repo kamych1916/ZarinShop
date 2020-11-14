@@ -9,7 +9,9 @@ import 'package:Zarin/ui/widgets/sizes.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:Zarin/ui/widgets/slider_img.dart' as Zarin;
+import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shimmer/shimmer.dart';
 
 extension HexColor on Color {
   static Color fromHex(String hexString) {
@@ -84,38 +86,10 @@ class _ProductInfoState extends State<ProductInfo> {
 
   @override
   Widget build(BuildContext context) {
-    widget.product.precacheImages(context);
-
     return Stack(
       children: [
         Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(40),
-            child: AppBar(
-              brightness: Brightness.light,
-              backgroundColor: Styles.backgroundColor,
-              iconTheme: new IconThemeData(color: Colors.black87),
-              elevation: 0,
-              leading: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  size: 16,
-                ),
-              ),
-              actions: [
-                Container(
-                  padding: EdgeInsets.only(right: 10.0),
-                  child: Row(
-                    children: [
-                      FavoriteIcon(),
-                      CartIcon(cartKey: _cartKey),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          backgroundColor: Styles.subBackgroundColor,
           body: Container(
             child: SingleChildScrollView(
               child: Column(
@@ -123,72 +97,187 @@ class _ProductInfoState extends State<ProductInfo> {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height / 1.8,
-                    margin: EdgeInsets.only(top: 5.0),
-                    child: Zarin.Slider(
-                      children: List.generate(
-                        widget.product.images.length,
-                        (index) => Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  fit: BoxFit.contain,
-                                  image: widget.product.images[index])),
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: Stack(
+                      children: [
+                        Zarin.Slider(
+                          children: List.generate(
+                            widget.product.images.length,
+                            (index) => index == 0
+                                ? Hero(
+                                    tag: widget.product.id,
+                                    child: Image(
+                                      fit: BoxFit.cover,
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              2,
+                                      image: NetworkImage(
+                                          widget.product.images[index]),
+                                      frameBuilder: (BuildContext context,
+                                          Widget child,
+                                          int frame,
+                                          bool wasSynchronouslyLoaded) {
+                                        if (wasSynchronouslyLoaded) {
+                                          return child;
+                                        } else {
+                                          return AnimatedSwitcher(
+                                              duration: const Duration(
+                                                  milliseconds: 500),
+                                              child: frame != null
+                                                  ? child
+                                                  : Shimmer.fromColors(
+                                                      baseColor:
+                                                          Colors.grey[200],
+                                                      highlightColor:
+                                                          Colors.grey[350],
+                                                      child: Container(
+                                                        color: Colors.grey,
+                                                        width: double.infinity,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height /
+                                                            2,
+                                                      ),
+                                                    ));
+                                        }
+                                      },
+                                    ),
+                                  )
+                                : Image(
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width,
+                                    height:
+                                        MediaQuery.of(context).size.height / 2,
+                                    image: NetworkImage(
+                                        widget.product.images[index]),
+                                    frameBuilder: (BuildContext context,
+                                        Widget child,
+                                        int frame,
+                                        bool wasSynchronouslyLoaded) {
+                                      if (wasSynchronouslyLoaded) {
+                                        return child;
+                                      } else {
+                                        return AnimatedSwitcher(
+                                            duration: const Duration(
+                                                milliseconds: 500),
+                                            child: frame != null
+                                                ? child
+                                                : Shimmer.fromColors(
+                                                    baseColor: Colors.grey[300],
+                                                    highlightColor:
+                                                        Colors.grey[350],
+                                                    child: Container(
+                                                      color: Colors.grey,
+                                                      width: double.infinity,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height /
+                                                              2,
+                                                    ),
+                                                  ));
+                                      }
+                                    },
+                                  ),
+                          ),
                         ),
-                      ),
+                        Container(
+                          height: 50,
+                          child: AppBar(
+                            brightness: Brightness.light,
+                            iconTheme: new IconThemeData(color: Colors.black87),
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            leading: GestureDetector(
+                              onTap: () => Navigator.of(context).pop(),
+                              behavior: HitTestBehavior.translucent,
+                              child: Container(
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 3.0),
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_back_ios,
+                                      size: 16,
+                                      color: Colors.black,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(padding: EdgeInsets.symmetric(vertical: 2.5)),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                   Container(
                       margin: EdgeInsets.symmetric(horizontal: 20.0),
                       width: double.infinity,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
                       // decoration: BoxDecoration(
                       //     color: Colors.white,
                       //     borderRadius: BorderRadius.circular(20)),
                       child: Row(
                         children: [
-                          Text(
-                            widget.product.totalPrice.floor().toString() +
-                                " сум",
-                            style: TextStyle(
-                                fontFamily: "SegoeUIBold", fontSize: 20),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.0),
-                          ),
-                          Text(
-                            (widget.product.price).floor().toString() + " сум",
-                            style: TextStyle(
-                                fontFamily: "SegoeUI",
-                                fontSize: 14,
-                                color: Colors.red[300],
-                                decoration: TextDecoration.lineThrough),
-                          ),
                           Expanded(
-                            child: Container(),
+                            child: Row(
+                              children: [
+                                Text(
+                                  widget.product.totalPrice.floor().toString() +
+                                      " сум",
+                                  overflow: TextOverflow.clip,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontFamily: "SegoeUIBold", fontSize: 20),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 5.0),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    (widget.product.price).floor().toString() +
+                                        " сум",
+                                    overflow: TextOverflow.clip,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontFamily: "SegoeUIBold",
+                                        fontSize: 14,
+                                        color: Colors.red[300],
+                                        decoration: TextDecoration.lineThrough),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           Counter(widget.product.maxCount, counterCallback)
                         ],
                       )),
-                  //Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20.0),
                     width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
                     // decoration: BoxDecoration(
                     //     color: Colors.white,
                     //     borderRadius: BorderRadius.circular(20)),
                     child: Sizes(widget.product.sizes, sizeSubject),
                   ),
-                  //Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
+                  Divider(),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
                   Container(
                     margin:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 80.0),
                     width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     // decoration: BoxDecoration(
                     //     color: Colors.white,
                     //     borderRadius: BorderRadius.circular(20)),
@@ -245,8 +334,6 @@ class _ProductInfoState extends State<ProductInfo> {
           ),
         ),
         AddToCartButton(_buttonKey, buttonCallback, countSubject),
-        AddToCartDot(addToCartOffsetsSubject, startDotAnimationSubject,
-            countSubject, addToCartCallback),
       ],
     );
   }
@@ -331,7 +418,7 @@ class _AddToCartButtonState extends State<AddToCartButton> {
                   shadows: Styles.cardShadows)
               : BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.deepPurple,
+                  color: Styles.mainColor,
                   boxShadow: Styles.cardShadows),
           child: isCollapsed
               ? Padding(
@@ -520,24 +607,26 @@ class _CounterState extends State<Counter> {
       children: [
         GestureDetector(
           onTap: () => decrement(),
-          child: Text("-",
-              style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16)),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            padding: EdgeInsets.only(right: 20),
+            child: Text("-",
+                style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16)),
+          ),
         ),
         Text(
           current.toString(),
           style: TextStyle(fontFamily: "SegoeUIBold", fontSize: 18),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-        ),
         GestureDetector(
           onTap: () => increment(),
-          child: Text(
-            "+",
-            style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16),
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              "+",
+              style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16),
+            ),
           ),
         )
       ],

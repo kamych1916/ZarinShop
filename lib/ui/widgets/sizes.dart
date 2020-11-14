@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class Sizes extends StatefulWidget {
-  final BehaviorSubject<int> subject;
+  final BehaviorSubject<dynamic> subject;
   final List<String> sizes;
 
   const Sizes(this.sizes, this.subject, {Key key}) : super(key: key);
@@ -21,7 +21,7 @@ class _SizesState extends State<Sizes> {
   @override
   void initState() {
     streamSubscription = widget.subject.listen((value) {
-      if (value == -2)
+      if (value is int && value == -2)
         setState(() => isError = true);
       else if (isError) setState(() => isError = false);
     });
@@ -30,7 +30,7 @@ class _SizesState extends State<Sizes> {
 
   @override
   void dispose() {
-    streamSubscription.cancel();
+    if (widget.subject is BehaviorSubject<int>) streamSubscription.cancel();
     super.dispose();
   }
 
@@ -48,6 +48,19 @@ class _SizesState extends State<Sizes> {
                 "Размеры",
                 style: TextStyle(fontFamily: "SegoeUIBold"),
               ),
+              AnimatedContainer(
+                margin: EdgeInsets.only(top: 5.0),
+                duration: Duration(milliseconds: 500),
+                height: isError ? 30 : 0,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Выберите размер",
+                    style: TextStyle(
+                        color: Colors.red, fontFamily: "SegoeUISemiBold"),
+                  ),
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 5.0),
               ),
@@ -60,19 +73,6 @@ class _SizesState extends State<Sizes> {
                     (index) => SizeContainer(
                         widget.sizes[index], index, widget.subject)),
               ),
-              AnimatedContainer(
-                margin: EdgeInsets.only(top: 10.0),
-                duration: Duration(milliseconds: 500),
-                height: isError ? 30 : 0,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Выберите размер",
-                    style: TextStyle(
-                        color: Colors.red, fontFamily: "SegoeUISemiBold"),
-                  ),
-                ),
-              )
             ],
           );
   }
@@ -80,7 +80,7 @@ class _SizesState extends State<Sizes> {
 
 class SizeContainer extends StatefulWidget {
   final String size;
-  final BehaviorSubject<int> currentSizeSubject;
+  final BehaviorSubject<dynamic> currentSizeSubject;
   final int index;
 
   const SizeContainer(this.size, this.index, this.currentSizeSubject, {Key key})
@@ -96,9 +96,10 @@ class _SizeContainerState extends State<SizeContainer> {
 
   @override
   void initState() {
-    streamSubscription = widget.currentSizeSubject.listen((value) {
-      if (value != widget.index && isActive) setState(() => isActive = false);
-    });
+    if (widget.currentSizeSubject is BehaviorSubject<int>)
+      streamSubscription = widget.currentSizeSubject.listen((value) {
+        if (value != widget.index && isActive) setState(() => isActive = false);
+      });
     super.initState();
   }
 
@@ -112,19 +113,32 @@ class _SizeContainerState extends State<SizeContainer> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.currentSizeSubject.sink.add(widget.index);
-        setState(() => isActive = true);
+        if (widget.currentSizeSubject is BehaviorSubject<int>) {
+          widget.currentSizeSubject.sink.add(widget.index);
+        } else if (widget.currentSizeSubject is BehaviorSubject<List<int>>) {
+          if (isActive) {
+            widget.currentSizeSubject.value.remove(widget.index);
+            widget.currentSizeSubject.sink.add(widget.currentSizeSubject.value);
+            setState(() => isActive = false);
+          } else {
+            widget.currentSizeSubject.value.add(widget.index);
+            widget.currentSizeSubject.sink.add(widget.currentSizeSubject.value);
+            setState(() => isActive = true);
+          }
+        }
       },
       child: AnimatedContainer(
         duration: Duration(milliseconds: 500),
         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         decoration: BoxDecoration(
-            color: isActive ? Styles.mainColor : Colors.white,
             boxShadow: Styles.cardShadows,
+            color: isActive ? Styles.mainColor : Colors.white,
             borderRadius: BorderRadius.circular(10)),
         child: Text(
           widget.size,
-          style: TextStyle(fontFamily: "SegoeUISemiBold"),
+          style: TextStyle(
+              color: isActive ? Colors.white : Colors.black,
+              fontFamily: "SegoeUISemiBold"),
         ),
       ),
     );

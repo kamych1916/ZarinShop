@@ -10,12 +10,12 @@ class SignUpCodeVerify extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30.0),
-      decoration: BoxDecoration(color: Styles.backgroundColor),
-      child: Column(
-        children: [
-          Flexible(
-            flex: 1,
-            child: Container(
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
               padding: EdgeInsets.only(bottom: 20.0),
               alignment: Alignment.center,
               child: Text(
@@ -29,10 +29,7 @@ class SignUpCodeVerify extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-          ),
-          Flexible(
-            flex: 2,
-            child: VerificationCode(
+            VerificationCode(
               textStyle: TextStyle(fontSize: 30.0, color: Styles.cardTextColor),
               underlineColor: Styles.cartFooterTotalTextColor,
               keyboardType: TextInputType.number,
@@ -57,8 +54,8 @@ class SignUpCodeVerify extends StatelessWidget {
               },
               onEditing: (value) {},
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

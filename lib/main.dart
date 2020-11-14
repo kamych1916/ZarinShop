@@ -1,5 +1,5 @@
 import 'package:Zarin/ui/screen_splash.dart';
-import 'package:Zarin/ui/screen_category.dart';
+import 'package:Zarin/ui/screen_main.dart';
 import 'package:Zarin/ui/screen_login.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Styles.backgroundColor,
+      statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark));
 
   runApp(ZarinApp());
@@ -31,16 +31,17 @@ class ZarinApp extends StatelessWidget {
         fontFamily: 'SegoeUI',
         appBarTheme: AppBarTheme(
             brightness: Brightness.light,
-            color: Styles.backgroundColor,
+            color: Colors.white,
             elevation: 0,
             iconTheme: IconThemeData(color: Colors.black87, size: 22),
             textTheme: TextTheme(
                 headline6: TextStyle(color: Colors.black87, fontSize: 16))),
-        scaffoldBackgroundColor: Styles.backgroundColor,
+        scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: [
@@ -57,7 +58,7 @@ class ZarinApp extends StatelessWidget {
       routes: {
         '/splash': (BuildContext context) => SplashScreen(),
         '/login': (BuildContext context) => LoginScreen(),
-        '/home': (BuildContext context) => CategoryScreen(),
+        '/main': (BuildContext context) => MainScreen(),
       },
     );
   }

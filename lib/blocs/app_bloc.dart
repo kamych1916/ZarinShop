@@ -13,6 +13,12 @@ class AppBloc {
   SharedPreferences prefs;
   FlutterSecureStorage storage;
 
+  BehaviorSubject<NavigationBarItem> _navigationBarSubject = BehaviorSubject()
+    ..add(NavigationBarItem.HOME);
+  Stream<NavigationBarItem> get navigationBarStream =>
+      _navigationBarSubject.stream;
+  NavigationBarItem get currentNavigationBarItem => _navigationBarSubject.value;
+
   BehaviorSubject<List<CreditCard>> _creditCardsSubject = BehaviorSubject();
   BehaviorSubject<List<Address>> _addressesSubject = BehaviorSubject();
 
@@ -41,6 +47,11 @@ class AppBloc {
     productBloc.getFavoritesEntitiesFromLocal();
     await productBloc.getCategories(context);
   }
+
+  /// TabBar
+
+  changeTab(int index) =>
+      _navigationBarSubject.sink.add(NavigationBarItem.values[index]);
 
   /// Адреса
 
@@ -138,7 +149,11 @@ class AppBloc {
     _creditCardsSubject.close();
     await _addressesSubject.drain();
     _addressesSubject.close();
+    await _navigationBarSubject.drain();
+    _navigationBarSubject.close();
   }
 }
 
 final AppBloc appBloc = AppBloc();
+
+enum NavigationBarItem { HOME, SEARCH, CART, FAVORITES, USER }

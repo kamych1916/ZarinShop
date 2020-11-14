@@ -17,7 +17,6 @@ class SortSheet extends StatelessWidget {
         },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 5.0),
-          color: Styles.backgroundColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -39,7 +38,7 @@ class SortSheet extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-            color: Styles.backgroundColor),
+            color: Colors.white),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +54,7 @@ class SortSheet extends StatelessWidget {
                 ),
               ),
             ),
-            Text('Сортировка по:',
+            Text('Сортировка по',
                 style: TextStyle(
                     color: Colors.black87,
                     fontSize: 16.0,

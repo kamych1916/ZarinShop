@@ -53,7 +53,7 @@ class _SubCategoriesListState extends State<SubCategoriesList> {
           child: Container(
             decoration: BoxDecoration(
                 color: currentIndex == index ? Styles.mainColor : Colors.white,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(5),
                 boxShadow: Styles.cardShadows),
             margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
             padding: EdgeInsets.only(bottom: 2.0, left: 20.0, right: 20.0),

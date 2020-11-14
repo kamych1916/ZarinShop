@@ -18,13 +18,13 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  StreamSubscription streamSubscribtion;
+  StreamSubscription streamSubscription;
 
   @override
   void initState() {
     cartInit();
 
-    streamSubscribtion = productBloc.cartEntitiesStream.listen((event) async {
+    streamSubscription = productBloc.cartEntitiesStream.listen((event) async {
       await productBloc.getCartProducts();
       productBloc.calculateCartTotal();
     });
@@ -41,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   void dispose() {
-    streamSubscribtion.cancel();
+    streamSubscription.cancel();
     super.dispose();
   }
 
@@ -84,18 +84,10 @@ class _CartScreenState extends State<CartScreen> {
         preferredSize: Size.fromHeight(40.0),
         child: AppBar(
           brightness: Brightness.light,
-          backgroundColor: Styles.backgroundColor,
           iconTheme: new IconThemeData(color: Colors.black87),
           elevation: 0,
           centerTitle: true,
           automaticallyImplyLeading: false,
-          leading: GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 16,
-            ),
-          ),
           title: Text(
             "Корзина",
             overflow: TextOverflow.fade,
@@ -104,49 +96,45 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ),
-      backgroundColor: Styles.backgroundColor,
       body: Column(
         children: [
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: StreamBuilder(
-                stream: productBloc.cartProductsStream,
-                builder: (context,
-                    AsyncSnapshot<ApiResponse<List<Product>>> snapshot) {
-                  if (!snapshot.hasData ||
-                      snapshot.data.status == Status.LOADING) {
-                    return CupertinoScrollbar(
-                      child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          itemCount: 5,
-                          itemBuilder: (context, index) =>
-                              CartProductCardLoading()),
-                    );
-                  }
-                  if (snapshot.data.status == Status.ERROR)
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 50.0),
-                      child: _error(snapshot.data.message),
-                    );
-
-                  if (productBloc.cartProducts.isEmpty)
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 100.0),
-                        child: Text("Корзина пуста"),
-                      ),
-                    );
-
+            child: StreamBuilder(
+              stream: productBloc.cartProductsStream,
+              builder: (context,
+                  AsyncSnapshot<ApiResponse<List<Product>>> snapshot) {
+                if (!snapshot.hasData ||
+                    snapshot.data.status == Status.LOADING) {
                   return CupertinoScrollbar(
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
-                        itemCount: productBloc.cartProducts.length,
+                        itemCount: 5,
                         itemBuilder: (context, index) =>
-                            CartProductCard(productBloc.cartEntities[index])),
+                            CartProductCardLoading()),
                   );
-                },
-              ),
+                }
+                if (snapshot.data.status == Status.ERROR)
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 50.0),
+                    child: _error(snapshot.data.message),
+                  );
+
+                if (productBloc.cartProducts.isEmpty)
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 100.0),
+                      child: Text("Корзина пуста"),
+                    ),
+                  );
+
+                return CupertinoScrollbar(
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: productBloc.cartProducts.length,
+                      itemBuilder: (context, index) =>
+                          CartProductCard(productBloc.cartEntities[index])),
+                );
+              },
             ),
           ),
           Container(
@@ -158,29 +146,6 @@ class _CartScreenState extends State<CartScreen> {
                 )),
             padding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
             child: Column(children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Доставка",
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Text("1000 Р",
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500))
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 5.0),
-              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: Row(
@@ -233,7 +198,7 @@ class _CartScreenState extends State<CartScreen> {
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   decoration: BoxDecoration(
                       color: Styles.mainColor,
-                      borderRadius: BorderRadius.circular(25)),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Text(
                     "Оплатить",
                     style: TextStyle(

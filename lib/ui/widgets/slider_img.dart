@@ -40,7 +40,7 @@ class _SliderState extends State<Slider> {
             ? Container(
                 height: 2,
                 width: double.infinity,
-                color: Styles.backgroundColor,
+                color: Styles.subBackgroundColor,
                 alignment: Alignment.centerLeft,
                 child: Line(
                   size: size,

@@ -47,9 +47,6 @@ class PasswordResetForm extends StatelessWidget {
                 }
               },
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 30.0),
-            )
           ],
         ),
       ),

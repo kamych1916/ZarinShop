@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Product {
   String id;
@@ -6,7 +6,7 @@ class Product {
   String description;
   String color;
   List<String> sizes;
-  List<NetworkImage> images;
+  List<String> images;
   double price;
   int discount;
   double totalPrice;
@@ -17,12 +17,12 @@ class Product {
 
   Product(this.id);
 
+  String get firstImage => images[0];
+
   /// !!!: для Map исправить
   @override
   // ignore: hash_and_equals
   bool operator ==(covariant Product other) => other.id == id;
-
-  NetworkImage get firstImage => images[0] ?? "";
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json["id"];
@@ -44,18 +44,12 @@ class Product {
     }
 
     if (json["image"] != null) {
-      List<NetworkImage> images = [];
-      for (dynamic img in json["image"]) images.add(NetworkImage(img));
+      List<String> images = [];
+      for (dynamic img in json["image"]) images.add(img);
 
       this.images = images;
     }
 
     totalPrice = (price - price * (discount / 100));
-  }
-
-  precacheImages(BuildContext context) async {
-    for (NetworkImage img in images) {
-      await precacheImage(img, context);
-    }
   }
 }

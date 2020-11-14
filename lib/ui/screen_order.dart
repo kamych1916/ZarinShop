@@ -208,9 +208,12 @@ class _OrderScreenState extends State<OrderScreen> {
           centerTitle: true,
           leading: GestureDetector(
             onTap: () => Navigator.of(context).pop(),
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 16,
+            behavior: HitTestBehavior.translucent,
+            child: Container(
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: 16,
+              ),
             ),
           ),
         ),

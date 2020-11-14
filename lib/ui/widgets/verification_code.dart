@@ -45,7 +45,7 @@ class _VerificationCodeState extends State<VerificationCode> {
   List<String> _code = List();
   int _currentIndex = 0;
 
-  StreamSubscription clearStreamSubscribtion;
+  StreamSubscription streamSubscription;
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _VerificationCodeState extends State<VerificationCode> {
 
     _listFocusNode[0].requestFocus();
 
-    clearStreamSubscribtion = userBloc.clearCodeVerifyInputsStream
+    streamSubscription = userBloc.clearCodeVerifyInputsStream
         .listen((event) => _clearAllWidget());
 
     super.initState();
@@ -66,7 +66,7 @@ class _VerificationCodeState extends State<VerificationCode> {
 
   @override
   void dispose() {
-    clearStreamSubscribtion.cancel();
+    streamSubscription.cancel();
     super.dispose();
   }
 

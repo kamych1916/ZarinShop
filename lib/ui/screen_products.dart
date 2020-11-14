@@ -3,13 +3,13 @@ import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/models/product.dart';
-import 'package:Zarin/ui/widgets/cart_icon.dart';
-import 'package:Zarin/ui/widgets/favorite_icon.dart';
+import 'package:Zarin/ui/widgets/filter_sheet.dart';
 import 'package:Zarin/ui/widgets/product_card.dart';
 import 'package:Zarin/ui/widgets/product_card_loading.dart';
 import 'package:Zarin/ui/widgets/sort_sheet.dart';
 import 'package:Zarin/ui/widgets/sub_categories_list.dart';
 import 'package:Zarin/utils/styles.dart';
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +27,7 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   int currentSubCategoryId = -1;
+  static const _indicatorSize = 50.0;
 
   @override
   void initState() {
@@ -40,7 +41,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       productBloc.getProductsByCategoryId(widget.category.id, context);
   }
 
-  refresh() => productBloc.getProductsByCategoryId(
+  refresh() async => await productBloc.getProductsByCategoryId(
       currentSubCategoryId == -1
           ? widget.category.id
           : widget.category.subcategories[currentSubCategoryId].id,
@@ -102,20 +103,24 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("build product");
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40),
         child: AppBar(
           brightness: Brightness.light,
-          backgroundColor: Styles.backgroundColor,
+          backgroundColor: Styles.subBackgroundColor,
           iconTheme: new IconThemeData(color: Colors.black87),
           elevation: 0,
           centerTitle: true,
           leading: GestureDetector(
             onTap: () => Navigator.of(context).pop(),
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 16,
+            behavior: HitTestBehavior.translucent,
+            child: Container(
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: 16,
+              ),
             ),
           ),
           title: Text(
@@ -124,17 +129,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
             style: TextStyle(
                 color: Colors.black87, fontFamily: "SegoeUIBold", fontSize: 18),
           ),
-          actions: [
-            Container(
-              padding: EdgeInsets.only(right: 10.0),
-              child: Row(
-                children: [
-                  FavoriteIcon(),
-                  CartIcon(),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
       body: Container(
@@ -144,20 +138,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     widget.isSubCategoryShowing
                 ? SubCategoriesList(widget.category, changeCurrentSubCategory)
                 : Container(),
-            Container(
-                width: double.infinity,
-                height: 0.5,
-                color: Colors.grey.withOpacity(1)),
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(top: 20.0),
+                padding: EdgeInsets.only(top: 10.0),
                 color: Styles.subBackgroundColor,
                 child: Column(
                   children: [
-                    SearchField(),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                    ),
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.only(
@@ -165,25 +151,36 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         right: 20.0,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Expanded(
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5.0, horizontal: 15.0),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: Styles.cardShadows,
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              child: Text(
-                                "Фильтр",
-                                style: TextStyle(fontFamily: "SegoeUI"),
+                            child: GestureDetector(
+                              onTap: () => showModalBottomSheet(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(25.0)),
+                                  ),
+                                  context: context,
+                                  builder: (context) => FilterSheet()),
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 15.0),
+                                decoration: BoxDecoration(
+                                    color: Styles.mainColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: Styles.cardShadows),
+                                child: Text(
+                                  "Фильтр",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "SegoeUISemiBold"),
+                                ),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
                           ),
                           Expanded(
                             child: GestureDetector(
@@ -199,12 +196,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 padding: EdgeInsets.symmetric(
                                     vertical: 5.0, horizontal: 15.0),
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: Styles.cardShadows,
-                                    borderRadius: BorderRadius.circular(10.0)),
+                                    color: Styles.mainColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: Styles.cardShadows),
                                 child: Text(
                                   "Сортировка",
-                                  style: TextStyle(fontFamily: "SegoeUI"),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "SegoeUISemiBold"),
                                 ),
                               ),
                             ),
@@ -253,8 +252,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 child: _searchError("Товары не найдены"),
                               );
 
-                            return RefreshIndicator(
-                              onRefresh: () {},
+                            return CustomRefreshIndicator(
+                              offsetToArmed: _indicatorSize,
+                              onRefresh: () async {
+                                await Future.delayed(Duration(seconds: 1));
+                                refresh();
+                              },
                               child: CupertinoScrollbar(
                                 child: GridView.count(
                                   childAspectRatio: 1 / 2,
@@ -264,7 +267,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                     left: 20.0,
                                     right: 20.0,
                                   ),
-                                  physics: BouncingScrollPhysics(),
+                                  physics: AlwaysScrollableScrollPhysics(
+                                      parent: BouncingScrollPhysics()),
                                   shrinkWrap: true,
                                   crossAxisCount: 2,
                                   children: List.generate(
@@ -274,6 +278,56 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   }),
                                 ),
                               ),
+                              completeStateDuration: const Duration(seconds: 2),
+                              builder: (
+                                BuildContext context,
+                                Widget child,
+                                IndicatorController controller,
+                              ) {
+                                return Stack(
+                                  children: <Widget>[
+                                    AnimatedBuilder(
+                                      animation: controller,
+                                      builder:
+                                          (BuildContext context, Widget _) {
+                                        final containerHeight =
+                                            controller.value * _indicatorSize;
+
+                                        return controller.value < 0.6
+                                            ? Container()
+                                            : Container(
+                                                alignment: Alignment.center,
+                                                height: containerHeight,
+                                                child: SizedBox(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth: 3,
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation(
+                                                            Styles.mainColor),
+                                                  ),
+                                                ),
+                                              );
+                                      },
+                                    ),
+                                    AnimatedBuilder(
+                                      builder: (context, _) {
+                                        return Transform.translate(
+                                          offset: Offset(
+                                              0.0,
+                                              controller.value *
+                                                      _indicatorSize +
+                                                  controller.value * 20),
+                                          child: child,
+                                        );
+                                      },
+                                      animation: controller,
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
                         ),
@@ -305,25 +359,25 @@ class _SearchFieldState extends State<SearchField> {
   void initState() {
     textEditingController = TextEditingController();
 
-    textEditingController.addListener(() {
-      if (textEditingController.text.length == 0 && isSearching) {
-        setState(() => isSearching = false);
-        productBloc.unSearch();
-        return;
-      }
+    // textEditingController.addListener(() {
+    //   if (textEditingController.text.length == 0 && isSearching) {
+    //     setState(() => isSearching = false);
+    //     productBloc.unSearch();
+    //     return;
+    //   }
 
-      if (textEditingController.text.length != 0 && !isSearching) {
-        setState(() => isSearching = true);
-        productBloc.searchInit();
-      }
+    //   if (textEditingController.text.length != 0 && !isSearching) {
+    //     setState(() => isSearching = true);
+    //     productBloc.searchInit();
+    //   }
 
-      if (textEditingController.text.length > 3) {
-        if (textEditingController.text != prevText) {
-          prevText = textEditingController.text;
-          productBloc.search(textEditingController.text);
-        }
-      }
-    });
+    //   if (textEditingController.text.length > 3) {
+    //     if (textEditingController.text != prevText) {
+    //       prevText = textEditingController.text;
+    //       productBloc.search(textEditingController.text);
+    //     }
+    //   }
+    // });
 
     focusNode = FocusNode();
     super.initState();

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Category {
   String id;
   String name;
-  NetworkImage img;
+  String imgUrl;
   int count;
   List<Category> subcategories;
 
@@ -13,7 +13,7 @@ class Category {
     id = json["id"];
     name = json["name"];
     if (json["image_url"] != null) {
-      img = NetworkImage(json["image_url"]);
+      imgUrl = json["image_url"];
     }
     count = json["kol"];
 

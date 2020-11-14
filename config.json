@@ -43,12 +43,6 @@
       "src": "linearicons"
     },
     {
-      "uid": "7033a790a6eba30beda282944e6bae87",
-      "css": "heart",
-      "code": 59411,
-      "src": "linearicons"
-    },
-    {
       "uid": "6ad074bda46c1f4c7cfe9c02199cedf0",
       "css": "map-marker",
       "code": 59443,
@@ -137,6 +131,18 @@
       "css": "warning",
       "code": 59516,
       "src": "linearicons"
+    },
+    {
+      "uid": "f3dc2d6d8fe9cf9ebff84dc260888cdf",
+      "css": "heart-empty",
+      "code": 59396,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "d73eceadda1f594cec0536087539afbf",
+      "css": "heart-1",
+      "code": 59397,
+      "src": "fontawesome"
     }
   ]
 }

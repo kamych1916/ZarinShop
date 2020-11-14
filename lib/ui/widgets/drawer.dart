@@ -30,7 +30,7 @@ class _ZarinDrawerState extends State<ZarinDrawer> {
     if (userBloc.auth) {
       await widget.sliderKey.currentState.closeDrawer();
       Navigator.of(context).push(FadePageRoute(
-        builder: (context) => PersonalScreen(),
+        builder: (context) => UserScreen(),
       ));
     } else {
       await widget.sliderKey.currentState.closeDrawer();

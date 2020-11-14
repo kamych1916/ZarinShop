@@ -1,5 +1,5 @@
 import 'package:Zarin/blocs/app_bloc.dart';
-import 'package:Zarin/ui/screen_category.dart';
+import 'package:Zarin/ui/screen_main.dart';
 import 'package:Zarin/ui/widgets/progress_indicator.dart';
 import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
         context,
         FadePageRoute(
-          builder: (context) => CategoryScreen(),
+          builder: (context) => MainScreen(),
         ));
   }
 

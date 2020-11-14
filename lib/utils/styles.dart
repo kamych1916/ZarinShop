@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Styles {
-  static final Color mainColor = Color.fromRGBO(212, 199, 179, 1);
+  static final Color mainColor = Color.fromRGBO(191, 171, 141, 1);
   static final Color textColor = Color.fromRGBO(170, 158, 139, 1);
   static final Color subBackgroundColor = Color.fromRGBO(244, 241, 236, 1);
   static final Color backgroundColor = Color.fromRGBO(247, 248, 252, 1);

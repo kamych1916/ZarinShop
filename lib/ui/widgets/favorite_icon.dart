@@ -54,7 +54,7 @@ class _FavoriteIconState extends State<FavoriteIcon> {
             alignment: Alignment.center,
             children: [
               Icon(
-                AppIcons.heart,
+                AppIcons.heart_empty,
                 size: 22,
               ),
               Align(

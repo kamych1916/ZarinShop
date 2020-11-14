@@ -9,9 +9,10 @@ import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PersonalScreen extends StatelessWidget {
+class UserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    debugPrint("build UserScreen");
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40),

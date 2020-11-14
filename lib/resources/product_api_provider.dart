@@ -89,6 +89,7 @@ class ProductApiProvider {
       }
       throw SocketException;
     } catch (exception) {
+      print(exception);
       bool internetStatus = await checkInternetConnection();
 
       return internetStatus

@@ -24,11 +24,10 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    userBloc.canFieldsRequestFocus = true;
+    userBloc.canFieldsRequestFocus = false;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30.0),
-      decoration: BoxDecoration(color: Styles.backgroundColor),
       child: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -82,9 +81,6 @@ class _SignInFormState extends State<SignInForm> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 30.0),
-              )
             ],
           ),
         ),
@@ -106,7 +102,7 @@ class _SignInFormState extends State<SignInForm> {
                 "Проверьте правильность введенного пароля", context);
           else {
             Navigator.of(context).pushReplacement(FadePageRoute(
-              builder: (context) => PersonalScreen(),
+              builder: (context) => UserScreen(),
             ));
           }
         }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Zarin/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
@@ -14,10 +16,18 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
+  StreamSubscription streamSubscription;
+
   @override
   void initState() {
     productBloc.getFavoritesProducts();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    streamSubscription.cancel();
+    super.dispose();
   }
 
   refresh() => productBloc.getFavoritesProducts();
@@ -56,21 +66,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("favorites build");
     return Scaffold(
+      backgroundColor: Styles.subBackgroundColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40),
         child: AppBar(
           brightness: Brightness.light,
-          backgroundColor: Styles.backgroundColor,
           iconTheme: new IconThemeData(color: Colors.black87),
           elevation: 0,
-          leading: GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 16,
-            ),
-          ),
+          backgroundColor: Styles.subBackgroundColor,
           centerTitle: true,
           title: Text(
             "Избранное",
@@ -81,7 +86,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: 20.0),
+        padding: EdgeInsets.only(top: 10.0),
         child: StreamBuilder(
           stream: productBloc.favoritesProductsStream,
           builder:

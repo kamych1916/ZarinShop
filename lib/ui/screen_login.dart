@@ -18,25 +18,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(40),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          leading: GestureDetector(
-            onTap: () async {
-              if (userBloc.pageController.page != userBloc.mainLoginPage) {
-                userBloc.canFieldsRequestFocus = false;
-                userBloc.animateLoginScreenToMainPage();
-              } else
-                Navigator.of(context).pop();
-            },
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 16,
-            ),
-          ),
-        ),
-      ),
       body: PageView(
         controller: userBloc.pageController,
         //physics: NeverScrollableScrollPhysics(),

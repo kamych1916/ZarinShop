@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/blocs/user_bloc.dart';
@@ -59,7 +60,7 @@ class ProductBloc {
 
     if (categoriesResponse.status == Status.COMPLETED) {
       for (Category mainCategory in categoriesResponse.data) {
-        await precacheImage(mainCategory.img, context);
+        await precacheImage(NetworkImage(mainCategory.imgUrl), context);
       }
     }
 
@@ -68,43 +69,19 @@ class ProductBloc {
 
   /// Товары
 
-  getProductsByCategoryId(String id, context) async {
+  Future getProductsByCategoryId(String id, context) async {
     print("Получение продуктов категории $id");
     _productsSubject.sink.add(ApiResponse.loading("Загрузка товара"));
 
     ApiResponse<List<Product>> products =
         await _productApiProvider.getProductsByCategoryId(id);
 
-    if (products.status == Status.COMPLETED) {
-      for (Product product in products.data) {
-        try {
-          await precacheImage(product.firstImage, context);
-        } catch (ex) {
-          print(ex);
-        }
-      }
-    }
-
     _productsSubject.sink.add(products);
     sortProducts();
   }
 
-  List<Product> productsSearch;
-
-  searchInit() {
-    productsSearch = products;
-  }
-
-  unSearch() {
-    sortProducts(list: productsSearch);
-  }
-
-  search(String text) {
-    List<Product> result = productsSearch
-        .where((e) => e.name.toLowerCase().contains(text.toLowerCase()))
-        .toList();
-    sortProducts(list: result);
-  }
+  double getProductsMaxPrice() => products.map((e) => e.totalPrice).reduce(max);
+  double getProductsMinPrice() => products.map((e) => e.totalPrice).reduce(min);
 
   final Map<SortType, String> sort = {
     SortType.NameAsc: "По алфавиту ↑",
@@ -241,11 +218,11 @@ class ProductBloc {
 
   /// Избранное
 
-  getFavoritesProducts() async {
-    _favoritesProductsSubject.sink.add(ApiResponse.loading("Загрузка товара"));
+  getFavoritesProducts({List<String> list}) async {
+    //_favoritesProductsSubject.sink.add(ApiResponse.loading("Загрузка товара"));
 
     ApiResponse<List<Product>> favorites =
-        await _productApiProvider.getProductsByID(favoritesEntities);
+        await _productApiProvider.getProductsByID(list ?? favoritesEntities);
 
     _favoritesProductsSubject.sink.add(favorites);
   }
@@ -261,17 +238,24 @@ class ProductBloc {
   saveFavoritesEntitiesToLocal() =>
       appBloc.prefs.setStringList("favorites", favoritesEntities);
 
-  addProductToFavorite(Product product) {
+  addProductToFavorite(Product product) async {
     if (favoritesEntities != null && !favoritesEntities.contains(product.id)) {
       favoritesEntities.add(product.id);
+
+      await getFavoritesProducts(list: favoritesEntities);
+
       _favoritesEntitiesSubject.sink.add(favoritesEntities);
+
       saveFavoritesEntitiesToLocal();
     }
   }
 
-  removeProductFromFavorite(Product product) {
+  removeProductFromFavorite(Product product) async {
     if (favoritesEntities != null && favoritesEntities.contains(product.id)) {
       favoritesEntities.remove(product.id);
+
+      await getFavoritesProducts(list: favoritesEntities);
+
       _favoritesEntitiesSubject.sink.add(favoritesEntities);
       saveFavoritesEntitiesToLocal();
     }

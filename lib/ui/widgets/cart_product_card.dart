@@ -34,9 +34,10 @@ class _CartProductCardState extends State<CartProductCard> {
           Container(
             width: 75,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                    fit: BoxFit.cover, image: product.firstImage)),
+              borderRadius: BorderRadius.circular(10),
+              // image:
+              //     DecorationImage(fit: BoxFit.cover, image: product.firstImage),
+            ),
           ),
           Expanded(
             child: Container(
