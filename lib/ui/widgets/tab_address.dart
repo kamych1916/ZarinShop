@@ -38,7 +38,7 @@ class _AddressTabState extends State<AddressTab> {
                   borderRadius: BorderRadius.circular(20)),
               padding: EdgeInsets.all(20.0),
               child: StreamBuilder<List<Address>>(
-                  stream: appBloc.addressesStream,
+                  stream: appBloc.addresses.stream,
                   builder: (context, AsyncSnapshot<List<Address>> snapshot) {
                     return snapshot.hasData
                         ? ListView.separated(
@@ -47,15 +47,16 @@ class _AddressTabState extends State<AddressTab> {
                                   padding: EdgeInsets.symmetric(vertical: 10.0),
                                 ),
                             shrinkWrap: true,
-                            itemCount: appBloc.addresses.length +
+                            itemCount: appBloc.addresses.value.length +
                                 1 +
-                                (appBloc.addresses.length < 3 ? 1 : 0),
+                                (appBloc.addresses.value.length < 3 ? 1 : 0),
                             itemBuilder: (context, index) {
                               if (index == 0)
                                 return DeliveryTypePicker(
                                     deliveryTypePickerCallback);
-                              return index == appBloc.addresses.length + 1 &&
-                                      appBloc.addresses.length < 3
+                              return index ==
+                                          appBloc.addresses.value.length + 1 &&
+                                      appBloc.addresses.value.length < 3
                                   ? GestureDetector(
                                       onTap: () => showModalBottomSheet(
                                           isScrollControlled: true,
@@ -96,7 +97,7 @@ class _AddressTabState extends State<AddressTab> {
                                     )
                                   : GestureDetector(
                                       onTap: () => widget.callback(
-                                          appBloc.addresses[index - 1],
+                                          appBloc.addresses.value[index - 1],
                                           deliveryType),
                                       child: Container(
                                         width: double.infinity,
@@ -122,8 +123,8 @@ class _AddressTabState extends State<AddressTab> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    appBloc.addresses[index - 1]
-                                                        .code,
+                                                    appBloc.addresses
+                                                        .value[index - 1].code,
                                                     maxLines: 1,
                                                     overflow: TextOverflow.clip,
                                                     style: TextStyle(
@@ -131,8 +132,8 @@ class _AddressTabState extends State<AddressTab> {
                                                         fontSize: 12),
                                                   ),
                                                   Text(
-                                                    appBloc.addresses[index - 1]
-                                                        .city,
+                                                    appBloc.addresses
+                                                        .value[index - 1].city,
                                                     maxLines: 5,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -141,17 +142,19 @@ class _AddressTabState extends State<AddressTab> {
                                                         fontSize: 14),
                                                   ),
                                                   Text(
-                                                    appBloc.addresses[index - 1]
+                                                    appBloc
+                                                            .addresses
+                                                            .value[index - 1]
                                                             .street +
                                                         " " +
                                                         appBloc
-                                                            .addresses[
-                                                                index - 1]
+                                                            .addresses
+                                                            .value[index - 1]
                                                             .houseNumber +
                                                         " - " +
                                                         appBloc
-                                                            .addresses[
-                                                                index - 1]
+                                                            .addresses
+                                                            .value[index - 1]
                                                             .apartmentNumber,
                                                     maxLines: 5,
                                                     overflow:
@@ -167,7 +170,8 @@ class _AddressTabState extends State<AddressTab> {
                                             GestureDetector(
                                               onTap: () =>
                                                   appBloc.removeAddress(appBloc
-                                                      .addresses[index - 1]),
+                                                      .addresses
+                                                      .value[index - 1]),
                                               behavior:
                                                   HitTestBehavior.translucent,
                                               child: Container(

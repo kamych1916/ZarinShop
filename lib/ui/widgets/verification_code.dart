@@ -58,7 +58,7 @@ class _VerificationCodeState extends State<VerificationCode> {
 
     _listFocusNode[0].requestFocus();
 
-    streamSubscription = userBloc.clearCodeVerifyInputsStream
+    streamSubscription = userBloc.clearVerificationCodeInput
         .listen((event) => _clearAllWidget());
 
     super.initState();

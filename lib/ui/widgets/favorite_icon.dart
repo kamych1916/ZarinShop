@@ -21,7 +21,7 @@ class _FavoriteIconState extends State<FavoriteIcon> {
 
   @override
   void initState() {
-    streamSubscription = productBloc.favoritesEntitiesStream.listen((event) {
+    streamSubscription = productBloc.favoritesEntities.listen((event) {
       if (event.length <= 99)
         setState(() {
           count = event.length;

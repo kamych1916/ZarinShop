@@ -4,29 +4,17 @@ import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/models/address.dart';
 import 'package:Zarin/models/credit_card.dart';
+import 'package:Zarin/models/event.dart';
 import 'package:credit_card_input_form/model/card_info.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBloc {
   SharedPreferences prefs;
   FlutterSecureStorage storage;
 
-  BehaviorSubject<NavigationBarItem> _navigationBarSubject = BehaviorSubject()
-    ..add(NavigationBarItem.HOME);
-  Stream<NavigationBarItem> get navigationBarStream =>
-      _navigationBarSubject.stream;
-  NavigationBarItem get currentNavigationBarItem => _navigationBarSubject.value;
-
-  BehaviorSubject<List<CreditCard>> _creditCardsSubject = BehaviorSubject();
-  BehaviorSubject<List<Address>> _addressesSubject = BehaviorSubject();
-
-  Stream<List<CreditCard>> get creditCardsStream => _creditCardsSubject.stream;
-  Stream<List<Address>> get addressesStream => _addressesSubject.stream;
-
-  List<CreditCard> get creditCards => _creditCardsSubject.value;
-  List<Address> get addresses => _addressesSubject.value;
+  final Event<List<CreditCard>> creditCards = Event();
+  final Event<List<Address>> addresses = Event();
 
   /// Инициализация
 
@@ -48,25 +36,20 @@ class AppBloc {
     await productBloc.getCategories(context);
   }
 
-  /// TabBar
-
-  changeTab(int index) =>
-      _navigationBarSubject.sink.add(NavigationBarItem.values[index]);
-
   /// Адреса
 
   addAddress(Address addressTemp) {
     Address address = Address.copy(addressTemp);
 
-    addresses.add(address);
-    _addressesSubject.sink.add(addresses);
+    addresses.value.add(address);
+    addresses.publish(addresses.value);
 
     saveAddresses();
   }
 
   removeAddress(Address address) {
-    addresses.remove(address);
-    _addressesSubject.sink.add(addresses);
+    addresses.value.remove(address);
+    addresses.publish(addresses.value);
 
     saveAddresses();
   }
@@ -79,7 +62,7 @@ class AppBloc {
     String addressesJSON = await appBloc.storage.read(key: "addresses");
 
     if (addressesJSON == null || addressesJSON.isEmpty) {
-      _addressesSubject.sink.add([]);
+      addresses.publish([]);
       return;
     }
 
@@ -91,7 +74,7 @@ class AppBloc {
       adresses.add(Address.fromJson(address));
 
     if (adresses != null) {
-      _addressesSubject.sink.add(adresses);
+      addresses.publish(adresses);
       return;
     }
   }
@@ -104,15 +87,15 @@ class AppBloc {
         name: cardInfo.name,
         validate: cardInfo.validate);
 
-    creditCards.add(creditCard);
-    _creditCardsSubject.sink.add(creditCards);
+    creditCards.value.add(creditCard);
+    creditCards.publish(creditCards.value);
 
     saveCreditCards();
   }
 
   removeCreditCard(CreditCard creditCard) {
-    creditCards.remove(creditCard);
-    _creditCardsSubject.sink.add(creditCards);
+    creditCards.value.remove(creditCard);
+    creditCards.publish(creditCards.value);
 
     saveCreditCards();
   }
@@ -125,7 +108,7 @@ class AppBloc {
     String creditCardsJSON = await appBloc.storage.read(key: "creditCards");
 
     if (creditCardsJSON == null || creditCardsJSON.isEmpty) {
-      _creditCardsSubject.sink.add([]);
+      this.creditCards.publish([]);
       return;
     }
 
@@ -137,7 +120,7 @@ class AppBloc {
       creditCards.add(CreditCard.fromJson(creditCard));
 
     if (creditCards != null) {
-      _creditCardsSubject.sink.add(creditCards);
+      this.creditCards.publish(creditCards);
       return;
     }
   }
@@ -145,15 +128,9 @@ class AppBloc {
   /// Dispose
 
   void dispose() async {
-    await _creditCardsSubject.drain();
-    _creditCardsSubject.close();
-    await _addressesSubject.drain();
-    _addressesSubject.close();
-    await _navigationBarSubject.drain();
-    _navigationBarSubject.close();
+    await creditCards.dispose();
+    await addresses.dispose();
   }
 }
 
 final AppBloc appBloc = AppBloc();
-
-enum NavigationBarItem { HOME, SEARCH, CART, FAVORITES, USER }

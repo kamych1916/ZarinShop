@@ -184,7 +184,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           ),
                         ),
                         Container(
-                          height: 50,
+                          height: 60,
                           child: AppBar(
                             brightness: Brightness.light,
                             iconTheme: new IconThemeData(color: Colors.black87),
@@ -197,18 +197,22 @@ class _ProductInfoState extends State<ProductInfo> {
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 3.0),
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
+                                    Container(
+                                      width: 5,
+                                      height: 5,
+                                      decoration: BoxDecoration(
+                                          color: Colors.transparent,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black,
+                                                spreadRadius: 2,
+                                                blurRadius: 15)
+                                          ]),
                                     ),
                                     Icon(
                                       Icons.arrow_back_ios,
                                       size: 16,
-                                      color: Colors.black,
+                                      color: Colors.white,
                                     ),
                                   ],
                                 ),

@@ -16,7 +16,7 @@ class CartProductCard extends StatefulWidget {
 class _CartProductCardState extends State<CartProductCard> {
   @override
   Widget build(BuildContext context) {
-    Product product = productBloc.cartProducts
+    Product product = productBloc.cartProducts.value.data
         // ignore: unrelated_type_equality_checks
         .firstWhere((element) => widget.cartEntity == element);
 
@@ -59,10 +59,8 @@ class _CartProductCardState extends State<CartProductCard> {
                             fontFamily: "SegoeUIBold"),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          productBloc.removeProductFromCart(widget.cartEntity);
-                          productBloc.calculateCartTotal();
-                        },
+                        onTap: () => productBloc
+                            .removeProductFromCart(widget.cartEntity),
                         child: Container(
                           padding: EdgeInsets.symmetric(
                               vertical: 2.5, horizontal: 5.0),

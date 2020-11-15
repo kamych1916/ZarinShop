@@ -40,7 +40,7 @@ class _PasswordResetCodeVerifyState extends State<PasswordResetCodeVerify> {
                 alignment: Alignment.center,
                 child: Text(
                   "На ваш email\n" +
-                      userBloc.email +
+                      userBloc.email.value +
                       "\nбыл отправлен код подтверждения",
                   style: TextStyle(
                     fontSize: 18,
@@ -174,7 +174,7 @@ class _PasswordResetCodeVerifyState extends State<PasswordResetCodeVerify> {
                     showErrorMessage(authResult.message, context);
                   } else if (authResult.status == Status.COMPLETED &&
                       !authResult.data) {
-                    userBloc.clearCodeVerifyInputs;
+                    userBloc.clearVerificationCodeInput.publish(true);
                     _formKey.currentState.reset();
                     showErrorMessage("Неверный код", context);
                   } else {

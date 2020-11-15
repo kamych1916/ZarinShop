@@ -1,51 +1,31 @@
 import 'dart:async';
 import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
+import 'package:Zarin/models/event.dart';
 import 'package:Zarin/resources/user_api_provider.dart';
 import 'package:flutter/material.dart';
 import 'product_bloc.dart';
 
 import 'package:requests/requests.dart' as package;
 
-import 'package:rxdart/rxdart.dart';
-
 class UserBloc {
   final _userApiProvider = UserApiProvider();
-  final _emailSubject = BehaviorSubject<String>();
-  final _passwordSubject = BehaviorSubject<String>();
-  final _responseAwaitSubject = PublishSubject<bool>();
-  final _clearCodeVerifyInputsSubject = PublishSubject<bool>();
 
-  bool auth = false;
+  final Event auth = Event(initValue: false);
+  final Event email = Event();
+  final Event password = Event();
+  final Event apiResponse = Event();
+  final Event clearVerificationCodeInput = Event();
+
   String firstName;
   String lastName;
   String userID;
 
   List<String> signUpInputStrings = new List(3);
 
-  Stream<String> get emailStream => _emailSubject.stream;
-
-  Stream<String> get passwordStream => _passwordSubject.stream;
-
-  Stream<bool> get responseStream => _responseAwaitSubject.stream;
-
-  Stream<bool> get clearCodeVerifyInputsStream =>
-      _clearCodeVerifyInputsSubject.stream;
-
-  get clearCodeVerifyInputs => _clearCodeVerifyInputsSubject.sink.add(true);
-  get responseAwait => _responseAwaitSubject.sink.add(true);
-  get responseDone => _responseAwaitSubject.sink.add(false);
-
-  String get email => _emailSubject.value;
-  String get password => _passwordSubject.value;
-
-  Function(String) get changeEmail => _emailSubject.sink.add;
-
-  Function(String) get changePassword => _passwordSubject.sink.add;
-
   bool validateEmail() {
-    if (email == null || email.isEmpty) {
-      _emailSubject.sink.addError("Введите ваш email");
+    if (email == null || email.value.isEmpty) {
+      email.error("Введите ваш email");
       return false;
     }
 
@@ -53,8 +33,8 @@ class UserBloc {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
 
-    if (!regex.hasMatch(email)) {
-      _emailSubject.sink.addError("Email введен неверно");
+    if (!regex.hasMatch(email.value)) {
+      email.error("Email введен неверно");
       return false;
     }
 
@@ -62,13 +42,13 @@ class UserBloc {
   }
 
   bool validatePassword() {
-    if (password == null || password.isEmpty) {
-      _passwordSubject.sink.addError("Введите пароль");
+    if (password == null || password.value.isEmpty) {
+      password.error("Введите пароль");
       return false;
     }
 
-    if (password.length < 8) {
-      _passwordSubject.sink.addError("Пароль должен быть длиннее 8 символов");
+    if (password.value.length < 8) {
+      password.error("Пароль должен быть длиннее 8 символов");
       return false;
     }
     return true;
@@ -77,45 +57,47 @@ class UserBloc {
   bool validateFields() => validateEmail() && validatePassword();
 
   Future<ApiResponse<dynamic>> signIn() async {
-    this.responseAwait;
+    apiResponse.publish(true);
     ApiResponse<dynamic> response =
-        await _userApiProvider.signIn(email, password);
+        await _userApiProvider.signIn(email.value, password.value);
 
     if (response.data is bool &&
         response.status == Status.COMPLETED &&
         !response.data)
-      auth = false;
+      auth.publish(false);
     else if (response.data is Map && response.status == Status.COMPLETED) {
-      auth = true;
+      auth.publish(true);
       userID = response.data["id"];
       firstName = response.data["first_name"];
       lastName = response.data["last_name"];
       saveUser();
     }
 
-    this.responseDone;
+    apiResponse.publish(false);
     return response;
   }
 
   Future<ApiResponse<bool>> resetPassword() async {
-    this.responseAwait;
-    ApiResponse<bool> response = await _userApiProvider.resetPassword(email);
-    this.responseDone;
+    apiResponse.publish(true);
+
+    ApiResponse<bool> response =
+        await _userApiProvider.resetPassword(email.value);
+    apiResponse.publish(false);
     return response;
   }
 
   Future<ApiResponse<bool>> signUp() async {
-    this.responseAwait;
+    apiResponse.publish(true);
     String firstName = signUpInputStrings[0];
     String lastName = signUpInputStrings[1];
 
     /// TODO: Добавить номер телефона
     String phone = signUpInputStrings[1];
 
-    ApiResponse<bool> response =
-        await _userApiProvider.signUp(email, password, firstName, lastName);
+    ApiResponse<bool> response = await _userApiProvider.signUp(
+        email.value, password.value, firstName, lastName);
 
-    this.responseDone;
+    apiResponse.publish(false);
     return response;
   }
 
@@ -136,52 +118,40 @@ class UserBloc {
         duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 
-  void dispose() async {
-    await _emailSubject.drain();
-    _emailSubject.close();
-    await _passwordSubject.drain();
-    _passwordSubject.close();
-    await _responseAwaitSubject.drain();
-    _responseAwaitSubject.close();
-    await _clearCodeVerifyInputsSubject.drain();
-    _clearCodeVerifyInputsSubject.close();
-  }
-
   Future<ApiResponse<bool>> checkSignUpCode(String code) async {
-    this.responseAwait;
+    apiResponse.publish(true);
     ApiResponse<bool> response =
-        await _userApiProvider.checkSignUpCode(code, email);
-    this.responseDone;
+        await _userApiProvider.checkSignUpCode(code, email.value);
+    apiResponse.publish(false);
     return response;
   }
 
   Future<ApiResponse<bool>> checkPasswordResetCode(
       String code, String password) async {
-    this.responseAwait;
-    ApiResponse<bool> response =
-        await _userApiProvider.checkPasswordResetCode(code, email, password);
+    apiResponse.publish(true);
+    ApiResponse<bool> response = await _userApiProvider.checkPasswordResetCode(
+        code, email.value, password);
 
     if (response.data == true && response.status == Status.COMPLETED) {
-      _passwordSubject.sink.add(password);
+      this.password.publish(password);
       saveUser();
     }
 
-    this.responseDone;
+    apiResponse.publish(false);
     return response;
   }
 
   logout() {
-    auth = false;
-    appBloc.prefs.setBool("auth", auth);
-
+    auth.publish(false);
+    appBloc.prefs.setBool("auth", auth.value);
     productBloc.clearCart();
     package.Requests.clearStoredCookies("zarinshop.site:49354");
   }
 
   saveUser() {
-    appBloc.prefs.setBool("auth", auth);
-    appBloc.storage.write(key: "email", value: email);
-    appBloc.storage.write(key: "password", value: password);
+    appBloc.prefs.setBool("auth", auth.value);
+    appBloc.storage.write(key: "email", value: email.value);
+    appBloc.storage.write(key: "password", value: password.value);
   }
 
   Future<bool> getUser() async {
@@ -195,16 +165,24 @@ class UserBloc {
         await _userApiProvider.signIn(email, password);
 
     if (response.data is Map && response.status == Status.COMPLETED) {
-      this.auth = true;
+      this.auth.publish(true);
       userID = response.data["id"];
       firstName = response.data["first_name"];
       lastName = response.data["last_name"];
 
-      _emailSubject.sink.add(response.data["email"]);
+      this.email.publish(response.data["email"]);
       return true;
     }
 
     return false;
+  }
+
+  void dispose() async {
+    await auth.dispose();
+    await email.dispose();
+    await password.dispose();
+    await apiResponse.dispose();
+    await clearVerificationCodeInput.dispose();
   }
 }
 

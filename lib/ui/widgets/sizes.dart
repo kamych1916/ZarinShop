@@ -105,7 +105,8 @@ class _SizeContainerState extends State<SizeContainer> {
 
   @override
   void dispose() {
-    streamSubscription.cancel();
+    if (widget.currentSizeSubject is BehaviorSubject<int>)
+      streamSubscription.cancel();
     super.dispose();
   }
 
@@ -115,6 +116,7 @@ class _SizeContainerState extends State<SizeContainer> {
       onTap: () {
         if (widget.currentSizeSubject is BehaviorSubject<int>) {
           widget.currentSizeSubject.sink.add(widget.index);
+          setState(() => isActive = true);
         } else if (widget.currentSizeSubject is BehaviorSubject<List<int>>) {
           if (isActive) {
             widget.currentSizeSubject.value.remove(widget.index);

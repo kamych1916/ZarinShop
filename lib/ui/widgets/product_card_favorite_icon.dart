@@ -28,11 +28,11 @@ class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
     _colorTween = ColorTween(begin: Colors.white, end: Colors.red[400])
         .animate(_animationController);
 
-    if (productBloc.favoritesEntities.contains(widget.product.id)) {
+    if (productBloc.favoritesEntities.value.contains(widget.product.id)) {
       _animationController.forward(from: 1.0);
     }
 
-    streamSubscription = productBloc.favoritesEntitiesStream.listen((event) {
+    streamSubscription = productBloc.favoritesEntities.listen((event) {
       if (!event.contains(widget.product.id)) _animationController.reset();
     });
 
@@ -60,6 +60,7 @@ class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
           _animationController.forward();
         }
       },
+      behavior: HitTestBehavior.translucent,
       child: Container(
         child: AnimatedBuilder(
             animation: _colorTween,
@@ -69,7 +70,25 @@ class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
                 child: Padding(
                   padding:
                       EdgeInsets.only(top: 8.0, bottom: 6.0, left: 8, right: 8),
-                  child: Icon(AppIcons.heart_1, color: _colorTween.value),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                          width: 5,
+                          height: 5,
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                                color: Colors.black87,
+                                spreadRadius: 2,
+                                blurRadius: 15)
+                          ], color: Colors.green)),
+                      Icon(
+                        AppIcons.heart_1,
+                        color: _colorTween.value,
+                        size: 18,
+                      ),
+                    ],
+                  ),
                 ),
               );
             }),

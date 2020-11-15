@@ -3,8 +3,8 @@ import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class SortSheet extends StatelessWidget {
-  final List<SortType> sortTypes = productBloc.sort.keys.toList();
-  final List<String> sortNames = productBloc.sort.values.toList();
+  final List<SortType> sortTypes = productBloc.sortNames.keys.toList();
+  final List<String> sortNames = productBloc.sortNames.values.toList();
 
   Widget sortElement(
           SortType sortType, String sortName, BuildContext context) =>
@@ -25,6 +25,7 @@ class SortSheet extends StatelessWidget {
                   ? Icon(
                       Icons.check,
                       size: 20.0,
+                      color: Styles.mainColor,
                     )
                   : Container()
             ],

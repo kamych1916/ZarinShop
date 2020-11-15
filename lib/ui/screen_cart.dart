@@ -22,19 +22,13 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   void initState() {
-    cartInit();
+    productBloc.getCartProducts();
 
-    streamSubscription = productBloc.cartEntitiesStream.listen((event) async {
+    streamSubscription = productBloc.cartEntities.listen((event) async {
       await productBloc.getCartProducts();
-      productBloc.calculateCartTotal();
     });
 
     super.initState();
-  }
-
-  cartInit() async {
-    await productBloc.getCartProducts();
-    productBloc.calculateCartTotal();
   }
 
   refresh() => productBloc.getCartProducts();
@@ -100,7 +94,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Expanded(
             child: StreamBuilder(
-              stream: productBloc.cartProductsStream,
+              stream: productBloc.cartProducts.stream,
               builder: (context,
                   AsyncSnapshot<ApiResponse<List<Product>>> snapshot) {
                 if (!snapshot.hasData ||
@@ -119,7 +113,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: _error(snapshot.data.message),
                   );
 
-                if (productBloc.cartProducts.isEmpty)
+                if (productBloc.cartProducts.value.data.isEmpty)
                   return Center(
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 100.0),
@@ -130,9 +124,9 @@ class _CartScreenState extends State<CartScreen> {
                 return CupertinoScrollbar(
                   child: ListView.builder(
                       physics: BouncingScrollPhysics(),
-                      itemCount: productBloc.cartProducts.length,
-                      itemBuilder: (context, index) =>
-                          CartProductCard(productBloc.cartEntities[index])),
+                      itemCount: productBloc.cartProducts.value.data.length,
+                      itemBuilder: (context, index) => CartProductCard(
+                          productBloc.cartEntities.value[index])),
                 );
               },
             ),
@@ -161,7 +155,7 @@ class _CartScreenState extends State<CartScreen> {
                     Row(
                       children: [
                         StreamBuilder<double>(
-                            stream: productBloc.cartTotalStream,
+                            stream: productBloc.cartTotalPrice.stream,
                             builder: (context, snapshot) {
                               return AnimatedCount(
                                 count: snapshot.hasData
@@ -187,7 +181,7 @@ class _CartScreenState extends State<CartScreen> {
                 padding: EdgeInsets.symmetric(vertical: 10.0),
               ),
               GestureDetector(
-                onTap: () => productBloc.cartEntities.isNotEmpty
+                onTap: () => productBloc.cartEntities.value.isNotEmpty
                     ? Navigator.of(context).push(FadePageRoute(
                         builder: (context) => OrderScreen(),
                       ))

@@ -60,7 +60,7 @@ class UserScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 2.5),
             ),
             Text(
-              userBloc.email,
+              userBloc.email.value,
               style: TextStyle(fontFamily: "SegoeUiBold"),
             ),
             Padding(

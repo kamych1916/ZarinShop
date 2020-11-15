@@ -17,8 +17,8 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   @override
   void initState() {
-    userBloc.changeEmail("");
-    userBloc.changePassword("");
+    userBloc.email.publish("");
+    userBloc.password.publish("");
     super.initState();
   }
 
@@ -57,7 +57,7 @@ class _SignInFormState extends State<SignInForm> {
               ),
               GestureDetector(
                   onTap: () {
-                    userBloc.changeEmail("");
+                    userBloc.email.publish("");
                     userBloc.animateLoginScreenLeft();
                   },
                   child: Text("Забыли пароль?",
@@ -68,8 +68,8 @@ class _SignInFormState extends State<SignInForm> {
               ),
               GestureDetector(
                 onTap: () {
-                  userBloc.changeEmail("");
-                  userBloc.changePassword("");
+                  userBloc.email.publish("");
+                  userBloc.password.publish("");
                   userBloc.animateLoginScreenRight();
                 },
                 child: Text(
@@ -97,7 +97,8 @@ class _SignInFormState extends State<SignInForm> {
 
           if (authResult.status != Status.COMPLETED) {
             showErrorMessage(authResult.message, context);
-          } else if (authResult.status == Status.COMPLETED && !userBloc.auth)
+          } else if (authResult.status == Status.COMPLETED &&
+              !userBloc.auth.value)
             showErrorMessage(
                 "Проверьте правильность введенного пароля", context);
           else {

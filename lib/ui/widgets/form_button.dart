@@ -21,7 +21,7 @@ class _FormButtonState extends State<FormButton> {
 
   @override
   void initState() {
-    stateUpdater = userBloc.responseStream.listen(listener);
+    stateUpdater = userBloc.apiResponse.listen(listener);
     super.initState();
   }
 

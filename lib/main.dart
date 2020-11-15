@@ -1,7 +1,6 @@
 import 'package:Zarin/ui/screen_splash.dart';
 import 'package:Zarin/ui/screen_main.dart';
 import 'package:Zarin/ui/screen_login.dart';
-import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

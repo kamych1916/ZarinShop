@@ -20,7 +20,7 @@ class SignUpCodeVerify extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 "На ваш email\n" +
-                    userBloc.email +
+                    userBloc.email.value +
                     "\nбыл отправлен код подтверждения",
                 style: TextStyle(
                   fontSize: 18,
@@ -44,7 +44,7 @@ class SignUpCodeVerify extends StatelessWidget {
                   showErrorMessage(authResult.message, context);
                 } else if (authResult.status == Status.COMPLETED &&
                     !authResult.data) {
-                  userBloc.clearCodeVerifyInputs;
+                  userBloc.clearVerificationCodeInput.publish(true);
                   showErrorMessage("Неверный код", context);
                 } else {
                   showMessage("Регистрация прошла успешно", context);

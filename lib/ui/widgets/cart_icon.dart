@@ -22,7 +22,7 @@ class _CartIconState extends State<CartIcon> {
 
   @override
   void initState() {
-    streamSubscription = productBloc.cartEntitiesStream.listen((event) {
+    streamSubscription = productBloc.cartEntities.listen((event) {
       if (event.length <= 99)
         setState(() {
           count = event.length;

@@ -62,7 +62,7 @@ class CategoriesScreen extends StatelessWidget {
         ),
       ),
       body: StreamBuilder(
-          stream: productBloc.categoriesStream,
+          stream: productBloc.categories.stream,
           builder:
               (context, AsyncSnapshot<ApiResponse<List<Category>>> snapshot) {
             if (snapshot.hasData) if (snapshot.data.status ==
@@ -72,9 +72,9 @@ class CategoriesScreen extends StatelessWidget {
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
                   physics: BouncingScrollPhysics(),
-                  itemCount: productBloc.categories.length,
+                  itemCount: productBloc.categories.value.data.length,
                   itemBuilder: (context, index) =>
-                      CategoryCard(productBloc.categories[index]),
+                      CategoryCard(productBloc.categories.value.data[index]),
                 ),
               );
             else

@@ -215,7 +215,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(top: 20.0),
                         child: StreamBuilder(
-                          stream: productBloc.productsStream,
+                          stream: productBloc.products.stream,
                           builder: (context,
                               AsyncSnapshot<ApiResponse<List<Product>>>
                                   snapshot) {
@@ -272,9 +272,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   shrinkWrap: true,
                                   crossAxisCount: 2,
                                   children: List.generate(
-                                      productBloc.products.length, (index) {
+                                      productBloc.products.value.data.length,
+                                      (index) {
                                     return ProductCard(
-                                        productBloc.products[index]);
+                                        productBloc.products.value.data[index]);
                                   }),
                                 ),
                               ),

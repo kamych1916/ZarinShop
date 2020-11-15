@@ -6,14 +6,14 @@ class PasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: userBloc.passwordStream,
-        builder: (context, AsyncSnapshot<String> snapshot) {
+        stream: userBloc.password.stream,
+        builder: (context, snapshot) {
           return SizedBox(
             height: 60,
             child: TextField(
               keyboardType: TextInputType.visiblePassword,
               textAlign: TextAlign.center,
-              onChanged: userBloc.changePassword,
+              onChanged: userBloc.password.publish,
               obscureText: true,
               cursorColor: Colors.black54,
               style: TextStyle(
@@ -45,7 +45,7 @@ class EmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     if (userBloc.canFieldsRequestFocus) focusNode.requestFocus();
     return StreamBuilder(
-        stream: userBloc.emailStream,
+        stream: userBloc.email.stream,
         builder: (context, snapshot) {
           return SizedBox(
             height: 60,
@@ -54,7 +54,7 @@ class EmailField extends StatelessWidget {
                 focusNode: focusNode,
                 keyboardType: TextInputType.emailAddress,
                 textAlign: TextAlign.center,
-                onChanged: userBloc.changeEmail,
+                onChanged: userBloc.email.publish,
                 style: TextStyle(
                     decoration: TextDecoration.none,
                     decorationColor: Colors.white.withOpacity(0)),

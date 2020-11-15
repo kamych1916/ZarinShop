@@ -88,7 +88,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       body: Padding(
         padding: EdgeInsets.only(top: 10.0),
         child: StreamBuilder(
-          stream: productBloc.favoritesProductsStream,
+          stream: productBloc.favoritesProducts.stream,
           builder:
               (context, AsyncSnapshot<ApiResponse<List<Product>>> snapshot) {
             if (!snapshot.hasData || snapshot.data.status == Status.LOADING)
@@ -116,7 +116,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 child: _error(snapshot.data.message),
               );
 
-            if (productBloc.favoritesProducts.isEmpty)
+            if (productBloc.favoritesProducts.value.data.isEmpty)
               return Center(
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 100.0),
@@ -136,9 +136,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
                 crossAxisCount: 2,
-                children: List.generate(productBloc.favoritesProducts.length,
-                    (index) {
-                  return ProductCard(productBloc.favoritesProducts[index]);
+                children: List.generate(
+                    productBloc.favoritesProducts.value.data.length, (index) {
+                  return ProductCard(
+                      productBloc.favoritesProducts.value.data[index]);
                 }),
               ),
             );

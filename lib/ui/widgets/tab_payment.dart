@@ -36,7 +36,7 @@ class _PaymentTabState extends State<PaymentTab> {
                   borderRadius: BorderRadius.circular(20)),
               padding: EdgeInsets.all(20.0),
               child: StreamBuilder<List<CreditCard>>(
-                  stream: appBloc.creditCardsStream,
+                  stream: appBloc.creditCards.stream,
                   builder: (context, AsyncSnapshot<List<CreditCard>> snapshot) {
                     return snapshot.hasData
                         ? ListView.separated(
@@ -44,11 +44,12 @@ class _PaymentTabState extends State<PaymentTab> {
                                   padding: EdgeInsets.symmetric(vertical: 10.0),
                                 ),
                             shrinkWrap: true,
-                            itemCount: appBloc.creditCards.length +
-                                (appBloc.creditCards.length < 3 ? 1 : 0),
+                            itemCount: appBloc.creditCards.value.length +
+                                (appBloc.creditCards.value.length < 3 ? 1 : 0),
                             itemBuilder: (context, index) {
-                              return index == appBloc.creditCards.length &&
-                                      appBloc.creditCards.length < 3
+                              return index ==
+                                          appBloc.creditCards.value.length &&
+                                      appBloc.creditCards.value.length < 3
                                   ? GestureDetector(
                                       onTap: () async {
                                         CardInfo cardInfo =
@@ -112,8 +113,8 @@ class _PaymentTabState extends State<PaymentTab> {
                                       ),
                                     )
                                   : GestureDetector(
-                                      onTap: () => widget
-                                          .callback(appBloc.creditCards[index]),
+                                      onTap: () => widget.callback(
+                                          appBloc.creditCards.value[index]),
                                       child: Container(
                                         width: double.infinity,
                                         decoration: BoxDecoration(
@@ -135,8 +136,8 @@ class _PaymentTabState extends State<PaymentTab> {
                                             Expanded(
                                               child: Text(
                                                 "**** **** **** " +
-                                                    appBloc.creditCards[index]
-                                                        .cardNumber
+                                                    appBloc.creditCards
+                                                        .value[index].cardNumber
                                                         .substring(14),
                                                 style: TextStyle(
                                                     fontFamily: "SegoeUI",
@@ -146,7 +147,8 @@ class _PaymentTabState extends State<PaymentTab> {
                                             GestureDetector(
                                               onTap: () => appBloc
                                                   .removeCreditCard(appBloc
-                                                      .creditCards[index]),
+                                                      .creditCards
+                                                      .value[index]),
                                               behavior:
                                                   HitTestBehavior.translucent,
                                               child: Container(
