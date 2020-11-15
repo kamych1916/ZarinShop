@@ -8,30 +8,29 @@
 
 import Foundation
 
-typealias Path = ZSURLPath
+typealias URLPath = ZSURLPath
 
-struct ZSURLPath {
-    
-    //MARK: - Auth
-    
-    static let signin = "signin"    ///login
-    static let signup = "signup"    ///registration
+enum ZSURLPath: String {
     
     //MARK: - Get
-    
-    static let categories = "categories"
-    static let checkCode = "checkcode_activ/"
-    static let resetPassword = "reset_password"
-    static let productsByID = "items_cat/"
-    static let getCartList = "cart/shopping_cart"
+
+    case signin = "signin"
+    case signup = "signup"
+    case isLogin = "is_login"
+    case categories = "categories"
+    case checkCode = "checkcode_activ/"
+    case resetPassword = "reset_password"
+    case productsByID = "items_cat/"
+    case getCartList = "cart/shopping_cart"
+    case searchProducts = "search"
     
     //MARK: - Post
     
-    static let changePassword = "change_password"
-    static let addToCart = "cart/addProduct" 
+    case changePassword = "change_password"
+    case addToCart = "cart/addProduct"
    
     //MARK: - Delete
     
-    static let logout = "logout"
+    case logout = "logout"
     
 }

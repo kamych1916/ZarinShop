@@ -9,7 +9,6 @@ target 'ZarinShop' do
 
   pod 'SnapKit', '4.2.0'
   pod 'Alamofire', '4.9.1'
-  pod 'SideMenuSwift'
   pod 'Kingfisher', '~> 5.0'
   pod 'DropDown', '2.3.10'
   pod 'ImageSlideshow' 

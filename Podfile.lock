@@ -11,7 +11,6 @@ PODS:
     - Kingfisher/Core (= 5.15.0)
   - Kingfisher/Core (5.15.0)
   - Reveal-SDK (26)
-  - SideMenuSwift (2.0.6)
   - SnapKit (4.2.0)
 
 DEPENDENCIES:
@@ -23,7 +22,6 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift (= 6.5.0)
   - Kingfisher (~> 5.0)
   - Reveal-SDK
-  - SideMenuSwift
   - SnapKit (= 4.2.0)
 
 SPEC REPOS:
@@ -36,7 +34,6 @@ SPEC REPOS:
     - IQKeyboardManagerSwift
     - Kingfisher
     - Reveal-SDK
-    - SideMenuSwift
     - SnapKit
 
 SPEC CHECKSUMS:
@@ -48,9 +45,8 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 6cd19976c6e871907c4ed9127c2d3affdd4defc2
   Kingfisher: 1acb67597a520c2d0310677e66d6e0af455ef757
   Reveal-SDK: 5f94f14aff3d5f2a49f246edcd266fa4472679e9
-  SideMenuSwift: f12ca1b11faad909bfc2878df37e0a1c40fa4570
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 72c551ca494119af1b15334f2a32952334b5120d
+PODFILE CHECKSUM: 2c660d5ba92b324f90fa24a15ba9943d7dcafa64
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.0

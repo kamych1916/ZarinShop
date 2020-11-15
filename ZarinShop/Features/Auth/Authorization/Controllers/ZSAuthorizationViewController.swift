@@ -65,35 +65,12 @@ class ZSAuthorizationViewController: UIViewController {
         return label
     }()
     
-    private lazy var emailField: UITextField = {
-        var field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.borderStyle = .none
-        field.layer.cornerRadius = 20
-        field.backgroundColor = AppColors.mainLightColor.color()
-        field.textColor = AppColors.textDarkColor.color()
-        field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
-        field.leftViewMode = .always
-        field.placeholder = "E-mail"
-        field.translatesAutoresizingMaskIntoConstraints = false
-        return field
-    }()
+    private lazy var emailField = CustomTextField(placeholder: "E-mail")
     
-    private lazy var passwordField: UITextField = {
-        var field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.borderStyle = .none
-        field.layer.cornerRadius = 20
+    private lazy var passwordField: CustomTextField = {
+        var field = CustomTextField(placeholder: "Пароль")
         field.isSecureTextEntry = true
         field.returnKeyType = .done
-        field.backgroundColor = AppColors.mainLightColor.color()
-        field.textColor = AppColors.textDarkColor.color()
-        field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
-        field.leftViewMode = .always
-        field.placeholder = "Пароль"
-        field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
     
@@ -188,7 +165,7 @@ class ZSAuthorizationViewController: UIViewController {
     
     private func makeConstraints() {
         self.dismissButton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(20)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
             make.left.equalToSuperview().inset(10)
             make.size.equalTo(40)
         }
@@ -294,9 +271,6 @@ class ZSAuthorizationViewController: UIViewController {
         navigVC.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
         navigVC.navigationBar.shadowImage = UIImage()
         navigVC.navigationBar.isTranslucent = false
-        registrVC.dismissHandler = { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
         registrVC.registerHandler = { [weak self] in
             self?.dismiss(animated: true, completion: {
                 self?.loginHandler?()
@@ -308,16 +282,20 @@ class ZSAuthorizationViewController: UIViewController {
     @objc private func loginButtonTapped() {
         self.loadingAlert()
         Network.shared.request(
-            url: Path.signin, method: .post,
-            parameters: self.params,
-            success: { [weak self] (user: ZSSigninUserModel) in
-                self?.dismiss(animated: true, completion: {
-                    UserDefaults.standard.setSinginUser(user: user)
-                    self?.loginHandler?()
-                })
-        }) { [weak self] (error, code) in
-            self?.dismiss(animated: true, completion: {
-                self?.alertError(message: error.detail)
+            url: .signin, method: .post,
+            parameters: self.params)
+        { [weak self] (response: Result<ZSSigninUserModel, ZSNetworkError>) in
+            guard let self = self else { return }
+            self.dismiss(animated: true, completion: {
+                switch response {
+                case .success(let model):
+                    UserDefaults.standard.setSinginUser(user: model)
+                    self.loginHandler?()
+                    break
+                case .failure(let error):
+                    self.alertError(message: error.getDescription())
+                    break
+                }
             })
         }
     }
@@ -331,12 +309,10 @@ class ZSAuthorizationViewController: UIViewController {
         navigVC.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
         navigVC.navigationBar.shadowImage = UIImage()
         navigVC.navigationBar.isTranslucent = false
-        resetVC.dismissHandler = { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
         self.present(navigVC, animated: true, completion: nil)
 
     }
+    
     @objc private func registrationIsSuccesfully() {
         self.dismiss(animated: true, completion: nil)
     }

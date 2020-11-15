@@ -9,11 +9,7 @@
 import UIKit
 
 class ZSResetPasswordViewController: UIViewController {
-    
-    // MARK: - Public Variables
-    
-    var dismissHandler: (() -> Void)?
-    
+ 
     // MARK: - Private Variables
     
     private var params: [String: String] = [:]
@@ -58,21 +54,7 @@ class ZSResetPasswordViewController: UIViewController {
         return label
     }()
     
-    private lazy var emailField: UITextField = {
-        var field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.borderStyle = .none
-        field.layer.cornerRadius = 20
-        field.backgroundColor = AppColors.mainLightColor.color()
-        field.textColor = AppColors.textDarkColor.color()
-        field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
-        field.leftViewMode = .always
-        field.keyboardType = .emailAddress
-        field.placeholder = "Email"
-        field.translatesAutoresizingMaskIntoConstraints = false
-        return field
-    }()
+    private lazy var emailField = CustomTextField(placeholder: "E-mail")
     
     private lazy var continueButton: UIButton = {
         var button = UIButton(type: .system)
@@ -155,26 +137,28 @@ class ZSResetPasswordViewController: UIViewController {
     
     @objc private func continueButtonTapped() {
         self.loadingAlert()
-        
         Network.shared.request(
-            url: Path.resetPassword,
-            method: .get, parameters: self.params,
-            isQueryString: true,
-            success: { [weak self] (response: ZSSigninUserModel)in
-                self?.dismiss(animated: true, completion: {
+            url: .resetPassword, method: .get,
+            isQueryString: true, parameters: self.params)
+        { [weak self] (response: Result<ZSSigninUserModel, ZSNetworkError>) in
+            guard let self = self else { return }
+            self.dismiss(animated: true, completion: {
+                switch response {
+                case .success(let model):
                     let codeVC = ZSResetPasswordCodeViewController()
-                    codeVC.initController(email: response.email)
-                    self?.navigationController?.pushViewController(codeVC, animated: true)
-                })
-        }) { [weak self] (error, code) in
-            self?.dismiss(animated: true, completion: {
-                self?.alertError(message: error.detail)
+                    codeVC.initController(email: model.email)
+                    self.navigationController?.pushViewController(codeVC, animated: true)
+                    break
+                case .failure(let error):
+                    self.alertError(message: error.getDescription())
+                    break
+                }
             })
         }
     }
     
     @objc private func dismissButtonTapped() {
-        self.dismissHandler?()
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc private func textFieldValueChanged(_ sender: UITextField) {

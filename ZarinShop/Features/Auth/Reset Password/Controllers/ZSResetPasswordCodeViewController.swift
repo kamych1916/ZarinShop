@@ -55,35 +55,12 @@ class ZSResetPasswordCodeViewController: UIViewController {
         return label
     }()
     
-    private lazy var codeField: UITextField = {
-        var field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.borderStyle = .none
-        field.layer.cornerRadius = 20
-        field.backgroundColor = AppColors.mainLightColor.color()
-        field.textColor = AppColors.textDarkColor.color()
-        field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
-        field.leftViewMode = .always
-        field.placeholder = "Код"
-        field.translatesAutoresizingMaskIntoConstraints = false
-        return field
-    }()
+    private lazy var codeField = CustomTextField(placeholder: "Код")
     
-    private lazy var newPasswordField: UITextField = {
-        var field = UITextField()
-        field.autocapitalizationType = .none
-        field.autocorrectionType = .no
-        field.borderStyle = .none
-        field.layer.cornerRadius = 20
+    private lazy var newPasswordField: CustomTextField = {
+        var field = CustomTextField(placeholder: "Новый пароль")
         field.isSecureTextEntry = true
         field.returnKeyType = .done
-        field.backgroundColor = AppColors.mainLightColor.color()
-        field.textColor = AppColors.textDarkColor.color()
-        field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
-        field.leftViewMode = .always
-        field.placeholder = "Новый пароль"
-        field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
     
@@ -183,16 +160,20 @@ class ZSResetPasswordCodeViewController: UIViewController {
     @objc private func continueButtonTapped() {
         self.loadingAlert()
         Network.shared.request(
-            url: Path.changePassword,
-            method: .post, parameters: self.params,
+            url: .changePassword, method: .post,
             isQueryString: true,
-            success: { [weak self] (response: ZSSignupResponseModel)in
-                self?.dismiss(animated: true, completion: {
-                    self?.showSuccessAlert()
-                })
-        }) { [weak self] (error, code) in
-            self?.dismiss(animated: true, completion: {
-                self?.alertError(message: error.detail)
+            parameters: self.params)
+        { [weak self] (response: Result<ZSSignupResponseModel, ZSNetworkError>) in
+            guard let self = self else { return }
+            self.dismiss(animated: true, completion: {
+                switch response {
+                case .success(_):
+                    self.showSuccessAlert()
+                    break
+                case .failure(let error):
+                    self.alertError(message: error.getDescription())
+                    break
+                }
             })
         }
     }

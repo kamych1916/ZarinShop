@@ -31,12 +31,19 @@ class ZSNetwork {
     
     private init() { }
     
-    func request<T: Decodable>(url: String, method: HTTPMethod,
-                               parameters: Parameters? = nil,
-                               isQueryString: Bool = false,
-                               success: @escaping Success<T>,
-                               feilure: Failure? = nil) {
-        let fullPath = self.baseURL + url
+    func request<T: Codable>(url: URLPath? = nil,
+                             urlStr: String? = nil,
+                             method: HTTPMethod,
+                             isQueryString: Bool = false,
+                             parameters: Parameters? = nil,
+                             completion: @escaping (Swift.Result<T, ZSNetworkError>) -> ()) {
+        
+        var fullPath = self.baseURL
+        if let url = url {
+            fullPath += url.rawValue
+        } else if let urlStr = urlStr {
+            fullPath += urlStr
+        }
         guard let url = URL(string: fullPath) else { return }
         print("full path: " + fullPath)
         Alamofire.request(
@@ -55,17 +62,17 @@ class ZSNetwork {
                     switch code {
                     case 200...299:
                         if let json = try? JSONDecoder().decode(T.self, from: data) {
-                            success(json)
+                            completion(.success(json))
                         }
                         break
                     case 401:
                         UserDefaults.standard.setLogoutUser()
-                        feilure?(.init(detail: "Не авторизован"), 401)
+                        completion(.failure(.unauthorized))
                         break
                     case 400...500:
                         if let errorJson = try? JSONDecoder().decode(ZSErrorModel.self, from: data) {
                             guard let code = response.response?.statusCode else { return }
-                            feilure?(errorJson, code)
+                            completion(.failure(.unowned("\(errorJson.detail),/n code:\(code)")))
                             return
                         }
                         break
@@ -73,10 +80,11 @@ class ZSNetwork {
                     }
                     break
                 case .failure(let error):
-                    feilure?(.init(detail: error.localizedDescription), 404)
+                    completion(.failure(.badURL(error)))
                     break
                 }
-        }
+            }
+
     }
     
     func delete(url: String,
