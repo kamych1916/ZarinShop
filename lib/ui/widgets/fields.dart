@@ -23,7 +23,7 @@ class PasswordField extends StatelessWidget {
                   helperText: ' ',
                   contentPadding: EdgeInsets.only(left: 15, right: 15, top: 5),
                   filled: true,
-                  fillColor: Color.fromRGBO(230, 236, 240, 1),
+                  fillColor: Colors.white,
                   hintMaxLines: 1,
                   hintStyle: TextStyle(
                       color: Color.fromRGBO(134, 145, 173, 1), fontSize: 14.0),
@@ -40,16 +40,21 @@ class PasswordField extends StatelessWidget {
 }
 
 class EmailField extends StatelessWidget {
+  final bool focusRequest;
+
+  EmailField({this.focusRequest = false});
+
   final FocusNode focusNode = new FocusNode();
   @override
   Widget build(BuildContext context) {
-    if (userBloc.canFieldsRequestFocus) focusNode.requestFocus();
+    if (focusRequest) focusNode.requestFocus();
     return StreamBuilder(
         stream: userBloc.email.stream,
         builder: (context, snapshot) {
           return SizedBox(
             height: 60,
-            child: TextField(
+            child: TextFormField(
+                initialValue: userBloc.email.value,
                 cursorColor: Colors.black54,
                 focusNode: focusNode,
                 keyboardType: TextInputType.emailAddress,
@@ -63,7 +68,7 @@ class EmailField extends StatelessWidget {
                     contentPadding:
                         EdgeInsets.only(left: 15, right: 15, top: 5),
                     filled: true,
-                    fillColor: Color.fromRGBO(230, 236, 240, 1),
+                    fillColor: Colors.white,
                     hintMaxLines: 1,
                     hintStyle: TextStyle(
                         color: Color.fromRGBO(134, 145, 173, 1),

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Zarin/app_icons.dart';
+import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/models/address.dart';
 import 'package:Zarin/models/credit_card.dart';
 import 'package:Zarin/ui/widgets/tab_address.dart';
@@ -64,72 +64,115 @@ class _OrderScreenState extends State<OrderScreen> {
       PaymentTab(creditCardCallback),
       creditCard == null
           ? Container()
-          : Container(
-              margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Проверьте данные еще раз",
-                    style:
-                        TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Styles.mainColor,
-                        borderRadius: BorderRadius.circular(20)),
-                    padding: EdgeInsets.all(20.0),
+          : Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin:
+                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          "Проверьте данные еще раз",
+                          style: TextStyle(
+                              fontFamily: "SegoeUISemiBold", fontSize: 16),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                        ),
                         Container(
-                          width: double.infinity,
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10)),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          child: Row(
+                              color: Styles.mainColor,
+                              borderRadius: BorderRadius.circular(20)),
+                          padding: EdgeInsets.all(20.0),
+                          child: Column(
                             children: [
-                              Icon(
-                                AppIcons.map_marker,
-                                size: 22,
+                              Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 20.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      AppIcons.map_marker,
+                                      size: 22,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            address.code,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.clip,
+                                            style: TextStyle(
+                                                fontFamily: "SegoeUI",
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            address.city,
+                                            maxLines: 5,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontFamily: "SegoeUI",
+                                                fontSize: 14),
+                                          ),
+                                          Text(
+                                            address.street +
+                                                " " +
+                                                address.houseNumber +
+                                                " - " +
+                                                address.apartmentNumber,
+                                            maxLines: 5,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontFamily: "SegoeUISemiBold",
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
                               ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 20.0),
+                                child: Row(
                                   children: [
-                                    Text(
-                                      address.code,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.clip,
-                                      style: TextStyle(
-                                          fontFamily: "SegoeUI", fontSize: 12),
+                                    Icon(
+                                      AppIcons.credit_card,
+                                      size: 22,
                                     ),
-                                    Text(
-                                      address.city,
-                                      maxLines: 5,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontFamily: "SegoeUI", fontSize: 14),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.0),
                                     ),
-                                    Text(
-                                      address.street +
-                                          " " +
-                                          address.houseNumber +
-                                          " - " +
-                                          address.apartmentNumber,
-                                      maxLines: 5,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontFamily: "SegoeUISemiBold",
-                                          fontSize: 14),
+                                    Expanded(
+                                      child: Text(
+                                        "**** **** **** " +
+                                            creditCard.cardNumber.substring(14),
+                                        style: TextStyle(
+                                            fontFamily: "SegoeUI",
+                                            fontSize: 14),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -137,58 +180,30 @@ class _OrderScreenState extends State<OrderScreen> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10)),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          child: Row(
-                            children: [
-                              Icon(
-                                AppIcons.credit_card,
-                                size: 22,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  "**** **** **** " +
-                                      creditCard.cardNumber.substring(14),
-                                  style: TextStyle(
-                                      fontFamily: "SegoeUI", fontSize: 14),
-                                ),
-                              ),
-                            ],
-                          ),
+                        Expanded(
+                          child: Container(),
                         ),
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  decoration: BoxDecoration(
+                      color: Styles.mainColor,
+                      borderRadius: new BorderRadius.only(
+                        topLeft: const Radius.circular(10.0),
+                        topRight: const Radius.circular(10.0),
+                      )),
+                  child: Text(
+                    "Оплатить",
+                    style: TextStyle(
+                        fontFamily: 'SegoeUIBold', color: Colors.white),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 20.0),
-                    alignment: Alignment.center,
-                    width: double.infinity,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: Styles.mainColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text(
-                      "Оплатить",
-                      style: TextStyle(
-                          fontFamily: 'SegoeUIBold', color: Colors.white),
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             )
     ];
 
@@ -197,7 +212,7 @@ class _OrderScreenState extends State<OrderScreen> {
         preferredSize: Size.fromHeight(40),
         child: AppBar(
           brightness: Brightness.light,
-          backgroundColor: Styles.backgroundColor,
+          backgroundColor: Styles.subBackgroundColor,
           iconTheme: new IconThemeData(color: Colors.black87),
           elevation: 0,
           title: Text(
@@ -218,6 +233,7 @@ class _OrderScreenState extends State<OrderScreen> {
           ),
         ),
       ),
+      backgroundColor: Styles.subBackgroundColor,
       body: Container(
         margin: EdgeInsets.only(top: 10.0),
         child: Column(

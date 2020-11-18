@@ -1,4 +1,4 @@
-import 'package:Zarin/app_icons.dart';
+import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/category.dart';
@@ -260,9 +260,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               },
                               child: CupertinoScrollbar(
                                 child: GridView.count(
-                                  childAspectRatio: 1 / 2,
+                                  childAspectRatio: 1 / 2 + 0.025,
                                   mainAxisSpacing: 0.0,
-                                  crossAxisSpacing: 30.0,
+                                  crossAxisSpacing: 10.0,
                                   padding: EdgeInsets.only(
                                     left: 20.0,
                                     right: 20.0,

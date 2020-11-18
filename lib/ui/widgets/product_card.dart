@@ -17,7 +17,7 @@ class ProductCard extends StatelessWidget {
       behavior: HitTestBehavior.translucent,
       onTap: () => pushNewScreen(
         context,
-        screen: ProductInfo(product),
+        screen: ProductInfo(product, product.id),
         withNavBar: true,
         pageTransitionAnimation: PageTransitionAnimation.fade,
       ),

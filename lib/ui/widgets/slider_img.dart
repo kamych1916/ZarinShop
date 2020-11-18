@@ -64,25 +64,33 @@ class Line extends StatefulWidget {
 
 class _LineState extends State<Line> {
   double position;
+  bool show = false;
 
   @override
   void initState() {
     position = 0;
     widget.currentIndex
         .listen((value) => setState(() => position = value * widget.size));
+
+    Future.delayed(
+        Duration(milliseconds: 100), () => setState(() => show = true));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 250),
-      height: 2,
-      margin: EdgeInsets.only(left: position),
-      width: widget.size,
-      decoration: BoxDecoration(
-        boxShadow: Styles.cardShadows,
-        color: Colors.black,
+    return AnimatedOpacity(
+      opacity: show ? 1 : 0,
+      duration: Duration(milliseconds: 500),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 250),
+        height: 2,
+        margin: EdgeInsets.only(left: position),
+        width: widget.size,
+        decoration: BoxDecoration(
+          boxShadow: Styles.cardShadows,
+          color: Colors.black,
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
+import 'package:Zarin/ui/screen_signup_code.dart';
 import 'package:Zarin/ui/widgets/error_message.dart';
 import 'package:Zarin/ui/widgets/fields.dart';
 import 'package:Zarin/ui/widgets/form_button.dart';
@@ -9,14 +10,15 @@ import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SignUpForm extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _SignUpFormState createState() => _SignUpFormState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
 
   final PublishSubject<bool> checkboxErrorSubject = PublishSubject();
@@ -45,7 +47,7 @@ class _SignUpFormState extends State<SignUpForm> {
             helperText: ' ',
             contentPadding: EdgeInsets.only(left: 15, right: 15, top: 5),
             filled: true,
-            fillColor: Color.fromRGBO(230, 236, 240, 1),
+            fillColor: Colors.white,
             hintMaxLines: 1,
             hintStyle: TextStyle(
                 color: Color.fromRGBO(134, 145, 173, 1), fontSize: 14.0),
@@ -86,7 +88,7 @@ class _SignUpFormState extends State<SignUpForm> {
             helperText: ' ',
             contentPadding: EdgeInsets.only(left: 15, right: 15, top: 5),
             filled: true,
-            fillColor: Color.fromRGBO(230, 236, 240, 1),
+            fillColor: Colors.white,
             hintMaxLines: 1,
             hintStyle: TextStyle(
                 color: Color.fromRGBO(134, 145, 173, 1), fontSize: 14.0),
@@ -123,70 +125,104 @@ class _SignUpFormState extends State<SignUpForm> {
             } else if (response.status == Status.COMPLETED && !response.data)
               showErrorMessage("Email уже зарегистрирован", context);
             else
-              userBloc.animateLoginScreenRight();
+              pushNewScreen(
+                context,
+                screen: SignUpCodeScreen(),
+                withNavBar: true,
+                pageTransitionAnimation: PageTransitionAnimation.fade,
+              );
           }
         },
       );
     }
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 30.0),
-      decoration: BoxDecoration(color: Styles.backgroundColor),
-      child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.only(bottom: 40.0),
-                alignment: Alignment.center,
-                child: Text(
-                  "Регистрация",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'SegoeUISemiBold',
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(40),
+        child: AppBar(
+          brightness: Brightness.light,
+          backgroundColor: Styles.subBackgroundColor,
+          iconTheme: new IconThemeData(color: Colors.black87),
+          elevation: 0,
+          centerTitle: true,
+          leading: GestureDetector(
+            onTap: () {
+              userBloc.email.publish("");
+              userBloc.password.publish("");
+              Navigator.of(context).pop();
+            },
+            behavior: HitTestBehavior.translucent,
+            child: Container(
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: 16,
+              ),
+            ),
+          ),
+        ),
+      ),
+      backgroundColor: Styles.subBackgroundColor,
+      body: Builder(
+        builder: (context) => Container(
+          padding: EdgeInsets.symmetric(horizontal: 30.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(bottom: 40.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Регистрация",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'SegoeUIBold',
+                    ),
                   ),
                 ),
-              ),
-              EmailField(),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.5),
-              ),
-              Form(
-                key: formKey,
-                child: Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                              child: stringInputField(0, "Имя", "Введите имя")),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 2.5),
-                          ),
-                          Expanded(
-                              child: stringInputField(
-                                  1, "Фамилия", "Введите фамилию")),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2.5),
-                      ),
-                      phoneInputField(2),
-                    ],
+                EmailField(
+                  focusRequest: true,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                ),
+                Form(
+                  key: formKey,
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                                child:
+                                    stringInputField(0, "Имя", "Введите имя")),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 2.5),
+                            ),
+                            Expanded(
+                                child: stringInputField(
+                                    1, "Фамилия", "Введите фамилию")),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 5),
+                        ),
+                        phoneInputField(2),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.5),
-              ),
-              PasswordField(),
-              TermsOfUseCheckBox(checkboxCallback, checkboxErrorSubject),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.5),
-              ),
-              button(context),
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                ),
+                PasswordField(),
+                TermsOfUseCheckBox(checkboxCallback, checkboxErrorSubject),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                ),
+                button(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -263,6 +299,7 @@ class _TermsOfUseCheckBoxState extends State<TermsOfUseCheckBox> {
             widget.callback(value);
           },
           value: value,
+          activeColor: Styles.mainColor,
           inactiveColor: error ? Colors.red[300] : Colors.grey[400],
         )
       ],

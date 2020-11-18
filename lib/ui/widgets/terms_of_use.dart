@@ -15,7 +15,7 @@ class TermsOfUse extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-              color: Styles.backgroundColor),
+              color: Styles.subBackgroundColor),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,

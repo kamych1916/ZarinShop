@@ -1,9 +1,6 @@
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/ui/screen_products.dart';
-import 'package:Zarin/ui/widgets/cart_icon.dart';
-import 'package:Zarin/ui/widgets/favorite_icon.dart';
 import 'package:Zarin/ui/widgets/sub_category_card.dart';
-import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +14,6 @@ class SubCategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("build sub");
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40),

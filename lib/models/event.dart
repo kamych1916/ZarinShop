@@ -6,7 +6,7 @@ class Event<T> {
   BehaviorSubject<T> _subject = new BehaviorSubject<T>();
 
   Event({T initValue}) {
-    initValue ?? _subject.sink.add(initValue);
+    if (initValue != null) _subject.sink.add(initValue);
   }
 
   Stream<T> get stream => _subject.stream;

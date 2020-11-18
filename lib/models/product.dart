@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class Product {
   String id;
   String name;
@@ -12,6 +10,7 @@ class Product {
   double totalPrice;
   bool hitSale;
   bool specialOffer;
+  List<Map<String, dynamic>> linkColor;
 
   int maxCount;
 
@@ -48,6 +47,13 @@ class Product {
       for (dynamic img in json["image"]) images.add(img);
 
       this.images = images;
+    }
+
+    if (json["link_color"] != null) {
+      List<Map<String, dynamic>> linkColor = [];
+      for (dynamic link in json["link_color"]) linkColor.add(link);
+
+      this.linkColor = linkColor;
     }
 
     totalPrice = (price - price * (discount / 100));

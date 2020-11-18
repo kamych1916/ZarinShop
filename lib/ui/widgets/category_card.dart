@@ -1,8 +1,6 @@
-import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/ui/screen_products.dart';
 import 'package:Zarin/ui/screen_sub_category.dart';
-import 'package:Zarin/utils/fade_page_route.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';

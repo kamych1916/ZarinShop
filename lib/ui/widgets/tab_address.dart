@@ -1,4 +1,4 @@
-import 'package:Zarin/app_icons.dart';
+import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/models/address.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -14,8 +14,15 @@ class AddressTab extends StatefulWidget {
 
 class _AddressTabState extends State<AddressTab> {
   String deliveryType = "Доставка домой";
+  bool showAddresses = true;
 
-  deliveryTypePickerCallback(String currentType) => deliveryType = currentType;
+  deliveryTypePickerCallback(String currentType) {
+    if (currentType == "Самовывоз")
+      setState(() => showAddresses = false);
+    else
+      setState(() => showAddresses = true);
+    deliveryType = currentType;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,146 +54,191 @@ class _AddressTabState extends State<AddressTab> {
                                   padding: EdgeInsets.symmetric(vertical: 10.0),
                                 ),
                             shrinkWrap: true,
-                            itemCount: appBloc.addresses.value.length +
-                                1 +
-                                (appBloc.addresses.value.length < 3 ? 1 : 0),
+                            itemCount: !showAddresses
+                                ? 2
+                                : appBloc.addresses.value.length +
+                                    1 +
+                                    (appBloc.addresses.value.length < 3
+                                        ? 1
+                                        : 0),
                             itemBuilder: (context, index) {
                               if (index == 0)
                                 return DeliveryTypePicker(
                                     deliveryTypePickerCallback);
-                              return index ==
-                                          appBloc.addresses.value.length + 1 &&
-                                      appBloc.addresses.value.length < 3
-                                  ? GestureDetector(
-                                      onTap: () => showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(25.0)),
-                                          ),
-                                          context: context,
-                                          builder: (context) =>
-                                              AddAddressSheet()),
-                                      child: Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 10.0, horizontal: 20.0),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.add_circle,
-                                              size: 26.0,
-                                              color: Styles.mainColor,
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 10.0),
-                                            ),
-                                            Text(
-                                              "Добавить адрес",
-                                              style: TextStyle(
-                                                  fontFamily: "SegoeUIBold"),
-                                            )
-                                          ],
+
+                              if (!showAddresses)
+                                return GestureDetector(
+                                  onTap: () =>
+                                      widget.callback(null, deliveryType),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 20.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.arrow_forward,
+                                          size: 26.0,
+                                          color: Styles.mainColor,
                                         ),
-                                      ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () => widget.callback(
-                                          appBloc.addresses.value[index - 1],
-                                          deliveryType),
-                                      child: Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 10.0, horizontal: 20.0),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              AppIcons.map_marker,
-                                              size: 22,
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                        ),
+                                        Text(
+                                          "Далее",
+                                          style: TextStyle(
+                                              fontFamily: "SegoeUIBold"),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              else
+                                return index ==
+                                            appBloc.addresses.value.length +
+                                                1 &&
+                                        appBloc.addresses.value.length < 3
+                                    ? GestureDetector(
+                                        onTap: () => showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(
+                                                          25.0)),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 10.0),
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    appBloc.addresses
-                                                        .value[index - 1].code,
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.clip,
-                                                    style: TextStyle(
-                                                        fontFamily: "SegoeUI",
-                                                        fontSize: 12),
-                                                  ),
-                                                  Text(
-                                                    appBloc.addresses
-                                                        .value[index - 1].city,
-                                                    maxLines: 5,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                        fontFamily: "SegoeUI",
-                                                        fontSize: 14),
-                                                  ),
-                                                  Text(
-                                                    appBloc
-                                                            .addresses
-                                                            .value[index - 1]
-                                                            .street +
-                                                        " " +
-                                                        appBloc
-                                                            .addresses
-                                                            .value[index - 1]
-                                                            .houseNumber +
-                                                        " - " +
-                                                        appBloc
-                                                            .addresses
-                                                            .value[index - 1]
-                                                            .apartmentNumber,
-                                                    maxLines: 5,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            "SegoeUISemiBold",
-                                                        fontSize: 14),
-                                                  ),
-                                                ],
+                                            context: context,
+                                            builder: (context) =>
+                                                AddAddressSheet()),
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 20.0),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.add_circle,
+                                                size: 26.0,
+                                                color: Styles.mainColor,
                                               ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () =>
-                                                  appBloc.removeAddress(appBloc
-                                                      .addresses
-                                                      .value[index - 1]),
-                                              behavior:
-                                                  HitTestBehavior.translucent,
-                                              child: Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 20.0),
-                                                child: Icon(
-                                                  Icons.close,
-                                                  size: 18,
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10.0),
+                                              ),
+                                              Text(
+                                                "Добавить адрес",
+                                                style: TextStyle(
+                                                    fontFamily: "SegoeUIBold"),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () => widget.callback(
+                                            appBloc.addresses.value[index - 1],
+                                            deliveryType),
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 20.0),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                AppIcons.map_marker,
+                                                size: 22,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10.0),
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      appBloc
+                                                          .addresses
+                                                          .value[index - 1]
+                                                          .code,
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      style: TextStyle(
+                                                          fontFamily: "SegoeUI",
+                                                          fontSize: 12),
+                                                    ),
+                                                    Text(
+                                                      appBloc
+                                                          .addresses
+                                                          .value[index - 1]
+                                                          .city,
+                                                      maxLines: 5,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontFamily: "SegoeUI",
+                                                          fontSize: 14),
+                                                    ),
+                                                    Text(
+                                                      appBloc
+                                                              .addresses
+                                                              .value[index - 1]
+                                                              .street +
+                                                          " " +
+                                                          appBloc
+                                                              .addresses
+                                                              .value[index - 1]
+                                                              .houseNumber +
+                                                          " - " +
+                                                          appBloc
+                                                              .addresses
+                                                              .value[index - 1]
+                                                              .apartmentNumber,
+                                                      maxLines: 5,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              "SegoeUISemiBold",
+                                                          fontSize: 14),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            )
-                                          ],
+                                              GestureDetector(
+                                                onTap: () => appBloc
+                                                    .removeAddress(appBloc
+                                                        .addresses
+                                                        .value[index - 1]),
+                                                behavior:
+                                                    HitTestBehavior.translucent,
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 20.0),
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
+                                      );
                             })
                         : Container();
                   })),
@@ -308,7 +360,11 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
               decoration: BoxDecoration(
                   color: Styles.mainColor,
                   borderRadius: BorderRadius.circular(10)),
-              child: Text("Готово"),
+              child: Text(
+                "Готово",
+                style:
+                    TextStyle(color: Colors.white, fontFamily: "SegoeUIBold"),
+              ),
             ),
           ),
           Padding(
@@ -391,8 +447,7 @@ class DeliveryTypePickerSheet extends StatelessWidget {
 
   final List<String> deliveryTypes = [
     "Доставка домой",
-    "Еще какой-то тип",
-    "Еще тип какой-то"
+    "Самовывоз",
   ];
 
   DeliveryTypePickerSheet({Key key, this.currentType}) : super(key: key);

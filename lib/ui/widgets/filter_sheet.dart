@@ -1,3 +1,4 @@
+import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/ui/widgets/sizes.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -96,25 +97,12 @@ class ColorPicker extends StatefulWidget {
 }
 
 class _ColorPickerState extends State<ColorPicker> {
-  final List<String> colors = [
-    "#0000FF",
-    "#008000",
-    "#FF0000",
-    "#000000",
-    "#FFFFFF",
-    "#C0C0C0",
-    "#FFFF00",
-    "#800080",
-    "#FFA500",
-    "#FFC0CB"
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(
-          colors.length, (index) => ColorPickerCircle(colors[index])),
+      children: List.generate(AppBloc.colors.length,
+          (index) => ColorPickerCircle(AppBloc.colors[index])),
     );
   }
 }
@@ -159,9 +147,9 @@ class _ColorPickerCircleState extends State<ColorPickerCircle> {
               decoration: ShapeDecoration(
                 shadows: [
                   BoxShadow(
-                    color: Colors.black87,
+                    color: Colors.black54,
                     spreadRadius: 0,
-                    blurRadius: 2,
+                    blurRadius: 1,
                   )
                 ],
                 color: HexColor.fromHex(widget.color),

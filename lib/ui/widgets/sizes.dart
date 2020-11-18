@@ -57,21 +57,24 @@ class _SizesState extends State<Sizes> {
                   child: Text(
                     "Выберите размер",
                     style: TextStyle(
-                        color: Colors.red, fontFamily: "SegoeUISemiBold"),
+                        color: Colors.red[400], fontFamily: "SegoeUISemiBold"),
                   ),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 5.0),
               ),
-              Wrap(
-                alignment: WrapAlignment.start,
-                runSpacing: 20.0,
-                spacing: 10.0,
-                children: List.generate(
-                    widget.sizes.length,
-                    (index) => SizeContainer(
-                        widget.sizes[index], index, widget.subject)),
+              Padding(
+                padding: const EdgeInsets.only(left: 2.0),
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  runSpacing: 20.0,
+                  spacing: 10.0,
+                  children: List.generate(
+                      widget.sizes.length,
+                      (index) => SizeContainer(
+                          widget.sizes[index], index, widget.subject)),
+                ),
               ),
             ],
           );

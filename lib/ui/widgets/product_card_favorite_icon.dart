@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Zarin/app_icons.dart';
+import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:flutter/material.dart';

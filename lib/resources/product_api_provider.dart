@@ -72,8 +72,6 @@ class ProductApiProvider {
     String url = "http://zarinshop.site:49354/api/v1/items_ind";
 
     IOClient client = new IOClient();
-
-    /// TODO: !!! Кастит String id в инт. Ебанутый, кто это придумал вообще
     String body = ids.toString();
 
     try {
@@ -147,7 +145,8 @@ class ProductApiProvider {
     String url = "http://zarinshop.site:49354/api/v1/cart/delproduct";
 
     String productID = cartEntity.id;
-    String body = '{"id": "$productID", "size": "string"}';
+    String productSize = cartEntity.size;
+    String body = '{"id": "$productID", "size": "$productSize"}';
 
     await package.Requests.delete(url,
         body: body,

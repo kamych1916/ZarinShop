@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Zarin/blocs/user_bloc.dart';
+import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/ui/widgets/progress_indicator.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class _FormButtonState extends State<FormButton> {
 
   @override
   void initState() {
-    stateUpdater = userBloc.apiResponse.listen(listener);
+    stateUpdater = appBloc.apiResponse.listen(listener);
     super.initState();
   }
 
@@ -41,6 +41,7 @@ class _FormButtonState extends State<FormButton> {
             width: double.infinity,
             height: 40,
             decoration: BoxDecoration(
+                boxShadow: Styles.cardShadows,
                 color: Styles.mainColor,
                 borderRadius: BorderRadius.circular(10)),
             child: responseAwait

@@ -1,11 +1,10 @@
-import 'package:Zarin/app_icons.dart';
-import 'package:Zarin/blocs/product_bloc.dart';
-import 'package:Zarin/blocs/user_bloc.dart';
+import 'package:Zarin/ui/widgets/cart_icon.dart';
+import 'package:Zarin/utils/app_icons.dart';
+import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/ui/screen_cart.dart';
 import 'package:Zarin/ui/screen_categories.dart';
 import 'package:Zarin/ui/screen_favorites.dart';
-import 'package:Zarin/ui/screen_login.dart';
-import 'package:Zarin/ui/screen_personal.dart';
+import 'package:Zarin/ui/screen_user.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,15 +16,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  PersistentTabController _controller;
   List<Widget> screens;
   List<PersistentBottomNavBarItem> tabs;
   Color activeTabColor = Styles.mainColor;
 
   @override
   void initState() {
-    _controller = PersistentTabController(initialIndex: 0);
-
     screens = [
       CategoriesScreen(),
       Container(
@@ -48,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
         inactiveColor: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(AppIcons.cart),
+        icon: CartIcon(),
         activeColor: activeTabColor,
         inactiveColor: CupertinoColors.systemGrey,
       ),
@@ -70,9 +66,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
-      navBarHeight: 50,
+      navBarHeight: 40,
       iconSize: 26,
-      controller: _controller,
+      controller: appBloc.tabController,
       screens: screens,
       items: tabs,
       confineInSafeArea: true,
@@ -86,10 +82,7 @@ class _MainScreenState extends State<MainScreen> {
       screenTransitionAnimation: ScreenTransitionAnimation(
         animateTabTransition: false,
       ),
-      navBarStyle: NavBarStyle.style6,
-      onItemSelected: (index) {
-        if (index == 3) productBloc.getFavoritesProducts();
-      },
+      navBarStyle: NavBarStyle.style2,
     );
   }
 }

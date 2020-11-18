@@ -15,16 +15,11 @@ class UserApiProvider {
 
     String body = '{"email": "$email", "password": "$password"}';
 
-    await Future.delayed(Duration(seconds: 1));
-    return ApiResponse.error("message");
-
     try {
       var response = await package.Requests.post(url,
           body: body,
           timeoutSeconds: 10,
           bodyEncoding: package.RequestBodyEncoding.PlainText);
-
-      response.raiseForStatus();
 
       if (response.statusCode == 200)
         return ApiResponse.completed(
@@ -71,12 +66,12 @@ class UserApiProvider {
   }
 
   Future<ApiResponse<bool>> signUp(
-      String email, String password, firstName, lastName) async {
+      String email, String password, firstName, lastName, phone) async {
     String url = "http://zarinshop.site:49354/api/v1/signup";
 
     IOClient client = new IOClient();
     String body =
-        '{"email": "$email", "password": "$password", "first_name": "$firstName","last_name": "$lastName"}';
+        '{"email": "$email", "password": "$password", "first_name": "$firstName","last_name": "$lastName", "phone": $phone}';
 
     try {
       Response response =

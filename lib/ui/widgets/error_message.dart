@@ -5,10 +5,10 @@ showErrorMessage(String message, BuildContext context) {
     content: Text(
       message,
       textAlign: TextAlign.center,
-      style: TextStyle(fontFamily: "SegoeUISemiBold"),
+      style: TextStyle(fontFamily: "SegoeUI"),
     ),
     duration: new Duration(seconds: 2),
-    backgroundColor: Colors.red,
+    backgroundColor: Colors.red[400],
   );
 
   try {
@@ -25,7 +25,7 @@ showMessage(String message, BuildContext context) async {
     content: Text(
       message,
       textAlign: TextAlign.center,
-      style: TextStyle(fontFamily: "SegoeUISemiBold"),
+      style: TextStyle(fontFamily: "SegoeUI"),
     ),
     duration: new Duration(seconds: 2),
     backgroundColor: Colors.green[300],

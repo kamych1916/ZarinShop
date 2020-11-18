@@ -3,7 +3,6 @@ import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/event.dart';
 import 'package:Zarin/resources/user_api_provider.dart';
-import 'package:flutter/material.dart';
 import 'product_bloc.dart';
 
 import 'package:requests/requests.dart' as package;
@@ -11,11 +10,10 @@ import 'package:requests/requests.dart' as package;
 class UserBloc {
   final _userApiProvider = UserApiProvider();
 
-  final Event auth = Event(initValue: false);
-  final Event email = Event();
-  final Event password = Event();
-  final Event apiResponse = Event();
-  final Event clearVerificationCodeInput = Event();
+  final Event<bool> auth = Event(initValue: false);
+  final Event<String> email = Event();
+  final Event<String> password = Event();
+  final Event<bool> clearVerificationCodeInput = Event();
 
   String firstName;
   String lastName;
@@ -57,7 +55,7 @@ class UserBloc {
   bool validateFields() => validateEmail() && validatePassword();
 
   Future<ApiResponse<dynamic>> signIn() async {
-    apiResponse.publish(true);
+    appBloc.apiResponse.publish(true);
     ApiResponse<dynamic> response =
         await _userApiProvider.signIn(email.value, password.value);
 
@@ -73,62 +71,43 @@ class UserBloc {
       saveUser();
     }
 
-    apiResponse.publish(false);
+    appBloc.apiResponse.publish(false);
     return response;
   }
 
   Future<ApiResponse<bool>> resetPassword() async {
-    apiResponse.publish(true);
+    appBloc.apiResponse.publish(true);
 
     ApiResponse<bool> response =
         await _userApiProvider.resetPassword(email.value);
-    apiResponse.publish(false);
+    appBloc.apiResponse.publish(false);
     return response;
   }
 
   Future<ApiResponse<bool>> signUp() async {
-    apiResponse.publish(true);
+    appBloc.apiResponse.publish(true);
     String firstName = signUpInputStrings[0];
     String lastName = signUpInputStrings[1];
-
-    /// TODO: Добавить номер телефона
-    String phone = signUpInputStrings[1];
+    String phone = signUpInputStrings[2];
 
     ApiResponse<bool> response = await _userApiProvider.signUp(
-        email.value, password.value, firstName, lastName);
+        email.value, password.value, firstName, lastName, phone);
 
-    apiResponse.publish(false);
+    appBloc.apiResponse.publish(false);
     return response;
   }
 
-  final int mainLoginPage = 2;
-  int currentPage = 2;
-  final PageController pageController = new PageController(initialPage: 2);
-  bool canFieldsRequestFocus = true;
-
-  Future animateLoginScreenLeft() async =>
-      await pageController.animateToPage(--currentPage,
-          duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
-  Future animateLoginScreenRight() async =>
-      await pageController.animateToPage(++currentPage,
-          duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
-  Future animateLoginScreenToMainPage() async {
-    currentPage = mainLoginPage;
-    await pageController.animateToPage(mainLoginPage,
-        duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
-  }
-
   Future<ApiResponse<bool>> checkSignUpCode(String code) async {
-    apiResponse.publish(true);
+    appBloc.apiResponse.publish(true);
     ApiResponse<bool> response =
         await _userApiProvider.checkSignUpCode(code, email.value);
-    apiResponse.publish(false);
+    appBloc.apiResponse.publish(false);
     return response;
   }
 
   Future<ApiResponse<bool>> checkPasswordResetCode(
       String code, String password) async {
-    apiResponse.publish(true);
+    appBloc.apiResponse.publish(true);
     ApiResponse<bool> response = await _userApiProvider.checkPasswordResetCode(
         code, email.value, password);
 
@@ -137,7 +116,7 @@ class UserBloc {
       saveUser();
     }
 
-    apiResponse.publish(false);
+    appBloc.apiResponse.publish(false);
     return response;
   }
 
@@ -181,7 +160,6 @@ class UserBloc {
     await auth.dispose();
     await email.dispose();
     await password.dispose();
-    await apiResponse.dispose();
     await clearVerificationCodeInput.dispose();
   }
 }

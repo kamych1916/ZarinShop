@@ -1,4 +1,3 @@
-import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 

@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:Zarin/blocs/app_bloc.dart';
-import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/cart_entity.dart';
 import 'package:Zarin/models/category.dart';
@@ -37,8 +35,8 @@ class ProductBloc {
   final Event<ApiResponse<List<Product>>> cartProducts = Event();
   final Event<ApiResponse<List<Product>>> favoritesProducts = Event();
 
-  final Event<List<CartEntity>> cartEntities = Event();
-  final Event<List<String>> favoritesEntities = Event();
+  final Event<List<CartEntity>> cartEntities = Event(initValue: []);
+  final Event<List<String>> favoritesEntities = Event(initValue: []);
 
   final Event<double> cartTotalPrice = Event();
 
@@ -117,29 +115,9 @@ class ProductBloc {
       cartEntities.publish([]);
   }
 
-  getLocalCartEntities() {
-    String cartEncode = appBloc.prefs.getString("cart");
+  addProductToCart(Product product, count, sizeIndex) async {
+    appBloc.apiResponse.publish(true);
 
-    if (cartEncode != null && cartEncode.isNotEmpty) {
-      List<CartEntity> cart = [];
-      List<dynamic> cartEncode = json.decode(appBloc.prefs.getString("cart"));
-
-      for (dynamic cartEntity in cartEncode)
-        cart.add(CartEntity.fromJson(cartEntity));
-
-      if (cart != null) {
-        cartEntities.publish(cart);
-        return;
-      }
-    }
-
-    cartEntities.publish([]);
-  }
-
-  saveCartEntitiesToLocal() =>
-      appBloc.prefs.setString("cart", json.encode(cartEntities));
-
-  addProductToCart(Product product, count, sizeIndex) {
     CartEntity cartEntity =
         CartEntity(product.id, count, product.sizes[sizeIndex]);
 
@@ -148,21 +126,23 @@ class ProductBloc {
         cartEntities.value.add(cartEntity);
         cartEntities.publish(cartEntities.value);
 
-        if (userBloc.auth.value)
-          _productApiProvider.addProductToCart(cartEntity);
+        await _productApiProvider.addProductToCart(cartEntity);
       } else {
         CartEntity cartEntityinCart =
             // ignore: unrelated_type_equality_checks
             cartEntities.value.firstWhere((element) => element == cartEntity);
         cartEntityinCart.count += count;
 
-        if (userBloc.auth.value) {
-          _productApiProvider.addProductToCart(cartEntity);
-        }
-      }
+        if (cartEntityinCart.count > product.maxCount)
+          cartEntityinCart.count = product.maxCount;
 
-      if (!userBloc.auth.value) saveCartEntitiesToLocal();
+        /// TODO: переделать когда появяться maxCount для каждого размера
+
+        await _productApiProvider.addProductToCart(cartEntity);
+      }
     }
+
+    appBloc.apiResponse.publish(false);
   }
 
   removeProductFromCart(CartEntity cartEntity) {
@@ -170,15 +150,13 @@ class ProductBloc {
       cartEntities.value.remove(cartEntity);
       cartEntities.publish(cartEntities.value);
 
-      if (userBloc.auth.value)
-        _productApiProvider.removeProductFromCart(cartEntity);
-      else
-        saveCartEntitiesToLocal();
+      _productApiProvider.removeProductFromCart(cartEntity);
     }
   }
 
   calculateCartTotal() async {
-    if (cartEntities.value.isNotEmpty && cartProducts.value.data.isNotEmpty) {
+    if (cartEntities.value.isNotEmpty &&
+        cartProducts.value.status == Status.COMPLETED) {
       double total = 0;
 
       for (CartEntity cartEntity in cartEntities.value) {

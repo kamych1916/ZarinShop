@@ -7,14 +7,20 @@ import 'package:Zarin/models/credit_card.dart';
 import 'package:Zarin/models/event.dart';
 import 'package:credit_card_input_form/model/card_info.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBloc {
   SharedPreferences prefs;
   FlutterSecureStorage storage;
 
+  final PersistentTabController tabController =
+      PersistentTabController(initialIndex: 0);
+
   final Event<List<CreditCard>> creditCards = Event();
   final Event<List<Address>> addresses = Event();
+
+  final Event<bool> apiResponse = Event();
 
   /// Инициализация
 
@@ -28,9 +34,7 @@ class AppBloc {
     await loadAddresses();
 
     bool auth = await userBloc.getUser();
-    auth
-        ? await productBloc.getCartEntities()
-        : productBloc.getLocalCartEntities();
+    if (auth) await productBloc.getCartEntities();
 
     productBloc.getFavoritesEntitiesFromLocal();
     await productBloc.getCategories(context);
@@ -55,7 +59,8 @@ class AppBloc {
   }
 
   saveAddresses() {
-    appBloc.storage.write(key: "addresses", value: json.encode(addresses));
+    appBloc.storage
+        .write(key: "addresses", value: json.encode(addresses.value));
   }
 
   loadAddresses() async {
@@ -101,7 +106,8 @@ class AppBloc {
   }
 
   saveCreditCards() {
-    appBloc.storage.write(key: "creditCards", value: json.encode(creditCards));
+    appBloc.storage
+        .write(key: "creditCards", value: json.encode(creditCards.value));
   }
 
   loadCreditCards() async {
@@ -130,7 +136,22 @@ class AppBloc {
   void dispose() async {
     await creditCards.dispose();
     await addresses.dispose();
+    await apiResponse.dispose();
+    tabController.dispose();
   }
+
+  static final List<String> colors = [
+    "#0000FF",
+    "#008000",
+    "#FF0000",
+    "#000000",
+    "#FFFFFF",
+    "#C0C0C0",
+    "#FFFF00",
+    "#800080",
+    "#FFA500",
+    "#FFC0CB"
+  ];
 }
 
 final AppBloc appBloc = AppBloc();
