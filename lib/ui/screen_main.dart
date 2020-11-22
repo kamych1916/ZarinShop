@@ -1,3 +1,4 @@
+import 'package:Zarin/ui/screen_search.dart';
 import 'package:Zarin/ui/widgets/cart_icon.dart';
 import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/blocs/app_bloc.dart';
@@ -24,9 +25,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     screens = [
       CategoriesScreen(),
-      Container(
-        child: Center(child: Text("2")),
-      ),
+      SearchScreen(),
       CartScreen(),
       FavoritesScreen(),
       UserScreen()
@@ -49,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
         inactiveColor: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(AppIcons.heart_empty),
+        icon: Icon(AppIcons.heart),
         activeColor: activeTabColor,
         inactiveColor: CupertinoColors.systemGrey,
       ),
@@ -67,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return PersistentTabView(
       navBarHeight: 40,
-      iconSize: 26,
+      iconSize: 24,
       controller: appBloc.tabController,
       screens: screens,
       items: tabs,

@@ -38,9 +38,9 @@ class _PasswordResetCodeScreenState extends State<PasswordResetCodeScreen> {
           leading: GestureDetector(
             onTap: () {
               userBloc.email.publish("");
-              int count = widget.popCount;
+              int count = 0;
               Navigator.of(context).popUntil((route) {
-                return count++ == 2;
+                return count++ == widget.popCount;
               });
             },
             behavior: HitTestBehavior.translucent,
@@ -99,7 +99,7 @@ class _PasswordResetCodeScreenState extends State<PasswordResetCodeScreen> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 60,
+                            height: 55,
                             child: TextFormField(
                               focusNode: firstInputFocusNode,
                               keyboardType: TextInputType.visiblePassword,
@@ -139,7 +139,7 @@ class _PasswordResetCodeScreenState extends State<PasswordResetCodeScreen> {
                             padding: EdgeInsets.symmetric(vertical: 5),
                           ),
                           SizedBox(
-                            height: 60,
+                            height: 55,
                             child: TextFormField(
                               obscureText: true,
                               cursorColor: Colors.black54,
@@ -205,9 +205,9 @@ class _PasswordResetCodeScreenState extends State<PasswordResetCodeScreen> {
                       } else {
                         showMessage("Пароль успешно изменен", context);
                         await Future.delayed(Duration(seconds: 2));
-                        int count = widget.popCount;
+                        int count = 0;
                         Navigator.of(context).popUntil((route) {
-                          return count++ == 2;
+                          return count++ == widget.popCount;
                         });
                       }
                     },

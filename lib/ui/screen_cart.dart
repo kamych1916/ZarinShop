@@ -29,10 +29,6 @@ class _CartScreenState extends State<CartScreen> {
       await productBloc.getCartProducts();
     });
 
-    userBloc.auth.listen((event) {
-      if (event) productBloc.getCartEntities();
-    });
-
     super.initState();
   }
 

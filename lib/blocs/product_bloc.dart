@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:Zarin/blocs/app_bloc.dart';
+import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/cart_entity.dart';
 import 'package:Zarin/models/category.dart';
@@ -16,6 +17,9 @@ class ProductBloc {
     favoritesEntities.listen((event) {
       getFavoritesProducts();
       saveFavoritesEntitiesToLocal();
+    });
+    userBloc.auth.listen((event) {
+      if (event) productBloc.getCartEntities();
     });
   }
 
@@ -32,11 +36,13 @@ class ProductBloc {
 
   final Event<ApiResponse<List<Category>>> categories = Event();
   final Event<ApiResponse<List<Product>>> products = Event();
+
+  final Event<ApiResponse<List<Product>>> searchProducts = Event();
   final Event<ApiResponse<List<Product>>> cartProducts = Event();
   final Event<ApiResponse<List<Product>>> favoritesProducts = Event();
 
-  final Event<List<CartEntity>> cartEntities = Event(initValue: []);
-  final Event<List<String>> favoritesEntities = Event(initValue: []);
+  final Event<List<CartEntity>> cartEntities = Event();
+  final Event<List<String>> favoritesEntities = Event();
 
   final Event<double> cartTotalPrice = Event();
 
@@ -94,6 +100,15 @@ class ProductBloc {
     products.publish(ApiResponse.completed(sortProducts));
   }
 
+  search(String search) async {
+    searchProducts.publish(ApiResponse.loading("Загрузка товара"));
+
+    ApiResponse<List<Product>> searchReslut =
+        await _productApiProvider.search(search);
+
+    searchProducts.publish(searchReslut);
+  }
+
   /// Корзина
 
   getCartProducts() async {
@@ -118,8 +133,8 @@ class ProductBloc {
   addProductToCart(Product product, count, sizeIndex) async {
     appBloc.apiResponse.publish(true);
 
-    CartEntity cartEntity =
-        CartEntity(product.id, count, product.sizes[sizeIndex]);
+    CartEntity cartEntity = CartEntity(product.id, count,
+        product.sizes == null ? null : product.sizes[sizeIndex]);
 
     if (cartEntities != null) {
       if (!cartEntities.value.contains(cartEntity)) {

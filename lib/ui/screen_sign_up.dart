@@ -31,7 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget stringInputField(int index, String hintText, String errorText) {
     return SizedBox(
-      height: 60,
+      height: 55,
       child: TextFormField(
         keyboardType: TextInputType.name,
         textAlign: TextAlign.center,
@@ -61,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget phoneInputField(int index) {
     return SizedBox(
-      height: 60,
+      height: 55,
       child: TextFormField(
         cursorColor: Colors.black54,
         keyboardType: TextInputType.phone,

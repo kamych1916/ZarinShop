@@ -52,6 +52,7 @@ class AppIcons {
   static const IconData heart_empty = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData heart_1 = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData trash = IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData heart = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData exit = IconData(0xe820, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData user = IconData(0xe82a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData cart = IconData(0xe82e, fontFamily: _kFontFam, fontPackage: _kFontPkg);

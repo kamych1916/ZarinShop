@@ -1,10 +1,12 @@
 import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
+import 'package:Zarin/ui/screen_info.dart';
 import 'package:Zarin/ui/screen_password_reset.dart';
 import 'package:Zarin/ui/screen_sign_up.dart';
 import 'package:Zarin/ui/widgets/error_message.dart';
 import 'package:Zarin/ui/widgets/fields.dart';
 import 'package:Zarin/ui/widgets/form_button.dart';
+import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/utils/styles.dart';
 
 import 'package:flutter/material.dart';
@@ -27,6 +29,31 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Styles.subBackgroundColor,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(40),
+        child: AppBar(
+          backgroundColor: Styles.subBackgroundColor,
+          brightness: Brightness.light,
+          elevation: 0,
+          centerTitle: true,
+          actionsIconTheme: IconThemeData(color: Colors.black87),
+          actions: [
+            GestureDetector(
+              onTap: () => pushNewScreen(
+                context,
+                screen: InfoScreen(),
+                withNavBar: true,
+                pageTransitionAnimation: PageTransitionAnimation.fade,
+              ),
+              behavior: HitTestBehavior.translucent,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 15.0),
+                child: Icon(AppIcons.question_circle),
+              ),
+            )
+          ],
+        ),
+      ),
       body: Builder(
         builder: (context) => Container(
           padding: EdgeInsets.symmetric(horizontal: 30.0),

@@ -3,25 +3,25 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 class Event<T> {
-  BehaviorSubject<T> _subject = new BehaviorSubject<T>();
+  BehaviorSubject<T> subject = new BehaviorSubject<T>();
 
   Event({T initValue}) {
-    if (initValue != null) _subject.sink.add(initValue);
+    if (initValue != null) subject.sink.add(initValue);
   }
 
-  Stream<T> get stream => _subject.stream;
+  Stream<T> get stream => subject.stream;
 
-  T get value => _subject.value;
+  T get value => subject.value;
 
   StreamSubscription<T> listen(void callback(T event)) =>
       stream.listen(callback);
 
-  publish(T event) => _subject.sink.add(event);
+  publish(T event) => subject.sink.add(event);
 
-  error(T error) => _subject.addError(error);
+  error(T error) => subject.addError(error);
 
   dispose() async {
-    await _subject.drain();
-    _subject.close();
+    await subject.drain();
+    subject.close();
   }
 }

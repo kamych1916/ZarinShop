@@ -9,7 +9,7 @@ class PasswordField extends StatelessWidget {
         stream: userBloc.password.stream,
         builder: (context, snapshot) {
           return SizedBox(
-            height: 60,
+            height: 55,
             child: TextField(
               keyboardType: TextInputType.visiblePassword,
               textAlign: TextAlign.center,
@@ -52,7 +52,7 @@ class EmailField extends StatelessWidget {
         stream: userBloc.email.stream,
         builder: (context, snapshot) {
           return SizedBox(
-            height: 60,
+            height: 55,
             child: TextFormField(
                 initialValue: userBloc.email.value,
                 cursorColor: Colors.black54,

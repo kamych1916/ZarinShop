@@ -94,9 +94,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             if (!snapshot.hasData || snapshot.data.status == Status.LOADING)
               return CupertinoScrollbar(
                 child: GridView.count(
-                  childAspectRatio: 1 / 2,
+                  childAspectRatio: 1 / 2 + 0.025,
                   mainAxisSpacing: 0.0,
-                  crossAxisSpacing: 30.0,
+                  crossAxisSpacing: 10.0,
                   padding: EdgeInsets.only(
                     left: 20.0,
                     right: 20.0,
@@ -126,9 +126,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
             return CupertinoScrollbar(
               child: GridView.count(
-                childAspectRatio: 1 / 2,
+                childAspectRatio: 1 / 2 + 0.025,
                 mainAxisSpacing: 0.0,
-                crossAxisSpacing: 30.0,
+                crossAxisSpacing: 10.0,
                 padding: EdgeInsets.only(
                   left: 20.0,
                   right: 20.0,

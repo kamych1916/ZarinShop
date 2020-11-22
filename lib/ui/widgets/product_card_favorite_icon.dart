@@ -33,7 +33,10 @@ class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
     }
 
     streamSubscription = productBloc.favoritesEntities.listen((event) {
-      if (!event.contains(widget.product.id)) _animationController.reset();
+      if (!event.contains(widget.product.id))
+        _animationController.reset();
+      else
+        _animationController.forward(from: 1.0);
     });
 
     super.initState();
@@ -43,7 +46,6 @@ class _ProductCardFavoriteIconState extends State<ProductCardFavoriteIcon>
   void dispose() {
     streamSubscription.cancel();
     _animationController.dispose();
-    debugPrint("Dispose: " + widget.product.name);
     super.dispose();
   }
 

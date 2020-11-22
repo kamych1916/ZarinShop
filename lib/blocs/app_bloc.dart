@@ -33,8 +33,7 @@ class AppBloc {
     await loadCreditCards();
     await loadAddresses();
 
-    bool auth = await userBloc.getUser();
-    if (auth) await productBloc.getCartEntities();
+    await userBloc.getUser();
 
     productBloc.getFavoritesEntitiesFromLocal();
     await productBloc.getCategories(context);

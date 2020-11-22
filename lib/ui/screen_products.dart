@@ -223,9 +223,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 snapshot.data.status == Status.LOADING)
                               return CupertinoScrollbar(
                                 child: GridView.count(
-                                  childAspectRatio: 1 / 2,
+                                  childAspectRatio: 1 / 2 + 0.025,
                                   mainAxisSpacing: 0.0,
-                                  crossAxisSpacing: 30.0,
+                                  crossAxisSpacing: 10.0,
                                   padding: EdgeInsets.only(
                                     left: 20.0,
                                     right: 20.0,

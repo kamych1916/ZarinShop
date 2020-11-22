@@ -143,6 +143,12 @@
       "css": "heart-1",
       "code": 59397,
       "src": "fontawesome"
+    },
+    {
+      "uid": "7033a790a6eba30beda282944e6bae87",
+      "css": "heart",
+      "code": 59411,
+      "src": "linearicons"
     }
   ]
 }

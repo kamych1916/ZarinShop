@@ -6,6 +6,7 @@ import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/ui/widgets/colors_picker.dart';
 import 'package:Zarin/models/product.dart';
+import 'package:Zarin/ui/widgets/error_message.dart';
 import 'package:Zarin/ui/widgets/progress_indicator.dart';
 import 'package:Zarin/ui/widgets/sizes.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -41,7 +42,8 @@ class _ProductInfoState extends State<ProductInfo> {
   counterCallback(int count) => countSubject.sink.add(count);
 
   addToCartCallback() {
-    if (widget.product.sizes.isEmpty || sizeSubject.value == -1)
+    if (widget.product.sizes != null &&
+        (widget.product.sizes.isEmpty || sizeSubject.value == -1))
       sizeSubject.sink.add(-2);
     else if (userBloc.auth.value)
       productBloc.addProductToCart(
@@ -149,7 +151,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           ),
                         ),
                         Container(
-                          height: 60,
+                          height: 55,
                           child: AppBar(
                             brightness: Brightness.light,
                             iconTheme: new IconThemeData(color: Colors.black87),

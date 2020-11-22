@@ -138,26 +138,34 @@ class _CartProductCardState extends State<CartProductCard> {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "Размер",
-                        style: TextStyle(
-                            fontSize: 13.0, fontFamily: "SegoeUISemiBold"),
-                      ),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-                      Text(
-                        widget.cartEntity.size,
-                        style: TextStyle(
-                            color: Styles.cardTextColor,
-                            fontFamily: "SegoeUISemiBold",
-                            fontSize: 16),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                  ),
+                  widget.cartEntity.size == null ||
+                          widget.cartEntity.size == "null"
+                      ? Container()
+                      : Row(
+                          children: [
+                            Text(
+                              "Размер",
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  fontFamily: "SegoeUISemiBold"),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.0)),
+                            Text(
+                              widget.cartEntity.size,
+                              style: TextStyle(
+                                  color: Styles.cardTextColor,
+                                  fontFamily: "SegoeUISemiBold",
+                                  fontSize: 16),
+                            )
+                          ],
+                        ),
+                  widget.cartEntity.size == null ||
+                          widget.cartEntity.size == "null"
+                      ? Container()
+                      : Padding(
+                          padding: EdgeInsets.symmetric(vertical: 2),
+                        ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

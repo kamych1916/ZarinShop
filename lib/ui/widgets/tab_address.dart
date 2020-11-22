@@ -266,7 +266,7 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
       child: SizedBox(
-        height: 60,
+        height: 55,
         child: TextFormField(
             cursorColor: Colors.black54,
             keyboardType: textInputType ?? TextInputType.text,

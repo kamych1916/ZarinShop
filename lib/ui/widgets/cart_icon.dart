@@ -46,7 +46,7 @@ class _CartIconState extends State<CartIcon> {
         children: [
           Icon(
             AppIcons.cart,
-            size: 28,
+            size: 26,
           ),
           count != 0
               ? IgnorePointer(
@@ -55,9 +55,7 @@ class _CartIconState extends State<CartIcon> {
                     child: Container(
                       padding: EdgeInsets.all(2),
                       decoration: ShapeDecoration(
-                        shape: CircleBorder(),
-                        color: Styles.backgroundColor,
-                      ),
+                          shape: CircleBorder(), color: Colors.white),
                       child: Container(
                           width: 18,
                           height: 18,
