@@ -102,6 +102,7 @@ export default {
       Api.getInstance()
         .auth.login(this.email, this.password)
         .then((response) => {
+          console.log('respone.headers -> ', response)
           this.$bvToast.toast('Авторизация прошла успешна.', {
             title: `Сообщение`,
             variant: "success",
@@ -109,9 +110,11 @@ export default {
           })
           this.$store.dispatch("auth/load__login_access", response.data)
           console.log(this.$store.state.auth.login_access)
-          // setTimeout(()=>{this.$router.push('/page/account/dashboard')}, 1500)
+          // setTimeout(()=>{this.$router.push('/page/account/admin-dashboard')}, 1500)
+          // setTimeout(()=>{this.$router.push('/')}, 1500)
         })
         .catch((error) => {
+          console.log(error)
           this.$bvToast.toast("Аторизация прошла безуспешно.", {
             title: `Ошибка авторизации`,
             variant: "danger",

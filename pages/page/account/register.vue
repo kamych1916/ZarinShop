@@ -12,7 +12,7 @@
               <form class="theme-form" @submit.prevent="onSubmit">
                 <div class="form-row">
                   <div class="col-md-6">
-                    <label for="First name">Фамилия</label>
+                    <label for="First name">Имя</label>
                     <ValidationProvider rules="required" v-slot="{ errors }" name="First name">
                     <input
                       type="text"
@@ -56,6 +56,19 @@
                       </ValidationProvider>
                   </div>
                   <div class="col-md-6">
+                    <label for="password">Номер телефона</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="phone"
+                      v-model="phone"
+                      placeholder="Введите ваш номер телефона"
+                      name="phone"
+                    />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-6">
                     <label for="password">Пароль</label>
                     <ValidationProvider rules="required" v-slot="{ errors }" name="password">
                     <input
@@ -68,6 +81,16 @@
                     />
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="password">Повторите Пароль</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      placeholder="Повторите пароль"
+                      name="password"
+                    />
                   </div>
                   <button
                   type="submit"
@@ -106,20 +129,22 @@ export default {
       fname: null,
       lname: null,
       email: null,
-      password: null
+      password: null,
+      phone: null,
     }
   },
   methods: {
     onSubmit() {
         Api.getInstance()
-        .auth.register(this.fname, this.lname, this.email, this.password)
+        .auth.register(this.fname, this.lname, this.email, this.password, this.phone)
         .then((response) => {
           this.$bvToast.toast('Регистрация прошла успешна.', {
             title: `Сообщение`,
             variant: "success",
             solid: true
-          })
-          setTimeout(()=>{this.$router.push('/page/account/login')}, 1500)
+          });
+          localStorage.setItem('email', this.email);
+          setTimeout(()=>{this.$router.push('/page/account/check-code-active')}, 1500)
         })
         .catch((error) => {
           this.$bvToast.toast("Регистрация прошла безуспешно. Ведённая вами email почта уже существует!", {

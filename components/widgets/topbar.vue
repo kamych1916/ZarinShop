@@ -23,7 +23,7 @@
               </nuxt-link>
             </li>
             <li class=" mobile-account">
-              <nuxt-link :to="{ path: '/page/account/login' }">
+              <nuxt-link to="/page/account/login">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span style="color: #999999" >Мой аккаунт</span>  
               </nuxt-link>

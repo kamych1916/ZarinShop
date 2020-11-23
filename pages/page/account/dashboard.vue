@@ -246,7 +246,7 @@
                   </div>
                 </b-card-text>
               </b-tab>
-              <b-tab title="Log out">
+              <b-tab @click="logout()" title="Log out">
                 <b-card-text>
                   <div class="dashboard-right">
                     <div class="dashboard">
@@ -332,6 +332,8 @@
 import Header from '../../../components/header/header1'
 import Footer from '../../../components/footer/footer1'
 import Breadcrumbs from '../../../components/widgets/breadcrumbs'
+
+import Api from "~/utils/api";
 export default {
   components: {
     Header,
@@ -342,6 +344,27 @@ export default {
     // if(!this.$store.state.auth.login_access){
     //   this.$router.push("/page/account/login")
     // }
+  },
+  methods:{
+    logout(){
+            Api.getInstance().auth.logout().then((response) => {
+                this.$bvToast.toast('Вы успешно вышли из системы.', {
+                    title: `Сообщение`,
+                    variant: "success",
+                    solid: true
+                })
+                setTimeout(()=>{this.$router.push('/page/account/login')}, 1500)
+            })
+            .catch((error) => {
+                console.log(error)
+                this.$bvToast.toast("Выход из системы не удался.", {
+                        title: `Ошибка системы`,
+                    variant: "danger",
+                    solid: true,
+                });
+                // setTimeout(()=>{this.$router.push('/')}, 1500)
+            });
+    }
   }
 }
 </script>

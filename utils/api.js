@@ -14,7 +14,7 @@ export default class Api {
     }
 
     auth = {
-        async register(first_name, last_name, email, password) {
+        async register(first_name, last_name, email, password, phone) {
             return axios.post(
                 `${API_BASE_URL}/signup`,
                 {
@@ -22,10 +22,15 @@ export default class Api {
                     last_name,
                     email,
                     password,
+                    phone,
                 }
                 
             )
         },
+        async send_activate_code(code, email) {
+            return axios.get(`${API_BASE_URL}/checkcode_activ?code=${code}&email=${email}`)
+        },
+        
         
         async login(email, password) {
             return axios.post(
@@ -37,7 +42,7 @@ export default class Api {
             )
         },
         async logout() {
-            return axios.get( `${API_BASE_URL}/auth/sign_out` )
+            return axios.delete(`${API_BASE_URL}/logout`)
         },
         async forgot_password(email) {
             return axios.get(`${API_BASE_URL}/reset_password/?email=${email}`)

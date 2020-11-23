@@ -95,7 +95,7 @@ export default {
     Breadcrumbs
   },
   mounted(){
-    //   this.check_is_admin()
+      this.check_is_admin()
   },
   methods: {    
         handleFileUpload(){
@@ -105,7 +105,7 @@ export default {
         send_image(){
             let formatData = new FormData();
             formatData.append('file', this.file) 
-
+            console.log(formatData)
             Api.getInstance().auth.upload_file(formatData).then((response) => {
                 this.category.image_url = 'http://zarinshop.site/img/' + response.data.filename 
             })
