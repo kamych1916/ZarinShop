@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -66,32 +69,42 @@ class _LineState extends State<Line> {
   double position;
   bool show = false;
 
+  StreamSubscription streamSubscription;
+
   @override
   void initState() {
     position = 0;
     widget.currentIndex
         .listen((value) => setState(() => position = value * widget.size));
 
+    streamSubscription = appBloc.productInfoLineState.listen((event) {
+      if (event != null && show != event) setState(() => show = event);
+    });
+
     Future.delayed(
-        Duration(milliseconds: 100), () => setState(() => show = true));
+        Duration(milliseconds: 250), () => setState(() => show = true));
     super.initState();
   }
 
   @override
+  void dispose() {
+    streamSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: show ? 1 : 0,
-      duration: Duration(milliseconds: 500),
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 250),
-        height: 2,
-        margin: EdgeInsets.only(left: position),
-        width: widget.size,
-        decoration: BoxDecoration(
-          boxShadow: Styles.cardShadows,
-          color: Colors.black,
-        ),
-      ),
-    );
+    return show
+        ? AnimatedContainer(
+            duration: Duration(milliseconds: 250),
+            height: 2,
+            margin: EdgeInsets.only(left: position),
+            width: widget.size,
+            decoration: BoxDecoration(
+              boxShadow: Styles.cardShadows,
+              color: Colors.black,
+            ),
+          )
+        : Container();
   }
 }

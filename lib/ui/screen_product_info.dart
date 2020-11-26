@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/blocs/user_bloc.dart';
+import 'package:Zarin/ui/screen_product_info_image_view.dart';
 import 'package:Zarin/ui/widgets/colors_picker.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/ui/widgets/error_message.dart';
@@ -13,6 +14,7 @@ import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:Zarin/ui/widgets/slider_img.dart' as Zarin;
 import 'package:flutter/services.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -64,90 +66,111 @@ class _ProductInfoState extends State<ProductInfo> {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height / 2,
+                    height: MediaQuery.of(context).size.height * 0.6,
                     child: Stack(
                       children: [
                         Zarin.Slider(
                           children: List.generate(
                             widget.product.images.length,
-                            (index) => index == 0
-                                ? Hero(
-                                    tag: widget.heroTag,
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              2,
-                                      image: NetworkImage(
-                                          widget.product.images[index]),
-                                      frameBuilder: (BuildContext context,
-                                          Widget child,
-                                          int frame,
-                                          bool wasSynchronouslyLoaded) {
-                                        if (wasSynchronouslyLoaded) {
-                                          return child;
-                                        } else {
-                                          return AnimatedSwitcher(
-                                              duration: const Duration(
-                                                  milliseconds: 500),
-                                              child: frame != null
-                                                  ? child
-                                                  : Shimmer.fromColors(
-                                                      baseColor:
-                                                          Colors.grey[200],
-                                                      highlightColor:
-                                                          Colors.grey[350],
-                                                      child: Container(
-                                                        color: Colors.grey,
-                                                        width: double.infinity,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height /
-                                                            2,
-                                                      ),
-                                                    ));
-                                        }
-                                      },
-                                    ),
-                                  )
-                                : Image(
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width,
-                                    height:
-                                        MediaQuery.of(context).size.height / 2,
-                                    image: NetworkImage(
-                                        widget.product.images[index]),
-                                    frameBuilder: (BuildContext context,
-                                        Widget child,
-                                        int frame,
-                                        bool wasSynchronouslyLoaded) {
-                                      if (wasSynchronouslyLoaded) {
-                                        return child;
-                                      } else {
-                                        return AnimatedSwitcher(
-                                            duration: const Duration(
-                                                milliseconds: 500),
-                                            child: frame != null
-                                                ? child
-                                                : Shimmer.fromColors(
-                                                    baseColor: Colors.grey[300],
-                                                    highlightColor:
-                                                        Colors.grey[350],
-                                                    child: Container(
-                                                      color: Colors.grey,
-                                                      width: double.infinity,
-                                                      height:
-                                                          MediaQuery.of(context)
+                            (index) => GestureDetector(
+                              onTap: () => pushNewScreen(
+                                context,
+                                screen: ProductInfoImageView(
+                                    index == 0
+                                        ? widget.heroTag
+                                        : widget.heroTag + index.toString(),
+                                    widget.product.images[index]),
+                                withNavBar: true,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.fade,
+                              ),
+                              child: Hero(
+                                tag: index == 0
+                                    ? widget.heroTag
+                                    : widget.heroTag + index.toString(),
+                                child: index == 0
+                                    ? Image(
+                                        fit: BoxFit.cover,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.6,
+                                        image: NetworkImage(
+                                            widget.product.images[index]),
+                                        frameBuilder: (BuildContext context,
+                                            Widget child,
+                                            int frame,
+                                            bool wasSynchronouslyLoaded) {
+                                          if (wasSynchronouslyLoaded) {
+                                            return child;
+                                          } else {
+                                            return AnimatedSwitcher(
+                                                duration: const Duration(
+                                                    milliseconds: 500),
+                                                child: frame != null
+                                                    ? child
+                                                    : Shimmer.fromColors(
+                                                        baseColor:
+                                                            Colors.grey[200],
+                                                        highlightColor:
+                                                            Colors.grey[350],
+                                                        child: Container(
+                                                          color: Colors.grey,
+                                                          width:
+                                                              double.infinity,
+                                                          height: MediaQuery.of(
+                                                                      context)
                                                                   .size
-                                                                  .height /
-                                                              2,
-                                                    ),
-                                                  ));
-                                      }
-                                    },
-                                  ),
+                                                                  .height *
+                                                              0.6,
+                                                        ),
+                                                      ));
+                                          }
+                                        },
+                                      )
+                                    : Image(
+                                        fit: BoxFit.cover,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.6,
+                                        image: NetworkImage(
+                                            widget.product.images[index]),
+                                        frameBuilder: (BuildContext context,
+                                            Widget child,
+                                            int frame,
+                                            bool wasSynchronouslyLoaded) {
+                                          if (wasSynchronouslyLoaded) {
+                                            return child;
+                                          } else {
+                                            return AnimatedSwitcher(
+                                                duration: const Duration(
+                                                    milliseconds: 500),
+                                                child: frame != null
+                                                    ? child
+                                                    : Shimmer.fromColors(
+                                                        baseColor:
+                                                            Colors.grey[300],
+                                                        highlightColor:
+                                                            Colors.grey[350],
+                                                        child: Container(
+                                                          color: Colors.grey,
+                                                          width:
+                                                              double.infinity,
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.6,
+                                                        ),
+                                                      ));
+                                          }
+                                        },
+                                      ),
+                              ),
+                            ),
                           ),
                         ),
                         Container(
@@ -158,7 +181,10 @@ class _ProductInfoState extends State<ProductInfo> {
                             elevation: 0,
                             backgroundColor: Colors.transparent,
                             leading: GestureDetector(
-                              onTap: () => Navigator.of(context).pop(),
+                              onTap: () {
+                                appBloc.productInfoLineState.publish(false);
+                                Navigator.of(context).pop();
+                              },
                               behavior: HitTestBehavior.translucent,
                               child: Container(
                                 child: Stack(
@@ -171,9 +197,9 @@ class _ProductInfoState extends State<ProductInfo> {
                                           color: Colors.transparent,
                                           boxShadow: [
                                             BoxShadow(
-                                                color: Colors.black,
-                                                spreadRadius: 2,
-                                                blurRadius: 15)
+                                                color: Colors.black54,
+                                                spreadRadius: 1,
+                                                blurRadius: 10)
                                           ]),
                                     ),
                                     Icon(
