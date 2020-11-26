@@ -19,6 +19,7 @@ class AppBloc {
 
   final Event<List<CreditCard>> creditCards = Event();
   final Event<List<Address>> addresses = Event();
+  final Event<bool> productInfoLineState = Event();
 
   final Event<bool> apiResponse = Event();
 
@@ -136,6 +137,7 @@ class AppBloc {
     await creditCards.dispose();
     await addresses.dispose();
     await apiResponse.dispose();
+    await productInfoLineState.dispose();
     tabController.dispose();
   }
 

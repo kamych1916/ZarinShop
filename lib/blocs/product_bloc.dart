@@ -69,8 +69,10 @@ class ProductBloc {
     ApiResponse<List<Product>> productsResponse =
         await _productApiProvider.getProductsByCategoryId(id);
 
-    products.publish(productsResponse);
-    sortProducts();
+    if (productsResponse.status != Status.COMPLETED)
+      products.publish(productsResponse);
+    else
+      sortProducts(list: productsResponse.data);
   }
 
   double getProductsMaxPrice() =>
@@ -78,8 +80,8 @@ class ProductBloc {
   double getProductsMinPrice() =>
       products.value.data.map((e) => e.totalPrice).reduce(min);
 
-  sortProducts() {
-    List<Product> sortProducts = products.value.data;
+  sortProducts({List<Product> list}) {
+    List<Product> sortProducts = list ?? products.value.data;
     if (sortProducts == null || sortProducts.isEmpty) return;
 
     switch (currentSort) {
