@@ -5,7 +5,6 @@ class ProductCardLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5),
       child: Column(
         children: [
           Shimmer.fromColors(
@@ -28,7 +27,7 @@ class ProductCardLoading extends StatelessWidget {
                   baseColor: Colors.grey[300],
                   highlightColor: Colors.grey[400],
                   child: Container(
-                    width: double.infinity,
+                    width: 100,
                     height: 15.0,
                     decoration: BoxDecoration(
                         color: Colors.grey,
@@ -42,7 +41,7 @@ class ProductCardLoading extends StatelessWidget {
                   baseColor: Colors.grey[300],
                   highlightColor: Colors.grey[400],
                   child: Container(
-                    width: 100,
+                    width: double.infinity,
                     height: 15.0,
                     decoration: BoxDecoration(
                         color: Colors.grey,

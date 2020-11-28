@@ -7,7 +7,6 @@ import 'package:Zarin/ui/widgets/filter_sheet.dart';
 import 'package:Zarin/ui/widgets/product_card.dart';
 import 'package:Zarin/ui/widgets/product_card_loading.dart';
 import 'package:Zarin/ui/widgets/sort_sheet.dart';
-import 'package:Zarin/ui/widgets/sub_categories_list.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +25,6 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  int currentSubCategoryId = -1;
   static const _indicatorSize = 50.0;
 
   @override
@@ -35,17 +33,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
     super.initState();
   }
 
-  changeCurrentSubCategory(int index) {
-    currentSubCategoryId = index;
-    if (index == -1)
-      productBloc.getProductsByCategoryId(widget.category.id, context);
-  }
-
-  refresh() async => await productBloc.getProductsByCategoryId(
-      currentSubCategoryId == -1
-          ? widget.category.id
-          : widget.category.subcategories[currentSubCategoryId].id,
-      context);
+  refresh() async =>
+      await productBloc.getProductsByCategoryId(widget.category.id, context);
 
   Widget _error(String message) {
     return Center(
@@ -79,31 +68,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   }
 
-  Widget _searchError(String message) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Icon(
-            AppIcons.warning,
-            size: 30.0,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-          ),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, fontFamily: "SegoeUI"),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    debugPrint("build product");
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40),
@@ -134,10 +100,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
       body: Container(
         child: Column(
           children: [
-            widget.category.subcategories.isNotEmpty &&
-                    widget.isSubCategoryShowing
-                ? SubCategoriesList(widget.category, changeCurrentSubCategory)
-                : Container(),
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(top: 10.0),
@@ -180,7 +142,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 5.0),
                           ),
                           Expanded(
                             child: GestureDetector(
@@ -245,13 +207,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 child: _error(snapshot.data.message),
                               );
 
-                            if (snapshot.data.data != null &&
-                                snapshot.data.data.isEmpty)
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 50.0),
-                                child: _searchError("Товары не найдены"),
-                              );
-
                             return CustomRefreshIndicator(
                               offsetToArmed: _indicatorSize,
                               onRefresh: () async {
@@ -259,10 +214,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 refresh();
                               },
                               child: CupertinoScrollbar(
-                                child: GridView.count(
-                                  childAspectRatio: 1 / 2 + 0.025,
-                                  mainAxisSpacing: 0.0,
-                                  crossAxisSpacing: 10.0,
+                                child: GridView.builder(
+                                  itemCount: snapshot.data.data.length,
+                                  itemBuilder: (context, index) =>
+                                      ProductCard(snapshot.data.data[index]),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 1 / 2 + 0.025,
+                                    mainAxisSpacing: 0.0,
+                                    crossAxisSpacing: 10.0,
+                                  ),
                                   padding: EdgeInsets.only(
                                     left: 20.0,
                                     right: 20.0,
@@ -270,13 +232,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   physics: AlwaysScrollableScrollPhysics(
                                       parent: BouncingScrollPhysics()),
                                   shrinkWrap: true,
-                                  crossAxisCount: 2,
-                                  children: List.generate(
-                                      productBloc.products.value.data.length,
-                                      (index) {
-                                    return ProductCard(
-                                        productBloc.products.value.data[index]);
-                                  }),
                                 ),
                               ),
                               completeStateDuration: const Duration(seconds: 2),

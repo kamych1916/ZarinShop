@@ -44,88 +44,99 @@ class InfoScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
               ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Text(
-                    "Язык приложения",
-                    style: TextStyle(fontFamily: "SegoeUiSemiBold"),
-                  )),
-                  DropdownButton<String>(
-                    isDense: true,
-                    dropdownColor: Styles.backgroundColor,
-                    elevation: 1,
-                    icon: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 10,
-                    ),
-                    underline: Container(),
-                    onChanged: (value) {},
-                    items: [
-                      DropdownMenuItem(
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                child: Row(
+                  children: [
+                    Expanded(
                         child: Text(
-                          "Русский",
-                          style: TextStyle(fontSize: 14),
-                        ),
+                      "Язык приложения",
+                      style: TextStyle(fontFamily: "SegoeUiSemiBold"),
+                    )),
+                    DropdownButton<String>(
+                      isDense: true,
+                      dropdownColor: Styles.backgroundColor,
+                      elevation: 1,
+                      icon: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 10,
                       ),
-                      DropdownMenuItem(
-                        child: Text(
-                          "Узбекский",
-                          style: TextStyle(fontSize: 14),
+                      underline: Container(),
+                      onChanged: (value) {},
+                      items: [
+                        DropdownMenuItem(
+                          child: Text(
+                            "Русский",
+                            style: TextStyle(fontSize: 14),
+                          ),
                         ),
-                      ),
+                        DropdownMenuItem(
+                          child: Text(
+                            "Узбекский",
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Divider(),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () => pushNewScreen(
+                    context,
+                    screen: GarantInfoScreen(),
+                    withNavBar: true,
+                    pageTransitionAnimation: PageTransitionAnimation.fade,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        "Гарантия качества",
+                        style: TextStyle(fontFamily: "SegoeUiSemiBold"),
+                      )),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 10,
+                      )
                     ],
-                  )
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-              ),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => pushNewScreen(
-                  context,
-                  screen: GarantInfoScreen(),
-                  withNavBar: true,
-                  pageTransitionAnimation: PageTransitionAnimation.fade,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Text(
-                      "Гарантия качества",
-                      style: TextStyle(fontFamily: "SegoeUiSemiBold"),
-                    )),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 10,
-                    )
-                  ],
+                  ),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Divider(),
               ),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => pushNewScreen(
-                  context,
-                  screen: DeliveryInfoScreen(),
-                  withNavBar: true,
-                  pageTransitionAnimation: PageTransitionAnimation.fade,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Text(
-                      "Доставка",
-                      style: TextStyle(fontFamily: "SegoeUiSemiBold"),
-                    )),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 10,
-                    )
-                  ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () => pushNewScreen(
+                    context,
+                    screen: DeliveryInfoScreen(),
+                    withNavBar: true,
+                    pageTransitionAnimation: PageTransitionAnimation.fade,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        "Доставка",
+                        style: TextStyle(fontFamily: "SegoeUiSemiBold"),
+                      )),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 10,
+                      )
+                    ],
+                  ),
                 ),
               ),
               Expanded(
@@ -165,46 +176,6 @@ class InfoScreen extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 11.0, fontFamily: "SegoeUISemiBold"),
                           )
-                        ],
-                      ),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Zarin Shop",
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontFamily: "SegoeUISemiBold"),
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 1.5),
-                                      child: Icon(
-                                        Icons.copyright,
-                                        size: 16,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 2.5),
-                                    ),
-                                    Text(
-                                      "2020",
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          fontFamily: "SegoeUISemiBold"),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                     ],

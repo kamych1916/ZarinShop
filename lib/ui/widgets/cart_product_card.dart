@@ -179,7 +179,9 @@ class _CartProductCardState extends State<CartProductCard> {
                                 fontSize: 18)),
                       ),
                       Counter(
-                        product.maxCount,
+                        5,
+
+                        ///product.sizes.firstWhere((element) => element["size"] == ), /// TODO: maxSize
                         (int value) {
                           widget.cartEntity.count = value;
                           productBloc.calculateCartTotal();

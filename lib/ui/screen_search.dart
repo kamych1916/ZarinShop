@@ -1,14 +1,18 @@
+import 'dart:math';
+
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
-import 'package:Zarin/models/event.dart';
-import 'package:Zarin/models/product.dart';
-import 'package:Zarin/ui/widgets/product_card.dart';
-import 'package:Zarin/ui/widgets/product_card_loading.dart';
+import 'package:Zarin/models/category.dart';
+import 'package:Zarin/ui/screen_products.dart';
+import 'package:Zarin/ui/screen_sub_categories.dart';
+import 'package:Zarin/ui/widgets/search_bar.dart';
 import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -16,27 +20,19 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final Event<String> search = Event();
-  final ScrollController controller = ScrollController();
-  final FocusNode focusNode = FocusNode();
-
-  scrollListener() {
-    focusNode.unfocus();
-    SystemChannels.textInput.invokeMethod('TextInput.hide');
-  }
+  List<int> randomLoadingLinesSize;
 
   @override
   void initState() {
-    focusNode.addListener(() => focusNode.hasFocus
-        ? controller.addListener(scrollListener)
-        : controller.removeListener(scrollListener));
-    search.listen((event) {
-      productBloc.search(event);
-    });
+    var random = new Random();
+    randomLoadingLinesSize = List.generate(10, (index) => random.nextInt(100));
+
+    productBloc.getCategories();
+
     super.initState();
   }
 
-  refresh() async => await productBloc.search(search.value);
+  refresh() async => await productBloc.getCategories();
 
   Widget _error(String message) {
     return Center(
@@ -70,128 +66,132 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _searchError(String message) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Icon(
-            AppIcons.warning,
-            size: 30.0,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-          ),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, fontFamily: "SegoeUI"),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    search.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Styles.subBackgroundColor,
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Styles.subBackgroundColor,
-        iconTheme: new IconThemeData(color: Colors.black87),
-        elevation: 0,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        title: SizedBox(
-          height: 30,
-          child: TextFormField(
-              focusNode: focusNode,
-              cursorColor: Colors.black54,
-              keyboardType: TextInputType.emailAddress,
-              textAlign: TextAlign.center,
-              onChanged: search.publish,
-              style: TextStyle(
-                  decoration: TextDecoration.none,
-                  decorationColor: Colors.white.withOpacity(0)),
-              decoration: InputDecoration(
-                hintText: "Поиск",
-                contentPadding: EdgeInsets.only(left: 15, right: 15, top: 5),
-                filled: true,
-                fillColor: Colors.white,
-                hintMaxLines: 1,
-                hintStyle: TextStyle(
-                    color: Color.fromRGBO(134, 145, 173, 1), fontSize: 14.0),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    borderSide: BorderSide(width: 0, style: BorderStyle.none)),
-              )),
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(top: 20.0),
+          brightness: Brightness.light,
+          backgroundColor: Styles.subBackgroundColor,
+          iconTheme: new IconThemeData(color: Colors.black87),
+          elevation: 0,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          title: SearchBar()),
+      body: Container(
+        margin: EdgeInsets.only(top: 20.0),
         child: StreamBuilder(
-          stream: productBloc.searchProducts.stream,
-          builder:
-              (context, AsyncSnapshot<ApiResponse<List<Product>>> snapshot) {
-            if (!snapshot.hasData || snapshot.data.status == Status.LOADING)
-              return CupertinoScrollbar(
-                child: GridView.count(
-                  childAspectRatio: 1 / 2 + 0.025,
-                  mainAxisSpacing: 0.0,
-                  crossAxisSpacing: 10.0,
-                  padding: EdgeInsets.only(
-                    left: 20.0,
-                    right: 20.0,
-                  ),
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  children: List.generate(6, (index) {
-                    return ProductCardLoading();
-                  }),
-                ),
-              );
+            stream: productBloc.categories.stream,
+            builder:
+                (context, AsyncSnapshot<ApiResponse<List<Category>>> snapshot) {
+              if (!snapshot.hasData || snapshot.data.status == Status.LOADING) {
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: ListView.separated(
+                      separatorBuilder: (context, index) => Divider(),
+                      padding: EdgeInsets.zero,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: 10,
+                      itemBuilder: (context, index) => Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 7.5, horizontal: 5.0),
+                            margin: EdgeInsets.only(
+                                right: MediaQuery.of(context).size.width / 2 -
+                                    randomLoadingLinesSize[index]),
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.grey[300],
 
-            if (snapshot.data.status == Status.ERROR)
-              return Padding(
-                padding: EdgeInsets.only(bottom: 50.0),
-                child: _error(snapshot.data.message),
-              );
+                              /// TODO: цвета у шимера разные везде
+                              highlightColor: Colors.grey[400],
+                              child: Container(
+                                height: 15,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                            ),
+                          )),
+                );
+              }
 
-            if (snapshot.data.data != null && snapshot.data.data.isEmpty)
-              return Padding(
-                padding: EdgeInsets.only(bottom: 50.0),
-                child: _searchError("Товары не найдены"),
-              );
+              if (snapshot.data.status == Status.ERROR)
+                return _error(snapshot.data.message);
 
-            return CupertinoScrollbar(
-              child: GridView.count(
-                controller: controller,
-                childAspectRatio: 1 / 2 + 0.025,
-                mainAxisSpacing: 0.0,
-                crossAxisSpacing: 10.0,
-                padding: EdgeInsets.only(
-                  left: 20.0,
-                  right: 20.0,
-                ),
-                physics: AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                children: List.generate(snapshot.data.data.length, (index) {
-                  return ProductCard(snapshot.data.data[index]);
-                }),
-              ),
-            );
-          },
-        ),
+              if (snapshot.data.status == Status.COMPLETED)
+                return CupertinoScrollbar(
+                    child: Container(
+                  margin: EdgeInsets.only(bottom: 20.0),
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: ListView.separated(
+                      separatorBuilder: (context, index) => Divider(),
+                      padding: EdgeInsets.zero,
+                      itemCount: snapshot.data.data.length,
+                      itemBuilder: (context, index) => GestureDetector(
+                            onTap: () =>
+                                snapshot.data.data[index].subcategories !=
+                                            null &&
+                                        snapshot.data.data[index].subcategories
+                                            .isNotEmpty
+                                    ? pushNewScreen(
+                                        context,
+                                        screen: SubCategoriesScreen(
+                                            snapshot.data.data[index]),
+                                        withNavBar: true,
+                                        pageTransitionAnimation:
+                                            PageTransitionAnimation.fade,
+                                      )
+                                    : pushNewScreen(
+                                        context,
+                                        screen: ProductsScreen(
+                                            snapshot.data.data[index]),
+                                        withNavBar: true,
+                                        pageTransitionAnimation:
+                                            PageTransitionAnimation.fade,
+                                      ),
+                            behavior: HitTestBehavior.translucent,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 5.0),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10.0),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      child: Text(
+                                        snapshot.data.data[index].name,
+                                        style: TextStyle(
+                                            fontFamily: "SegoeUISemiBold",
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20.0),
+                                    child:
+                                        snapshot.data.data[index].count != null
+                                            ? Text(
+                                                snapshot.data.data[index].count
+                                                    .toString(),
+                                              )
+                                            : Container(),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 10,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 10.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )),
+                ));
+
+              return Container();
+            }),
       ),
     );
   }

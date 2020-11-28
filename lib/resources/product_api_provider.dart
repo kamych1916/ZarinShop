@@ -16,6 +16,7 @@ class ProductApiProvider {
     String url = "http://zarinshop.site:49354/api/v1/categories";
 
     IOClient client = new IOClient();
+    await Future.delayed(Duration(seconds: 5));
 
     try {
       Response response = await client.get(url).timeout(Duration(seconds: 5));
@@ -44,6 +45,8 @@ class ProductApiProvider {
     String url = "http://zarinshop.site:49354/api/v1/items_cat/$id";
 
     IOClient client = new IOClient();
+
+    await Future.delayed(Duration(seconds: 1));
 
     try {
       Response response = await client.get(url).timeout(Duration(seconds: 5));

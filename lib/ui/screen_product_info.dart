@@ -7,7 +7,6 @@ import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/ui/screen_product_info_image_view.dart';
 import 'package:Zarin/ui/widgets/colors_picker.dart';
 import 'package:Zarin/models/product.dart';
-import 'package:Zarin/ui/widgets/error_message.dart';
 import 'package:Zarin/ui/widgets/progress_indicator.dart';
 import 'package:Zarin/ui/widgets/sizes.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -67,153 +66,114 @@ class _ProductInfoState extends State<ProductInfo> {
                   Container(
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height * 0.6,
-                    child: Stack(
-                      children: [
-                        Zarin.Slider(
-                          children: List.generate(
-                            widget.product.images.length,
-                            (index) => GestureDetector(
-                              onTap: () => pushNewScreen(
-                                context,
-                                screen: ProductInfoImageView(
-                                    index == 0
-                                        ? widget.heroTag
-                                        : widget.heroTag + index.toString(),
-                                    widget.product.images[index]),
-                                withNavBar: true,
-                                pageTransitionAnimation:
-                                    PageTransitionAnimation.fade,
-                              ),
-                              child: Hero(
-                                tag: index == 0
+                    child: Zarin.Slider(
+                      children: List.generate(
+                        widget.product.images.length,
+                        (index) => GestureDetector(
+                          onScaleUpdate: (scale) => scale.scale > 3
+                              ? pushNewScreen(
+                                  context,
+                                  screen: ProductInfoImageView(
+                                      index == 0
+                                          ? widget.heroTag
+                                          : widget.heroTag + index.toString(),
+                                      widget.product.images[index]),
+                                  withNavBar: true,
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.fade,
+                                )
+                              : null,
+                          onTap: () => pushNewScreen(
+                            context,
+                            screen: ProductInfoImageView(
+                                index == 0
                                     ? widget.heroTag
                                     : widget.heroTag + index.toString(),
-                                child: index == 0
-                                    ? Image(
-                                        fit: BoxFit.cover,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.6,
-                                        image: NetworkImage(
-                                            widget.product.images[index]),
-                                        frameBuilder: (BuildContext context,
-                                            Widget child,
-                                            int frame,
-                                            bool wasSynchronouslyLoaded) {
-                                          if (wasSynchronouslyLoaded) {
-                                            return child;
-                                          } else {
-                                            return AnimatedSwitcher(
-                                                duration: const Duration(
-                                                    milliseconds: 500),
-                                                child: frame != null
-                                                    ? child
-                                                    : Shimmer.fromColors(
-                                                        baseColor:
-                                                            Colors.grey[200],
-                                                        highlightColor:
-                                                            Colors.grey[350],
-                                                        child: Container(
-                                                          color: Colors.grey,
-                                                          width:
-                                                              double.infinity,
-                                                          height: MediaQuery.of(
-                                                                      context)
+                                widget.product.images[index]),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.fade,
+                          ),
+                          child: Hero(
+                            tag: index == 0
+                                ? widget.heroTag
+                                : widget.heroTag + index.toString(),
+                            child: index == 0
+                                ? Image(
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.6,
+                                    image: NetworkImage(
+                                        widget.product.images[index]),
+                                    frameBuilder: (BuildContext context,
+                                        Widget child,
+                                        int frame,
+                                        bool wasSynchronouslyLoaded) {
+                                      if (wasSynchronouslyLoaded) {
+                                        return child;
+                                      } else {
+                                        return AnimatedSwitcher(
+                                            duration: const Duration(
+                                                milliseconds: 500),
+                                            child: frame != null
+                                                ? child
+                                                : Shimmer.fromColors(
+                                                    baseColor: Colors.grey[200],
+                                                    highlightColor:
+                                                        Colors.grey[350],
+                                                    child: Container(
+                                                      color: Colors.grey,
+                                                      width: double.infinity,
+                                                      height:
+                                                          MediaQuery.of(context)
                                                                   .size
                                                                   .height *
                                                               0.6,
-                                                        ),
-                                                      ));
-                                          }
-                                        },
-                                      )
-                                    : Image(
-                                        fit: BoxFit.cover,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.6,
-                                        image: NetworkImage(
-                                            widget.product.images[index]),
-                                        frameBuilder: (BuildContext context,
-                                            Widget child,
-                                            int frame,
-                                            bool wasSynchronouslyLoaded) {
-                                          if (wasSynchronouslyLoaded) {
-                                            return child;
-                                          } else {
-                                            return AnimatedSwitcher(
-                                                duration: const Duration(
-                                                    milliseconds: 500),
-                                                child: frame != null
-                                                    ? child
-                                                    : Shimmer.fromColors(
-                                                        baseColor:
-                                                            Colors.grey[300],
-                                                        highlightColor:
-                                                            Colors.grey[350],
-                                                        child: Container(
-                                                          color: Colors.grey,
-                                                          width:
-                                                              double.infinity,
-                                                          height: MediaQuery.of(
-                                                                      context)
+                                                    ),
+                                                  ));
+                                      }
+                                    },
+                                  )
+                                : Image(
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.6,
+                                    image: NetworkImage(
+                                        widget.product.images[index]),
+                                    frameBuilder: (BuildContext context,
+                                        Widget child,
+                                        int frame,
+                                        bool wasSynchronouslyLoaded) {
+                                      if (wasSynchronouslyLoaded) {
+                                        return child;
+                                      } else {
+                                        return AnimatedSwitcher(
+                                            duration: const Duration(
+                                                milliseconds: 500),
+                                            child: frame != null
+                                                ? child
+                                                : Shimmer.fromColors(
+                                                    baseColor: Colors.grey[300],
+                                                    highlightColor:
+                                                        Colors.grey[350],
+                                                    child: Container(
+                                                      color: Colors.grey,
+                                                      width: double.infinity,
+                                                      height:
+                                                          MediaQuery.of(context)
                                                                   .size
                                                                   .height *
                                                               0.6,
-                                                        ),
-                                                      ));
-                                          }
-                                        },
-                                      ),
-                              ),
-                            ),
+                                                    ),
+                                                  ));
+                                      }
+                                    },
+                                  ),
                           ),
                         ),
-                        Container(
-                          height: 55,
-                          child: AppBar(
-                            brightness: Brightness.light,
-                            iconTheme: new IconThemeData(color: Colors.black87),
-                            elevation: 0,
-                            backgroundColor: Colors.transparent,
-                            leading: GestureDetector(
-                              onTap: () {
-                                appBloc.productInfoLineState.publish(false);
-                                Navigator.of(context).pop();
-                              },
-                              behavior: HitTestBehavior.translucent,
-                              child: Container(
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      width: 5,
-                                      height: 5,
-                                      decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black54,
-                                                spreadRadius: 1,
-                                                blurRadius: 10)
-                                          ]),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_back_ios,
-                                      size: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                   Padding(padding: EdgeInsets.symmetric(vertical: 10)),
@@ -307,6 +267,48 @@ class _ProductInfoState extends State<ProductInfo> {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: 80,
+          child: AppBar(
+            brightness: Brightness.light,
+            iconTheme: new IconThemeData(color: Colors.black87),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            leading: GestureDetector(
+              onTap: () {
+                appBloc.productInfoLineState.publish(false);
+                Navigator.of(context).pop();
+              },
+              behavior: HitTestBehavior.translucent,
+              child: Container(
+                padding: EdgeInsets.only(bottom: 20.0),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black54,
+                                spreadRadius: 1,
+                                blurRadius: 10)
+                          ]),
+                    ),
+                    Text("проверить скейл гестюре"),
+                    Icon(
+                      Icons.arrow_back_ios,
+                      size: 16,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -417,7 +419,7 @@ class _CounterState extends State<Counter> {
           onTap: () => decrement(),
           behavior: HitTestBehavior.translucent,
           child: Container(
-            padding: EdgeInsets.only(right: 20),
+            padding: EdgeInsets.only(right: 20, left: 20),
             child: Text("-",
                 style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16)),
           ),
@@ -430,7 +432,7 @@ class _CounterState extends State<Counter> {
           onTap: () => increment(),
           behavior: HitTestBehavior.translucent,
           child: Container(
-            padding: EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(left: 20, right: 20.0),
             child: Text(
               "+",
               style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16),

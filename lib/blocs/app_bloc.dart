@@ -37,7 +37,6 @@ class AppBloc {
     await userBloc.getUser();
 
     productBloc.getFavoritesEntitiesFromLocal();
-    await productBloc.getCategories(context);
   }
 
   /// Адреса

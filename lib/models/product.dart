@@ -4,12 +4,11 @@ class Product {
   String description;
   String color;
   List<String> sizes;
+  //List<Map<String, dynamic>> sizes;
   List<String> images;
   double price;
   int discount;
   double totalPrice;
-  bool hitSale;
-  bool specialOffer;
   List<Map<String, dynamic>> linkColor;
 
   int maxCount;
@@ -29,8 +28,6 @@ class Product {
     description = json["description"];
     price = json["price"];
     discount = json["discount"];
-    hitSale = json["hit_sales"];
-    specialOffer = json["special_offer"];
     color = json["color"];
 
     maxCount = 5;
@@ -41,6 +38,13 @@ class Product {
 
       this.sizes = sizes;
     }
+
+    // if (json["size"] != null) {
+    //   List<Map<String, dynamic>> sizes = [];
+    //   for (dynamic size in json["size"])
+    //     sizes.add({"size": size["size"], "count": size["kol"]});
+    //   this.sizes = sizes;
+    // }
 
     if (json["image"] != null) {
       List<String> images = [];

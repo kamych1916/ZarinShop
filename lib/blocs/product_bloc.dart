@@ -9,7 +9,6 @@ import 'package:Zarin/models/category.dart';
 import 'package:Zarin/models/event.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/resources/product_api_provider.dart';
-import 'package:flutter/cupertino.dart';
 
 class ProductBloc {
   ProductBloc() {
@@ -48,15 +47,11 @@ class ProductBloc {
 
   /// Категории
 
-  getCategories(context) async {
+  getCategories() async {
+    categories.publish(ApiResponse.loading("Загрузка категорий"));
+
     ApiResponse<List<Category>> categoriesResponse =
         await _productApiProvider.getCategories();
-
-    if (categoriesResponse.status == Status.COMPLETED) {
-      for (Category mainCategory in categoriesResponse.data) {
-        await precacheImage(NetworkImage(mainCategory.imgUrl), context);
-      }
-    }
 
     categories.publish(categoriesResponse);
   }

@@ -22,7 +22,6 @@ class ProductCard extends StatelessWidget {
         pageTransitionAnimation: PageTransitionAnimation.fade,
       ),
       child: Container(
-        padding: EdgeInsets.all(5),
         child: Column(
           children: [
             Stack(
@@ -73,6 +72,13 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    product.totalPrice.floor().toString() + " сум",
+                    style: TextStyle(
+                        color: Styles.cardTextColor,
+                        fontSize: 16.0,
+                        fontFamily: "SegoeUISemiBold"),
+                  ),
                   Text(product.id + " " + product.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -80,13 +86,6 @@ class ProductCard extends StatelessWidget {
                           color: Colors.grey[600],
                           fontSize: 12,
                           fontFamily: "SegoeUIBold")),
-                  Text(
-                    product.totalPrice.floor().toString() + " сум",
-                    style: TextStyle(
-                        color: Styles.cardTextColor,
-                        fontSize: 16.0,
-                        fontFamily: "SegoeUISemiBold"),
-                  )
                 ],
               ),
             ),
