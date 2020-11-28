@@ -18,12 +18,12 @@ class ZSResetPasswordCodeViewController: UIViewController {
         willSet {
             if newValue {
                 UIView.animate(withDuration: 0.3) {
-                    self.continueButton.backgroundColor = AppColors.mainColor.color()
+                    self.continueButton.backgroundColor = .mainColor
                     self.continueButton.isEnabled = true
                 }
             } else {
                 UIView.animate(withDuration: 0.3) {
-                    self.continueButton.backgroundColor = AppColors.mainLightColor.color()
+                    self.continueButton.backgroundColor = .mainLightColor
                     self.continueButton.isEnabled = false
                 }
             }
@@ -39,7 +39,7 @@ class ZSResetPasswordCodeViewController: UIViewController {
     private lazy var companyNameLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 40, weight: .semibold)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .center
         label.text = "Zarin Shop"
         return label
@@ -48,7 +48,7 @@ class ZSResetPasswordCodeViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .medium)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .center
         label.numberOfLines = 0
         label.text = "Введите код подтверждения и Ваш новый пароль"
@@ -70,7 +70,7 @@ class ZSResetPasswordCodeViewController: UIViewController {
         button.setTitle("Продолжить", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
-        button.backgroundColor = AppColors.mainLightColor.color()
+        button.backgroundColor = .mainLightColor
         button.isEnabled = false
         button.adjustsImageWhenHighlighted = true
         button.translatesAutoresizingMaskIntoConstraints = false

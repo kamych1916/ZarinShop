@@ -16,7 +16,7 @@ class ZSProductDetailSpecificationView: UIView {
         var label = UILabel()
         label.text = "Особенности"
         label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -51,7 +51,7 @@ class ZSProductDetailSpecificationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = AppColors.mainLightColor.color()
+        self.backgroundColor = .mainLightColor
         self.layer.cornerRadius = 20
         self.addSubviews()
     }

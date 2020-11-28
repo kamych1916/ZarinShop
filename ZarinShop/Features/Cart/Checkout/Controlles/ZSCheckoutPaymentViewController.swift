@@ -28,7 +28,7 @@ class ZSCheckoutPaymentViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.text = "Детали оплаты"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -54,7 +54,7 @@ class ZSCheckoutPaymentViewController: UIViewController {
         button.setTitle("Далее", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        button.backgroundColor = AppColors.mainColor.color()
+        button.backgroundColor = .mainColor
         button.adjustsImageWhenHighlighted = true
         button.addTarget(self, action: #selector(self.continueButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

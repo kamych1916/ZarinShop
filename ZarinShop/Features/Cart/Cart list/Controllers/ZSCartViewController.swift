@@ -37,35 +37,35 @@ class ZSCartViewController: ZSBaseViewController {
         return tableView
     }()
     
-    private lazy var buyView: UIView = {
+    private lazy var backgroundView: UIView = {
         var view = UIView()
-        view.layer.cornerRadius = 20
-        view.backgroundColor = AppColors.mainLightColor.color()
-        view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private lazy var deliveryLabel: UILabel = {
+    private lazy var backgroundSearchImageView: UIImageView = {
+        var imageView = UIImageView()
+        imageView.image = UIImage(named: "cart")?.with(color: .black)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+
+    private lazy var backgroundTitleLabel: UILabel = {
         var label = UILabel()
-        label.text = "Доставка"
-        label.numberOfLines = 1
+        label.text = "Корзина предметов"
+        label.textAlignment = .center
         label.font = .systemFont(ofSize: 15, weight: .regular)
-        label.textAlignment = .left
-        label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private lazy var deliveryVulueLabel: UILabel = {
-        var label = UILabel()
-        label.text = "1000 сум"
-        label.numberOfLines = 1
-        label.font = .systemFont(ofSize: 15, weight: .regular)
-        label.textAlignment = .left
-        label.textColor = .lightGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private lazy var buyView: UIView = {
+        var view = UIView()
+        view.layer.cornerRadius = 20
+        view.backgroundColor = .mainLightColor
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private lazy var totalLabel: UILabel = {
@@ -74,7 +74,7 @@ class ZSCartViewController: ZSBaseViewController {
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.textAlignment = .right
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -85,7 +85,7 @@ class ZSCartViewController: ZSBaseViewController {
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.textAlignment = .right
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -96,7 +96,7 @@ class ZSCartViewController: ZSBaseViewController {
         button.setTitle("Оплатить", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        button.backgroundColor = AppColors.mainColor.color()
+        button.backgroundColor = .mainColor
         button.adjustsImageWhenHighlighted = true
         button.addTarget(self, action: #selector(self.buyButtonTapped(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -130,25 +130,35 @@ class ZSCartViewController: ZSBaseViewController {
     // MARK: - Constraints
     
     private func makeConstraints() {
+        self.backgroundView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().inset(-60)
+        }
+        self.backgroundSearchImageView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.size.equalTo(48)
+        }
+        self.backgroundTitleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.backgroundSearchImageView.snp.bottom).offset(20)
+            make.left.right.bottom.equalToSuperview()
+        }
+        
         self.tableView.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+        
         self.buyView.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalToSuperview()
-        }
-        self.deliveryLabel.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview().inset(20)
-        }
-        self.deliveryVulueLabel.snp.makeConstraints { (make) in
-            make.top.right.equalToSuperview().inset(20)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(70)
         }
         self.totalLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.deliveryLabel.snp.bottom).offset(10)
+            make.top.equalToSuperview().offset(10)
             make.left.equalToSuperview().inset(20)
         }
         self.totalValueLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.deliveryVulueLabel.snp.bottom).offset(10)
+            make.top.equalToSuperview().offset(10)
             make.right.equalToSuperview().inset(20)
         }
         self.buyButton.snp.makeConstraints { (make) in
@@ -169,9 +179,10 @@ class ZSCartViewController: ZSBaseViewController {
     
     private func addSubviews() {
         self.view.addSubview(self.tableView)
+        self.view.addSubview(self.backgroundView)
+        self.backgroundView.addSubview(self.backgroundSearchImageView)
+        self.backgroundView.addSubview(self.backgroundTitleLabel)
         self.view.addSubview(self.buyView)
-        self.buyView.addSubview(self.deliveryLabel)
-        self.buyView.addSubview(self.deliveryVulueLabel)
         self.buyView.addSubview(self.totalLabel)
         self.buyView.addSubview(self.totalValueLabel)
         self.buyView.addSubview(self.buyButton)
@@ -190,9 +201,22 @@ class ZSCartViewController: ZSBaseViewController {
                 case .success(let model):
                     self.data = model.items
                     self.tableView.reloadData()
+                    self.dismiss(animated: true, completion: nil)
+                    if model.items.count <= 0 {
+                        self.setVisibleBackgroundView(true, with: "Корзина предметов пуста")
+                    } else {
+                        self.setVisibleBackgroundView(false, with: " ")
+                    }
                     break
                 case .failure(let error):
-                    self.alertError(message: error.getDescription())
+                    if error == .unauthorized {
+                        self.setVisibleBackgroundView(true, with: "Для начала авторизуйтесь")
+                        self.alertSignin()
+                    } else {
+                        self.setVisibleBackgroundView(true, with: "Что-то пошло не так")
+                        self.alertError(message: error.getDescription())
+                    }
+                    
                     break
                 }
             })
@@ -201,6 +225,18 @@ class ZSCartViewController: ZSBaseViewController {
     
     // MARK: - Helpers
     
+    private func setVisibleBackgroundView(_ value: Bool, with title: String) {
+        if value {
+            UIView.animate(withDuration: 0.2) {
+                self.backgroundView.alpha = 1
+                self.backgroundTitleLabel.text = title
+            }
+        } else {
+            UIView.animate(withDuration: 0.2) {
+                self.backgroundView.alpha = 0
+            }
+        }
+    }
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource

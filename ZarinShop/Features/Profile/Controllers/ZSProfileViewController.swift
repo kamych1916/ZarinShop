@@ -27,15 +27,14 @@ class ZSProfileViewController: ZSBaseViewController {
         "Язык приложения",
         "Мои адреса и карты",
         "Помощь и связь",
-        "Уведомления",
-        "Сменить/восстановить пароль",
+        "Сменить пароль",
         "Выйти"]
     
     //MARK: - GUI variables
     
     private lazy var topContainerView: UIView = {
         var view = UIView()
-        view.backgroundColor = AppColors.mainLightColor.color()
+        view.backgroundColor = .mainLightColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -43,7 +42,6 @@ class ZSProfileViewController: ZSBaseViewController {
     private lazy var profileImageView: UIImageView = {
         var imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 40
         imageView.clipsToBounds = true
         imageView.image = UIImage(named: "userprofile")
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,9 +50,9 @@ class ZSProfileViewController: ZSBaseViewController {
     
     private lazy var profileNameLabel: UILabel = {
         var label = UILabel()
-        label.text = "Имя"
+        label.text = " "
         label.textAlignment = .center
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -62,9 +60,9 @@ class ZSProfileViewController: ZSBaseViewController {
 
     private lazy var profileEmailLabel: UILabel = {
         var label = UILabel()
-        label.text = "Почта"
+        label.text = " "
         label.textAlignment = .center
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -77,7 +75,7 @@ class ZSProfileViewController: ZSBaseViewController {
         button.isHidden = true
         button.isEnabled = false
         button.layer.cornerRadius = 10
-        button.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        button.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         button.addTarget(self, action: #selector(self.signinButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -87,7 +85,7 @@ class ZSProfileViewController: ZSBaseViewController {
         var tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = AppColors.mainLightColor.color()
+        tableView.backgroundColor = .mainLightColor
         tableView.separatorStyle = .singleLine
         tableView.estimatedRowHeight = 44
         tableView.isScrollEnabled = false
@@ -96,12 +94,6 @@ class ZSProfileViewController: ZSBaseViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: self.tableViewCellReuseIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
-    }()
-    
-    private lazy var notificationsSwitch: UISwitch = {
-        var switchh = UISwitch()
-        switchh.translatesAutoresizingMaskIntoConstraints = false
-        return switchh
     }()
     
     //MARK: - View life cycle
@@ -192,6 +184,7 @@ class ZSProfileViewController: ZSBaseViewController {
             self.profileNameLabel.isHidden = true
             self.profileEmailLabel.isHidden = true
         }
+        self.dismiss(animated: true, completion: nil)
     }
     
     //
@@ -207,7 +200,8 @@ class ZSProfileViewController: ZSBaseViewController {
                 case .success(let model):
                     UserDefaults.standard.setSinginUser(user: model)
                     break
-                case .failure(_):
+                case .failure(let error):
+                    print(error)
                     break
                 }
                 self.setupViewWithSingin()
@@ -250,7 +244,7 @@ class ZSProfileViewController: ZSBaseViewController {
         navigVC.modalPresentationStyle = .fullScreen
         navigVC.navigationItem.backBarButtonItem =
             UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        navigVC.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
+        navigVC.navigationItem.backBarButtonItem?.tintColor = .mainColor
         navigVC.navigationBar.shadowImage = UIImage()
         navigVC.navigationBar.isTranslucent = false
         self.present(navigVC, animated: true, completion: nil)
@@ -270,25 +264,18 @@ extension ZSProfileViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: self.tableViewCellReuseIdentifier)
         
         cell.textLabel?.text = self.settings[indexPath.row]
-        cell.textLabel?.textColor = AppColors.textDarkColor.color()
+        cell.textLabel?.textColor = .textDarkColor
         cell.detailTextLabel?.textColor = .lightGray
         cell.detailTextLabel?.text = ""
         cell.tintColor = .lightGray
         cell.accessoryType = .disclosureIndicator
-        cell.selectionStyle = .none
+        cell.selectionStyle = .gray
         
         switch indexPath.row {
         case 0:
             cell.detailTextLabel?.text = "Русский"
             break
-        case 3:
-            cell.accessoryType = .none
-            cell.accessoryView = self.notificationsSwitch
-            break
         case 4:
-            cell.accessoryType = .none
-            break
-        case 5:
             cell.accessoryType = .none
             cell.textLabel?.textColor = .systemRed
             break
@@ -300,7 +287,7 @@ extension ZSProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
         
         switch indexPath.row {
@@ -325,17 +312,15 @@ extension ZSProfileViewController: UITableViewDelegate, UITableViewDataSource {
             //some link
             break
         case 3:
-            self.notificationsSwitch.setOn(!self.notificationsSwitch.isOn, animated: true)
-            break
-        case 4:
             self.showResetPasswordScreeen()
             break
-        case 5:
+        case 4:
             self.logoutUser()
             break
         default:
             break
         }
+        
     }
     
 }

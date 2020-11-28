@@ -35,7 +35,7 @@ class ZSCheckoutPaymentView: UIView {
     private lazy var paymentTypeLabel1: UILabel = {
         var label = UILabel()
         label.text = "Способ оплаты"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -44,7 +44,7 @@ class ZSCheckoutPaymentView: UIView {
     private lazy var paymentTypeLabel2: UILabel = {
         var label = UILabel()
         label.text = "Безналичные (картой)"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -53,7 +53,7 @@ class ZSCheckoutPaymentView: UIView {
     private lazy var paymentTypeDropButton: UIButton = {
         var button = UIButton()
         var image = UIImage(named: "dropdown")
-        image = image?.with(color: AppColors.textDarkColor.color())
+        image = image?.with(color: .textDarkColor)
         button.setImage(image, for: .normal)
         button.isUserInteractionEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +72,7 @@ class ZSCheckoutPaymentView: UIView {
     private lazy var cardDetailLabel: UILabel = {
         var label = UILabel()
         label.text = "Карта"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -81,7 +81,7 @@ class ZSCheckoutPaymentView: UIView {
     private lazy var cardNumberLabel: UILabel = {
         var label = UILabel()
         label.text = "**********3456"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -91,7 +91,7 @@ class ZSCheckoutPaymentView: UIView {
         var imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         var image = UIImage(named: "creditCard")
-        imageView.image = image?.with(color: AppColors.mainColor.color())
+        imageView.image = image?.with(color: .mainColor)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -99,7 +99,7 @@ class ZSCheckoutPaymentView: UIView {
     private lazy var addCardButton: UIButton = {
         var button = UIButton()
         var image = UIImage(named: "plus")
-        image = image?.with(color: AppColors.textDarkColor.color())
+        image = image?.with(color: .textDarkColor)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(self.addCardButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -171,7 +171,7 @@ class ZSCheckoutPaymentView: UIView {
     private func setup() {
         self.clipsToBounds = true
         self.layer.cornerRadius = 20
-        self.backgroundColor = AppColors.mainColor.color()
+        self.backgroundColor = .mainColor
     }
     
     private func addSubviews() {

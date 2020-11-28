@@ -41,7 +41,7 @@ import Foundation
         var bar = UISearchBar()
         bar.delegate = self
         bar.placeholder = "Поиск"
-        bar.tintColor = AppColors.mainColor.color()
+        bar.tintColor = .mainColor
         bar.autocapitalizationType = .none
         bar.autocorrectionType = .no
         bar.backgroundImage = UIImage()
@@ -76,7 +76,7 @@ import Foundation
         var label = UILabel()
         label.text = "Сортировка"
         label.textAlignment = .center
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -100,7 +100,7 @@ import Foundation
         var label = UILabel()
         label.text = "Фильтр"
         label.textAlignment = .center
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -148,7 +148,7 @@ import Foundation
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = AppColors.mainLightColor.color()
+        self.view.backgroundColor = .mainLightColor
         self.addSubviews()
         self.makeConstraints()
         self.setupNavigationBar()

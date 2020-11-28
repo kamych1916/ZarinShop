@@ -9,6 +9,19 @@
 import UIKit
 
 extension UIColor {
+    
+    static let mainColor = UIColor(red: 218/255, green: 200/255, blue: 179/255, alpha: 1)
+    static let mainLightColor = UIColor(red: 235/255, green: 232/255, blue: 228/255, alpha: 1)
+    static let secondaryColor = UIColor(red: 247/255, green: 248/255, blue: 252/255, alpha: 1)
+    static let textDarkColor = UIColor(red: 44/255, green: 44/255, blue: 44/255, alpha: 1)
+    static let textGoldColor = UIColor(red: 173/255, green: 134/255, blue: 100/255, alpha: 1)
+    static let blueLink = UIColor(red: 6/255, green: 69/255, blue: 173/255, alpha: 1)
+    static let selectionCellBG = UIColor(red: 251/255, green: 251/255, blue: 251/255, alpha: 1)
+    
+}
+
+extension UIColor {
+    
     func image(_ size: CGSize = .init(width: 1, height: 1)) -> UIImage {
         return UIGraphicsImageRenderer(size: size).image { (rendeContext) in
             self.setFill()

@@ -20,7 +20,7 @@ class ZSProductDetailDescriptionView: UIView {
         var label = UILabel()
         label.text = "Описание"
         label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -31,7 +31,7 @@ class ZSProductDetailDescriptionView: UIView {
         label.numberOfLines = 0
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 15, weight: .medium)
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

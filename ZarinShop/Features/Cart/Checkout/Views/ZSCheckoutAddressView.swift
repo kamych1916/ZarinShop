@@ -34,7 +34,7 @@ class ZSCheckoutAddressView: UIView {
     private lazy var deliveryTypeLabel1: UILabel = {
         var label = UILabel()
         label.text = "Способ доставки"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -43,7 +43,7 @@ class ZSCheckoutAddressView: UIView {
     private lazy var deliveryTypeLabel2: UILabel = {
         var label = UILabel()
         label.text = "Доставка на адрес"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -52,7 +52,7 @@ class ZSCheckoutAddressView: UIView {
     private lazy var deliveryTypeDropButton: UIButton = {
         var button = UIButton()
         var image = UIImage(named: "dropdown")
-        image = image?.with(color: AppColors.textDarkColor.color())
+        image = image?.with(color: .textDarkColor)
         button.setImage(image, for: .normal)
         button.isUserInteractionEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +71,7 @@ class ZSCheckoutAddressView: UIView {
     private lazy var addressLabel: UILabel = {
         var label = UILabel()
         label.text = "Адрес доставки"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -80,7 +80,7 @@ class ZSCheckoutAddressView: UIView {
     private lazy var addAddressButton: UIButton = {
         var button = UIButton()
         var image = UIImage(named: "plus")
-        image = image?.with(color: AppColors.textDarkColor.color())
+        image = image?.with(color: .textDarkColor)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(self.addAddressButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +99,7 @@ class ZSCheckoutAddressView: UIView {
         """
         textView.sizeToFit()
         textView.isScrollEnabled = false
-        textView.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        textView.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         textView.font = .systemFont(ofSize: 17, weight: .medium)
         textView.isEditable = true
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -164,7 +164,7 @@ class ZSCheckoutAddressView: UIView {
     private func setup() {
         self.clipsToBounds = true
         self.layer.cornerRadius = 20
-        self.backgroundColor = AppColors.mainColor.color()
+        self.backgroundColor = .mainColor
     }
     
     private func addSubviews() {

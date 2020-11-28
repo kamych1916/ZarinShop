@@ -14,7 +14,7 @@ struct ZSCheckoutTabItem {
     let tintColor: UIColor
     let image: UIImage
     var normalImage: UIImage {
-        return self.image.with(color: AppColors.mainColor.color())
+        return self.image.with(color: .mainColor)
     }
     var highlightedImage: UIImage {
         return self.image.with(color: .white)
@@ -28,17 +28,17 @@ class ZSCheckoutTabItemsProvider {
         return [
             ZSCheckoutTabItem(
                 title: "Доставка",
-                tintColor: AppColors.mainColor.color(),
+                tintColor: .mainColor,
                 image: UIImage(named: "shippingTab")!
             ),
             ZSCheckoutTabItem(
                 title: "Оплата",
-                tintColor: AppColors.mainColor.color(),
+                tintColor: .mainColor,
                 image: UIImage(named: "paymentTab")!
             ),
             ZSCheckoutTabItem(
                 title: "Финиш",
-                tintColor: AppColors.mainColor.color(),
+                tintColor: .mainColor,
                 image: UIImage(named: "orderTab")!
             )
         ]

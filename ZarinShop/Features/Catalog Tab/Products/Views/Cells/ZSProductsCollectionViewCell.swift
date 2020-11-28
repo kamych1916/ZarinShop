@@ -54,7 +54,7 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 17)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.alpha = 0.5
         label.textAlignment = .left
         label.numberOfLines = 2
@@ -67,7 +67,7 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     private lazy var descriptionLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.textAlignment = .left
         label.numberOfLines = 1
         label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)

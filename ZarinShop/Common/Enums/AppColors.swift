@@ -16,6 +16,7 @@ enum AppColors {
     case textDarkColor
     case textGoldColor
     case blueLink
+    case selectionCellBG
     
     func color() -> UIColor {
         switch self {
@@ -31,6 +32,8 @@ enum AppColors {
             return UIColor(red: 173/255, green: 134/255, blue: 100/255, alpha: 1)
         case .blueLink:
             return UIColor(red: 6/255, green: 69/255, blue: 173/255, alpha: 1)
+        case .selectionCellBG:
+            return UIColor(red: 251/255, green: 251/255, blue: 251/255, alpha: 1)
         }
     }
 }

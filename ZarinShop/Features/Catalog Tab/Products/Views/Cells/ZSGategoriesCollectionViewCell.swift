@@ -18,7 +18,7 @@ class ZSGategoriesCollectionViewCell: UICollectionViewCell {
         willSet {
             var color: UIColor = .white
             if newValue {
-                color = AppColors.mainColor.color()
+                color = .mainColor
             }
             UIView.animate(withDuration: 0.33) {
                 self.containerView.backgroundColor = color
@@ -44,7 +44,7 @@ class ZSGategoriesCollectionViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 17)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .center
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false

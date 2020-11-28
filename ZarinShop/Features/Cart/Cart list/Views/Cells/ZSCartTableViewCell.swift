@@ -49,7 +49,7 @@ class ZSCartTableViewCell: UITableViewCell {
         var view = UIView()
         view.backgroundColor = .white
         view.layer.borderWidth = 1
-        view.layer.borderColor = AppColors.mainColor.color().cgColor
+        view.layer.borderColor = UIColor.mainColor.cgColor
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -60,7 +60,7 @@ class ZSCartTableViewCell: UITableViewCell {
         var button = UIButton(type: .system)
         button.setTitle("+", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 30, weight: .medium)
-        button.setTitleColor(AppColors.mainColor.color(), for: .normal)
+        button.setTitleColor(.mainColor, for: .normal)
         button.addTarget(self, action: #selector(self.incrementTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -70,7 +70,7 @@ class ZSCartTableViewCell: UITableViewCell {
         var button = UIButton(type: .system)
         button.setTitle("-", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 30, weight: .medium)
-        button.setTitleColor(AppColors.mainColor.color(), for: .normal)
+        button.setTitleColor(.mainColor, for: .normal)
         button.addTarget(self, action: #selector(self.decrementTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -79,7 +79,7 @@ class ZSCartTableViewCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -88,7 +88,7 @@ class ZSCartTableViewCell: UITableViewCell {
     private lazy var colorLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .medium)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .left
         label.text = "Цвет:"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +107,7 @@ class ZSCartTableViewCell: UITableViewCell {
     private lazy var sizeLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .medium)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .left
         label.text = "Размер: М"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -117,7 +117,7 @@ class ZSCartTableViewCell: UITableViewCell {
     private lazy var countLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .medium)
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.textAlignment = .left
         label.text = "1х"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -127,7 +127,7 @@ class ZSCartTableViewCell: UITableViewCell {
     private lazy var priceLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.textAlignment = .left
         label.text = "2050 сум"
         label.translatesAutoresizingMaskIntoConstraints = false

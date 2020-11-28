@@ -19,7 +19,7 @@ class ZSAddAddressView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Страна"
@@ -34,7 +34,7 @@ class ZSAddAddressView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Город"
@@ -49,7 +49,7 @@ class ZSAddAddressView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Регион/область"
@@ -64,7 +64,7 @@ class ZSAddAddressView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Улица"
@@ -79,7 +79,7 @@ class ZSAddAddressView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Дом"
@@ -94,7 +94,7 @@ class ZSAddAddressView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Квартира"
@@ -109,7 +109,7 @@ class ZSAddAddressView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Почтовый индекс"
@@ -124,7 +124,7 @@ class ZSAddAddressView: UIView {
         
         self.clipsToBounds = true
         self.layer.cornerRadius = 20
-        self.backgroundColor = AppColors.mainLightColor.color()
+        self.backgroundColor = .mainLightColor
         self.addSubviews()
     }
     

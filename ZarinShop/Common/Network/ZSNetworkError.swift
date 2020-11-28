@@ -12,7 +12,15 @@ struct ZSErrorModel: Codable {
     var detail: String
 }
 
-enum ZSNetworkError: Error {
+enum ZSNetworkError: Error, Equatable {
+    static func == (lhs: ZSNetworkError, rhs: ZSNetworkError) -> Bool {
+        if lhs.getDescription() == rhs.getDescription() {
+            return true
+        }
+        return false
+    }
+    
+    
     case badURL(Error)
     case parsing
     case unauthorized

@@ -21,12 +21,12 @@ class ZSRegistrationViewController: UIViewController {
         willSet {
             if newValue {
                 UIView.animate(withDuration: 0.3) {
-                    self.registerButton.backgroundColor = AppColors.mainColor.color()
+                    self.registerButton.backgroundColor = .mainColor
                     self.registerButton.isEnabled = true
                 }
             } else {
                 UIView.animate(withDuration: 0.3) {
-                    self.registerButton.backgroundColor = AppColors.mainLightColor.color()
+                    self.registerButton.backgroundColor = .mainLightColor
                     self.registerButton.isEnabled = false
                 }
             }
@@ -51,7 +51,7 @@ class ZSRegistrationViewController: UIViewController {
     private lazy var companyNameLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 40, weight: .semibold)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .center
         label.text = "Zarin Shop"
         return label
@@ -60,7 +60,7 @@ class ZSRegistrationViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 30, weight: .semibold)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .center
         label.text = "Регистрация"
         return label
@@ -103,7 +103,7 @@ class ZSRegistrationViewController: UIViewController {
         button.setTitle("Регистрация", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
-        button.backgroundColor = AppColors.mainLightColor.color()
+        button.backgroundColor = .mainLightColor
         button.isEnabled = false
         button.adjustsImageWhenHighlighted = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -114,7 +114,7 @@ class ZSRegistrationViewController: UIViewController {
         var button = UIBarButtonItem(
             image: UIImage(named: "dismiss"), style: .plain,
             target: self, action: #selector(self.dismissButtonTapped))
-        button.tintColor = AppColors.textDarkColor.color()
+        button.tintColor = .textDarkColor
         return button
     }()
     

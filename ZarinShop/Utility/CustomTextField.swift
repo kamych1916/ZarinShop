@@ -32,8 +32,8 @@ class CustomTextField: UITextField {
         self.autocorrectionType = .no
         self.borderStyle = .none
         self.layer.cornerRadius = 20
-        self.backgroundColor = AppColors.mainLightColor.color()
-        self.textColor = AppColors.textDarkColor.color()
+        self.backgroundColor = .mainLightColor
+        self.textColor = .textDarkColor
         self.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         self.leftViewMode = .always
         self.placeholder = "Имя"

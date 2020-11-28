@@ -2,7 +2,7 @@
 //  ZSCategoriesModel.swift
 //  ZarinShop
 //
-//  Created by Murad Ibrohimov on 10/10/20.
+//  Created by Humo Programmer  on 28/11/20.
 //  Copyright © 2020 Murad Ibrohimov. All rights reserved.
 //
 
@@ -12,6 +12,5 @@ struct ZSCategoriesModel: Codable {
     let id: String
     let name: String
     let kol: Int
-    let image_url: String
     let subcategories: [ZSSubcategoriesModel]
 }

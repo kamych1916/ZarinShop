@@ -12,18 +12,18 @@ class TabBarController: UITabBarController {
     
     // MARK: - GUI variables
     
-    private lazy var mainTab: ZSMainViewController = {
-        let controller = ZSMainViewController()
+    private lazy var mainTab: UIViewController = {
+        let controller = UIViewController()
         controller.tabBarItem = UITabBarItem(
             title: "Главная",
             image: UIImage(named: "home"), tag: 0)
         return controller
     }()
     
-    private lazy var searchTab: ZSSearchViewController = {
-        let controller = ZSSearchViewController()
+    private lazy var searchTab: ZSCatalogViewController = {
+        let controller = ZSCatalogViewController()
         controller.tabBarItem = UITabBarItem(
-            title: "Поиск",
+            title: "Каталог",
             image: UIImage(named: "search"), tag: 0)
         return controller
     }()

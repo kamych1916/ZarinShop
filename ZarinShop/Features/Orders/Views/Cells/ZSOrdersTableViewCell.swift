@@ -19,7 +19,7 @@ class ZSOrdersTableViewCell: UITableViewCell {
     private lazy var containerView: UIView = {
         var view = UIView()
         view.layer.cornerRadius = 20
-        view.backgroundColor = AppColors.mainColor.color().withAlphaComponent(0.6)
+        view.backgroundColor = UIColor.mainColor.withAlphaComponent(0.6)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -27,7 +27,7 @@ class ZSOrdersTableViewCell: UITableViewCell {
     private lazy var orderNumberLabel1: UILabel = {
         var label = UILabel()
         label.text = "Номер заказа"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -36,7 +36,7 @@ class ZSOrdersTableViewCell: UITableViewCell {
     private lazy var orderNumberLabel2: UILabel = {
         var label = UILabel()
         label.text = "315412"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -45,7 +45,7 @@ class ZSOrdersTableViewCell: UITableViewCell {
     private lazy var orderDateLabel1: UILabel = {
         var label = UILabel()
         label.text = "Дата заказа"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -54,7 +54,7 @@ class ZSOrdersTableViewCell: UITableViewCell {
     private lazy var orderDateLabel2: UILabel = {
         var label = UILabel()
         label.text = "23/11/2020"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -63,7 +63,7 @@ class ZSOrdersTableViewCell: UITableViewCell {
     private lazy var totalItemsLabel1: UILabel = {
         var label = UILabel()
         label.text = "Всего товаров"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -72,7 +72,7 @@ class ZSOrdersTableViewCell: UITableViewCell {
     private lazy var totalItemsLabel2: UILabel = {
         var label = UILabel()
         label.text = "17"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -81,7 +81,7 @@ class ZSOrdersTableViewCell: UITableViewCell {
     private lazy var totalPriceLabel1: UILabel = {
         var label = UILabel()
         label.text = "Сумма"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -90,7 +90,7 @@ class ZSOrdersTableViewCell: UITableViewCell {
     private lazy var totalPriceLabel2: UILabel = {
         var label = UILabel()
         label.text = "13123 сум"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

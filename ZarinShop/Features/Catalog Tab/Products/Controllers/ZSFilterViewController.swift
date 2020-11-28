@@ -54,7 +54,7 @@ class ZSFilterViewController: UIViewController {
         var label = UILabel()
         label.text = "Фильрт"
         label.textAlignment = .center
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +65,7 @@ class ZSFilterViewController: UIViewController {
         var label = UILabel()
         label.text = "Диапозон цены"
         label.textAlignment = .left
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17)
         label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +75,7 @@ class ZSFilterViewController: UIViewController {
     private lazy var priceValueLabel: UILabel = {
         var label = UILabel()
         label.textAlignment = .right
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.6)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.6)
         label.font = .systemFont(ofSize: 15)
         label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +89,7 @@ class ZSFilterViewController: UIViewController {
         slider.minimumValue = 1000
         slider.lowerValue = 1000
         slider.upperValue = 100000
-        slider.trackHighlightTintColor = AppColors.textGoldColor.color()
+        slider.trackHighlightTintColor = .textGoldColor
         return slider
     }()
     
@@ -97,7 +97,7 @@ class ZSFilterViewController: UIViewController {
         var label = UILabel()
         label.text = "Выберите цвет"
         label.textAlignment = .left
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17)
         label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -129,7 +129,7 @@ class ZSFilterViewController: UIViewController {
         var label = UILabel()
         label.text = "Выберите размер"
         label.textAlignment = .left
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17)
         label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -142,7 +142,7 @@ class ZSFilterViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets.zero
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
-        layout.itemSize = CGSize(width: 40, height: 40)
+        layout.itemSize = CGSize(width: 50, height: 50)
         
         var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.delegate = self
@@ -162,7 +162,7 @@ class ZSFilterViewController: UIViewController {
         button.setTitle("Применить", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17)
-        button.backgroundColor = AppColors.mainColor.color()
+        button.backgroundColor = .mainColor
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(self.confirmButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -174,7 +174,7 @@ class ZSFilterViewController: UIViewController {
         button.setTitle("Сброс", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17)
-        button.backgroundColor = AppColors.mainLightColor.color()
+        button.backgroundColor = .mainLightColor
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(self.resetButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -292,7 +292,7 @@ class ZSFilterViewController: UIViewController {
         
         self.rangeSlider.lowerValue = from
         self.rangeSlider.upperValue = to
-        self.priceValueLabel.text = "от \(from) до \(to)"
+        self.priceValueLabel.text = "от \(Int(from)) до \(Int(from))"
         
         guard let colorsFindedIndex = self.colors.firstIndex(of: color) else { return }
         self.selectedColor = color

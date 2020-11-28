@@ -21,9 +21,9 @@ class ZSBaseViewController: UIViewController {
     // MARK: - Setters
     
     private func setupNavigationBar() {
-        //self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
+        self.navigationItem.backBarButtonItem?.tintColor = .mainColor
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
     }

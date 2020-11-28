@@ -19,7 +19,7 @@ class ZSSizesCollectionViewCell: UICollectionViewCell {
             if newValue {
                 UIView.animate(withDuration: 0.33) {
                     self.contentView.layer.borderWidth = 1.2
-                    self.contentView.layer.borderColor = AppColors.textDarkColor.color().cgColor
+                    self.contentView.layer.borderColor = UIColor.textDarkColor.cgColor
                 }
             } else {
                 UIView.animate(withDuration: 0.33) {
@@ -79,7 +79,7 @@ class ZSSizesCollectionViewCell: UICollectionViewCell {
     override func updateConstraints() {
         self.containerView.snp.updateConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalTo(24)
+            make.size.equalToSuperview().multipliedBy(0.7)
         }
         self.sizeLabel.snp.updateConstraints { (make) in
             make.center.equalToSuperview()

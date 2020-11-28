@@ -26,7 +26,7 @@ class ZSCheckoutFinalView: UIView {
     private lazy var deliveryTitleLabel: UILabel = {
         var label = UILabel()
         label.text = "Доставка"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -35,7 +35,7 @@ class ZSCheckoutFinalView: UIView {
     private lazy var deliveryDescriptionLabel1: UILabel = {
         var label = UILabel()
         label.text = "Доставка на адрес"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -44,7 +44,7 @@ class ZSCheckoutFinalView: UIView {
     private lazy var deliveryDescriptionLabel2: UILabel = {
         var label = UILabel()
         label.text = "Ташкент, ул. Ленина, дом 2, кв. 60"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -62,7 +62,7 @@ class ZSCheckoutFinalView: UIView {
     private lazy var paymentTitleLabel: UILabel = {
         var label = UILabel()
         label.text = "Оплата"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -71,7 +71,7 @@ class ZSCheckoutFinalView: UIView {
     private lazy var paymentDescriptionLabel1: UILabel = {
         var label = UILabel()
         label.text = "Безналичные (картой)"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -80,7 +80,7 @@ class ZSCheckoutFinalView: UIView {
     private lazy var paymentDescriptionLabel2: UILabel = {
         var label = UILabel()
         label.text = "***********1234"
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -98,7 +98,7 @@ class ZSCheckoutFinalView: UIView {
     private lazy var totalTitleLabel: UILabel = {
         var label = UILabel()
         label.text = "Итого"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -108,7 +108,7 @@ class ZSCheckoutFinalView: UIView {
         var label = UILabel()
         label.text = "Всего товаров"
         label.textAlignment = .left
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -118,7 +118,7 @@ class ZSCheckoutFinalView: UIView {
         var label = UILabel()
         label.text = "13"
         label.textAlignment = .right
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -128,7 +128,7 @@ class ZSCheckoutFinalView: UIView {
         var label = UILabel()
         label.text = "Сумма"
         label.textAlignment = .left
-        label.textColor = AppColors.textDarkColor.color().withAlphaComponent(0.7)
+        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -138,7 +138,7 @@ class ZSCheckoutFinalView: UIView {
         var label = UILabel()
         label.text = "1000 сум"
         label.textAlignment = .right
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -225,7 +225,7 @@ class ZSCheckoutFinalView: UIView {
     private func setup() {
         self.clipsToBounds = true
         self.layer.cornerRadius = 20
-        self.backgroundColor = AppColors.mainColor.color()
+        self.backgroundColor = .mainColor
     }
     
     private func addSubviews() {

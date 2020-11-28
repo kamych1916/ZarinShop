@@ -45,7 +45,7 @@ class ZSFavoritesViewController: ZSBaseViewController {
     private lazy var buyView: UIView = {
         var view = UIView()
         view.layer.cornerRadius = 20
-        view.backgroundColor = AppColors.mainLightColor.color()
+        view.backgroundColor = .mainLightColor
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -79,7 +79,7 @@ class ZSFavoritesViewController: ZSBaseViewController {
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.textAlignment = .right
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -90,7 +90,7 @@ class ZSFavoritesViewController: ZSBaseViewController {
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.textAlignment = .right
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -101,7 +101,7 @@ class ZSFavoritesViewController: ZSBaseViewController {
         button.setTitle("Оплатить", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        button.backgroundColor = AppColors.mainColor.color()
+        button.backgroundColor = .mainColor
         button.adjustsImageWhenHighlighted = true
         button.addTarget(self, action: #selector(self.buyButtonTapped(_:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

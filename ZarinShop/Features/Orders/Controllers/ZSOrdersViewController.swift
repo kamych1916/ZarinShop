@@ -22,14 +22,14 @@ class ZSOrdersViewController: ZSBaseViewController {
         segment.segments = LabelSegment.segments(
             withTitles: ["Все", "В пути", "Доставлено"],
             normalFont: .systemFont(ofSize: 15),
-            normalTextColor: AppColors.textDarkColor.color(),
+            normalTextColor: .textDarkColor,
             selectedFont: .systemFont(ofSize: 15),
             selectedTextColor: .white)
         segment.clipsToBounds = true
         segment.layer.cornerRadius = 30
         segment.backgroundColor = .white
         segment.indicatorView.layer.cornerRadius = 30
-        segment.indicatorView.backgroundColor = AppColors.mainColor.color()
+        segment.indicatorView.backgroundColor = .mainColor
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
     }()
@@ -53,7 +53,7 @@ class ZSOrdersViewController: ZSBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = AppColors.mainLightColor.color()
+        self.view.backgroundColor = .mainLightColor
         self.navigationItem.title = "Мои заказы"
         self.addSubviews()
         self.makeConstraints()

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		201332A225374C2E00548FF6 /* ZSSubcategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201332A125374C2E00548FF6 /* ZSSubcategoriesModel.swift */; };
 		20242AAD252A37E800886949 /* ZSProductsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AAC252A37E800886949 /* ZSProductsMainView.swift */; };
 		20242AAF252A3E4100886949 /* Templates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AAE252A3E4100886949 /* Templates.swift */; };
 		20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AB2252A3F1D00886949 /* Notification.Name+Ex.swift */; };
@@ -15,7 +14,6 @@
 		203FD5412531CA6500F57432 /* ZSNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5402531CA6500F57432 /* ZSNetworkError.swift */; };
 		203FD5462531D0F500F57432 /* ZSProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5442531D0F500F57432 /* ZSProductDetailViewController.swift */; };
 		203FD5482531D7F900F57432 /* ZSURLPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5472531D7F900F57432 /* ZSURLPath.swift */; };
-		203FD54A2531DBDC00F57432 /* ZSCategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5492531DBDC00F57432 /* ZSCategoriesModel.swift */; };
 		203FD5502532036F00F57432 /* ZSCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD54F2532036F00F57432 /* ZSCheckoutViewController.swift */; };
 		203FD553253204EB00F57432 /* ZSCheckoutAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD552253204EB00F57432 /* ZSCheckoutAddressViewController.swift */; };
 		203FD5552532051000F57432 /* ZSCheckoutPaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5542532051000F57432 /* ZSCheckoutPaymentViewController.swift */; };
@@ -33,9 +31,7 @@
 		2057B8DA252591FC007D8D05 /* ZSOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8C9252591FC007D8D05 /* ZSOrdersViewController.swift */; };
 		2057B8DB252591FC007D8D05 /* ZSCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8CE252591FC007D8D05 /* ZSCartViewController.swift */; };
 		2057B8DC252591FC007D8D05 /* ZSProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8D3252591FC007D8D05 /* ZSProfileViewController.swift */; };
-		2057B8E52525935E007D8D05 /* ZSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8E42525935E007D8D05 /* ZSMainViewController.swift */; };
 		2057B8ED2525AF22007D8D05 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8EC2525AF22007D8D05 /* AppColors.swift */; };
-		2057B8F02525CCB5007D8D05 /* ZSMainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8EF2525CCB5007D8D05 /* ZSMainTableViewCell.swift */; };
 		2057B8F22525ED2D007D8D05 /* ZSBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2057B8F12525ED2D007D8D05 /* ZSBaseViewController.swift */; };
 		208483CB253C8E3C0044D4A9 /* ZSAddAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208483CA253C8E3C0044D4A9 /* ZSAddAddressViewController.swift */; };
 		208483CD253C8F5E0044D4A9 /* ZSAddAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208483CC253C8F5E0044D4A9 /* ZSAddAddressView.swift */; };
@@ -69,8 +65,8 @@
 		8443D9952539BE34008AAC88 /* ZSCheckoutPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443D9942539BE34008AAC88 /* ZSCheckoutPaymentView.swift */; };
 		8443D99A2539D697008AAC88 /* ZSAddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443D9992539D697008AAC88 /* ZSAddCardViewController.swift */; };
 		8443DA1B253EFD69008AAC88 /* ZSSubcategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443DA1A253EFD69008AAC88 /* ZSSubcategoriesViewController.swift */; };
-		8443DA20253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443DA1F253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift */; };
-		8443DA6F25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443DA6E25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift */; };
+		8447C14825728AE300812788 /* ZSCategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447C14725728AE300812788 /* ZSCategoriesModel.swift */; };
+		8447C14B25728B1100812788 /* ZSSubcategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447C14A25728B1100812788 /* ZSSubcategoriesModel.swift */; };
 		844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */; };
 		844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A97D02530819C00619BE3 /* UIViewController+Ex.swift */; };
 		84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */; };
@@ -81,7 +77,7 @@
 		84BBE08C254BEC36004A3341 /* ZSSizesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE08B254BEC36004A3341 /* ZSSizesCollectionViewCell.swift */; };
 		84C74B7B255FDD280074288C /* ZSTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C74B7A255FDD280074288C /* ZSTabBarController.swift */; };
 		84C74B8B255FDE180074288C /* ZSInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C74B8A255FDE180074288C /* ZSInterface.swift */; };
-		84C74BBF255FFA310074288C /* ZSSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C74BBE255FFA310074288C /* ZSSearchViewController.swift */; };
+		84C74BBF255FFA310074288C /* ZSCatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C74BBE255FFA310074288C /* ZSCatalogViewController.swift */; };
 		84C74BD9256056190074288C /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C74BD8256056190074288C /* CustomTextField.swift */; };
 		84C74BDC25605E4E0074288C /* ZSPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C74BDB25605E4E0074288C /* ZSPrivacyView.swift */; };
 		84C74BE0256067DA0074288C /* UITapGestureRecognizer+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C74BDF256067DA0074288C /* UITapGestureRecognizer+Ex.swift */; };
@@ -91,7 +87,6 @@
 
 /* Begin PBXFileReference section */
 		0DE7CA78AE674A74E83BD40D /* Pods-ZarinShop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZarinShop.debug.xcconfig"; path = "Target Support Files/Pods-ZarinShop/Pods-ZarinShop.debug.xcconfig"; sourceTree = "<group>"; };
-		201332A125374C2E00548FF6 /* ZSSubcategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZSSubcategoriesModel.swift; path = "ZarinShop/Features/Auth/Reset Password/Controllers/ZSSubcategoriesModel.swift"; sourceTree = SOURCE_ROOT; };
 		20242AAC252A37E800886949 /* ZSProductsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductsMainView.swift; sourceTree = "<group>"; };
 		20242AAE252A3E4100886949 /* Templates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Templates.swift; sourceTree = "<group>"; };
 		20242AB2252A3F1D00886949 /* Notification.Name+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Ex.swift"; sourceTree = "<group>"; };
@@ -99,7 +94,6 @@
 		203FD5402531CA6500F57432 /* ZSNetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSNetworkError.swift; sourceTree = "<group>"; };
 		203FD5442531D0F500F57432 /* ZSProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZSProductDetailViewController.swift; sourceTree = "<group>"; };
 		203FD5472531D7F900F57432 /* ZSURLPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZSURLPath.swift; path = ZarinShop/Resources/ZSURLPath.swift; sourceTree = SOURCE_ROOT; };
-		203FD5492531DBDC00F57432 /* ZSCategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZSCategoriesModel.swift; path = ZarinShop/Resources/ZSCategoriesModel.swift; sourceTree = SOURCE_ROOT; };
 		203FD54F2532036F00F57432 /* ZSCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutViewController.swift; sourceTree = "<group>"; };
 		203FD552253204EB00F57432 /* ZSCheckoutAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutAddressViewController.swift; sourceTree = "<group>"; };
 		203FD5542532051000F57432 /* ZSCheckoutPaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutPaymentViewController.swift; sourceTree = "<group>"; };
@@ -119,9 +113,7 @@
 		2057B8C9252591FC007D8D05 /* ZSOrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZSOrdersViewController.swift; sourceTree = "<group>"; };
 		2057B8CE252591FC007D8D05 /* ZSCartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZSCartViewController.swift; sourceTree = "<group>"; };
 		2057B8D3252591FC007D8D05 /* ZSProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZSProfileViewController.swift; sourceTree = "<group>"; };
-		2057B8E42525935E007D8D05 /* ZSMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZSMainViewController.swift; sourceTree = "<group>"; };
 		2057B8EC2525AF22007D8D05 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
-		2057B8EF2525CCB5007D8D05 /* ZSMainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSMainTableViewCell.swift; sourceTree = "<group>"; };
 		2057B8F12525ED2D007D8D05 /* ZSBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSBaseViewController.swift; sourceTree = "<group>"; };
 		208483CA253C8E3C0044D4A9 /* ZSAddAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSAddAddressViewController.swift; sourceTree = "<group>"; };
 		208483CC253C8F5E0044D4A9 /* ZSAddAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSAddAddressView.swift; sourceTree = "<group>"; };
@@ -156,8 +148,8 @@
 		8443D9942539BE34008AAC88 /* ZSCheckoutPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutPaymentView.swift; sourceTree = "<group>"; };
 		8443D9992539D697008AAC88 /* ZSAddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSAddCardViewController.swift; sourceTree = "<group>"; };
 		8443DA1A253EFD69008AAC88 /* ZSSubcategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSubcategoriesViewController.swift; sourceTree = "<group>"; };
-		8443DA1F253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSubcategoriesTableViewCell.swift; sourceTree = "<group>"; };
-		8443DA6E25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSubcategoriesHeaderView.swift; sourceTree = "<group>"; };
+		8447C14725728AE300812788 /* ZSCategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCategoriesModel.swift; sourceTree = "<group>"; };
+		8447C14A25728B1100812788 /* ZSSubcategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSubcategoriesModel.swift; sourceTree = "<group>"; };
 		844A97CB25306D0E00619BE3 /* ZSCheckoutTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutTabItem.swift; sourceTree = "<group>"; };
 		844A97D02530819C00619BE3 /* UIViewController+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ex.swift"; sourceTree = "<group>"; };
 		84691A842536B90F00EA5217 /* UserDefaults+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Ex.swift"; sourceTree = "<group>"; };
@@ -168,7 +160,7 @@
 		84BBE08B254BEC36004A3341 /* ZSSizesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSizesCollectionViewCell.swift; sourceTree = "<group>"; };
 		84C74B7A255FDD280074288C /* ZSTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSTabBarController.swift; sourceTree = "<group>"; };
 		84C74B8A255FDE180074288C /* ZSInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSInterface.swift; sourceTree = "<group>"; };
-		84C74BBE255FFA310074288C /* ZSSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSSearchViewController.swift; sourceTree = "<group>"; };
+		84C74BBE255FFA310074288C /* ZSCatalogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCatalogViewController.swift; sourceTree = "<group>"; };
 		84C74BD8256056190074288C /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		84C74BDB25605E4E0074288C /* ZSPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSPrivacyView.swift; sourceTree = "<group>"; };
 		84C74BDF256067DA0074288C /* UITapGestureRecognizer+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+Ex.swift"; sourceTree = "<group>"; };
@@ -398,8 +390,8 @@
 			children = (
 				20B2DFCC25274C980089BC55 /* Auth */,
 				2057B8E025259337007D8D05 /* Main */,
-				84C74BBD255FFA150074288C /* Search */,
 				20FD49BC2545C4E50006F50C /* Favorites */,
+				84C74BBD255FFA150074288C /* Catalog Tab */,
 				2057B8CB252591FC007D8D05 /* Cart */,
 				2057B8D0252591FC007D8D05 /* Profile */,
 				2057B8C6252591FC007D8D05 /* Orders */,
@@ -478,45 +470,9 @@
 		2057B8E025259337007D8D05 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				20B2DFBE2526D9510089BC55 /* Categories */,
-				8443DA18253EFD3E008AAC88 /* Subcategories */,
-				20B2DFBF2526D9C30089BC55 /* Products */,
 				203FD5422531D0F500F57432 /* ProductDetail */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		2057B8E125259342007D8D05 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				2057B8E42525935E007D8D05 /* ZSMainViewController.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		2057B8E225259349007D8D05 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				2057B8EE2525CC85007D8D05 /* Cells */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		2057B8E32525934D007D8D05 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				203FD5492531DBDC00F57432 /* ZSCategoriesModel.swift */,
-				201332A125374C2E00548FF6 /* ZSSubcategoriesModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		2057B8EE2525CC85007D8D05 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				2057B8EF2525CCB5007D8D05 /* ZSMainTableViewCell.swift */,
-			);
-			path = Cells;
 			sourceTree = "<group>";
 		};
 		208483C7253C8DB40044D4A9 /* AddAddress */ = {
@@ -550,16 +506,6 @@
 				208483CE253C953D0044D4A9 /* ZSAddCardView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		20B2DFBE2526D9510089BC55 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				2057B8E32525934D007D8D05 /* Models */,
-				2057B8E225259349007D8D05 /* Views */,
-				2057B8E125259342007D8D05 /* Controllers */,
-			);
-			path = Categories;
 			sourceTree = "<group>";
 		};
 		20B2DFBF2526D9C30089BC55 /* Products */ = {
@@ -773,7 +719,7 @@
 		8443DA18253EFD3E008AAC88 /* Subcategories */ = {
 			isa = PBXGroup;
 			children = (
-				8443DA1D253EFD82008AAC88 /* Views */,
+				8447C14A25728B1100812788 /* ZSSubcategoriesModel.swift */,
 				8443DA19253EFD4E008AAC88 /* Controllers */,
 			);
 			path = Subcategories;
@@ -785,23 +731,6 @@
 				8443DA1A253EFD69008AAC88 /* ZSSubcategoriesViewController.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		8443DA1D253EFD82008AAC88 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				8443DA6E25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift */,
-				8443DA1E253EFD90008AAC88 /* Cells */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		8443DA1E253EFD90008AAC88 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				8443DA1F253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift */,
-			);
-			path = Cells;
 			sourceTree = "<group>";
 		};
 		84BBE06C254BCCF0004A3341 /* Presentation */ = {
@@ -829,12 +758,14 @@
 			path = Navigation;
 			sourceTree = "<group>";
 		};
-		84C74BBD255FFA150074288C /* Search */ = {
+		84C74BBD255FFA150074288C /* Catalog Tab */ = {
 			isa = PBXGroup;
 			children = (
-				84C74BBE255FFA310074288C /* ZSSearchViewController.swift */,
+				84ECFEFE2572837F009C7ECF /* Catalog */,
+				8443DA18253EFD3E008AAC88 /* Subcategories */,
+				20B2DFBF2526D9C30089BC55 /* Products */,
 			);
-			path = Search;
+			path = "Catalog Tab";
 			sourceTree = "<group>";
 		};
 		84C74BD3256054A10074288C /* Views */ = {
@@ -843,6 +774,15 @@
 				84C74BDB25605E4E0074288C /* ZSPrivacyView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		84ECFEFE2572837F009C7ECF /* Catalog */ = {
+			isa = PBXGroup;
+			children = (
+				84C74BBE255FFA310074288C /* ZSCatalogViewController.swift */,
+				8447C14725728AE300812788 /* ZSCategoriesModel.swift */,
+			);
+			path = Catalog;
 			sourceTree = "<group>";
 		};
 		84F33F8C254A91CC004125F0 /* Models */ = {
@@ -983,8 +923,6 @@
 				84BBE089254BE576004A3341 /* ZSColorsCollectionViewCell.swift in Sources */,
 				20B9A8992532DCCC00E2EF71 /* ZSSignupResponseModel.swift in Sources */,
 				84C74BE0256067DA0074288C /* UITapGestureRecognizer+Ex.swift in Sources */,
-				203FD54A2531DBDC00F57432 /* ZSCategoriesModel.swift in Sources */,
-				2057B8F02525CCB5007D8D05 /* ZSMainTableViewCell.swift in Sources */,
 				840839B12538067D0040EC63 /* ZSProductDetailSpecificationItemView.swift in Sources */,
 				20B2DFC42526DA370089BC55 /* ZSProductsViewController.swift in Sources */,
 				2057B88A252588EF007D8D05 /* AppDelegate.swift in Sources */,
@@ -1002,7 +940,6 @@
 				2057B8ED2525AF22007D8D05 /* AppColors.swift in Sources */,
 				840839A9253804DC0040EC63 /* ZSProductDetailSpecificationView.swift in Sources */,
 				84BBE06E254BCD58004A3341 /* BottomPresentationController.swift in Sources */,
-				201332A225374C2E00548FF6 /* ZSSubcategoriesModel.swift in Sources */,
 				20FD49BF2545C51D0006F50C /* ZSFavoritesViewController.swift in Sources */,
 				20B2DFC92526FB1E0089BC55 /* ZSProductsCollectionViewCell.swift in Sources */,
 				84BBE073254BCDA1004A3341 /* UIView+Ex.swift in Sources */,
@@ -1010,7 +947,6 @@
 				8443DA1B253EFD69008AAC88 /* ZSSubcategoriesViewController.swift in Sources */,
 				20242AAF252A3E4100886949 /* Templates.swift in Sources */,
 				203FD5412531CA6500F57432 /* ZSNetworkError.swift in Sources */,
-				8443DA6F25419EAD008AAC88 /* ZSSubcategoriesHeaderView.swift in Sources */,
 				20B2DFC72526E4600089BC55 /* ZSGategoriesCollectionViewCell.swift in Sources */,
 				84C74B7B255FDD280074288C /* ZSTabBarController.swift in Sources */,
 				20B9A89F2532F72B00E2EF71 /* ZSResetPasswordViewController.swift in Sources */,
@@ -1027,11 +963,9 @@
 				2057B8F22525ED2D007D8D05 /* ZSBaseViewController.swift in Sources */,
 				8443D99A2539D697008AAC88 /* ZSAddCardViewController.swift in Sources */,
 				203FD53F2531C82A00F57432 /* ZSNetwork.swift in Sources */,
-				2057B8E52525935E007D8D05 /* ZSMainViewController.swift in Sources */,
-				8443DA20253EFDA4008AAC88 /* ZSSubcategoriesTableViewCell.swift in Sources */,
 				8443D9952539BE34008AAC88 /* ZSCheckoutPaymentView.swift in Sources */,
 				203FD5482531D7F900F57432 /* ZSURLPath.swift in Sources */,
-				84C74BBF255FFA310074288C /* ZSSearchViewController.swift in Sources */,
+				84C74BBF255FFA310074288C /* ZSCatalogViewController.swift in Sources */,
 				840839A5253803A50040EC63 /* ZSProductDetailTitleView.swift in Sources */,
 				205692B0253236700096DDD0 /* ZSRegistrationCodeViewController.swift in Sources */,
 				20411045252B2C0F0081A562 /* BadgedButtonItem.swift in Sources */,
@@ -1039,6 +973,7 @@
 				20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */,
 				840839B925380EE80040EC63 /* ZSValuesStore.swift in Sources */,
 				2098B14325337E0900A00D18 /* ZSResetPasswordCodeViewController.swift in Sources */,
+				8447C14825728AE300812788 /* ZSCategoriesModel.swift in Sources */,
 				84C74BD9256056190074288C /* CustomTextField.swift in Sources */,
 				20B9A89B2532E50600E2EF71 /* ZSSigninUserModel.swift in Sources */,
 				20BF823A25557A05004A9CF3 /* ZSProductDetailSpecificationSizes.swift in Sources */,
@@ -1049,6 +984,7 @@
 				203FD5502532036F00F57432 /* ZSCheckoutViewController.swift in Sources */,
 				203FD553253204EB00F57432 /* ZSCheckoutAddressViewController.swift in Sources */,
 				84C74B8B255FDE180074288C /* ZSInterface.swift in Sources */,
+				8447C14B25728B1100812788 /* ZSSubcategoriesModel.swift in Sources */,
 				844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */,
 				84BBE07F254BD24A004A3341 /* ColorsModel.swift in Sources */,
 				84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */,

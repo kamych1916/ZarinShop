@@ -44,7 +44,7 @@ class ZSProductsViewController: ZSBaseViewController {
             image: UIImage(named: "filter"),
             style: .plain, target: self,
             action: #selector(self.filterButtonTapped))
-        button.tintColor = AppColors.mainColor.color()
+        button.tintColor = .mainColor
         return button
     }()
 
@@ -53,7 +53,7 @@ class ZSProductsViewController: ZSBaseViewController {
             image: UIImage(named: "sort"),
             style: .plain, target: self,
             action: #selector(self.sortButtonTapped))
-        button.tintColor = AppColors.mainColor.color()
+        button.tintColor = .mainColor
         return button
     }()
         
@@ -82,7 +82,7 @@ class ZSProductsViewController: ZSBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = AppColors.mainLightColor.color()
+        self.view.backgroundColor = .mainLightColor
         self.setupNavigationBar()
         self.addSubviews()
         self.makeConstraints()
@@ -135,7 +135,6 @@ class ZSProductsViewController: ZSBaseViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.title = self.controllerTitle
-        
     }
     
     // MARK: - Network

@@ -16,7 +16,7 @@ class ZSAddCardView: UIView {
         var view = UIView()
         view.clipsToBounds = true
         view.layer.cornerRadius = 20
-        view.backgroundColor = AppColors.mainColor.color()
+        view.backgroundColor = .mainColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -32,7 +32,7 @@ class ZSAddCardView: UIView {
     private lazy var cartCVCLable: UILabel = {
         var label = UILabel()
         label.text = "123"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -41,7 +41,7 @@ class ZSAddCardView: UIView {
     private lazy var cartNumberLable: UILabel = {
         var label = UILabel()
         label.text = "***********1234"
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -50,7 +50,7 @@ class ZSAddCardView: UIView {
     private lazy var cartNameLable: UILabel = {
         var label = UILabel()
         label.text = "NAME SURNAME"
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -59,7 +59,7 @@ class ZSAddCardView: UIView {
     private lazy var cartDateLable: UILabel = {
         var label = UILabel()
         label.text = "09/22"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -72,7 +72,7 @@ class ZSAddCardView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "CVC код"
@@ -87,7 +87,7 @@ class ZSAddCardView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Номер карты"
@@ -102,7 +102,7 @@ class ZSAddCardView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Имя и фамилия"
@@ -117,7 +117,7 @@ class ZSAddCardView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Год"
@@ -132,7 +132,7 @@ class ZSAddCardView: UIView {
         field.borderStyle = .none
         field.layer.cornerRadius = 20
         field.backgroundColor = .white
-        field.textColor = AppColors.textDarkColor.color()
+        field.textColor = .textDarkColor
         field.leftView = UIView(frame: .init(x: 0, y: 0, width: 20, height: 10))
         field.leftViewMode = .always
         field.placeholder = "Месяц"
@@ -147,7 +147,7 @@ class ZSAddCardView: UIView {
         
         self.clipsToBounds = true
         self.layer.cornerRadius = 20
-        self.backgroundColor = AppColors.mainLightColor.color()
+        self.backgroundColor = .mainLightColor
         self.addSubviews()
     }
     

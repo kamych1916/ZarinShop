@@ -40,22 +40,7 @@ final class ZSProductsMainView: UIView {
         return collectionView
     }()
     
-    lazy var productsCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets.zero
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 10
-        
-        var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = .clear
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(
-            ZSProductsCollectionViewCell.self,
-            forCellWithReuseIdentifier: ZSProductsCollectionViewCell.reuseId)
-        return collectionView
-    }()
+
     
     // MARK - Initialization
     

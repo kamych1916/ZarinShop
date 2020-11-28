@@ -29,7 +29,7 @@ class ZSCheckoutFinalViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.text = "Детали заказа"
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,7 +47,7 @@ class ZSCheckoutFinalViewController: UIViewController {
         button.setTitle("Готово", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        button.backgroundColor = AppColors.mainColor.color()
+        button.backgroundColor = .mainColor
         button.adjustsImageWhenHighlighted = true
         button.addTarget(self, action: #selector(self.doneButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

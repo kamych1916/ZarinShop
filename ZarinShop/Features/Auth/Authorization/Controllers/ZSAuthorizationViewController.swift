@@ -21,12 +21,12 @@ class ZSAuthorizationViewController: UIViewController {
         willSet {
             if newValue {
                 UIView.animate(withDuration: 0.3) {
-                    self.loginButton.backgroundColor = AppColors.mainColor.color()
+                    self.loginButton.backgroundColor = .mainColor
                     self.loginButton.isEnabled = true
                 }
             } else {
                 UIView.animate(withDuration: 0.3) {
-                    self.loginButton.backgroundColor = AppColors.mainLightColor.color()
+                    self.loginButton.backgroundColor = .mainLightColor
                     self.loginButton.isEnabled = false
                 }
             }
@@ -50,7 +50,7 @@ class ZSAuthorizationViewController: UIViewController {
     private lazy var companyNameLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 40, weight: .semibold)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .center
         label.text = "Zarin Shop"
         return label
@@ -59,7 +59,7 @@ class ZSAuthorizationViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 30, weight: .semibold)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .center
         label.text = "Авторизация"
         return label
@@ -80,7 +80,7 @@ class ZSAuthorizationViewController: UIViewController {
         button.setTitle("Войти", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
-        button.backgroundColor = AppColors.mainLightColor.color()
+        button.backgroundColor = .mainLightColor
         button.isEnabled = false
         button.adjustsImageWhenHighlighted = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +96,7 @@ class ZSAuthorizationViewController: UIViewController {
     private lazy var registerLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .regular)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .center
         label.text = "Нет аккаунта?"
         return label
@@ -106,7 +106,7 @@ class ZSAuthorizationViewController: UIViewController {
         var button = UIButton(type: .system)
         button.backgroundColor = .clear
         button.setTitle("Создайте", for: .normal)
-        button.setTitleColor(AppColors.blueLink.color(), for: .normal)
+        button.setTitleColor(.blueLink, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
         button.adjustsImageWhenHighlighted = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -122,7 +122,7 @@ class ZSAuthorizationViewController: UIViewController {
     private lazy var resetLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .regular)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .center
         label.text = "Забыли пороль?"
         return label
@@ -132,7 +132,7 @@ class ZSAuthorizationViewController: UIViewController {
         var button = UIButton(type: .system)
         button.backgroundColor = .clear
         button.setTitle("Восстановить", for: .normal)
-        button.setTitleColor(AppColors.blueLink.color(), for: .normal)
+        button.setTitleColor(.blueLink, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
         button.adjustsImageWhenHighlighted = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -143,7 +143,7 @@ class ZSAuthorizationViewController: UIViewController {
         var button = UIButton(type: .system)
         button.setImage(UIImage(named: "dismiss"), for: .normal)
         button.addTarget(self, action: #selector(self.dismissButtonTapped), for: .touchUpInside)
-        button.tintColor = AppColors.textDarkColor.color()
+        button.tintColor = .textDarkColor
         return button
     }()
       
@@ -268,7 +268,7 @@ class ZSAuthorizationViewController: UIViewController {
         navigVC.modalPresentationStyle = .fullScreen
         navigVC.navigationItem.backBarButtonItem =
             UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        navigVC.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
+        navigVC.navigationItem.backBarButtonItem?.tintColor = .mainColor
         navigVC.navigationBar.shadowImage = UIImage()
         navigVC.navigationBar.isTranslucent = false
         registrVC.registerHandler = { [weak self] in
@@ -306,7 +306,7 @@ class ZSAuthorizationViewController: UIViewController {
         navigVC.modalPresentationStyle = .fullScreen
         navigVC.navigationItem.backBarButtonItem =
             UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        navigVC.navigationItem.backBarButtonItem?.tintColor = AppColors.mainColor.color()
+        navigVC.navigationItem.backBarButtonItem?.tintColor = .mainColor
         navigVC.navigationBar.shadowImage = UIImage()
         navigVC.navigationBar.isTranslucent = false
         self.present(navigVC, animated: true, completion: nil)

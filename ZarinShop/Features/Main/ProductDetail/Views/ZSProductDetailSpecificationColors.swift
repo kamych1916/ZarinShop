@@ -22,7 +22,7 @@ class ZSProductDetailSpecificationColors: UIView {
         var label = UILabel()
         label.text = "Цвета"
         label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

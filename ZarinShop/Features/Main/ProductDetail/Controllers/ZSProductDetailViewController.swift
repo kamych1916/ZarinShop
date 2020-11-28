@@ -63,7 +63,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
         button.setTitle("В корзину", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
-        button.backgroundColor = AppColors.mainColor.color()
+        button.backgroundColor = .mainColor
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(self.addToCartButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -83,7 +83,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = AppColors.secondaryColor.color()
+        self.view.backgroundColor = .secondaryColor
         self.addSubviews()
         self.makeConstraints()
         self.setupWithProduct()
@@ -142,7 +142,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
             country: .init(title: "Страна", description: "Turkey"))
         self.specificationView.firstItem.setSelected(with: product.color)
 
-        /*self.imageSlideshow.setImageInputs([
+            /*self.imageSlideshow.setImageInputs([
             ImageSource(image: UIImage(named: "defauldProduct")!),
             ImageSource(image: UIImage(named: "defauldProduct")!),
             ImageSource(image: UIImage(named: "defauldProduct")!)])*/

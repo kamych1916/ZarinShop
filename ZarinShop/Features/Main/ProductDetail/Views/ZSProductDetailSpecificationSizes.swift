@@ -21,7 +21,7 @@ class ZSProductDetailSpecificationSizes: UIView {
         var label = UILabel()
         label.text = "Цвета"
         label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -33,7 +33,7 @@ class ZSProductDetailSpecificationSizes: UIView {
         layout.sectionInset = UIEdgeInsets.zero
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
-        layout.itemSize = CGSize(width: 32, height: 32)
+        layout.itemSize = CGSize(width: 36, height: 36)
         
         var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.delegate = self

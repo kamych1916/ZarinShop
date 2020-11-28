@@ -19,7 +19,7 @@ class ZSProductDetailTitleView: UIView {
     private lazy var nameLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .regular)
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,7 +28,7 @@ class ZSProductDetailTitleView: UIView {
     private lazy var priceLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textColor = AppColors.textGoldColor.color()
+        label.textColor = .textGoldColor
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

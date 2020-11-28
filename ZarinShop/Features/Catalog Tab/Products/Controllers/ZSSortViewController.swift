@@ -49,7 +49,7 @@ class ZSSortViewController: UIViewController {
         var label = UILabel()
         label.text = "Сортировать по"
         label.textAlignment = .left
-        label.textColor = AppColors.textDarkColor.color()
+        label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
