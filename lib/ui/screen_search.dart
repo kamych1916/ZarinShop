@@ -5,6 +5,7 @@ import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/ui/screen_products.dart';
 import 'package:Zarin/ui/screen_sub_categories.dart';
+import 'package:Zarin/ui/widgets/products_list.dart';
 import 'package:Zarin/ui/widgets/search_bar.dart';
 import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -32,7 +33,7 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
   }
 
-  refresh() async => await productBloc.getCategories();
+  refreshCategories() async => await productBloc.getCategories();
 
   Widget _error(String message) {
     return Center(
@@ -59,7 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   fontSize: 12.0,
                   fontFamily: "SegoeUISemiBold"),
             ),
-            onPressed: () => refresh(),
+            onPressed: refreshCategories,
           ),
         ],
       ),
@@ -78,121 +79,138 @@ class _SearchScreenState extends State<SearchScreen> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           title: SearchBar()),
-      body: Container(
-        margin: EdgeInsets.only(top: 20.0),
-        child: StreamBuilder(
-            stream: productBloc.categories.stream,
-            builder:
-                (context, AsyncSnapshot<ApiResponse<List<Category>>> snapshot) {
-              if (!snapshot.hasData || snapshot.data.status == Status.LOADING) {
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: ListView.separated(
-                      separatorBuilder: (context, index) => Divider(),
-                      padding: EdgeInsets.zero,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: 10,
-                      itemBuilder: (context, index) => Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 7.5, horizontal: 5.0),
-                            margin: EdgeInsets.only(
-                                right: MediaQuery.of(context).size.width / 2 -
-                                    randomLoadingLinesSize[index]),
-                            child: Shimmer.fromColors(
-                              baseColor: Colors.grey[300],
+      body: StreamBuilder(
+          stream: productBloc.searchEvent.stream,
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (!snapshot.hasData || !snapshot.data)
+              return Container(
+                margin: EdgeInsets.only(top: 20.0),
+                child: StreamBuilder(
+                    stream: productBloc.categories.stream,
+                    builder: (context,
+                        AsyncSnapshot<ApiResponse<List<Category>>> snapshot) {
+                      if (!snapshot.hasData ||
+                          snapshot.data.status == Status.LOADING) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: ListView.separated(
+                              separatorBuilder: (context, index) => Divider(),
+                              padding: EdgeInsets.zero,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: 10,
+                              itemBuilder: (context, index) => Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 7.5, horizontal: 5.0),
+                                    margin: EdgeInsets.only(
+                                        right:
+                                            MediaQuery.of(context).size.width /
+                                                    2 -
+                                                randomLoadingLinesSize[index]),
+                                    child: Shimmer.fromColors(
+                                      baseColor: Colors.grey[300],
 
-                              /// TODO: цвета у шимера разные везде
-                              highlightColor: Colors.grey[400],
-                              child: Container(
-                                height: 15,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                            ),
-                          )),
-                );
-              }
-
-              if (snapshot.data.status == Status.ERROR)
-                return _error(snapshot.data.message);
-
-              if (snapshot.data.status == Status.COMPLETED)
-                return CupertinoScrollbar(
-                    child: Container(
-                  margin: EdgeInsets.only(bottom: 20.0),
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: ListView.separated(
-                      separatorBuilder: (context, index) => Divider(),
-                      padding: EdgeInsets.zero,
-                      itemCount: snapshot.data.data.length,
-                      itemBuilder: (context, index) => GestureDetector(
-                            onTap: () =>
-                                snapshot.data.data[index].subcategories !=
-                                            null &&
-                                        snapshot.data.data[index].subcategories
-                                            .isNotEmpty
-                                    ? pushNewScreen(
-                                        context,
-                                        screen: SubCategoriesScreen(
-                                            snapshot.data.data[index]),
-                                        withNavBar: true,
-                                        pageTransitionAnimation:
-                                            PageTransitionAnimation.fade,
-                                      )
-                                    : pushNewScreen(
-                                        context,
-                                        screen: ProductsScreen(
-                                            snapshot.data.data[index]),
-                                        withNavBar: true,
-                                        pageTransitionAnimation:
-                                            PageTransitionAnimation.fade,
-                                      ),
-                            behavior: HitTestBehavior.translucent,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 5.0),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        snapshot.data.data[index].name,
-                                        style: TextStyle(
-                                            fontFamily: "SegoeUISemiBold",
-                                            fontSize: 16),
+                                      /// TODO: цвета у шимера разные везде
+                                      highlightColor: Colors.grey[400],
+                                      child: Container(
+                                        height: 15,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20.0),
-                                    child:
-                                        snapshot.data.data[index].count != null
-                                            ? Text(
-                                                snapshot.data.data[index].count
-                                                    .toString(),
-                                              )
-                                            : Container(),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 10,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 10.0),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )),
-                ));
+                                  )),
+                        );
+                      }
 
-              return Container();
-            }),
-      ),
+                      if (snapshot.data.status == Status.ERROR)
+                        return _error(snapshot.data.message);
+
+                      if (snapshot.data.status == Status.COMPLETED)
+                        return CupertinoScrollbar(
+                            child: Container(
+                          margin: EdgeInsets.only(bottom: 20.0),
+                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: ListView.separated(
+                              separatorBuilder: (context, index) => Divider(),
+                              padding: EdgeInsets.zero,
+                              itemCount: snapshot.data.data.length,
+                              itemBuilder: (context, index) => GestureDetector(
+                                    onTap: () => snapshot.data.data[index]
+                                                    .subcategories !=
+                                                null &&
+                                            snapshot.data.data[index]
+                                                .subcategories.isNotEmpty
+                                        ? pushNewScreen(
+                                            context,
+                                            screen: SubCategoriesScreen(
+                                                snapshot.data.data[index]),
+                                            withNavBar: true,
+                                            pageTransitionAnimation:
+                                                PageTransitionAnimation.fade,
+                                          )
+                                        : pushNewScreen(
+                                            context,
+                                            screen: ProductsScreen(
+                                                snapshot.data.data[index]),
+                                            withNavBar: true,
+                                            pageTransitionAnimation:
+                                                PageTransitionAnimation.fade,
+                                          ),
+                                    behavior: HitTestBehavior.translucent,
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 5.0),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 10.0),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              child: Text(
+                                                snapshot.data.data[index].name,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        "SegoeUISemiBold",
+                                                    fontSize: 16),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20.0),
+                                            child: snapshot.data.data[index]
+                                                        .count !=
+                                                    null
+                                                ? Text(
+                                                    snapshot
+                                                        .data.data[index].count
+                                                        .toString(),
+                                                  )
+                                                : Container(),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward_ios,
+                                            size: 10,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(right: 10.0),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                        ));
+
+                      return Container();
+                    }),
+              );
+
+            return ProductsList();
+          }),
     );
   }
 }

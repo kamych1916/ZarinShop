@@ -6,8 +6,6 @@ class ApiResponse<T> {
   ApiResponse.loading(this.message) : status = Status.LOADING;
   ApiResponse.completed(this.data) : status = Status.COMPLETED;
   ApiResponse.error(this.message) : status = Status.ERROR;
-  ApiResponse.internalError(this.message) : status = Status.INTERNALERROR;
-  ApiResponse.searchError(this.message) : status = Status.SEARCHERROR;
 
   @override
   String toString() {
@@ -15,4 +13,4 @@ class ApiResponse<T> {
   }
 }
 
-enum Status { LOADING, COMPLETED, ERROR, INTERNALERROR, SEARCHERROR }
+enum Status { LOADING, COMPLETED, ERROR }

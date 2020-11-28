@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SearchBar extends StatefulWidget {
   @override
@@ -7,32 +11,42 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBar> {
-  FocusNode focusNode;
   TextEditingController controller;
+  Debouncing throttlingSearch =
+      Debouncing(duration: Duration(milliseconds: 500));
 
   bool searchState = false;
   bool searchStateDelayed = false;
 
   void focusNodeStateListener() {
-    if (focusNode.hasFocus && !searchState)
+    if (productBloc.searchFieldFocusNode.hasFocus && !searchState)
       setState(() {
         searchState = true;
         Future.delayed(Duration(milliseconds: 500),
             () => setState(() => searchStateDelayed = true));
       });
-    if (!focusNode.hasFocus && searchState)
+    if (!productBloc.searchFieldFocusNode.hasFocus && searchState)
       setState(() {
         searchState = false;
         searchStateDelayed = false;
       });
   }
 
+  void scrollListener() {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+  }
+
   @override
   void initState() {
-    focusNode = FocusNode();
     controller = TextEditingController();
 
-    focusNode.addListener(focusNodeStateListener);
+    productBloc.searchFieldFocusNode.addListener(() => productBloc
+            .searchFieldFocusNode.hasFocus
+        ? productBloc.productsListScrollController.addListener(scrollListener)
+        : productBloc.productsListScrollController
+            .removeListener(scrollListener));
+
+    productBloc.searchFieldFocusNode.addListener(focusNodeStateListener);
 
     super.initState();
   }
@@ -52,19 +66,34 @@ class _SearchBarState extends State<SearchBar> {
           child: Stack(
             alignment: Alignment(0.95, 0),
             children: [
-              TextFormField(
-                focusNode: focusNode,
+              TextField(
+                focusNode: productBloc.searchFieldFocusNode,
                 controller: controller,
                 cursorColor: Colors.black54,
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.text,
                 textAlign: TextAlign.center,
-                //onChanged: search.publish,
+                onChanged: (value) {
+                  if (value.length >= 3) {
+                    throttlingSearch.debounce(() => productBloc.search(value));
+                    if (!productBloc.searchEvent.value)
+                      productBloc.searchEvent.publish(true);
+                  }
+                },
+                onSubmitted: (value) {
+                  productBloc.searchFieldFocusNode.requestFocus();
+
+                  if (value.isNotEmpty) {
+                    productBloc.search(value);
+                    productBloc.searchEvent.publish(true);
+                  }
+                },
                 style: TextStyle(
                     decoration: TextDecoration.none,
                     decorationColor: Colors.white.withOpacity(0)),
                 decoration: InputDecoration(
                   hintText: "Поиск",
-                  contentPadding: EdgeInsets.only(left: 15, right: 30, top: 5),
+                  contentPadding: EdgeInsets.only(
+                      left: 15, right: searchState ? 30 : 15, top: 5),
                   filled: true,
                   fillColor: Colors.white,
                   hintMaxLines: 1,
@@ -93,12 +122,64 @@ class _SearchBarState extends State<SearchBar> {
         searchStateDelayed
             ? GestureDetector(
                 onTap: () {
-                  focusNode.unfocus();
+                  productBloc.searchFieldFocusNode.unfocus();
                   controller.clear();
+                  productBloc.searchEvent.publish(false);
                 },
-                child: Text("Отменить"))
+                child: Text(
+                  "Отменить",
+                  style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16),
+                ))
             : Container()
       ],
     );
+  }
+}
+
+class Debouncing {
+  Duration _duration;
+  Duration get duration => this._duration;
+  set duration(Duration value) {
+    assert(duration is Duration && !duration.isNegative);
+    this._duration = value;
+  }
+
+  Timer _waiter;
+  bool _isReady = true;
+  bool get isReady => isReady;
+  // ignore: close_sinks
+  StreamController<dynamic> _resultSC =
+      new StreamController<dynamic>.broadcast();
+  // ignore: close_sinks
+  final StreamController<bool> _stateSC =
+      new StreamController<bool>.broadcast();
+
+  Debouncing({Duration duration = const Duration(seconds: 1)})
+      : assert(duration is Duration && !duration.isNegative),
+        this._duration = duration ?? Duration(seconds: 1) {
+    this._stateSC.sink.add(true);
+  }
+
+  Future<dynamic> debounce(Function func) async {
+    if (this._waiter?.isActive ?? false) {
+      this._waiter?.cancel();
+      this._resultSC.sink.add(null);
+    }
+    this._isReady = false;
+    this._stateSC.sink.add(false);
+    this._waiter = Timer(this._duration, () {
+      this._isReady = true;
+      this._stateSC.sink.add(true);
+      this._resultSC.sink.add(Function.apply(func, []));
+    });
+    return this._resultSC.stream.first;
+  }
+
+  StreamSubscription<bool> listen(Function(bool) onData) =>
+      this._stateSC.stream.listen(onData);
+
+  dispose() {
+    this._resultSC.close();
+    this._stateSC.close();
   }
 }

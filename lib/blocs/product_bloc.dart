@@ -9,6 +9,7 @@ import 'package:Zarin/models/category.dart';
 import 'package:Zarin/models/event.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/resources/product_api_provider.dart';
+import 'package:flutter/cupertino.dart';
 
 class ProductBloc {
   ProductBloc() {
@@ -36,7 +37,6 @@ class ProductBloc {
   final Event<ApiResponse<List<Category>>> categories = Event();
   final Event<ApiResponse<List<Product>>> products = Event();
 
-  final Event<ApiResponse<List<Product>>> searchProducts = Event();
   final Event<ApiResponse<List<Product>>> cartProducts = Event();
   final Event<ApiResponse<List<Product>>> favoritesProducts = Event();
 
@@ -44,6 +44,11 @@ class ProductBloc {
   final Event<List<String>> favoritesEntities = Event();
 
   final Event<double> cartTotalPrice = Event();
+
+  final Event<bool> searchEvent = Event(initValue: false);
+
+  ScrollController productsListScrollController = ScrollController();
+  FocusNode searchFieldFocusNode = FocusNode();
 
   /// Категории
 
@@ -98,12 +103,13 @@ class ProductBloc {
   }
 
   search(String search) async {
-    searchProducts.publish(ApiResponse.loading("Загрузка товара"));
+    print(search);
+    products.publish(ApiResponse.loading("Загрузка товара"));
 
     ApiResponse<List<Product>> searchReslut =
         await _productApiProvider.search(search);
 
-    searchProducts.publish(searchReslut);
+    products.publish(searchReslut);
   }
 
   /// Корзина
@@ -235,6 +241,8 @@ class ProductBloc {
     await favoritesEntities.dispose();
 
     await cartTotalPrice.dispose();
+
+    await searchEvent.dispose();
   }
 }
 
