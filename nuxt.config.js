@@ -49,7 +49,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
-    'vue-scrollto/nuxt'
+    'vue-scrollto/nuxt',
+    'cookie-universal-nuxt',
   ],
   /*
   ** Axios module configuration

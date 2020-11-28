@@ -2,15 +2,36 @@
 import axios from "axios";
 const API_BASE_URL = 'http://zarinshop.site:49354/api/v1';
 
-
 export default class Api {
-    instance = null
+    instance = null;
+
 
     static getInstance() {
         if (Api.instance == null) {
             Api.instance = new Api; 
         }
         return Api.instance;
+    }
+
+    products ={
+        async getDataProducts() {
+            return axios.get(`${API_BASE_URL}/items`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
+        async deleteFile(name) {
+            return axios.post(`${API_BASE_URL}/del_file`, {name} ,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
     }
 
     auth = {
@@ -37,8 +58,8 @@ export default class Api {
                 `${API_BASE_URL}/signin`,
                 {
                     email,
-                    password,
-                }               
+                    password
+                }
             )
         },
         async logout() {
@@ -52,7 +73,13 @@ export default class Api {
         },
 
         async check_is_admin() {
-            return axios.get(`${API_BASE_URL}/is_admin`)
+            return axios.get(`${API_BASE_URL}/is_admin`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                }
+            )
         },
 
         async send_new_category(category) {

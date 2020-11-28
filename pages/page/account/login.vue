@@ -102,15 +102,16 @@ export default {
       Api.getInstance()
         .auth.login(this.email, this.password)
         .then((response) => {
-          console.log('respone.headers -> ', response)
+          console.log('response-> ', response);
+          localStorage.setItem('st', response.data.session_token);
           this.$bvToast.toast('Авторизация прошла успешна.', {
             title: `Сообщение`,
             variant: "success",
             solid: true
           })
-          this.$store.dispatch("auth/load__login_access", response.data)
-          console.log(this.$store.state.auth.login_access)
-          // setTimeout(()=>{this.$router.push('/page/account/admin-dashboard')}, 1500)
+          this.$store.dispatch("auth/load__login_access", response.data);
+          console.log(this.$store.state.auth.login_access);
+          setTimeout(()=>{this.$router.push('/page/account/admin-dashboard')}, 1500)
           // setTimeout(()=>{this.$router.push('/')}, 1500)
         })
         .catch((error) => {
