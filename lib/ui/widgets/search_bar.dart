@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:Zarin/blocs/product_bloc.dart';
+import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,8 +13,11 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   TextEditingController controller;
-  Debouncing throttlingSearch =
+  Debouncing debouncingSearch =
       Debouncing(duration: Duration(milliseconds: 500));
+
+  Throttling throttlingKeyboard =
+      Throttling(duration: Duration(milliseconds: 500));
 
   bool searchState = false;
   bool searchStateDelayed = false;
@@ -33,7 +37,10 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   void scrollListener() {
-    SystemChannels.textInput.invokeMethod('TextInput.hide');
+    throttlingKeyboard.throttle(() {
+      productBloc.searchFieldFocusNode.unfocus();
+      SystemChannels.textInput.invokeMethod('TextInput.hide');
+    });
   }
 
   @override
@@ -64,7 +71,6 @@ class _SearchBarState extends State<SearchBar> {
               MediaQuery.of(context).size.width - 32 - (searchState ? 90 : 0),
           duration: Duration(milliseconds: 500),
           child: Stack(
-            alignment: Alignment(0.95, 0),
             children: [
               TextField(
                 focusNode: productBloc.searchFieldFocusNode,
@@ -74,14 +80,12 @@ class _SearchBarState extends State<SearchBar> {
                 textAlign: TextAlign.center,
                 onChanged: (value) {
                   if (value.length >= 3) {
-                    throttlingSearch.debounce(() => productBloc.search(value));
+                    debouncingSearch.debounce(() => productBloc.search(value));
                     if (!productBloc.searchEvent.value)
                       productBloc.searchEvent.publish(true);
                   }
                 },
                 onSubmitted: (value) {
-                  productBloc.searchFieldFocusNode.requestFocus();
-
                   if (value.isNotEmpty) {
                     productBloc.search(value);
                     productBloc.searchEvent.publish(true);
@@ -93,7 +97,7 @@ class _SearchBarState extends State<SearchBar> {
                 decoration: InputDecoration(
                   hintText: "Поиск",
                   contentPadding: EdgeInsets.only(
-                      left: 15, right: searchState ? 30 : 15, top: 5),
+                      left: 15, right: searchStateDelayed ? 30 : 15, top: 5),
                   filled: true,
                   fillColor: Colors.white,
                   hintMaxLines: 1,
@@ -106,13 +110,30 @@ class _SearchBarState extends State<SearchBar> {
                 ),
               ),
               searchStateDelayed
-                  ? GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () => controller.clear(),
-                      child: Icon(
-                        Icons.close,
-                        color: Styles.mainColor,
-                        size: 16,
+                  ? Align(
+                      alignment: Alignment(0.95, 0),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => controller.clear(),
+                        child: Icon(
+                          Icons.close,
+                          color: Styles.mainColor,
+                          size: 16,
+                        ),
+                      ),
+                    )
+                  : Container(),
+              !searchState
+                  ? Align(
+                      alignment: Alignment(-0.95, 0),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => controller.clear(),
+                        child: Icon(
+                          AppIcons.magnifier,
+                          color: Styles.mainColor,
+                          size: 16,
+                        ),
                       ),
                     )
                   : Container()
@@ -180,6 +201,47 @@ class Debouncing {
 
   dispose() {
     this._resultSC.close();
+    this._stateSC.close();
+  }
+}
+
+class Throttling {
+  Duration _duration;
+  Duration get duration => this._duration;
+  set duration(Duration value) {
+    assert(duration is Duration && !duration.isNegative);
+    this._duration = value;
+  }
+
+  bool _isReady = true;
+  bool get isReady => isReady;
+  Future<void> get _waiter => Future.delayed(this._duration);
+  // ignore: close_sinks
+  final StreamController<bool> _stateSC =
+      new StreamController<bool>.broadcast();
+
+  Throttling({Duration duration = const Duration(seconds: 1)})
+      : assert(duration is Duration && !duration.isNegative),
+        this._duration = duration ?? Duration(seconds: 1) {
+    this._stateSC.sink.add(true);
+  }
+
+  dynamic throttle(Function func) {
+    if (!this._isReady) return null;
+    this._stateSC.sink.add(false);
+    this._isReady = false;
+    _waiter
+      ..then((_) {
+        this._isReady = true;
+        this._stateSC.sink.add(true);
+      });
+    return Function.apply(func, []);
+  }
+
+  StreamSubscription<bool> listen(Function(bool) onData) =>
+      this._stateSC.stream.listen(onData);
+
+  dispose() {
     this._stateSC.close();
   }
 }
