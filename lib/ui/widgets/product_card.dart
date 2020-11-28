@@ -1,8 +1,10 @@
+import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/ui/screen_product_info.dart';
 import 'package:Zarin/ui/widgets/product_card_favorite_icon.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -15,12 +17,19 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => pushNewScreen(
-        context,
-        screen: ProductInfo(product, product.id),
-        withNavBar: true,
-        pageTransitionAnimation: PageTransitionAnimation.fade,
-      ),
+      onTap: () async {
+        if (productBloc.searchFieldFocusNode.hasFocus) {
+          await SystemChannels.textInput.invokeMethod('TextInput.hide');
+          productBloc.searchFieldFocusNode.unfocus();
+          await Future.delayed(Duration(milliseconds: 250));
+        }
+        pushNewScreen(
+          context,
+          screen: ProductInfo(product, product.id),
+          withNavBar: true,
+          pageTransitionAnimation: PageTransitionAnimation.fade,
+        );
+      },
       child: Container(
         child: Column(
           children: [

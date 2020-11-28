@@ -81,11 +81,12 @@ class ProductsList extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () async {
-                      await SystemChannels.textInput
-                          .invokeMethod('TextInput.hide');
-                      if (productBloc.searchFieldFocusNode.hasFocus)
+                      if (productBloc.searchFieldFocusNode.hasFocus) {
+                        await SystemChannels.textInput
+                            .invokeMethod('TextInput.hide');
+                        productBloc.searchFieldFocusNode.unfocus();
                         await Future.delayed(Duration(milliseconds: 250));
-                      productBloc.searchFieldFocusNode.unfocus();
+                      }
                       showModalBottomSheet(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
@@ -116,11 +117,12 @@ class ProductsList extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () async {
-                      await SystemChannels.textInput
-                          .invokeMethod('TextInput.hide');
-                      if (productBloc.searchFieldFocusNode.hasFocus)
+                      if (productBloc.searchFieldFocusNode.hasFocus) {
+                        await SystemChannels.textInput
+                            .invokeMethod('TextInput.hide');
+                        productBloc.searchFieldFocusNode.unfocus();
                         await Future.delayed(Duration(milliseconds: 250));
-                      productBloc.searchFieldFocusNode.unfocus();
+                      }
                       showModalBottomSheet(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
