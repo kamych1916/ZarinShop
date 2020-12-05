@@ -23,6 +23,8 @@ enum ZSURLPath: String {
     case productsByID = "items_cat/"
     case getCartList = "cart/shopping_cart"
     case searchProducts = "search"
+    case hitSales = "hit_sales"
+    case specialOffer = "special_offer"
     
     //MARK: - Post
     
@@ -32,5 +34,6 @@ enum ZSURLPath: String {
     //MARK: - Delete
     
     case logout = "logout"
+    case delproduct = "cart/delproduct"
     
 }

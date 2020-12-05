@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 //MARK: - Keyboard
 
@@ -72,19 +73,31 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func loadingAlert() {
-        let alert = UIAlertController(title: nil, message: "", preferredStyle: .alert)
+    func startLoading() {
+        view.addSubview(activityInticator)
+        activityInticator.snp.makeConstraints { (make) in
+            make.size.equalTo(40)
+            make.center.equalToSuperview()
+        }
+        activityInticator.startAnimating()
+    }
+    
+    func stopLoading() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            activityInticator.stopAnimating()
+            activityInticator.snp.removeConstraints()
+            activityInticator.removeFromSuperview()
+        }
         
-        let waitText = "Подождите..."
-        alert.message = waitText
-        
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = .gray
-
-        alert.view.addSubview(loadingIndicator)
-        loadingIndicator.startAnimating()
-        present(alert, animated: false, completion: nil)
     }
     
 }
+
+let activityInticator: NVActivityIndicatorView = {
+    var view = NVActivityIndicatorView(
+        frame: .zero, type: .ballSpinFadeLoader,
+        color: .gray, padding: 0)
+    return view
+}()
+
+

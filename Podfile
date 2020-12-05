@@ -15,6 +15,7 @@ target 'ZarinShop' do
   pod 'IQKeyboardManagerSwift', '6.5.0'
   pod 'BetterSegmentedControl', '~> 1.3'
   pod 'ColorMatchTabs'
-  pod 'Reveal-SDK', :configurations => ['Debug']
+  pod 'KeychainAccess'
+  pod 'NVActivityIndicatorView'
 
 end

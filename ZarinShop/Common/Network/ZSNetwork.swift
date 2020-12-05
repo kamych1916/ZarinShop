@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import KeychainAccess
 
 typealias Network = ZSNetwork
 typealias Success<T> = (_ data: T) -> Void
@@ -18,14 +19,17 @@ class ZSNetwork {
     // MARK: - constants
     
     static let shared = ZSNetwork()
+    static let keychein = Keychain()
     
     // MARK: - Private Variables
     
     private let baseURL = "http://zarinshop.site:49354/api/v1/"
-    private var headers: [String: String] = [
-        "Accept": "*/*",
-        "Connection": "keep-alive",
-        "Accept-Encoding": "gzip, deflate, br"]
+    //private let baseURL = "https://mirllex.site/server/api/v1/"
+    private var headers: [String: String] {
+        guard let token = ZSNetwork.keychein["service_token"] else { return [:] }
+        let headers = ["authorization": "Bearer \(token)"]
+        return headers
+    }
     
     // MARK: - Initialization
     
@@ -39,13 +43,18 @@ class ZSNetwork {
                              completion: @escaping (Swift.Result<T, ZSNetworkError>) -> ()) {
         
         var fullPath = self.baseURL
+        
         if let url = url {
             fullPath += url.rawValue
         } else if let urlStr = urlStr {
             fullPath += urlStr
         }
-        guard let url = URL(string: fullPath) else { return }
-        print("full path: " + fullPath)
+        
+        guard let url = URL(string: fullPath) else {
+            completion(.failure(.unowned("Не верный адресс")))
+            return
+        }
+        
         Alamofire.request(
             url, method: method,
             parameters: parameters,
@@ -53,41 +62,46 @@ class ZSNetwork {
             headers: self.headers)
             .responseData { (response) in
                 
-                //self.printJson(from: response)
-                //self.printBody(from: response)
-                
                 switch (response.result) {
                 case .success(let data):
                     guard let code = response.response?.statusCode else { return }
                     switch code {
                     case 200...299:
-                        if let json = try? JSONDecoder().decode(T.self, from: data) {
+                        do {
+                            let json = try JSONDecoder().decode(T.self, from: data)
                             completion(.success(json))
+                        } catch {
+                            completion(.failure(.parsing))
                         }
-                        break
+                        return
                     case 401:
                         UserDefaults.standard.setLogoutUser()
                         completion(.failure(.unauthorized))
-                        break
+                        return
                     case 400...500:
-                        if let errorJson = try? JSONDecoder().decode(ZSErrorModel.self, from: data) {
-                            guard let code = response.response?.statusCode else { return }
-                            completion(.failure(.unowned("\(errorJson.detail),/n code:\(code)")))
-                            return
+                        do {
+                            let errorJson = try JSONDecoder().decode(ZSErrorModel.self, from: data)
+                            var statusCode = 0
+                            if let code = response.response?.statusCode {
+                                statusCode = code
+                            }
+                            completion(.failure(.unowned("\(errorJson.detail)\ncode: \(statusCode)")))
+                        } catch {
+                            completion(.failure(.parsing))
                         }
-                        break
-                    default: break
+                        return
+                    default: return
                     }
-                    break
                 case .failure(let error):
                     completion(.failure(.badURL(error)))
-                    break
+                    return
                 }
             }
 
     }
     
     func delete(url: String,
+                parameters: Parameters? = nil,
                 success: @escaping () -> Void,
                 feilure: @escaping (ZSErrorModel) -> Void) {
         
@@ -95,7 +109,7 @@ class ZSNetwork {
         guard let url = URL(string: fullPath) else { return }
         
         Alamofire.request(
-            url, method: .delete, parameters: nil,
+            url, method: .delete, parameters: parameters,
             encoding: JSONEncoding.default, headers: self.headers)
             .responseData { (response) in
                 switch (response.result) {
@@ -104,40 +118,15 @@ class ZSNetwork {
                     switch code {
                     case 200...299:
                         success()
-                        break
                     case 401:
+                        UserDefaults.standard.setLogoutUser()
                         feilure(.init(detail: "Unauthorized"))
-                        break
                     default:
                         feilure(.init(detail: "Unknowed error"))
-                        break
                     }
-                    break
                 case .failure(let error):
                     feilure(.init(detail: error.localizedDescription))
-                    break
                 }
-        }
-    }
-    
-    func printJson(from response: DataResponse<Data>) {
-        if let json = response.result.value {
-            if let str = String(bytes: json, encoding: .utf8) {
-                print(response.result)
-                print("Json: " + str)
-            }
-        }
-    }
-    
-    func printBody(from response: DataResponse<Data>) {
-        if let request = response.request {
-            if let body = request.httpBody {
-                if let str = String(bytes: body, encoding: .utf8) {
-                    print("Request: \(request)")
-                    print("Body: " + str)
-                }
-            }
-            
         }
     }
     

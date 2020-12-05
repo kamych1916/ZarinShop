@@ -15,7 +15,9 @@ class ZSBaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.setupNavigationBar()
+        extendedLayoutIncludesOpaqueBars = true
+        hideKeyboardWhenTappedAround()
+        setupNavigationBar()
     }
 
     // MARK: - Setters
@@ -27,5 +29,7 @@ class ZSBaseViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
     }
+    
+    
     
 }

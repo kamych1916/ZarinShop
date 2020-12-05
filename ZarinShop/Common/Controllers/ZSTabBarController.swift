@@ -12,8 +12,8 @@ class TabBarController: UITabBarController {
     
     // MARK: - GUI variables
     
-    private lazy var mainTab: UIViewController = {
-        let controller = UIViewController()
+    private lazy var mainTab: ZSMainViewController = {
+        let controller = ZSMainViewController()
         controller.tabBarItem = UITabBarItem(
             title: "Главная",
             image: UIImage(named: "home"), tag: 0)

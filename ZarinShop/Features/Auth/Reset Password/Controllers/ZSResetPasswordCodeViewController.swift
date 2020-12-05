@@ -31,7 +31,7 @@ class ZSResetPasswordCodeViewController: UIViewController {
     }
     
     private var sectionSize: CGSize {
-        return CGSize(width: self.view.bounds.width / 1.2, height: 60)
+        return CGSize(width: view.bounds.width / 1.2, height: 60)
     }
     
     // MARK: - GUI Variables
@@ -82,11 +82,11 @@ class ZSResetPasswordCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .white
-        self.hideKeyboardWhenTappedAround()
-        self.addSubviews()
-        self.makeConstraints()
-        self.setupGestures()
+        view.backgroundColor = .white
+        hideKeyboardWhenTappedAround()
+        addSubviews()
+        makeConstraints()
+        setupGestures()
     }
     
     func initController(email: String) {
@@ -96,47 +96,47 @@ class ZSResetPasswordCodeViewController: UIViewController {
     // MARK: - Constraits
     
     private func makeConstraints() {
-        self.companyNameLabel.snp.makeConstraints { (make) in
+        companyNameLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(50)
             make.centerX.equalToSuperview()
-            make.width.equalTo(self.sectionSize.width)
+            make.width.equalTo(sectionSize.width)
         }
-        self.titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.companyNameLabel.snp.bottom).offset(40)
+        titleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(companyNameLabel.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
-            make.width.equalTo(self.sectionSize.width)
+            make.width.equalTo(sectionSize.width)
         }
-        self.codeField.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(30)
+        codeField.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
-            make.size.equalTo(self.sectionSize)
+            make.size.equalTo(sectionSize)
         }
-        self.newPasswordField.snp.makeConstraints { (make) in
-            make.top.equalTo(self.codeField.snp.bottom).offset(20)
+        newPasswordField.snp.makeConstraints { (make) in
+            make.top.equalTo(codeField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
-            make.size.equalTo(self.sectionSize)
+            make.size.equalTo(sectionSize)
         }
-        self.continueButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.newPasswordField.snp.bottom).offset(20)
+        continueButton.snp.makeConstraints { (make) in
+            make.top.equalTo(newPasswordField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
-            make.size.equalTo(self.sectionSize)
+            make.size.equalTo(sectionSize)
         }
     }
     
     // MARK: - Setters
     
     private func addSubviews() {
-        self.view.addSubview(self.companyNameLabel)
-        self.view.addSubview(self.titleLabel)
-        self.view.addSubview(self.codeField)
-        self.view.addSubview(self.newPasswordField)
-        self.view.addSubview(self.continueButton)
+        view.addSubview(companyNameLabel)
+        view.addSubview(titleLabel)
+        view.addSubview(codeField)
+        view.addSubview(newPasswordField)
+        view.addSubview(continueButton)
     }
     
     private func setupGestures() {
-        self.continueButton.addTarget(self, action: #selector(self.continueButtonTapped), for: .touchUpInside)
-        self.codeField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
-        self.newPasswordField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
+        continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+        codeField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
+        newPasswordField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
     }
     
     // MARK: - Helpers
@@ -148,7 +148,7 @@ class ZSResetPasswordCodeViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Продолжить", style: .default, handler: { (action) in
             NotificationCenter.default.post(name: .registationIsSuccessfully, object: nil)
         }))
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Actions
@@ -158,41 +158,38 @@ class ZSResetPasswordCodeViewController: UIViewController {
     }
     
     @objc private func continueButtonTapped() {
-        self.loadingAlert()
+        startLoading()
         Network.shared.request(
             url: .changePassword, method: .post,
             isQueryString: true,
-            parameters: self.params)
+            parameters: params)
         { [weak self] (response: Result<ZSSignupResponseModel, ZSNetworkError>) in
             guard let self = self else { return }
-            self.dismiss(animated: true, completion: {
-                switch response {
-                case .success(_):
-                    self.showSuccessAlert()
-                    break
-                case .failure(let error):
-                    self.alertError(message: error.getDescription())
-                    break
-                }
-            })
+            switch response {
+            case .success(_):
+                self.showSuccessAlert()
+            case .failure(let error):
+                self.alertError(message: error.getDescription())
+            }
+            self.stopLoading()
         }
     }
     
     @objc private func textFieldValueChanged(_ sender: UITextField) {
-        guard let code = self.codeField.text,
-            let password = self.newPasswordField.text,
+        guard let code = codeField.text,
+            let password = newPasswordField.text,
             !code.isEmpty,
             password.count >= 6 else {
-                if self.isContinueButtonEnable {
-                    self.isContinueButtonEnable = false
+                if isContinueButtonEnable {
+                    isContinueButtonEnable = false
                 }
             return
         }
         
-        self.params = ["email": self.email,
+        params = ["email": email,
                        "code": code,
                        "new_password": password]
-        self.isContinueButtonEnable = true
+        isContinueButtonEnable = true
     }
     
 }

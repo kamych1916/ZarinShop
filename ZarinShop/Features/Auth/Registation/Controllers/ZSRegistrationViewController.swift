@@ -189,16 +189,16 @@ class ZSRegistrationViewController: UIViewController {
     // MARK: - Setters
     
     private func addSubviews() {
-        self.view.addSubview(self.scrollView)
-        self.scrollView.addSubview(self.companyNameLabel)
-        self.scrollView.addSubview(self.titleLabel)
-        self.scrollView.addSubview(self.firstnameField)
-        self.scrollView.addSubview(self.lastnameField)
-        self.scrollView.addSubview(self.phoneField)
-        self.scrollView.addSubview(self.emailField)
-        self.scrollView.addSubview(self.passwordField)
-        self.scrollView.addSubview(self.registerButton)
-        self.scrollView.addSubview(self.privacyLabel)
+        view.addSubview(scrollView)
+        scrollView.addSubview(companyNameLabel)
+        scrollView.addSubview(titleLabel)
+        scrollView.addSubview(firstnameField)
+        scrollView.addSubview(lastnameField)
+        scrollView.addSubview(phoneField)
+        scrollView.addSubview(emailField)
+        scrollView.addSubview(passwordField)
+        scrollView.addSubview(registerButton)
+        scrollView.addSubview(privacyLabel)
     }
     
     private func setupNavigationBar() {
@@ -206,34 +206,35 @@ class ZSRegistrationViewController: UIViewController {
     }
     
     private func setupGestures() {
-        self.registerButton.addTarget(self, action: #selector(self.registerButtonTapped), for: .touchUpInside)
-        self.firstnameField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
-        self.lastnameField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
-        self.phoneField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
-        self.emailField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
-        self.passwordField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
+        registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+        firstnameField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
+        lastnameField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
+        phoneField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
+        emailField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
+        passwordField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
     }
     
     // MARK: - Actions
     
     @objc private func dismissButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func textFieldValueChanged(_ sender: UITextField) {
-        guard let firstname = self.firstnameField.text,
-            let lastname = self.lastnameField.text,
-            let phone = self.phoneField.text,
-            let email = self.emailField.text,
-            let password = self.passwordField.text,
+        guard let firstname = firstnameField.text,
+            let lastname = lastnameField.text,
+            let phone = phoneField.text,
+            let email = emailField.text,
+            let password = passwordField.text,
             !firstname.isEmpty,
             !lastname.isEmpty,
             !phone.isEmpty,
             !email.isEmpty,
             !password.isEmpty,
-        password.count >= 6 else {
-            if self.isRegisterButtonEnable {
-                self.isRegisterButtonEnable = false
+            password.count >= 6 else {
+            
+            if isRegisterButtonEnable {
+                isRegisterButtonEnable = false
             }
             return
         }
@@ -247,24 +248,21 @@ class ZSRegistrationViewController: UIViewController {
     }
     
     @objc private func registerButtonTapped() {
-        self.loadingAlert()
+        startLoading()
         Network.shared.request(
             url: .signup, method: .post,
             parameters: self.params)
         { [weak self] (response: Result<ZSSignupUserModel, ZSNetworkError>) in
             guard let self = self else { return }
-            self.dismiss(animated: true, completion: {
-                switch response {
-                case .success(let model):
-                    let codeVC = ZSRegistrationCodeViewController()
-                    codeVC.initController(email: model.email)
-                    self.navigationController?.pushViewController(codeVC, animated: true)
-                    break
-                case .failure(let error):
-                    self.alertError(message: error.getDescription())
-                    break
-                }
-            })
+            switch response {
+            case .success(let model):
+                let codeVC = ZSRegistrationCodeViewController()
+                codeVC.initController(email: model.email)
+                self.navigationController?.pushViewController(codeVC, animated: true)
+            case .failure(let error):
+                self.alertError(message: error.getDescription())
+            }
+            self.stopLoading()
         }
     }
     

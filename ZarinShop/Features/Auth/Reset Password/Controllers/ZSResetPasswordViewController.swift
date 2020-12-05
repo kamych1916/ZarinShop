@@ -30,7 +30,7 @@ class ZSResetPasswordViewController: UIViewController {
     }
     
     private var sectionSize: CGSize {
-        return CGSize(width: self.view.bounds.width / 1.2, height: 60)
+        return CGSize(width: view.bounds.width / 1.2, height: 60)
     }
     
     // MARK: - GUI Variables
@@ -72,7 +72,7 @@ class ZSResetPasswordViewController: UIViewController {
     private lazy var dismissButton: UIBarButtonItem = {
         var button = UIBarButtonItem(
             image: UIImage(named: "dismiss"), style: .plain,
-            target: self, action: #selector(self.dismissButtonTapped))
+            target: self, action: #selector(dismissButtonTapped))
         button.tintColor = .textDarkColor
         return button
     }()
@@ -82,97 +82,94 @@ class ZSResetPasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .white
-        self.hideKeyboardWhenTappedAround()
-        self.setupNavigationBar()
-        self.addSubviews()
-        self.makeConstraints()
-        self.setupGestures()
+        view.backgroundColor = .white
+        hideKeyboardWhenTappedAround()
+        setupNavigationBar()
+        addSubviews()
+        makeConstraints()
+        setupGestures()
     }
     
     // MARK: - Constraits
     
     private func makeConstraints() {
-        self.companyNameLabel.snp.makeConstraints { (make) in
+        companyNameLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(50)
             make.centerX.equalToSuperview()
-            make.width.equalTo(self.sectionSize.width)
+            make.width.equalTo(sectionSize.width)
         }
-        self.titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.companyNameLabel.snp.bottom).offset(40)
+        titleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(companyNameLabel.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
-            make.width.equalTo(self.sectionSize.width)
+            make.width.equalTo(sectionSize.width)
         }
-        self.emailField.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(30)
+        emailField.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
-            make.size.equalTo(self.sectionSize)
+            make.size.equalTo(sectionSize)
         }
-        self.continueButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.emailField.snp.bottom).offset(20)
+        continueButton.snp.makeConstraints { (make) in
+            make.top.equalTo(emailField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
-            make.size.equalTo(self.sectionSize)
+            make.size.equalTo(sectionSize)
         }
     }
     
     // MARK: - Setters
     
     private func addSubviews() {
-        self.view.addSubview(self.companyNameLabel)
-        self.view.addSubview(self.titleLabel)
-        self.view.addSubview(self.emailField)
-        self.view.addSubview(self.continueButton)
+        view.addSubview(companyNameLabel)
+        view.addSubview(titleLabel)
+        view.addSubview(emailField)
+        view.addSubview(continueButton)
     }
     
     private func setupNavigationBar() {
-        self.navigationItem.leftBarButtonItem = self.dismissButton
+        navigationItem.leftBarButtonItem = dismissButton
     }
     
     private func setupGestures() {
-        self.continueButton.addTarget(self, action: #selector(self.continueButtonTapped), for: .touchUpInside)
-        self.emailField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
+        continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+        emailField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
     }
     
     // MARK: - Actions
     
     @objc private func continueButtonTapped() {
-        self.loadingAlert()
+        startLoading()
         Network.shared.request(
             url: .resetPassword, method: .get,
-            isQueryString: true, parameters: self.params)
-        { [weak self] (response: Result<ZSSigninUserModel, ZSNetworkError>) in
+            isQueryString: true, parameters: params)
+        { [weak self] (response: Result<ZSSignupUserModel, ZSNetworkError>) in
             guard let self = self else { return }
-            self.dismiss(animated: true, completion: {
-                switch response {
-                case .success(let model):
-                    let codeVC = ZSResetPasswordCodeViewController()
-                    codeVC.initController(email: model.email)
-                    self.navigationController?.pushViewController(codeVC, animated: true)
-                    break
-                case .failure(let error):
-                    self.alertError(message: error.getDescription())
-                    break
-                }
-            })
+            switch response {
+            case .success(let model):
+                let codeVC = ZSResetPasswordCodeViewController()
+                codeVC.initController(email: model.email)
+                self.navigationController?.pushViewController(codeVC, animated: true)
+            case .failure(let error):
+                self.alertError(message: error.getDescription())
+            }
+            self.stopLoading()
         }
     }
     
     @objc private func dismissButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func textFieldValueChanged(_ sender: UITextField) {
-        guard let email = self.emailField.text,
+        guard let email = emailField.text,
             !email.isEmpty,
             email.count >= 4 else {
-            if self.isContinueButtonEnable {
-                self.isContinueButtonEnable = false
+            if isContinueButtonEnable {
+                isContinueButtonEnable = false
             }
             return
         }
         
-        self.params = ["email": email]
-        self.isContinueButtonEnable = true
+        params = ["email": email]
+        isContinueButtonEnable = true
     }
     
 }

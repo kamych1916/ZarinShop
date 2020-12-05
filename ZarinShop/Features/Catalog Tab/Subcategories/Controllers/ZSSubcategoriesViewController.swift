@@ -12,8 +12,8 @@ class ZSSubcategoriesViewController: ZSBaseViewController {
     
     // MARK: - Private Variables
     
-    private var mainCategory: ZSCategoriesModel!
     private var categories: [ZSSubcategoriesModel]!
+    private var controllerTitle: String!
     private let cellIdentifier = "SubcategoriesTableViewCell"
 
     // MARK: - GUI Variables
@@ -33,11 +33,11 @@ class ZSSubcategoriesViewController: ZSBaseViewController {
     
     // MARK: - Initialization
     
-    convenience init(category: ZSCategoriesModel) {
+    convenience init(subcategories: [ZSSubcategoriesModel], title: String) {
         self.init()
         
-        self.mainCategory = category
-        self.categories = category.subcategories
+        self.categories = subcategories
+        self.controllerTitle = title
     }
     
     // MARK: - View life cycle
@@ -46,7 +46,7 @@ class ZSSubcategoriesViewController: ZSBaseViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        navigationItem.title = mainCategory.name
+        title = controllerTitle
         addSubviews()
         makeConstraints()
     }
@@ -85,8 +85,7 @@ extension ZSSubcategoriesViewController: UITableViewDelegate, UITableViewDataSou
         let cell = UITableViewCell(style: .value1, reuseIdentifier: cellIdentifier)
         let model = categories[indexPath.row]
         cell.textLabel?.text = model.name
-        cell.detailTextLabel?.text = "\(model.subcategories.count) шт."
-        cell.accessoryType = .disclosureIndicator
+        cell.accessoryType = model.subcategories.count > 0 ? .disclosureIndicator : .none
         return cell
     }
     
@@ -98,6 +97,11 @@ extension ZSSubcategoriesViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let model = categories[indexPath.row]
+        let controller: UIViewController = model.subcategories.count > 0 ?
+            ZSSubcategoriesViewController(subcategories: model.subcategories, title: model.name) :
+            ZSProductsViewController(subcategory: model)
+        Interface.shared.pushVC(vc: controller)
     }
     
 }

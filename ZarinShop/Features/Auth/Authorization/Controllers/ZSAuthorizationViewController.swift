@@ -33,7 +33,7 @@ class ZSAuthorizationViewController: UIViewController {
         }
     }
     private var sectionSize: CGSize {
-        return CGSize(width: self.view.bounds.width / 1.2, height: 60)
+        return CGSize(width: view.bounds.width / 1.2, height: 60)
     }
     
     // MARK: - GUI Variables
@@ -142,7 +142,7 @@ class ZSAuthorizationViewController: UIViewController {
     private lazy var dismissButton: UIButton = {
         var button = UIButton(type: .system)
         button.setImage(UIImage(named: "dismiss"), for: .normal)
-        button.addTarget(self, action: #selector(self.dismissButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
         button.tintColor = .textDarkColor
         return button
     }()
@@ -152,73 +152,78 @@ class ZSAuthorizationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .white
-        self.view.isUserInteractionEnabled = true
-        self.hideKeyboardWhenTappedAround()
-        self.addSubviews()
-        self.makeConstraints()
-        self.setupGestures()
-        self.addObservers()
+        view.backgroundColor = .white
+        view.isUserInteractionEnabled = true
+        hideKeyboardWhenTappedAround()
+        addSubviews()
+        makeConstraints()
+        setupGestures()
+        addObservers()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self, name: .registationIsSuccessfully, object: nil)
     }
     
     // MARK: - Constraits
     
     private func makeConstraints() {
-        self.dismissButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+        dismissButton.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.left.equalToSuperview().inset(10)
             make.size.equalTo(40)
         }
-        self.scrollView.snp.makeConstraints { (make) in
+        scrollView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
         }
-        self.companyNameLabel.snp.makeConstraints { (make) in
+        companyNameLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(150)
             make.centerX.equalToSuperview()
-            make.width.equalTo(self.sectionSize.width)
+            make.width.equalTo(sectionSize.width)
         }
-        self.titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.companyNameLabel.snp.bottom).offset(40)
+        titleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(companyNameLabel.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
-            make.width.equalTo(self.sectionSize.width)
+            make.width.equalTo(sectionSize.width)
         }
-        self.emailField.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(30)
+        emailField.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
-            make.size.equalTo(self.sectionSize)
+            make.size.equalTo(sectionSize)
         }
-        self.passwordField.snp.makeConstraints { (make) in
-            make.top.equalTo(self.emailField.snp.bottom).offset(20)
+        passwordField.snp.makeConstraints { (make) in
+            make.top.equalTo(emailField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
-            make.size.equalTo(self.sectionSize)
+            make.size.equalTo(sectionSize)
         }
-        self.loginButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.passwordField.snp.bottom).offset(20)
+        loginButton.snp.makeConstraints { (make) in
+            make.top.equalTo(passwordField.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
-            make.size.equalTo(self.sectionSize)
+            make.size.equalTo(sectionSize)
         }
-        self.registerView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.loginButton.snp.bottom).offset(20)
+        registerView.snp.makeConstraints { (make) in
+            make.top.equalTo(loginButton.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
-        self.registerLabel.snp.makeConstraints { (make) in
+        registerLabel.snp.makeConstraints { (make) in
             make.left.top.bottom.equalToSuperview()
         }
-        self.registerButton.snp.makeConstraints { (make) in
-            make.left.equalTo(self.registerLabel.snp.right).offset(5)
+        registerButton.snp.makeConstraints { (make) in
+            make.left.equalTo(registerLabel.snp.right).offset(5)
             make.top.right.bottom.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-        self.resetView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.registerView.snp.bottom)
+        resetView.snp.makeConstraints { (make) in
+            make.top.equalTo(registerView.snp.bottom)
             make.centerX.equalToSuperview()
         }
-        self.resetLabel.snp.makeConstraints { (make) in
+        resetLabel.snp.makeConstraints { (make) in
             make.left.top.bottom.equalToSuperview()
         }
-        self.resetButton.snp.makeConstraints { (make) in
-            make.left.equalTo(self.resetLabel.snp.right).offset(5)
+        resetButton.snp.makeConstraints { (make) in
+            make.left.equalTo(resetLabel.snp.right).offset(5)
             make.top.right.bottom.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -227,39 +232,39 @@ class ZSAuthorizationViewController: UIViewController {
     // MARK: - Setters
     
     private func addSubviews() {
-        self.view.addSubview(self.scrollView)
-        self.view.addSubview(self.dismissButton)
-        self.scrollView.addSubview(self.companyNameLabel)
-        self.scrollView.addSubview(self.titleLabel)
-        self.scrollView.addSubview(self.emailField)
-        self.scrollView.addSubview(self.passwordField)
-        self.scrollView.addSubview(self.loginButton)
-        self.scrollView.addSubview(self.registerView)
-        self.scrollView.addSubview(self.resetView)
-        self.registerView.addSubview(self.registerLabel)
-        self.registerView.addSubview(self.registerButton)
-        self.resetView.addSubview(self.resetLabel)
-        self.resetView.addSubview(self.resetButton)
+        view.addSubview(scrollView)
+        view.addSubview(dismissButton)
+        scrollView.addSubview(companyNameLabel)
+        scrollView.addSubview(titleLabel)
+        scrollView.addSubview(emailField)
+        scrollView.addSubview(passwordField)
+        scrollView.addSubview(loginButton)
+        scrollView.addSubview(registerView)
+        scrollView.addSubview(resetView)
+        registerView.addSubview(registerLabel)
+        registerView.addSubview(registerButton)
+        resetView.addSubview(resetLabel)
+        resetView.addSubview(resetButton)
     }
     
     private func setupGestures() {
-        self.loginButton.addTarget(self, action: #selector(self.loginButtonTapped), for: .touchUpInside)
-        self.registerButton.addTarget(self, action: #selector(self.registerButtonTapped), for: .touchUpInside)
-        self.resetButton.addTarget(self, action: #selector(self.resetButtonTapped), for: .touchUpInside)
-        self.emailField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
-        self.passwordField.addTarget(self, action: #selector(self.textFieldValueChanged), for: .editingChanged)
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+        resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
+        emailField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
+        passwordField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
     }
     
     private func addObservers() {
         NotificationCenter.default.addObserver(
-            self, selector: #selector(self.registrationIsSuccesfully),
+            self, selector: #selector(registrationIsSuccesfully),
             name: .registationIsSuccessfully, object: nil)
     }
     
     // MARK: - Actions
     
     @objc private func dismissButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func registerButtonTapped(_ sender: UIButton) {
@@ -276,27 +281,24 @@ class ZSAuthorizationViewController: UIViewController {
                 self?.loginHandler?()
             })
         }
-        self.present(navigVC, animated: true, completion: nil)
+        present(navigVC, animated: true, completion: nil)
     }
     
     @objc private func loginButtonTapped() {
-        self.loadingAlert()
+        startLoading()
         Network.shared.request(
             url: .signin, method: .post,
-            parameters: self.params)
+            parameters: params)
         { [weak self] (response: Result<ZSSigninUserModel, ZSNetworkError>) in
             guard let self = self else { return }
-            self.dismiss(animated: true, completion: {
-                switch response {
-                case .success(let model):
-                    UserDefaults.standard.setSinginUser(user: model)
-                    self.loginHandler?()
-                    break
-                case .failure(let error):
-                    self.alertError(message: error.getDescription())
-                    break
-                }
-            })
+            switch response {
+            case .success(let model):
+                UserDefaults.standard.setSinginUser(model)
+                self.loginHandler?()
+            case .failure(let error):
+                self.alertError(message: error.getDescription())
+            }
+            self.stopLoading()
         }
     }
     
@@ -309,29 +311,29 @@ class ZSAuthorizationViewController: UIViewController {
         navigVC.navigationItem.backBarButtonItem?.tintColor = .mainColor
         navigVC.navigationBar.shadowImage = UIImage()
         navigVC.navigationBar.isTranslucent = false
-        self.present(navigVC, animated: true, completion: nil)
+        present(navigVC, animated: true, completion: nil)
 
     }
     
     @objc private func registrationIsSuccesfully() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func textFieldValueChanged(_ sender: UITextField) {
-        guard let email = self.emailField.text,
-            let password = self.passwordField.text,
+        guard let email = emailField.text,
+            let password = passwordField.text,
             !email.isEmpty,
             !password.isEmpty,
         password.count >= 6 else {
-            if self.isLoginButtonEnable {
-                self.isLoginButtonEnable = false
+            if isLoginButtonEnable {
+                isLoginButtonEnable = false
             }
             return
         }
         
-        self.params = ["email": email,
+        params = ["email": email,
                        "password": password]
-        self.isLoginButtonEnable = true
+        isLoginButtonEnable = true
     }
     
 }

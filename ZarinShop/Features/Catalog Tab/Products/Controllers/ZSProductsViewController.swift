@@ -18,42 +18,50 @@ class ZSProductsViewController: ZSBaseViewController {
     private var categories: [ZSSubcategoriesModel] = []
     private var products: [ZSProductModel] = []
     private var isSearching: Bool = false
-    private var isHiddenCategories: Bool = false
     private var searchedProducts: [ZSProductModel] = []
-    private var filterParams: [String: String] =
-        ["color": "0000FF", "fromPrice": "1000", "toPrice": "100000"]
+    private var filterParams: [String: String] = ["color": "0000FF",
+                                                  "fromPrice": "1000",
+                                                  "toPrice": "100000"]
     private var itemsAspect: CGFloat {
         return UIScreen.main.bounds.width - 20 - 20 - 10
     }
     
     // MARK: - GUI Variables
     
-    private lazy var mainView: ZSProductsMainView = {
-        var view = ZSProductsMainView()
-        view.categoriesCollectionView.delegate = self
-        view.categoriesCollectionView.dataSource = self
-        view.productsCollectionView.delegate = self
-        view.productsCollectionView.dataSource = self
-        view.isHiddenCategories = self.isHiddenCategories
-        view.translatesAutoresizingMaskIntoConstraints = true
-        return view
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets.zero
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        
+        var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(
+            ZSProductsCollectionViewCell.self,
+            forCellWithReuseIdentifier: ZSProductsCollectionViewCell.identifier)
+        return collectionView
     }()
     
-    private lazy var filterBarButton: UIBarButtonItem = {
+    lazy var filterBarButton: UIBarButtonItem = {
         var button = UIBarButtonItem(
             image: UIImage(named: "filter"),
             style: .plain, target: self,
-            action: #selector(self.filterButtonTapped))
-        button.tintColor = .mainColor
+            action: #selector(filterButtonTapped))
+        button.tintColor = .textDarkColor
         return button
     }()
 
-    private lazy var sortBarButton: UIBarButtonItem = {
+    lazy var sortBarButton: UIBarButtonItem = {
         var button = UIBarButtonItem(
             image: UIImage(named: "sort"),
             style: .plain, target: self,
-            action: #selector(self.sortButtonTapped))
-        button.tintColor = .mainColor
+            action: #selector(sortButtonTapped))
+        button.tintColor = .textDarkColor
         return button
     }()
         
@@ -65,16 +73,6 @@ class ZSProductsViewController: ZSBaseViewController {
         self.controllerTitle = subcategory.name
         self.initId = subcategory.id
         self.categories = subcategory.subcategories
-        self.isHiddenCategories = false
-    }
-    
-    convenience init(category: ZSCategoriesModel) {
-        self.init()
-        
-        self.controllerTitle = category.name
-        self.initId = category.id
-        self.categories = []
-        self.isHiddenCategories = true
     }
     
     // MARK: - View Lifecycle
@@ -82,18 +80,25 @@ class ZSProductsViewController: ZSBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .mainLightColor
-        self.setupNavigationBar()
-        self.addSubviews()
-        self.makeConstraints()
-        self.loadProducts(with: self.initId)
+        view.backgroundColor = .white
+        setupNavigationBar()
+        addSubviews()
+        makeConstraints()
+        loadProducts(with: initId)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
     }
     
     // MARK: - Constraints
     
     private func makeConstraints() {
-        self.mainView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+        collectionView.snp.makeConstraints { (make) in
+            make.top.bottom.equalToSuperview()
+            make.left.right.equalToSuperview().inset(16)
         }
     }
     
@@ -106,7 +111,7 @@ class ZSProductsViewController: ZSBaseViewController {
         controller.selected = { [weak self] index in
             self?.sortProducts(index)
         }
-        self.present(controller, animated: true, completion: nil)
+        present(controller, animated: true, completion: nil)
     }
     
     @objc private func filterButtonTapped(_ button: UIBarButtonItem) {
@@ -118,14 +123,14 @@ class ZSProductsViewController: ZSBaseViewController {
             self?.filterParams = params
             self?.filterProducts()
         }
-        self.present(controller, animated: true, completion: nil)
+        present(controller, animated: true, completion: nil)
     }
     
     // MARK: - Setters
     
     private func addSubviews() {
-        self.view.addSubview(self.mainView)
-        self.navigationItem.rightBarButtonItems = [self.sortBarButton, self.filterBarButton]
+        view.addSubview(collectionView)
+        navigationItem.rightBarButtonItems = [sortBarButton, filterBarButton]
     }
     
     private func setSelectedFirstCell(for collectionView: UICollectionView) {
@@ -134,29 +139,26 @@ class ZSProductsViewController: ZSBaseViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationItem.title = self.controllerTitle
+        navigationItem.title = self.controllerTitle
     }
     
     // MARK: - Network
     
     private func loadProducts(with id: String) {
-        self.loadingAlert()
+        startLoading()
         Network.shared.request(
             urlStr: URLPath.productsByID.rawValue + id,
             method: .get)
         { [weak self] (response: Result<[ZSProductModel], ZSNetworkError>) in
             guard let self = self else { return }
-            self.dismiss(animated: true, completion: {
-                switch response {
-                case .success(let models):
-                    self.products = models
-                    self.mainView.productsCollectionView.reloadData()
-                    break
-                case .failure(let error):
-                    self.alertError(message: error.getDescription())
-                    break
-                }
-            })
+            switch response {
+            case .success(let models):
+                self.products = models
+                self.collectionView.reloadData()
+            case .failure(let error):
+                self.alertError(message: error.getDescription())
+            }
+            self.stopLoading()
         }
     }
     
@@ -165,22 +167,18 @@ class ZSProductsViewController: ZSBaseViewController {
     private func sortProducts(_ selectedIndex: Int) {
         switch selectedIndex {
         case 0:
-            self.searchedProducts = self.products.sorted{ return $0.price > $1.price }
-            break
+            searchedProducts = products.sorted{ return $0.price > $1.price }
         case 1:
-            self.searchedProducts = self.products.sorted{ return $0.price < $1.price }
-            break
+            searchedProducts = products.sorted{ return $0.price < $1.price }
         case 2:
-            self.searchedProducts = self.products.sorted{ return $0.discount > $1.discount }
-            break
+            searchedProducts = products.sorted{ return $0.discount > $1.discount }
         case 3:
-            self.searchedProducts = self.products.sorted{ return $0.discount < $1.discount }
-            break
+            searchedProducts = products.sorted{ return $0.discount < $1.discount }
         default:
             break
         }
-        self.isSearching = true
-        self.mainView.productsCollectionView.reloadData()
+        isSearching = true
+        collectionView.reloadData()
     }
     
     private func filterProducts() {
@@ -191,16 +189,16 @@ class ZSProductsViewController: ZSBaseViewController {
               let from = Double(fromPrice),
               let to = Double(toPrice) else {
             self.isSearching = false
-            self.mainView.productsCollectionView.reloadData()
+            self.collectionView.reloadData()
             return
         }
         
-        self.searchedProducts = self.products.filter({ (product) -> Bool in
+        searchedProducts = products.filter({ (product) -> Bool in
             return product.color == color &&
                 (product.price >= from && product.price <= to)
         })
-        self.isSearching = true
-        self.mainView.productsCollectionView.reloadData()
+        isSearching = true
+        collectionView.reloadData()
     }
     
 }
@@ -210,59 +208,31 @@ class ZSProductsViewController: ZSBaseViewController {
 extension ZSProductsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView === self.mainView.categoriesCollectionView {
-            return self.categories.count
-        }
         if self.isSearching {
-            return self.searchedProducts.count
+            return searchedProducts.count
         }
-        return self.products.count
+        return products.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView === self.mainView.categoriesCollectionView  {
-            let cell = self.getCategoriesCollectionViewCell(at: indexPath)
-            return cell
-        }
-        return self.getProductsCollectionViewCell(at: indexPath)
+        return getProductsCollectionViewCell(at: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView === self.mainView.categoriesCollectionView  {
-            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            self.loadProducts(with: self.categories[indexPath.row].id)
-        }  else {
-            let controller = ZSProductDetailViewController(product: self.products[indexPath.row])
-            Interface.shared.pushVC(vc: controller)
-        }
-    }
-    
-    private func getCategoriesCollectionViewCell(at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = self.mainView.categoriesCollectionView.dequeueReusableCell(
-            withReuseIdentifier: ZSGategoriesCollectionViewCell.reuseId, for: indexPath)
-        (cell as? ZSGategoriesCollectionViewCell)?
-            .initCell(title: self.categories[indexPath.row].name)
-        return cell
+        let controller = ZSProductDetailViewController(product: self.products[indexPath.row])
+        Interface.shared.pushVC(vc: controller)
     }
 
     private func getProductsCollectionViewCell(at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = self.mainView.productsCollectionView.dequeueReusableCell(
-            withReuseIdentifier: ZSProductsCollectionViewCell.reuseId, for: indexPath)
-        let model = self.isSearching ? self.searchedProducts[indexPath.row] : self.products[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ZSProductsCollectionViewCell.identifier, for: indexPath)
+        let model = isSearching ? searchedProducts[indexPath.row] : products[indexPath.row]
         (cell as? ZSProductsCollectionViewCell)?.initCell(with: model)
-        cell.layoutIfNeeded()
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var size = CGSize(width: self.itemsAspect / 2, height: self.itemsAspect)
-        if collectionView === self.mainView.categoriesCollectionView  {
-            let label = UILabel()
-            label.text = self.categories[indexPath.row].name
-            let width = label.intrinsicContentSize.width + 10 + 10 + 10
-            size = CGSize(width: width, height: 45)
-        }
-        return size
+        return CGSize(width: self.itemsAspect / 2, height: self.itemsAspect)
     }
 
 }
@@ -273,19 +243,19 @@ extension ZSProductsViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText == "" {
-            self.mainView.productsCollectionView.reloadData()
+            collectionView.reloadData()
         } else {
-            self.searchedProducts = self.products.filter({ (data: ZSProductModel) -> Bool in
+            searchedProducts = products.filter({ (data: ZSProductModel) -> Bool in
                 return data.name.lowercased().contains(searchText.lowercased())
             })
-            self.isSearching = true
+            isSearching = true
         }
-        self.mainView.productsCollectionView.reloadData()
+        collectionView.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.isSearching = false
-        self.mainView.productsCollectionView.reloadData()
+        isSearching = false
+        collectionView.reloadData()
     }
     
 }

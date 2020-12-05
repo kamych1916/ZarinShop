@@ -7,10 +7,13 @@ PODS:
     - ImageSlideshow/Core (= 1.9.1)
   - ImageSlideshow/Core (1.9.1)
   - IQKeyboardManagerSwift (6.5.0)
+  - KeychainAccess (4.2.1)
   - Kingfisher (5.15.0):
     - Kingfisher/Core (= 5.15.0)
   - Kingfisher/Core (5.15.0)
-  - Reveal-SDK (26)
+  - NVActivityIndicatorView (5.1.1):
+    - NVActivityIndicatorView/Base (= 5.1.1)
+  - NVActivityIndicatorView/Base (5.1.1)
   - SnapKit (4.2.0)
 
 DEPENDENCIES:
@@ -20,8 +23,9 @@ DEPENDENCIES:
   - DropDown (= 2.3.10)
   - ImageSlideshow
   - IQKeyboardManagerSwift (= 6.5.0)
+  - KeychainAccess
   - Kingfisher (~> 5.0)
-  - Reveal-SDK
+  - NVActivityIndicatorView
   - SnapKit (= 4.2.0)
 
 SPEC REPOS:
@@ -32,8 +36,9 @@ SPEC REPOS:
     - DropDown
     - ImageSlideshow
     - IQKeyboardManagerSwift
+    - KeychainAccess
     - Kingfisher
-    - Reveal-SDK
+    - NVActivityIndicatorView
     - SnapKit
 
 SPEC CHECKSUMS:
@@ -43,10 +48,11 @@ SPEC CHECKSUMS:
   DropDown: 6c3e2c28d08b46be5577796fbeb4e1dda3ad471c
   ImageSlideshow: 67184be896a28472bd3b906c33ce4e0734aa3d22
   IQKeyboardManagerSwift: 6cd19976c6e871907c4ed9127c2d3affdd4defc2
+  KeychainAccess: 9b07f665298d13c3a85881bd3171f6f49b8151c1
   Kingfisher: 1acb67597a520c2d0310677e66d6e0af455ef757
-  Reveal-SDK: 5f94f14aff3d5f2a49f246edcd266fa4472679e9
+  NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 2c660d5ba92b324f90fa24a15ba9943d7dcafa64
+PODFILE CHECKSUM: 11aa1d58f9dde16805e925463871583ffbe969c6
 
 COCOAPODS: 1.10.0
