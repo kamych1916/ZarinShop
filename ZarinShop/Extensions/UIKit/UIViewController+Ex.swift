@@ -7,7 +7,18 @@
 //
 
 import UIKit
+import SafariServices
 import NVActivityIndicatorView
+
+
+extension UIViewController {
+    
+    func presentSafariVC(with url: URL) {
+        let safariVC = SFSafariViewController(url: url)
+        present(safariVC, animated: true)
+    }
+    
+}
 
 //MARK: - Keyboard
 
@@ -99,5 +110,4 @@ let activityInticator: NVActivityIndicatorView = {
         color: .gray, padding: 0)
     return view
 }()
-
 
