@@ -115,7 +115,7 @@ export default {
           // setTimeout(()=>{this.$router.push('/')}, 1500)
         })
         .catch((error) => {
-          console.log(error)
+          console.log('kek-> ', error)
           this.$bvToast.toast("Аторизация прошла безуспешно.", {
             title: `Ошибка авторизации`,
             variant: "danger",

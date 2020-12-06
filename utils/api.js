@@ -1,6 +1,7 @@
 
 import axios from "axios";
-const API_BASE_URL = 'http://zarinshop.site:49354/api/v1';
+// const API_BASE_URL = 'http://mirllex.site:8000/api/v1';
+const API_BASE_URL = 'https://mirllex.site/server/api/v1';
 
 export default class Api {
     instance = null;
@@ -16,6 +17,15 @@ export default class Api {
     products ={
         async getDataProducts() {
             return axios.get(`${API_BASE_URL}/items`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
+        async getCategories() {
+            return axios.get(`${API_BASE_URL}/list_categories`, 
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('st')}`
@@ -86,7 +96,7 @@ export default class Api {
             return axios.post(`${API_BASE_URL}/categories`, category)
         },
         async upload_file(formData) {
-            console.log(formData)
+            console.log('API_BASE_URL-> ', API_BASE_URL)
             return axios.post(`${API_BASE_URL}/uploadfile`, formData, 
             {
                 headers: {
