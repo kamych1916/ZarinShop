@@ -23,8 +23,8 @@ class ZSNetwork {
     
     // MARK: - Private Variables
     
-    private let baseURL = "http://zarinshop.site:49354/api/v1/"
-    //private let baseURL = "https://mirllex.site/server/api/v1/"
+    //private let baseURL = "http://zarinshop.site:49354/api/v1/"
+    private let baseURL = "https://mirllex.site/server/api/v1/"
     private var headers: [String: String] {
         guard let token = ZSNetwork.keychein["service_token"] else { return [:] }
         let headers = ["authorization": "Bearer \(token)"]

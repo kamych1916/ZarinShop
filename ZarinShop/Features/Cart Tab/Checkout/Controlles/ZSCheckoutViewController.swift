@@ -11,133 +11,133 @@ import ColorMatchTabs
 
 class ZSCheckoutViewController: ZSBaseViewController {
     
-    //MARK: - Public variables
+    // MARK: - Public Variables
     
-    //MARK: - Private variables
+    // MARK: - Private Variables
     
-    //MARK: - GUI variables
+    // MARK: - GUI Variables
     
-    private let addressVC = ZSCheckoutAddressViewController()
-    private let paymentVC = ZSCheckoutPaymentViewController()
-    private let finalVC = ZSCheckoutFinalViewController()
-    
-    private lazy var controllers: [UIViewController] = {
-        return [self.addressVC, self.paymentVC, self.finalVC]
+    lazy var scrollView: UIScrollView = {
+        var scroll = UIScrollView()
+        scroll.showsVerticalScrollIndicator = false
+        scroll.contentInset.bottom = 100
+        return scroll
     }()
     
-    private lazy var topTabContainerView: UIView = {
+    lazy var contentView: UIView = {
         var view = UIView()
-        view.backgroundColor = .clear
-        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    lazy var mainView: ZSCheckoutView = {
+        var view = ZSCheckoutView()
+        view.selectedAddressLabelTappedHandler = { [weak self] in
+            let controller = ZSAdressViewController(isPresented: true)
+            let navController = UINavigationController(rootViewController: controller)
+            controller.selectedAddressHandler = { [weak self] address in
+                self?.updateAddressWith(address)
+            }
+            self?.present(navController, animated: true, completion: nil)
+        }
         return view
     }()
     
-    private lazy var topTabBar: ColorTabs = {
-        var view = ColorTabs()
-        view.dataSource = self
-        view.titleTextColor = .white
-        view.backgroundColor = .white
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 30
-        view.addTarget(self, action: #selector(self.topTabBarValueChanged), for: .valueChanged)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.reloadData()
-        return view
+    lazy var doneButton: UIButton = {
+        var button = UIButton(type: .system)
+        button.layer.cornerRadius = 25
+        button.setTitle("Готово", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
+        button.backgroundColor = .mainColor
+        button.adjustsImageWhenHighlighted = true
+        button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        return button
     }()
     
-    private lazy var mainView: UIView = {
-        var view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    //MARK: - View life cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.navigationItem.title = "Заказ"
-        self.view.backgroundColor = .groupTableViewBackground
-        self.addSubviews()
-        self.makeConstraints()
-    }
+    // MARK: - View Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //navigationItem.largeTitleDisplayMode = .never
+        navigationItem.largeTitleDisplayMode = .always
     }
     
-    //MARK: - Constraints
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "Заказ"
+        view.backgroundColor = .groupTableViewBackground
+        let addresses = AddressStorage().addresses
+        updateAddressWith(addresses.first)
+        addSubviews()
+        makeConstraints()
+    }
+    
+    // MARK: - Constraints
     
     private func makeConstraints() {
-        self.topTabContainerView.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
-            make.left.right.equalToSuperview().inset(10)
-            make.height.equalTo(80)
+        
+        scrollView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+            make.width.equalTo(view.frame.width)
         }
-        self.topTabBar.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview().inset(10)
+        
+        contentView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+            make.width.equalTo(view.frame.width)
         }
-        self.mainView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.topTabContainerView.snp.bottom)
-            make.left.right.bottom.width.equalToSuperview()
+        
+        mainView.snp.makeConstraints { (make) in
+            make.top.left.right.equalToSuperview().inset(20)
+            make.width.equalTo(view.frame.width - 40)
         }
+        
+        doneButton.snp.makeConstraints { (make) in
+            make.top.equalTo(mainView.snp.bottom).offset(20)
+            make.left.right.bottom.equalToSuperview().inset(20)
+            make.height.equalTo(50)
+        }
+        
     }
     
-    @objc private func topTabBarValueChanged(_ sender: ColorTabs) {
-        let index = sender.selectedSegmentIndex
-        let controller = self.controllers[index]
-        controller.viewWillAppear(true)
-        self.addChildToParent(controller, to: self.mainView)
-    }
-   
-    func moveToNext() {
-        let nextIndex = self.topTabBar.selectedSegmentIndex + 1
-        if nextIndex < self.controllers.count {
-            self.topTabBar.selectedSegmentIndex = nextIndex
-            let controller = self.controllers[nextIndex]
-            self.addChildToParent(controller, to: self.mainView)
-        }
-    }
-    
-    //MARK: - Setters
+    // MARK: - Setters
     
     private func addSubviews() {
-        self.view.addSubview(self.topTabContainerView)
-        self.view.addSubview(self.mainView)
-        self.topTabContainerView.addSubview(self.topTabBar)
-        self.addChildToParent(self.addressVC, to: self.mainView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(mainView)
+        contentView.addSubview(doneButton)
     }
     
-}
-
-//MARK: - ColorTabsDataSource
-
-extension ZSCheckoutViewController: ColorTabsDataSource {
+    // MARK: - Actions
     
-    func numberOfItems(inTabSwitcher tabSwitcher: ColorTabs) -> Int {
-        return ZSCheckoutTabItemsProvider.items.count
+    @objc private func doneButtonTapped(_ sender: UIButton) {
+        let merchantServiceId = 14950
+        let merchantId = 10466
+        let merchantTransAmount = 1000
+        let merchantTransId = 1
+        
+        guard let url = URL(string: "https://my.click.uz/services/pay/?service_id=\(merchantServiceId)&merchant_id=\(merchantId)&amount=\(merchantTransAmount)&transaction_param=\(merchantTransId)") else { return }
+        
+        print(mainView.selectedPaymentSystem)
+        //presentSafariVC(with: url)
     }
     
-    func tabSwitcher(_ tabSwitcher: ColorTabs, titleAt index: Int) -> String {
-        return ZSCheckoutTabItemsProvider.items[index].title
-    }
+    // MARK: - Helpers
     
-    func tabSwitcher(_ tabSwitcher: ColorTabs, iconAt index: Int) -> UIImage {
-        return ZSCheckoutTabItemsProvider.items[index].normalImage
-    }
-    
-    func tabSwitcher(_ tabSwitcher: ColorTabs, hightlightedIconAt index: Int) -> UIImage {
-        return ZSCheckoutTabItemsProvider.items[index].highlightedImage
-    }
-    
-    func tabSwitcher(_ tabSwitcher: ColorTabs, tintColorAt index: Int) -> UIColor {
-        let selected = tabSwitcher.subviews[0]
-        selected.layer.cornerRadius = 30
-        let tmpFrame = selected.frame
-        selected.frame = .init(x: tmpFrame.minX, y: tmpFrame.minY, width: tmpFrame.width, height: 60)
-        return ZSCheckoutTabItemsProvider.items[index].tintColor
+    private func updateAddressWith(_ address: AddressModel?) {
+        
+        guard let address = address else { return }
+        
+        var string = "Страна: \(address.country)\n"
+        string += "Город: \(address.city)\n"
+        string += "Область: \(address.district)\n"
+        string += "Улица: \(address.street)\n"
+        string += "Дом: \(address.house)\n"
+        string += "Квартира: \(address.apartment)\n"
+        string += "Индекс: \(address.index)\n"
+        
+        mainView.addressLabel.text = string
     }
     
 }

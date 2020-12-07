@@ -33,6 +33,15 @@ class ZSAdressViewController: ZSBaseViewController {
         tableView.tableFooterView = UIView()
         return tableView
     }()
+    
+    lazy var addAddressButton: UIBarButtonItem = {
+        var button = UIBarButtonItem(
+            image: UIImage(named: "plus"),
+            style: .plain, target: self,
+            action: #selector(addAddressButtonTapped))
+        return button
+    }()
+
 
     lazy var dismissButton: UIBarButtonItem = {
         var button = UIBarButtonItem(
@@ -87,6 +96,7 @@ class ZSAdressViewController: ZSBaseViewController {
     
     private func addSubviews() {
         view.addSubview(tableView)
+        navigationItem.rightBarButtonItem = addAddressButton
         if isPresented {
             navigationItem.leftBarButtonItem = dismissButton
         }
@@ -96,6 +106,14 @@ class ZSAdressViewController: ZSBaseViewController {
     
     @objc private func dismissButtonTapped() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func addAddressButtonTapped() {
+        let addAddressVC = ZSAddAddressViewController()
+        addAddressVC.doneButtonHandler = { [weak self] in
+            self?.tableView.reloadData()
+        }
+        present(addAddressVC, animated: true, completion: nil)
     }
     
     //MARK: - Helpers
