@@ -69,7 +69,7 @@ class _SearchBarState extends State<SearchBar> {
           height: 30,
           width:
               MediaQuery.of(context).size.width - 32 - (searchState ? 90 : 0),
-          duration: Duration(milliseconds: 500),
+          duration: Duration(milliseconds: 250),
           child: Stack(
             children: [
               TextField(

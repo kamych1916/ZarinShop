@@ -13,7 +13,7 @@ import 'package:requests/requests.dart' as package;
 
 class ProductApiProvider {
   Future<ApiResponse<List<Category>>> getCategories() async {
-    String url = "http://zarinshop.site:49354/api/v1/categories";
+    String url = "https://mirllex.site/server/api/v1/categories";
 
     IOClient client = new IOClient();
 
@@ -41,7 +41,7 @@ class ProductApiProvider {
   }
 
   Future<ApiResponse<List<Product>>> getProductsByCategoryId(String id) async {
-    String url = "http://zarinshop.site:49354/api/v1/items_cat/$id";
+    String url = "https://mirllex.site/server/api/v1/items_cat/$id";
 
     IOClient client = new IOClient();
 
@@ -69,7 +69,7 @@ class ProductApiProvider {
   }
 
   Future<ApiResponse<List<Product>>> getProductsByID(List<String> ids) async {
-    String url = "http://zarinshop.site:49354/api/v1/items_ind";
+    String url = "https://mirllex.site/server/api/v1/items_ind";
 
     IOClient client = new IOClient();
     String body = ids.toString();
@@ -100,7 +100,7 @@ class ProductApiProvider {
   }
 
   Future<ApiResponse<List<CartEntity>>> getUserCart() async {
-    String url = "http://zarinshop.site:49354/api/v1/cart/shopping_cart";
+    String url = "https://mirllex.site/server/api/v1/cart/shopping_cart";
 
     try {
       var response = await package.Requests.get(url, timeoutSeconds: 10);
@@ -128,7 +128,7 @@ class ProductApiProvider {
   }
 
   addProductToCart(CartEntity cartEntity) async {
-    String url = "http://zarinshop.site:49354/api/v1/cart/addProduct";
+    String url = "https://mirllex.site/server/api/v1/cart/addProduct";
 
     String productID = cartEntity.id;
     String size = cartEntity.size;
@@ -142,7 +142,7 @@ class ProductApiProvider {
   }
 
   removeProductFromCart(CartEntity cartEntity) async {
-    String url = "http://zarinshop.site:49354/api/v1/cart/delproduct";
+    String url = "https://mirllex.site/server/api/v1/cart/delproduct";
 
     String productID = cartEntity.id;
     String productSize = cartEntity.size;
@@ -155,7 +155,7 @@ class ProductApiProvider {
   }
 
   Future<ApiResponse<List<Product>>> search(String search) async {
-    String url = "http://zarinshop.site:49354/api/v1/search";
+    String url = "https://mirllex.site/server/api/v1/search";
 
     IOClient client = new IOClient();
     String parameters = "?poisk=$search";

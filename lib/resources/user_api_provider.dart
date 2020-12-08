@@ -11,7 +11,7 @@ import 'package:requests/requests.dart' as package;
 
 class UserApiProvider {
   Future<ApiResponse<dynamic>> signIn(String email, String password) async {
-    String url = "http://zarinshop.site:49354/api/v1/signin";
+    String url = "https://mirllex.site/server/api/v1/signin";
 
     String body = '{"email": "$email", "password": "$password"}';
 
@@ -40,7 +40,7 @@ class UserApiProvider {
   }
 
   Future<ApiResponse<bool>> resetPassword(String email) async {
-    String url = "http://zarinshop.site:49354/api/v1/reset_password";
+    String url = "https://mirllex.site/server/api/v1/reset_password";
 
     IOClient client = new IOClient();
     String parameters = "?email=$email";
@@ -67,7 +67,7 @@ class UserApiProvider {
 
   Future<ApiResponse<bool>> signUp(
       String email, String password, firstName, lastName, phone) async {
-    String url = "http://zarinshop.site:49354/api/v1/signup";
+    String url = "https://mirllex.site/server/api/v1/signup";
 
     IOClient client = new IOClient();
     String body =
@@ -95,7 +95,7 @@ class UserApiProvider {
   }
 
   Future<ApiResponse<bool>> checkSignUpCode(String code, String email) async {
-    String url = "http://zarinshop.site:49354/api/v1/checkcode_activ";
+    String url = "https://mirllex.site/server/api/v1/checkcode_activ";
 
     IOClient client = new IOClient();
     String parameters = "/$code?email=$email";
@@ -121,7 +121,7 @@ class UserApiProvider {
 
   Future<ApiResponse<bool>> checkPasswordResetCode(
       String code, String email, String password) async {
-    String url = "http://zarinshop.site:49354/api/v1/change_password";
+    String url = "https://mirllex.site/server/api/v1/change_password";
 
     IOClient client = new IOClient();
     String parameters = "?code=$code&new_password=$password&email=$email";
