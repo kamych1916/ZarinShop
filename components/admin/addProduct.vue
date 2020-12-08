@@ -1,9 +1,9 @@
 <template>
     <b-card header="Товары" >
         <div class="wrap__products">       
-            <b-button @click="AddProductModal=true">Добавить новый товар</b-button>
-            <b-modal size="lg" v-model="AddProductModal">
-                <b-form @submit.prevent="send_new_category">
+            <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
+            <b-modal scrollable hide-footer size="lg" v-model="AddProductModal">
+                <b-form @submit.prevent="eventProduct()">
                     <div class="pt-2">
                         <span class="title_inputs">Введите наименование товара</span>
                         <b-row class="px-3 py-2">
@@ -13,7 +13,6 @@
                             class="form-control"
                             v-model="New_Product.name"
                             id="name_product"
-                            placeholder="Введите наименование"
                             name="name_product"
                             required
                             />
@@ -29,7 +28,6 @@
                             class="form-control"
                             v-model="New_Product.description"
                             id="description_product"
-                            placeholder="Введите описание товара"
                             name="description_product"
                             required
                             />
@@ -46,7 +44,7 @@
 
                             <label @click="showProducts=!showProducts && New_Product.name!= ''" class="text-light my-2 py-2 px-3 bg-dark">Отобразить схожие товары</label>
                             <div v-if="showProducts">
-                                <b-table @row-selected="onRowSelectedSameProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive>
+                                <b-table @row-selected="onRowlink_colorProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive>
                                     <template #empty="scope">
                                         <div  class="d-flex justify-content-center w-100">
                                             <h6>{{ scope.emptyText }}</h6>
@@ -82,10 +80,10 @@
                                         v-if="New_Product" 
                                         type="number"
                                         class="form-control"
-                                        id="description_product"
-                                        placeholder="Количество товара для размера S"
-                                        name="description_product"
-                                        @change="sizeEvents($event.target.value, 1)"
+                                        id="size_S"
+                                        name="size_S"
+                                        v-model="size_S"
+                                        @input="sizeEvents($event.target.value, 1)"
                                     />
                                 </b-col>
                             </b-row>
@@ -96,10 +94,10 @@
                                         v-if="New_Product" 
                                         type="number"
                                         class="form-control"
-                                        id="description_product"
-                                        placeholder="Количество товара для размера M"
-                                        name="description_product"
-                                        @change="sizeEvents($event.target.value, 2)"
+                                        id="size_M"
+                                        name="size_M"
+                                        v-model="size_M"
+                                        @input="sizeEvents($event.target.value, 2)"
                                     />
                                 </b-col>
                             </b-row>
@@ -110,10 +108,10 @@
                                         v-if="New_Product" 
                                         type="number"
                                         class="form-control"
-                                        id="description_product"
-                                        placeholder="Количество товара для размера L"
-                                        name="description_product"
-                                        @change="sizeEvents($event.target.value, 3)"
+                                        id="size_L"
+                                        name="size_L"
+                                        v-model="size_L"
+                                        @input="sizeEvents($event.target.value, 3)"
                                     />
                                 </b-col>
                             </b-row>
@@ -124,10 +122,10 @@
                                         v-if="New_Product" 
                                         type="number"
                                         class="form-control"
-                                        id="description_product"
-                                        placeholder="Количество товара для размера XL"
-                                        name="description_product"
-                                        @change="sizeEvents($event.target.value, 4)"
+                                        id="size_XL"
+                                        name="size_XL"
+                                        v-model="size_XL"
+                                        @input="sizeEvents($event.target.value, 4)"
                                     />
                                 </b-col>
                             </b-row>
@@ -138,24 +136,24 @@
                                         v-if="New_Product" 
                                         type="number"
                                         class="form-control"
-                                        id="description_product"
-                                        placeholder="Количество товара для размера XXL"
-                                        name="description_product"
-                                        @change="sizeEvents($event.target.value, 5)"
+                                        id="size_XXL"
+                                        name="size_XXL"
+                                        v-model="size_XXL"
+                                        @input="sizeEvents($event.target.value, 5)"
                                     />
                                 </b-col>
                             </b-row>
-                            Введите количество товара
+                            Введите количество товара, если у товара нет размера
                             <b-row class="d-flex align-items-center py-2">
                                 <b-col>
                                     <input
                                         v-if="New_Product" 
                                         type="number"
                                         class="form-control"
-                                        id="description_product"
-                                        placeholder="Введите количество товара"
-                                        name="description_product"
-                                        @change="sizeEvents($event.target.value, 6)"
+                                        id="none_size"
+                                        name="none_size"
+                                        v-model="none_size"
+                                        @input="sizeEvents($event.target.value, 6)"
                                     />
                                 </b-col>
                             </b-row>
@@ -165,7 +163,7 @@
                     <div class="pt-2">
                         <b-row class="px-3 py-2">
                             <span class="title_inputs">Выберете цвет товара</span>
-                            <b-form-radio-group id="radio-group-2" v-if="New_Product" v-model="New_Product.selectedColor" name="radio-sub-component">
+                            <b-form-radio-group id="radio-group-2" v-if="New_Product" v-model="New_Product.color" name="radio-sub-component">
                                 <b-form-radio value="#0000FF"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #0000FF"></div></b-form-radio>
                                 <b-form-radio value="#008000"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #008000"></div></b-form-radio>
                                 <b-form-radio value="#000000"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #000000"></div></b-form-radio>
@@ -175,7 +173,7 @@
                                 <b-form-radio value="#800080"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #800080"></div></b-form-radio>
                                 <b-form-radio value="#FFA500"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFA500"></div></b-form-radio>
                                 <b-form-radio value="#FFC0CB"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFC0CB"></div></b-form-radio>
-                                <b-form-radio value="None">нет цвета</b-form-radio>
+                                <b-form-radio value="Нет Цвета">нет цвета</b-form-radio>
                             </b-form-radio-group>
                         </b-row>
                     </div>
@@ -189,9 +187,8 @@
                                 type="number"
                                 class="form-control"
                                 v-model="New_Product.price"
-                                id="description_product"
-                                placeholder="Цена"
-                                name="description_product"
+                                id="price_product"
+                                name="price_product"
                                 required
                             />
                         </b-row>
@@ -206,9 +203,8 @@
                                 type="number"
                                 class="form-control"
                                 v-model="New_Product.discount"
-                                id="description_product"
-                                placeholder="Скидка"
-                                name="description_product"
+                                id="discount_product"
+                                name="discount_product"
                                 required
                             />
                         </b-row>
@@ -219,7 +215,7 @@
                         <span class="title_inputs">Отметьте, если товар из спиацильных предложений</span>
                         <b-row class="px-3 py-2">
                             <!-- chekbox где отправляется true или false -->
-                            <b-form-checkbox v-if="New_Product" v-model="New_Product.specialOffer">Специальное предложение</b-form-checkbox>
+                            <b-form-checkbox v-if="New_Product" v-model="New_Product.special_offer">Специальное предложение</b-form-checkbox>
                         </b-row>
                     </div>
 
@@ -228,7 +224,7 @@
                         <span class="title_inputs">Отметьте, если товар с горчей скидкой</span>
                         <b-row class="px-3 py-2">
                             <!-- chekbox где отправляется true или false -->
-                            <b-form-checkbox v-if="New_Product" v-model="New_Product.hitSales">Горячая скидка</b-form-checkbox>
+                            <b-form-checkbox v-if="New_Product" v-model="New_Product.hit_sales">Горячая скидка</b-form-checkbox>
                         </b-row>
                     </div>
 
@@ -236,7 +232,7 @@
                     <div class="pt-2">
                         <span class="title_inputs">Выберете категорию где будет лежать товар</span>
                         <b-row class="px-3 py-2">
-                            <b-form-select v-if="New_Product" v-model="New_Product.categOptionsSelected" :options="categOptions">
+                            <b-form-select v-if="New_Product" v-model="New_Product.categories" :options="categOptions">
                                 <template #first>
                                     <b-form-select-option :value="null" disabled>-- Выберите категорию --</b-form-select-option>
                                 </template>
@@ -267,12 +263,15 @@
                             </b-overlay>
                         </b-row>
                     </div>
+                    <div style="border-top: 1px solid #ccc" class="w-100 py-4">
+                        <b-button v-if="eventBtnProduct" type='submit' class="float-left">СОЗДАТЬ НОВЫЙ ТОВАР</b-button>
+                        <b-button v-else type="submit" class="float-left">ИЗМЕНИТЬ ТОВАР</b-button>
+                        <b-button class="float-right" @click="closeModal()"> Отменить </b-button>
+                    </div>
                 </b-form>
-                <template v-slot:modal-footer>
-                    <b-button @click="sendNewProduct">sendNewProduct</b-button>
-                </template>
             </b-modal>
-            <b-table show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
+            <!-- <b-table @row-selected="onRowlink_colorProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive> -->
+            <b-table @row-selected="onRowProductSelected($event)" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable select-mode="single" striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
                 <template #empty="scope">
                     <div  class="d-flex justify-content-center w-100">
                         <h6>{{ scope.emptyText }}</h6>
@@ -288,30 +287,40 @@
 
 <script>
 import Api from "~/utils/api";
+
+let Store_New_Product = {
+    name: '',
+    description: null,
+    link_color: [],
+    color: 'Нет цвета',
+    price: null,
+    discount: null,
+    special_offer: false,
+    hit_sales: false,
+    categories: [],
+    size_kol: [],
+    images: [],
+    name_images: []
+}
 export default {
   data () {
     return {
-      AddProductModal: false,
-      show_overlay: false,
+        AddProductModal: false,
+        eventBtnProduct: true,
+        show_overlay: false,
 
-      files: [],
-      file: null,
+        files: [],
+        file: null,
+
+        size_S: null,
+        size_M: null,
+        size_L: null,
+        size_XL: null,
+        size_XXL: null,
+        none_size: null,
 
 
-      categOptionsSelected: [], // Must be an array reference!
-      categOptions: [],  
-      New_Product: {
-        name: '',
-        description: null,
-        size_kol: null,
-        selectedSame: [],
-        selectedSize: null,
-        selectedColor: 'Нет цвета',
-        price: null,
-        discount: null,
-        specialOffer: false,
-        hitSales: false,
-        categOptionsSelected: [],
+        categOptions: [],  
         size_kol: [
             {
                 size: 'S',
@@ -337,106 +346,119 @@ export default {
                 size: 'Нет размера',
                 kol: 0
             }
-        ]
-      },
-
-      showProducts: false,
-      dataLinksItems: null,  
-      dataLinksFields: [
-        {
-            key: 'id',
-            label: 'id',
-            sortable: true
-        },
-        {
-            key: 'name',
-            label: 'Наименование',
-            sortable: true
-        },
-
-        {
-            key: 'description',
-            label: 'Описание',
-            sortable: true
-        },
-        {
-            key: 'price',
-            label: 'Цена',
-        },
-        {
-            key: 'discount',
-            label: 'Скидка',
-        },
-        {
-            key: 'color',
-            label: 'Цвет',
-        },
-        {
-            key: 'selected',
-            label: 'Выбранный',
-        },
-      ],
-
-      selected: null,
-
-      dataProductsItems: null,
-      dataProductsFields: [
-        {
-            key: 'id',
-            label: 'id',
-            sortable: true
-        },
-        {
-            key: 'name',
-            label: 'Наименование',
-            sortable: true
+        ],
+        New_Product: {
+            name: '',
+            description: null,
+            link_color: [],
+            color: 'Нет цвета',
+            price: null,
+            discount: null,
+            special_offer: false,
+            hit_sales: false,
+            categories: [],
+            size_kol: [],
+            images: [],
+            name_images: []
         },
 
-        {
-            key: 'description',
-            label: 'Описание',
-            sortable: true
-        },
+        showProducts: false,
+        dataLinksItems: null,  
+        dataLinksFields: [
+            {
+                key: 'id',
+                label: 'id',
+                sortable: true
+            },
+            {
+                key: 'name',
+                label: 'Наименование',
+                sortable: true
+            },
 
-        // {
-        //     key: 'size_kol',
-        //     label: 'Количество по размерам',
-        // },
+            {
+                key: 'description',
+                label: 'Описание',
+                sortable: true
+            },
+            {
+                key: 'price',
+                label: 'Цена',
+            },
+            {
+                key: 'discount',
+                label: 'Скидка',
+            },
+            {
+                key: 'color',
+                label: 'Цвет',
+            },
+            {
+                key: 'selected',
+                label: 'Выбранный',
+            },
+        ],
+
+        selected: null,
+
+        dataProductsItems: null,
+        dataProductsFields: [
+            {
+                key: 'id',
+                label: 'id',
+                sortable: true
+            },
+            {
+                key: 'name',
+                label: 'Наименование',
+                sortable: true
+            },
+
+            {
+                key: 'description',
+                label: 'Описание',
+                sortable: true
+            },
+
+            {
+                key: 'size_kol',
+                label: 'Количество по размерам',
+            },
 
 
-        // {
-        //     key: 'images',
-        //     label: 'Изображения',
-        // },
-        {
-            key: 'price',
-            label: 'Цена',
-        },
-        {
-            key: 'discount',
-            label: 'Скидка',
-        },
-        {
-            key: 'hit_sales',
-            label: 'Горячая скидка',
-        },
-        {
-            key: 'special_offer',
-            label: 'Специальное предложение',
-        },
-        {
-            key: 'color',
-            label: 'Цвет',
-        },
-        // {
-        //     key: 'categories',
-        //     label: 'Категории',
-        // },
-        // {
-        //     key: 'link_color',
-        //     label: 'Ссылка на другой товар',
-        // },
-      ],
+            // {
+            //     key: 'images',
+            //     label: 'Изображения',
+            // },
+            {
+                key: 'price',
+                label: 'Цена',
+            },
+            {
+                key: 'discount',
+                label: 'Скидка',
+            },
+            {
+                key: 'hit_sales',
+                label: 'Горячая скидка',
+            },
+            {
+                key: 'special_offer',
+                label: 'Специальное предложение',
+            },
+            {
+                key: 'color',
+                label: 'Цвет',
+            },
+            // {
+            //     key: 'categories',
+            //     label: 'Категории',
+            // },
+            // {
+            //     key: 'link_color',
+            //     label: 'Ссылка на другой товар',
+            // },
+        ],
     }
   },
     
@@ -460,57 +482,122 @@ methods:{
       });
     },
 
-    onRowSelectedSameProducts(picked){
-        this.New_Product.selectedSame = picked.id;
+    onRowProductSelected(picked){
+        // console.log(picked)
+        this.eventBtnProduct = false;
+        this.New_Product = picked[0];
+        
+        this.AddProductModal=true;
+
+        this.New_Product.categories = picked[0].categories_value;
+
+        // this.New_Product.link_color = picked[0].link_color[0].id;
+        
+        for(let img in picked[0].images){
+            this.files.push({file_url: picked[0].images[img], file_name: picked[0].name_images[img]})
+        }
+
+        for(let product of this.New_Product.size_kol){
+            switch(product.size){
+                case 'S': this.size_S = product.kol;
+                case 'M': this.size_M = product.kol;
+                case 'L': this.size_L = product.kol;
+                case 'XL': this.size_XL = product.kol;
+                case 'XXL': this.size_XXL = product.kol;
+                case 'Нет размера': this.none_size = product.kol;
+            }
+        }
+        this.New_Product.id = parseInt(this.New_Product.id);
+    },
+    
+    closeModal(){
+
+    },
+
+    onRowlink_colorProducts(picked){
+        this.New_Product.link_color.push(parseInt(picked[0].id));
     },
     sizeEvents(value, inpt){
         if(value === ''){ value = 0 }
-        let StoreProduct = this.New_Product.size_kol;
-        switch (inpt) {
-            case 1:
-                for(let s in StoreProduct){ if(StoreProduct[s].size === 'S'){ this.New_Product.size_kol[s].kol = value } };
-                break;
-            case 2:
-                for(let s in StoreProduct){ if(StoreProduct[s].size === 'M'){ this.New_Product.size_kol[s].kol = value } };
-                break;
-            case 3:
-                for(let s in StoreProduct){ if(StoreProduct[s].size === 'L'){ this.New_Product.size_kol[s].kol = value } };
-                break;
-            case 4:
-                for(let s in StoreProduct){ if(StoreProduct[s].size === 'XL'){ this.New_Product.size_kol[s].kol = value } };
-                break;
-            case 5:
-                for(let s in StoreProduct){ if(StoreProduct[s].size === 'XXL'){ this.New_Product.size_kol[s].kol = value } };
-                break;
-            case 6:
-                for(let s in StoreProduct){ if(StoreProduct[s].size === 'Нет размера'){ this.New_Product.size_kol[s].kol = value } };
-                break
+        let StoreProduct = this.size_kol;
+        if(inpt === 1){
+            for(let s in StoreProduct){ if(StoreProduct[s].size === 'S'){ this.size_kol[s].kol = parseInt(value) } };     
+        }else if(inpt === 2){
+            for(let s in StoreProduct){ if(StoreProduct[s].size === 'M'){ this.size_kol[s].kol = parseInt(value) } };
+        }else if(inpt === 3){
+            for(let s in StoreProduct){ if(StoreProduct[s].size === 'L'){ this.size_kol[s].kol = parseInt(value) } };
+        }else if(inpt === 4){
+            for(let s in StoreProduct){ if(StoreProduct[s].size === 'XL'){ this.size_kol[s].kol = parseInt(value) } };
+        }else if(inpt === 5){
+            for(let s in StoreProduct){ if(StoreProduct[s].size === 'XXL'){ this.size_kol[s].kol = parseInt(value) } };
+        }else if(inpt === 6){
+            for(let s in StoreProduct){ if(StoreProduct[s].size === 'Нет размера'){ this.size_kol[s].kol = parseInt(value) } };
         }
     },
-    sendNewProduct(){
-        let StoreProduct = this.New_Product.size_kol.filter(el=> el.kol !== 0);
-        if(StoreProduct.length > 0){
-            console.log(StoreProduct)  
+    eventProduct(){
+        // РАЗОБРАТЬСЯ С КОЛИЧЕСТВОМ РАЗМЕРОВ И ВЫХОДОМ ИЗ МОДАЛЬНОГО ОКНА
+        if(this.eventBtnProduct){
+            let StoreSizeProduct = this.size_kol.filter(el=> el.kol !== 0);
+            if(StoreSizeProduct.length > 0){
+                let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера')
+                if(StoreNoneSizeProduct[0]){
+                    if(StoreNoneSizeProduct[0].kol !== 0){
+                       this.New_Product.size_kol = StoreNoneSizeProduct    
+                    }else{
+                        alert('Введите пожалуйста количество товара')
+                    }
+                }else{
+                    this.New_Product.size_kol = StoreSizeProduct 
+                }
+    
+                this.New_Product.discount = parseInt(this.New_Product.discount);
+                this.New_Product.price = parseInt(this.New_Product.price);
+                console.log(this.New_Product)  
+                Api.getInstance().products.sendNewProduct(this.New_Product).then((response) => {
+                    this.$bvToast.toast('Товар успешно добавлен в базу данных.', {
+                        title: `Сообщение`,
+                        variant: "success",
+                        solid: true
+                    })
+                    setTimeout(()=>{
+                        this.New_Product = Store_New_Product;
+                        this.AddProductModal=false;
+                        window.location.reload(true)
+                    }, 1000)
+                })
+                .catch((error) => {
+                    console.log("sendNewProduct -> ", error)
+                    this.$bvToast.toast("Товар не добавлен в базу данных.", {
+                        title: `Ошибка системы`,
+                        variant: "danger",
+                        solid: true,
+                    });
+                });
+            }
+        }else{
+            console.log('onRowProductSelected->', this.New_Product);
+            Api.getInstance().products.changeProduct(this.New_Product).then((response) => {
+                this.$bvToast.toast('Товар успешно добавлен в базу данных.', {
+                    title: `Сообщение`,
+                    variant: "success",
+                    solid: true
+                });
+                setTimeout(()=>{
+                    this.New_Product = Store_New_Product;
+                    this.AddProductModal=false;
+                    // window.location.reload(true);
+                }, 1000)
+            })
+            .catch((error) => {
+                console.log("send_image -> ", error)
+                this.$bvToast.toast("Изображение не загружено.", {
+                    title: `Ошибка аутентификации`,
+                    variant: "danger",
+                    solid: true,
+                });
+                // setTimeout(()=>{this.$router.push('/')}, 1500)
+            });
         }
-        // for(let s in this.New_Product.size_kol ){
-        //     if(StoreProduct[s].kol == 0){
-        //         StoreProduct.splice(s, 1)
-        //     }
-        // }
-        // this.New_Product.size_kol = StoreProduct
-
-        // Api.getInstance().products.sendNewProduct(formatData).then((response) => {
-        //     this.files.push({file_url: response.data.file_url, file_name: response.data.file_name}); 
-        // })
-        // .catch((error) => {
-        //     console.log("send_image -> ", error)
-        //     this.$bvToast.toast("Изображение не загружено.", {
-        //         title: `Ошибка аутентификации`,
-        //         variant: "danger",
-        //         solid: true,
-        //     });
-        //     // setTimeout(()=>{this.$router.push('/')}, 1500)
-        // });
     },
 
     handleFileUpload(){
@@ -521,7 +608,9 @@ methods:{
       let formatData = new FormData();
       formatData.append('file', this.file);
       Api.getInstance().auth.upload_file(formatData).then((response) => {
-        this.files.push({file_url: response.data.file_url, file_name: response.data.file_name}); 
+        this.files.push({file_url: response.data.file_url, file_name: response.data.file_name});
+        this.New_Product.images.push(response.data.file_url);
+        this.New_Product.name_images.push(response.data.file_name);
       })
       .catch((error) => {
           console.log("send_image -> ", error)
@@ -534,7 +623,6 @@ methods:{
       });
     },
     deleteFile(idImage){
-      // console.log('idImage -> ', idImage)
       for(let idi in this.files){
         if(idi == idImage){
           Api.getInstance().products.deleteFile(this.files[idi].file_name).then((response) => {

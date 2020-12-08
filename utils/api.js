@@ -24,6 +24,24 @@ export default class Api {
                 } 
             )
         },
+        async sendNewProduct(product) {
+            return axios.post(`${API_BASE_URL}/items`, product ,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
+        async changeProduct(product) {
+            return axios.patch(`${API_BASE_URL}/items`, product,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
         async getCategories() {
             return axios.get(`${API_BASE_URL}/list_categories`, 
                 {

@@ -110,9 +110,7 @@ export default {
             solid: true
           })
           this.$store.dispatch("auth/load__login_access", response.data);
-          console.log(this.$store.state.auth.login_access);
-          setTimeout(()=>{this.$router.push('/page/account/admin-dashboard')}, 1500)
-          // setTimeout(()=>{this.$router.push('/')}, 1500)
+          setTimeout(()=>{this.$router.push('/page/account/admin-dashboard')}, 1000)
         })
         .catch((error) => {
           console.log('kek-> ', error)
