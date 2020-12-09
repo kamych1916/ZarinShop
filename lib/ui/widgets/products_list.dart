@@ -44,7 +44,7 @@ class ProductsList extends StatelessWidget {
                         fontSize: 12.0,
                         fontFamily: "SegoeUISemiBold"),
                   ),
-                  onPressed: () => refresh,
+                  onPressed: refresh,
                 )
               : Container(),
         ],
