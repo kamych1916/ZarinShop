@@ -45,7 +45,7 @@ class InfoScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 10.0),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
                 child: Row(
                   children: [
                     Expanded(
@@ -81,20 +81,18 @@ class InfoScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Divider(),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => pushNewScreen(
-                    context,
-                    screen: GarantInfoScreen(),
-                    withNavBar: true,
-                    pageTransitionAnimation: PageTransitionAnimation.fade,
-                  ),
+              Divider(),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => pushNewScreen(
+                  context,
+                  screen: GarantInfoScreen(),
+                  withNavBar: true,
+                  pageTransitionAnimation: PageTransitionAnimation.fade,
+                ),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -110,20 +108,18 @@ class InfoScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Divider(),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => pushNewScreen(
-                    context,
-                    screen: DeliveryInfoScreen(),
-                    withNavBar: true,
-                    pageTransitionAnimation: PageTransitionAnimation.fade,
-                  ),
+              Divider(),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => pushNewScreen(
+                  context,
+                  screen: DeliveryInfoScreen(),
+                  withNavBar: true,
+                  pageTransitionAnimation: PageTransitionAnimation.fade,
+                ),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
                   child: Row(
                     children: [
                       Expanded(

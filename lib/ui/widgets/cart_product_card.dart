@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/cart_entity.dart';
 import 'package:Zarin/models/product.dart';
@@ -6,6 +8,7 @@ import 'package:Zarin/ui/widgets/filter_sheet.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:superellipse_shape/superellipse_shape.dart';
 
@@ -19,12 +22,37 @@ class CartProductCard extends StatefulWidget {
 }
 
 class _CartProductCardState extends State<CartProductCard> {
+  final BehaviorSubject<int> countSubject = BehaviorSubject<int>();
+  StreamSubscription streamSubscription;
+  Product product;
+
   @override
-  Widget build(BuildContext context) {
-    Product product = productBloc.cartProducts.value.data
+  void initState() {
+    product = productBloc.cartProducts.value.data
         // ignore: unrelated_type_equality_checks
         .firstWhere((element) => widget.cartEntity == element);
 
+    countSubject.sink.add(-product.sizes.firstWhere(
+        (element) => element["size"] == widget.cartEntity.size)["kol"]);
+
+    streamSubscription = countSubject.listen((value) {
+      if (value >= 1) {
+        widget.cartEntity.count = value;
+        productBloc.calculateCartTotal();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    streamSubscription.cancel();
+    countSubject.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 15.0, right: 15.0, top: 7.5, bottom: 7.5),
       width: double.infinity,
@@ -85,7 +113,7 @@ class _CartProductCardState extends State<CartProductCard> {
                     children: [
                       Expanded(
                         child: Text(
-                          product.name,
+                          product.id + " " + product.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -139,32 +167,31 @@ class _CartProductCardState extends State<CartProductCard> {
                     ],
                   ),
                   widget.cartEntity.size == null ||
-                          widget.cartEntity.size == "null"
-                      ? Container()
-                      : Row(
-                          children: [
-                            Text(
-                              "Размер",
-                              style: TextStyle(
-                                  fontSize: 13.0,
-                                  fontFamily: "SegoeUISemiBold"),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.0)),
-                            Text(
-                              widget.cartEntity.size,
-                              style: TextStyle(
-                                  color: Styles.cardTextColor,
-                                  fontFamily: "SegoeUISemiBold",
-                                  fontSize: 16),
-                            )
-                          ],
-                        ),
-                  widget.cartEntity.size == null ||
-                          widget.cartEntity.size == "null"
+                          widget.cartEntity.size == "null" ||
+                          product.productWithOutSize
                       ? Container()
                       : Padding(
                           padding: EdgeInsets.symmetric(vertical: 2),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Размер",
+                                style: TextStyle(
+                                    fontSize: 13.0,
+                                    fontFamily: "SegoeUISemiBold"),
+                              ),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 5.0)),
+                              Text(
+                                widget.cartEntity.size,
+                                style: TextStyle(
+                                    color: Styles.cardTextColor,
+                                    fontFamily: "SegoeUISemiBold",
+                                    fontSize: 16),
+                              )
+                            ],
+                          ),
                         ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -178,16 +205,7 @@ class _CartProductCardState extends State<CartProductCard> {
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18)),
                       ),
-                      Counter(
-                        5,
-
-                        ///product.sizes.firstWhere((element) => element["size"] == ), /// TODO: maxSize
-                        (int value) {
-                          widget.cartEntity.count = value;
-                          productBloc.calculateCartTotal();
-                        },
-                        current: widget.cartEntity.count,
-                      ),
+                      Counter(countSubject, initCount: widget.cartEntity.count),
                     ],
                   )
                 ],

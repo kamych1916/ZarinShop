@@ -28,19 +28,31 @@ class ProductInfo extends StatefulWidget {
 }
 
 class _ProductInfoState extends State<ProductInfo> {
-  final BehaviorSubject<int> countSubject = BehaviorSubject()..sink.add(1);
+  final BehaviorSubject<int> countSubject = BehaviorSubject();
   final BehaviorSubject<int> sizeSubject = BehaviorSubject()..sink.add(-1);
+  StreamSubscription streamSubscription;
 
-  int initCount = 1;
+  @override
+  void initState() {
+    if (!widget.product.productWithOutSize)
+      streamSubscription = sizeSubject.listen((value) {
+        if (value >= 0)
+          countSubject.sink.add(-widget.product.sizes[value]["kol"]);
+      });
+    else {
+      countSubject.sink.add(-widget.product.sizes[0]["kol"]);
+      sizeSubject.sink.add(0);
+    }
+    super.initState();
+  }
 
   @override
   void dispose() {
+    if (!widget.product.productWithOutSize) streamSubscription.cancel();
     countSubject.close();
     sizeSubject.close();
     super.dispose();
   }
-
-  counterCallback(int count) => countSubject.sink.add(count);
 
   addToCartCallback() {
     if (widget.product.sizes != null &&
@@ -49,6 +61,10 @@ class _ProductInfoState extends State<ProductInfo> {
     else if (userBloc.auth.value)
       productBloc.addProductToCart(
           widget.product, countSubject.value, sizeSubject.value);
+    else
+      appBloc.tabController.jumpToTab(2);
+
+    /// TODO: Как то показать что нужно авторизоваться, но хз как я не ебал. МБ перекинуть на страницу с логином и все
   }
 
   @override
@@ -70,7 +86,7 @@ class _ProductInfoState extends State<ProductInfo> {
                       children: List.generate(
                         widget.product.images.length,
                         (index) => GestureDetector(
-                          onScaleUpdate: (scale) => scale.scale > 3
+                          onScaleUpdate: (scale) => scale.scale > 1.5
                               ? pushNewScreen(
                                   context,
                                   screen: ProductInfoImageView(
@@ -119,9 +135,9 @@ class _ProductInfoState extends State<ProductInfo> {
                                             child: frame != null
                                                 ? child
                                                 : Shimmer.fromColors(
-                                                    baseColor: Colors.grey[200],
+                                                    baseColor: Colors.grey[300],
                                                     highlightColor:
-                                                        Colors.grey[350],
+                                                        Colors.grey[400],
                                                     child: Container(
                                                       color: Colors.grey,
                                                       width: double.infinity,
@@ -157,7 +173,7 @@ class _ProductInfoState extends State<ProductInfo> {
                                                 : Shimmer.fromColors(
                                                     baseColor: Colors.grey[300],
                                                     highlightColor:
-                                                        Colors.grey[350],
+                                                        Colors.grey[400],
                                                     child: Container(
                                                       color: Colors.grey,
                                                       width: double.infinity,
@@ -216,18 +232,24 @@ class _ProductInfoState extends State<ProductInfo> {
                               ],
                             ),
                           ),
-                          Counter(widget.product.maxCount, counterCallback)
+                          Counter(countSubject)
                         ],
                       )),
                   Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20.0),
-                    width: double.infinity,
-                    // decoration: BoxDecoration(
-                    //     color: Colors.white,
-                    //     borderRadius: BorderRadius.circular(20)),
-                    child: Sizes(widget.product.sizes, sizeSubject),
-                  ),
+                  !widget.product.productWithOutSize
+                      ? Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          width: double.infinity,
+                          // decoration: BoxDecoration(
+                          //     color: Colors.white,
+                          //     borderRadius: BorderRadius.circular(20)),
+                          child: Sizes(
+                              widget.product.sizes
+                                  .map((e) => e["size"].toString())
+                                  .toList(),
+                              sizeSubject),
+                        )
+                      : Container(),
                   Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                   Container(
                       margin: EdgeInsets.symmetric(horizontal: 20.0),
@@ -301,7 +323,6 @@ class _ProductInfoState extends State<ProductInfo> {
                                 blurRadius: 10)
                           ]),
                     ),
-                    Text("проверить скейл гестюре"),
                     Icon(
                       Icons.arrow_back_ios,
                       size: 16,
@@ -380,11 +401,10 @@ class _AddToCartButtonState extends State<AddToCartButton> {
 }
 
 class Counter extends StatefulWidget {
-  final int maxCount;
-  final int current;
-  final Function(int) callback;
+  final BehaviorSubject<int> countSubject;
+  final int initCount;
 
-  const Counter(this.maxCount, this.callback, {Key key, this.current = 1})
+  const Counter(this.countSubject, {Key key, this.initCount = 1})
       : super(key: key);
 
   @override
@@ -393,23 +413,37 @@ class Counter extends StatefulWidget {
 
 class _CounterState extends State<Counter> {
   int current;
-  int productMaxCount = 5;
+  int maxCount = 1;
+  StreamSubscription streamSubscription;
 
   @override
   void initState() {
-    current = widget.current;
-    productMaxCount = widget.maxCount ?? 1;
+    current = widget.initCount;
+    streamSubscription = widget.countSubject.listen((value) {
+      if (value < 0) {
+        setState(() {
+          maxCount = value * -1;
+          current = widget.initCount;
+        });
+      }
+    });
     super.initState();
   }
 
   @override
   void setState(func) {
     super.setState(func);
-    widget.callback(current);
+    widget.countSubject.sink.add(current);
   }
 
-  increment() => current < productMaxCount ? setState(() => current++) : null;
+  increment() => current < maxCount ? setState(() => current++) : null;
   decrement() => current > 1 ? setState(() => current--) : null;
+
+  @override
+  void dispose() {
+    streamSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

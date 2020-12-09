@@ -31,27 +31,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Styles.backgroundColor,
-      child: Column(
+      color: Styles.subBackgroundColor,
+      child: Stack(
         children: [
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                "Zarin Shop",
-                style: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.black54,
-                    decoration: TextDecoration.none),
-              ),
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              "Zarin Shop",
+              style: TextStyle(
+                  fontSize: 30.0,
+                  color: Colors.black,
+                  fontFamily: "SegoeUIBold",
+                  decoration: TextDecoration.none),
             ),
           ),
-          Expanded(
-            child: Center(
-                child: AppCircularProgressIndicator(
-              color: Colors.black54,
+          Align(
+            alignment: Alignment(0, 0.5),
+            child: AppCircularProgressIndicator(
+              color: Styles.mainColor,
               size: 25,
-            )),
+              strokeWidth: 3,
+            ),
           )
         ],
       ),

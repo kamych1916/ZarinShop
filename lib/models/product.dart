@@ -3,15 +3,13 @@ class Product {
   String name;
   String description;
   String color;
-  List<String> sizes;
-  //List<Map<String, dynamic>> sizes;
+  List<Map<String, dynamic>> sizes;
+  bool productWithOutSize = false;
   List<String> images;
   double price;
   int discount;
   double totalPrice;
   List<Map<String, dynamic>> linkColor;
-
-  int maxCount;
 
   Product(this.id);
 
@@ -30,25 +28,18 @@ class Product {
     discount = json["discount"];
     color = json["color"];
 
-    maxCount = 5;
-
-    if (json["size"] != null) {
-      List<String> sizes = [];
-      for (dynamic size in json["size"]) sizes.add(size);
-
+    if (json["size_kol"] != null) {
+      List<Map<String, dynamic>> sizes = [];
+      for (dynamic size in json["size_kol"])
+        sizes.add({"size": size["size"], "kol": size["kol"]});
       this.sizes = sizes;
+
+      if (sizes[0]["size"] == "Нет размера") productWithOutSize = true;
     }
 
-    // if (json["size"] != null) {
-    //   List<Map<String, dynamic>> sizes = [];
-    //   for (dynamic size in json["size"])
-    //     sizes.add({"size": size["size"], "count": size["kol"]});
-    //   this.sizes = sizes;
-    // }
-
-    if (json["image"] != null) {
+    if (json["images"] != null) {
       List<String> images = [];
-      for (dynamic img in json["image"]) images.add(img);
+      for (dynamic img in json["images"]) images.add(img);
 
       this.images = images;
     }

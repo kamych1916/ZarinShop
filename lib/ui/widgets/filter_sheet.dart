@@ -194,8 +194,15 @@ class _ZarinRangeSliderState extends State<ZarinRangeSlider> {
 
   @override
   void initState() {
-    min = productBloc.getProductsMinPrice();
-    max = productBloc.getProductsMaxPrice();
+    if (productBloc.products.value == null ||
+        productBloc.products.value.data == null ||
+        productBloc.products.value.data.isEmpty) {
+      min = 0;
+      max = 50000;
+    } else {
+      min = productBloc.getProductsMinPrice();
+      max = productBloc.getProductsMaxPrice();
+    }
     _currentRangeValues = RangeValues(min, max);
 
     super.initState();

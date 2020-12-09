@@ -52,7 +52,7 @@ class UserScreen extends StatelessWidget {
                 ),
                 backgroundColor: Styles.subBackgroundColor,
                 body: Container(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(vertical: 30.0),
                   child: Column(
                     children: [
                       Icon(
@@ -75,43 +75,39 @@ class UserScreen extends StatelessWidget {
                         style: TextStyle(fontFamily: "SegoeUiBold"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                      ),
-                      Divider(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        padding: EdgeInsets.symmetric(vertical: 20.0),
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  AppIcons.map_marker,
-
-                                  /// TODO: изменить
-                                  size: 20.0,
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 5.0),
-                                ),
-                                Expanded(
-                                    child: Text(
-                                  "Мои заказы",
-                                  style:
-                                      TextStyle(fontFamily: "SegoeUiSemiBold"),
-                                )),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 10,
-                                )
-                              ],
-                            ),
                             Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    AppIcons.map_marker,
+                                    size: 20.0,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5.0),
+                                  ),
+                                  Expanded(
+                                      child: Text(
+                                    "Мои заказы",
+                                    style: TextStyle(
+                                        fontFamily: "SegoeUiSemiBold"),
+                                  )),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 10,
+                                  )
+                                ],
+                              ),
                             ),
+                            Divider(),
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
@@ -126,56 +122,62 @@ class UserScreen extends StatelessWidget {
                                       PageTransitionAnimation.fade,
                                 );
                               },
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    AppIcons.key,
-                                    size: 20.0,
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5.0),
-                                  ),
-                                  Expanded(
-                                      child: Text(
-                                    "Сменить пароль",
-                                    style: TextStyle(
-                                        fontFamily: "SegoeUISemiBold"),
-                                  )),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 10,
-                                  )
-                                ],
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      AppIcons.key,
+                                      size: 20.0,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5.0),
+                                    ),
+                                    Expanded(
+                                        child: Text(
+                                      "Сменить пароль",
+                                      style: TextStyle(
+                                          fontFamily: "SegoeUISemiBold"),
+                                    )),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 10,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                            ),
+                            Divider(),
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 userBloc.logout();
                               },
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    AppIcons.exit,
-                                    size: 20.0,
-                                    color: Colors.red[400],
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5.0),
-                                  ),
-                                  Expanded(
-                                      child: Text(
-                                    "Выйти",
-                                    style: TextStyle(
-                                        color: Colors.red[400],
-                                        fontFamily: "SegoeUiSemiBold"),
-                                  )),
-                                ],
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      AppIcons.exit,
+                                      size: 20.0,
+                                      color: Colors.red[400],
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5.0),
+                                    ),
+                                    Expanded(
+                                        child: Text(
+                                      "Выйти",
+                                      style: TextStyle(
+                                          color: Colors.red[400],
+                                          fontFamily: "SegoeUiSemiBold"),
+                                    )),
+                                  ],
+                                ),
                               ),
                             )
                           ],

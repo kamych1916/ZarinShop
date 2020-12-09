@@ -277,9 +277,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 }),
             Expanded(
               child: PageView(
-                physics: BouncingScrollPhysics(),
-
-                ///TODO: убрать
+                physics: NeverScrollableScrollPhysics(),
                 children: tabs,
                 controller: pageViewController,
               ),

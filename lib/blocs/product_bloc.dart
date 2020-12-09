@@ -103,7 +103,6 @@ class ProductBloc {
   }
 
   search(String search) async {
-    print(search);
     products.publish(ApiResponse.loading("Загрузка товара"));
 
     ApiResponse<List<Product>> searchReslut =
@@ -137,7 +136,7 @@ class ProductBloc {
     appBloc.apiResponse.publish(true);
 
     CartEntity cartEntity = CartEntity(product.id, count,
-        product.sizes == null ? null : product.sizes[sizeIndex]);
+        product.sizes == null ? null : product.sizes[sizeIndex]["size"]);
 
     if (cartEntities != null) {
       if (!cartEntities.value.contains(cartEntity)) {
@@ -151,12 +150,11 @@ class ProductBloc {
             cartEntities.value.firstWhere((element) => element == cartEntity);
         cartEntityinCart.count += count;
 
-        if (cartEntityinCart.count > product.maxCount)
-          cartEntityinCart.count = product.maxCount;
-
-        /// TODO: переделать когда появяться maxCount для каждого размера
+        if (cartEntityinCart.count > product.sizes[sizeIndex]["kol"])
+          cartEntityinCart.count = product.sizes[sizeIndex]["kol"];
 
         await _productApiProvider.addProductToCart(cartEntity);
+        cartEntities.publish(cartEntities.value);
       }
     }
 

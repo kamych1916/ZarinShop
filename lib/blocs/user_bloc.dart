@@ -5,8 +5,6 @@ import 'package:Zarin/models/event.dart';
 import 'package:Zarin/resources/user_api_provider.dart';
 import 'product_bloc.dart';
 
-import 'package:requests/requests.dart' as package;
-
 class UserBloc {
   final _userApiProvider = UserApiProvider();
 
@@ -17,7 +15,6 @@ class UserBloc {
 
   String firstName;
   String lastName;
-  String userID;
 
   List<String> signUpInputStrings = new List(3);
 
@@ -65,7 +62,6 @@ class UserBloc {
       auth.publish(false);
     else if (response.data is Map && response.status == Status.COMPLETED) {
       auth.publish(true);
-      userID = response.data["id"];
       firstName = response.data["first_name"];
       lastName = response.data["last_name"];
       saveUser();
@@ -124,7 +120,6 @@ class UserBloc {
     auth.publish(false);
     appBloc.prefs.setBool("auth", auth.value);
     productBloc.clearCart();
-    package.Requests.clearStoredCookies("zarinshop.site:49354");
   }
 
   saveUser() {
@@ -145,7 +140,6 @@ class UserBloc {
 
     if (response.data is Map && response.status == Status.COMPLETED) {
       this.auth.publish(true);
-      userID = response.data["id"];
       firstName = response.data["first_name"];
       lastName = response.data["last_name"];
 

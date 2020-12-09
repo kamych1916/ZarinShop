@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class AppCircularProgressIndicator extends StatelessWidget {
   final double size;
   final Color color;
-  const AppCircularProgressIndicator({Key key, this.size, this.color})
+  final double strokeWidth;
+  const AppCircularProgressIndicator(
+      {Key key, this.size, this.color, this.strokeWidth = 1})
       : super(key: key);
 
   @override
@@ -13,7 +15,7 @@ class AppCircularProgressIndicator extends StatelessWidget {
       height: size ?? 20.0,
       child: CircularProgressIndicator(
         valueColor: new AlwaysStoppedAnimation<Color>(color ?? Colors.white),
-        strokeWidth: 1,
+        strokeWidth: strokeWidth,
       ),
     );
   }

@@ -106,9 +106,14 @@ class _CartScreenState extends State<CartScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "Войдите, чтобы просматривать корзину",
-                            style: TextStyle(fontFamily: "SegoeUISemiBold"),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(
+                              "Войдите, чтобы добавлять товары в корзину",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontFamily: "SegoeUISemiBold"),
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 10.0),

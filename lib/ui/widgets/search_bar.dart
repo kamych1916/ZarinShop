@@ -58,8 +58,6 @@ class _SearchBarState extends State<SearchBar> {
     super.initState();
   }
 
-  /// TODO: скафолд в streambuilder с ивентом на поиск. Если поле submit, то начинаем поиск. Если длинна больше 3, то начинаем поиск (но с редьюсом)
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -96,8 +94,7 @@ class _SearchBarState extends State<SearchBar> {
                     decorationColor: Colors.white.withOpacity(0)),
                 decoration: InputDecoration(
                   hintText: "Поиск",
-                  contentPadding: EdgeInsets.only(
-                      left: 15, right: searchStateDelayed ? 30 : 15, top: 5),
+                  contentPadding: EdgeInsets.only(left: 30, right: 30, top: 5),
                   filled: true,
                   fillColor: Colors.white,
                   hintMaxLines: 1,
@@ -166,6 +163,7 @@ class Debouncing {
   }
 
   Timer _waiter;
+  // ignore: unused_field
   bool _isReady = true;
   bool get isReady => isReady;
   // ignore: close_sinks

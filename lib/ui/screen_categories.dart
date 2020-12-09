@@ -1,7 +1,3 @@
-import 'package:Zarin/utils/app_icons.dart';
-import 'package:Zarin/blocs/product_bloc.dart';
-import 'package:Zarin/models/api_response.dart';
-import 'package:Zarin/models/category.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

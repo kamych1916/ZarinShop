@@ -108,8 +108,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                                 randomLoadingLinesSize[index]),
                                     child: Shimmer.fromColors(
                                       baseColor: Colors.grey[300],
-
-                                      /// TODO: цвета у шимера разные везде
                                       highlightColor: Colors.grey[400],
                                       child: Container(
                                         height: 15,

@@ -37,7 +37,7 @@ class _PasswordResetCodeScreenState extends State<PasswordResetCodeScreen> {
           centerTitle: true,
           leading: GestureDetector(
             onTap: () {
-              userBloc.email.publish("");
+              if (widget.popCount != 1) userBloc.email.publish("");
               int count = 0;
               Navigator.of(context).popUntil((route) {
                 return count++ == widget.popCount;

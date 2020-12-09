@@ -66,7 +66,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("favorites build");
     return Scaffold(
       backgroundColor: Styles.subBackgroundColor,
       appBar: PreferredSize(
@@ -91,7 +90,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           stream: productBloc.favoritesProducts.stream,
           builder:
               (context, AsyncSnapshot<ApiResponse<List<Product>>> snapshot) {
-            if (!snapshot.hasData || snapshot.data.status == Status.LOADING)
+            if (!snapshot.hasData) return Container();
+            if (snapshot.data.status == Status.LOADING)
               return CupertinoScrollbar(
                 child: GridView.count(
                   childAspectRatio: 1 / 2 + 0.025,

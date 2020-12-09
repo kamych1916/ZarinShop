@@ -1,15 +1,8 @@
 import 'package:Zarin/ui/widgets/products_list.dart';
 import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
-import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/category.dart';
-import 'package:Zarin/models/product.dart';
-import 'package:Zarin/ui/widgets/filter_sheet.dart';
-import 'package:Zarin/ui/widgets/product_card.dart';
-import 'package:Zarin/ui/widgets/product_card_loading.dart';
-import 'package:Zarin/ui/widgets/sort_sheet.dart';
 import 'package:Zarin/utils/styles.dart';
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +19,6 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  static const _indicatorSize = 50.0;
-
   @override
   void initState() {
     productBloc.getProductsByCategoryId(widget.category.id, context);

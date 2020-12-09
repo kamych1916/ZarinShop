@@ -1,34 +1,40 @@
+import 'dart:io';
+
 import 'package:Zarin/models/api_response.dart';
-import 'package:Zarin/utils/check_internet_connection.dart';
+import 'package:Zarin/utils/utils.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 
 import 'dart:async';
 import 'dart:convert' show json, utf8;
-import 'dart:io';
-
-import 'package:requests/requests.dart' as package;
 
 class UserApiProvider {
+  static String token;
+  IOClient client = new IOClient();
+
+  void _setToken(String cookie) {
+    token = cookie.substring(cookie.indexOf("session_token=") + 14,
+        cookie.indexOf(";", cookie.indexOf("session_token=")));
+  }
+
   Future<ApiResponse<dynamic>> signIn(String email, String password) async {
     String url = "https://mirllex.site/server/api/v1/signin";
-
     String body = '{"email": "$email", "password": "$password"}';
 
     try {
-      var response = await package.Requests.post(url,
-          body: body,
-          timeoutSeconds: 10,
-          bodyEncoding: package.RequestBodyEncoding.PlainText);
+      var response =
+          await client.post(url, body: body).timeout(Duration(seconds: 10));
 
-      if (response.statusCode == 200)
+      if (response.statusCode == 200) {
+        _setToken(response.headers["set-cookie"]);
         return ApiResponse.completed(
-            json.decode(utf8.decode(response.bytes())));
+            json.decode(utf8.decode(response.bodyBytes)));
+      }
       if (response.statusCode == 401) return ApiResponse.completed(false);
 
       return ApiResponse.error("При входе возникла ошибка");
     } catch (exception) {
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception.runtimeType == SocketException ||
@@ -41,8 +47,6 @@ class UserApiProvider {
 
   Future<ApiResponse<bool>> resetPassword(String email) async {
     String url = "https://mirllex.site/server/api/v1/reset_password";
-
-    IOClient client = new IOClient();
     String parameters = "?email=$email";
 
     try {
@@ -55,7 +59,7 @@ class UserApiProvider {
 
       return ApiResponse.error("При востановлении пароля возника ошибка");
     } catch (exception) {
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception == SocketException || exception == TimeoutException
@@ -68,8 +72,6 @@ class UserApiProvider {
   Future<ApiResponse<bool>> signUp(
       String email, String password, firstName, lastName, phone) async {
     String url = "https://mirllex.site/server/api/v1/signup";
-
-    IOClient client = new IOClient();
     String body =
         '{"email": "$email", "password": "$password", "first_name": "$firstName","last_name": "$lastName", "phone": $phone}';
 
@@ -83,7 +85,7 @@ class UserApiProvider {
 
       return ApiResponse.error("При регистрации произошла ошибка");
     } catch (exception) {
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception.runtimeType == SocketException ||
@@ -96,9 +98,7 @@ class UserApiProvider {
 
   Future<ApiResponse<bool>> checkSignUpCode(String code, String email) async {
     String url = "https://mirllex.site/server/api/v1/checkcode_activ";
-
-    IOClient client = new IOClient();
-    String parameters = "/$code?email=$email";
+    String parameters = "?code=$code&email=$email";
 
     try {
       Response response =
@@ -109,7 +109,7 @@ class UserApiProvider {
 
       return ApiResponse.error("При проверке кода возникла ошибка");
     } catch (exception) {
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception == SocketException || exception == TimeoutException
@@ -122,8 +122,6 @@ class UserApiProvider {
   Future<ApiResponse<bool>> checkPasswordResetCode(
       String code, String email, String password) async {
     String url = "https://mirllex.site/server/api/v1/change_password";
-
-    IOClient client = new IOClient();
     String parameters = "?code=$code&new_password=$password&email=$email";
 
     try {
@@ -137,7 +135,7 @@ class UserApiProvider {
 
       return ApiResponse.error("При проверке кода возникла ошибка");
     } catch (exception) {
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception == SocketException || exception == TimeoutException

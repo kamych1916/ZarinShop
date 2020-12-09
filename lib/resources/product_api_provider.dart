@@ -6,16 +6,16 @@ import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/models/cart_entity.dart';
-import 'package:Zarin/utils/check_internet_connection.dart';
+import 'package:Zarin/resources/user_api_provider.dart';
+import 'package:Zarin/utils/utils.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
-import 'package:requests/requests.dart' as package;
 
 class ProductApiProvider {
+  IOClient client = new IOClient();
+
   Future<ApiResponse<List<Category>>> getCategories() async {
     String url = "https://mirllex.site/server/api/v1/categories";
-
-    IOClient client = new IOClient();
 
     try {
       Response response = await client.get(url).timeout(Duration(seconds: 5));
@@ -29,7 +29,7 @@ class ProductApiProvider {
       }
       throw SocketException;
     } catch (exception) {
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception.runtimeType == SocketException ||
@@ -43,8 +43,6 @@ class ProductApiProvider {
   Future<ApiResponse<List<Product>>> getProductsByCategoryId(String id) async {
     String url = "https://mirllex.site/server/api/v1/items_cat/$id";
 
-    IOClient client = new IOClient();
-
     try {
       Response response = await client.get(url).timeout(Duration(seconds: 5));
 
@@ -57,7 +55,7 @@ class ProductApiProvider {
       }
       throw SocketException;
     } catch (exception) {
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception.runtimeType == SocketException ||
@@ -70,8 +68,6 @@ class ProductApiProvider {
 
   Future<ApiResponse<List<Product>>> getProductsByID(List<String> ids) async {
     String url = "https://mirllex.site/server/api/v1/items_ind";
-
-    IOClient client = new IOClient();
     String body = ids.toString();
 
     try {
@@ -87,8 +83,7 @@ class ProductApiProvider {
       }
       throw SocketException;
     } catch (exception) {
-      print(exception);
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception.runtimeType == SocketException ||
@@ -103,20 +98,21 @@ class ProductApiProvider {
     String url = "https://mirllex.site/server/api/v1/cart/shopping_cart";
 
     try {
-      var response = await package.Requests.get(url, timeoutSeconds: 10);
+      Response response = await client.get(url, headers: {
+        "Authorization": "Bearer " + UserApiProvider.token
+      }).timeout(Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         List<CartEntity> products = [];
-        final responseDecode = json.decode(utf8.decode(response.bytes()));
+        final responseDecode = json.decode(utf8.decode(response.bodyBytes));
         for (dynamic product in responseDecode["items"])
           products.add(CartEntity.fromJson(product));
         return ApiResponse.completed(products);
       }
 
-      response.raiseForStatus();
       throw SocketException;
     } catch (exception) {
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception.runtimeType == SocketException ||
@@ -135,10 +131,9 @@ class ProductApiProvider {
     int count = cartEntity.count;
     String body = '{"id": "$productID", "size": "$size", "kol": $count}';
 
-    await package.Requests.post(url,
-        body: body,
-        timeoutSeconds: 10,
-        bodyEncoding: package.RequestBodyEncoding.PlainText);
+    await client.post(url, body: body, headers: {
+      "Authorization": "Bearer " + UserApiProvider.token
+    }).timeout(Duration(seconds: 5));
   }
 
   removeProductFromCart(CartEntity cartEntity) async {
@@ -148,16 +143,13 @@ class ProductApiProvider {
     String productSize = cartEntity.size;
     String body = '{"id": "$productID", "size": "$productSize"}';
 
-    await package.Requests.delete(url,
-        body: body,
-        timeoutSeconds: 10,
-        bodyEncoding: package.RequestBodyEncoding.PlainText);
+    await client.send(Request("DELETE", Uri.parse(url))
+      ..headers["Authorization"] = "Bearer " + UserApiProvider.token
+      ..body = body);
   }
 
   Future<ApiResponse<List<Product>>> search(String search) async {
     String url = "https://mirllex.site/server/api/v1/search";
-
-    IOClient client = new IOClient();
     String parameters = "?poisk=$search";
 
     try {
@@ -173,7 +165,7 @@ class ProductApiProvider {
       }
       throw SocketException;
     } catch (exception) {
-      bool internetStatus = await checkInternetConnection();
+      bool internetStatus = await Utils.checkInternetConnection();
 
       return internetStatus
           ? exception.runtimeType == SocketException ||
