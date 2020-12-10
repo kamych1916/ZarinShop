@@ -2,7 +2,7 @@
     <b-card header="Товары" >
         <div class="wrap__products">       
             <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
-            <b-modal scrollable hide-footer size="lg" v-model="AddProductModal">
+            <b-modal @hidden="resetModal" scrollable hide-footer size="lg" v-model="AddProductModal">
                 <b-form @submit.prevent="eventProduct()">
                     <div class="pt-2">
                         <span class="title_inputs">Введите наименование товара</span>
@@ -83,7 +83,7 @@
                                         id="size_S"
                                         name="size_S"
                                         v-model="size_S"
-                                        @input="sizeEvents($event.target.value, 1)"
+                                        @change="sizeEvents(size_S, 1)"
                                     />
                                 </b-col>
                             </b-row>
@@ -97,7 +97,7 @@
                                         id="size_M"
                                         name="size_M"
                                         v-model="size_M"
-                                        @input="sizeEvents($event.target.value, 2)"
+                                        @change="sizeEvents(size_M, 2)"
                                     />
                                 </b-col>
                             </b-row>
@@ -111,7 +111,7 @@
                                         id="size_L"
                                         name="size_L"
                                         v-model="size_L"
-                                        @input="sizeEvents($event.target.value, 3)"
+                                        @change="sizeEvents(size_L, 3)"
                                     />
                                 </b-col>
                             </b-row>
@@ -125,7 +125,7 @@
                                         id="size_XL"
                                         name="size_XL"
                                         v-model="size_XL"
-                                        @input="sizeEvents($event.target.value, 4)"
+                                        @change="sizeEvents(size_XL, 4)"
                                     />
                                 </b-col>
                             </b-row>
@@ -139,7 +139,7 @@
                                         id="size_XXL"
                                         name="size_XXL"
                                         v-model="size_XXL"
-                                        @input="sizeEvents($event.target.value, 5)"
+                                        @change="sizeEvents(size_XXL, 5)"
                                     />
                                 </b-col>
                             </b-row>
@@ -153,7 +153,7 @@
                                         id="none_size"
                                         name="none_size"
                                         v-model="none_size"
-                                        @input="sizeEvents($event.target.value, 6)"
+                                        @change="sizeEvents(none_size, 6)"
                                     />
                                 </b-col>
                             </b-row>
@@ -265,13 +265,16 @@
                     </div>
                     <div style="border-top: 1px solid #ccc" class="w-100 py-4">
                         <b-button v-if="eventBtnProduct" type='submit' class="float-left">СОЗДАТЬ НОВЫЙ ТОВАР</b-button>
-                        <b-button v-else type="submit" class="float-left">ИЗМЕНИТЬ ТОВАР</b-button>
+                        <b-row v-else class="float-left d-flex justify-content-between" >
+                            <b-button type="submit">ИЗМЕНИТЬ ТОВАР</b-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <b-button @click="deleteProduct()" variant="danger">УДАЛИТЬ ТОВАР</b-button>                            
+                        </b-row>
                         <b-button class="float-right" @click="closeModal()"> Отменить </b-button>
                     </div>
                 </b-form>
             </b-modal>
             <!-- <b-table @row-selected="onRowlink_colorProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive> -->
-            <b-table @row-selected="onRowProductSelected($event)" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable select-mode="single" striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
+            <b-table ref="allProducts" @row-selected="onRowProductSelected($event)" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable select-mode="single" striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
                 <template #empty="scope">
                     <div  class="d-flex justify-content-center w-100">
                         <h6>{{ scope.emptyText }}</h6>
@@ -483,40 +486,50 @@ methods:{
     },
 
     onRowProductSelected(picked){
-        // console.log(picked)
-        this.eventBtnProduct = false;
-        this.New_Product = picked[0];
-        
-        this.AddProductModal=true;
-
-        this.New_Product.categories = picked[0].categories_value;
-
-        // this.New_Product.link_color = picked[0].link_color[0].id;
-        
-        for(let img in picked[0].images){
-            this.files.push({file_url: picked[0].images[img], file_name: picked[0].name_images[img]})
-        }
-
-        for(let product of this.New_Product.size_kol){
-            switch(product.size){
-                case 'S': this.size_S = product.kol;
-                case 'M': this.size_M = product.kol;
-                case 'L': this.size_L = product.kol;
-                case 'XL': this.size_XL = product.kol;
-                case 'XXL': this.size_XXL = product.kol;
-                case 'Нет размера': this.none_size = product.kol;
+        if(picked[0]){
+            this.eventBtnProduct = false;
+            this.New_Product = picked[0];
+            
+            this.AddProductModal=true;
+    
+            this.New_Product.categories = picked[0].categories_value;
+    
+            // this.New_Product.link_color = picked[0].link_color[0].id;
+            
+            for(let img in picked[0].images){
+                this.files.push({file_url: picked[0].images[img], file_name: picked[0].name_images[img]})
             }
+            for(let product of this.New_Product.size_kol){
+                switch(product.size){
+                    case 'S': this.size_S = product.kol; break;
+                    case 'M': this.size_M = product.kol; break;
+                    case 'L': this.size_L = product.kol; break;
+                    case 'XL': this.size_XL = product.kol; break;
+                    case 'XXL': this.size_XXL = product.kol; break;
+                    case 'Нет размера': this.none_size = product.kol; break;
+                }
+            }
+            this.New_Product.id = parseInt(this.New_Product.id);
         }
-        this.New_Product.id = parseInt(this.New_Product.id);
     },
     
-    closeModal(){
-
+    resetModal(){
+        this.New_Product = Store_New_Product;
+        this.files = [];
+        this.$refs.allProducts.clearSelected();
+        this.size_S = '';
+        this.size_M = '';
+        this.size_L = '';
+        this.size_XL = '';
+        this.size_XXL = '';
+        this.none_size = '';
     },
-
     onRowlink_colorProducts(picked){
-        this.New_Product.link_color.push(parseInt(picked[0].id));
+        if(picked[0]){
+            this.New_Product.link_color.push(parseInt(picked[0].id));
+        }
     },
+
     sizeEvents(value, inpt){
         if(value === ''){ value = 0 }
         let StoreProduct = this.size_kol;
@@ -534,25 +547,25 @@ methods:{
             for(let s in StoreProduct){ if(StoreProduct[s].size === 'Нет размера'){ this.size_kol[s].kol = parseInt(value) } };
         }
     },
+    
+    // ИЗМЕНЕНИЕ ТОВАРА И ДОБАВЛЕНИЕ НОВОГО
     eventProduct(){
         // РАЗОБРАТЬСЯ С КОЛИЧЕСТВОМ РАЗМЕРОВ И ВЫХОДОМ ИЗ МОДАЛЬНОГО ОКНА
-        if(this.eventBtnProduct){
-            let StoreSizeProduct = this.size_kol.filter(el=> el.kol !== 0);
-            if(StoreSizeProduct.length > 0){
-                let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера')
-                if(StoreNoneSizeProduct[0]){
-                    if(StoreNoneSizeProduct[0].kol !== 0){
-                       this.New_Product.size_kol = StoreNoneSizeProduct    
-                    }else{
-                        alert('Введите пожалуйста количество товара')
-                    }
+        let StoreSizeProduct = this.size_kol.filter(el=> el.kol !== 0);
+        if(StoreSizeProduct.length > 0){
+            let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера')
+            if(StoreNoneSizeProduct[0]){
+                if(StoreNoneSizeProduct[0].kol !== 0){
+                    this.New_Product.size_kol = StoreNoneSizeProduct    
                 }else{
-                    this.New_Product.size_kol = StoreSizeProduct 
+                    alert('Введите пожалуйста количество товара')
                 }
-    
+            }else this.New_Product.size_kol = StoreSizeProduct;
+
+            if(this.eventBtnProduct){
+
                 this.New_Product.discount = parseInt(this.New_Product.discount);
                 this.New_Product.price = parseInt(this.New_Product.price);
-                console.log(this.New_Product)  
                 Api.getInstance().products.sendNewProduct(this.New_Product).then((response) => {
                     this.$bvToast.toast('Товар успешно добавлен в базу данных.', {
                         title: `Сообщение`,
@@ -568,36 +581,55 @@ methods:{
                 .catch((error) => {
                     console.log("sendNewProduct -> ", error)
                     this.$bvToast.toast("Товар не добавлен в базу данных.", {
-                        title: `Ошибка системы`,
+                        title: `Системная ошибка`,
+                        variant: "danger",
+                        solid: true,
+                    });
+                });
+            
+            }else{
+                Api.getInstance().products.changeProduct(this.New_Product).then((response) => {
+                    this.$bvToast.toast('Товар успешно изменён.', {
+                        title: `Сообщение`,
+                        variant: "success",
+                        solid: true
+                    });
+                    setTimeout(()=>{
+                        this.New_Product = Store_New_Product;
+                        this.AddProductModal=false;
+                        // window.location.reload(true);
+                    }, 1000)
+                })
+                .catch((error) => {
+                    console.log("changeProduct -> ", error)
+                    this.$bvToast.toast("Товар не был изменён.", {
+                        title: `Системная ошибка`,
                         variant: "danger",
                         solid: true,
                     });
                 });
             }
-        }else{
-            console.log('onRowProductSelected->', this.New_Product);
-            Api.getInstance().products.changeProduct(this.New_Product).then((response) => {
-                this.$bvToast.toast('Товар успешно добавлен в базу данных.', {
-                    title: `Сообщение`,
-                    variant: "success",
-                    solid: true
-                });
-                setTimeout(()=>{
-                    this.New_Product = Store_New_Product;
-                    this.AddProductModal=false;
-                    // window.location.reload(true);
-                }, 1000)
-            })
-            .catch((error) => {
-                console.log("send_image -> ", error)
-                this.$bvToast.toast("Изображение не загружено.", {
-                    title: `Ошибка аутентификации`,
-                    variant: "danger",
-                    solid: true,
-                });
-                // setTimeout(()=>{this.$router.push('/')}, 1500)
-            });
         }
+    },
+    deleteProduct(){
+        Api.getInstance().products.deleteProduct(this.New_Product.id).then((response) => {
+            this.$bvToast.toast("Товар был успешно удален из базы данных!", {
+                title: `Сообщение:`,
+                variant: "success",
+                solid: true,
+            })    
+            this.AddProductModal=false; 
+            this.resetModal();
+            this.dataProductsItems.splice(this.New_Product.id, 1);
+        }).catch((error) => {
+            console.log('deleteProduct-> ', error)
+            this.$bvToast.toast("Удаление прошло безуспешно.", {
+                title: 'Системная ошибка',
+                variant: "danger",
+                solid: true,
+            });
+            // setTimeout(()=>{this.$router.push('/')}, 1500)
+        });
     },
 
     handleFileUpload(){

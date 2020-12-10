@@ -42,6 +42,18 @@ export default class Api {
                 } 
             )
         },
+        async deleteProduct(id) {
+            return axios.delete(`${API_BASE_URL}/items`,
+                {
+                    params: {
+                        delete_id: id
+                    },
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
         async getCategories() {
             return axios.get(`${API_BASE_URL}/list_categories`, 
                 {
@@ -114,7 +126,6 @@ export default class Api {
             return axios.post(`${API_BASE_URL}/categories`, category)
         },
         async upload_file(formData) {
-            console.log('API_BASE_URL-> ', API_BASE_URL)
             return axios.post(`${API_BASE_URL}/uploadfile`, formData, 
             {
                 headers: {
