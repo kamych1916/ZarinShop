@@ -26,7 +26,7 @@ class _SearchBarState extends State<SearchBar> {
     if (productBloc.searchFieldFocusNode.hasFocus && !searchState)
       setState(() {
         searchState = true;
-        Future.delayed(Duration(milliseconds: 500),
+        Future.delayed(Duration(milliseconds: 300),
             () => setState(() => searchStateDelayed = true));
       });
     if (!productBloc.searchFieldFocusNode.hasFocus && searchState)

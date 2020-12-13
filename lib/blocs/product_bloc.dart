@@ -36,6 +36,8 @@ class ProductBloc {
 
   final Event<ApiResponse<List<Category>>> categories = Event();
   final Event<ApiResponse<List<Product>>> products = Event();
+  final Event<ApiResponse<List<Product>>> productsSales = Event();
+  final Event<ApiResponse<List<Product>>> productsOffers = Event();
 
   final Event<ApiResponse<List<Product>>> cartProducts = Event();
   final Event<ApiResponse<List<Product>>> favoritesProducts = Event();
@@ -62,6 +64,20 @@ class ProductBloc {
   }
 
   /// Товары
+
+  void getHomeProducts() async {
+    productsSales.publish(ApiResponse.loading("Загрузка товара"));
+    productsOffers.publish(ApiResponse.loading("Загрузка товара"));
+
+    ApiResponse<List<Product>> productsSalesResponse =
+        await _productApiProvider.getProductsSales();
+
+    ApiResponse<List<Product>> productsOffersResponse =
+        await _productApiProvider.getProductsOffers();
+
+    productsSales.publish(productsSalesResponse);
+    productsOffers.publish(productsOffersResponse);
+  }
 
   Future getProductsByCategoryId(String id, context) async {
     products.publish(ApiResponse.loading("Загрузка товара"));

@@ -97,7 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               separatorBuilder: (context, index) => Divider(),
                               padding: EdgeInsets.zero,
                               physics: BouncingScrollPhysics(),
-                              itemCount: 10,
+                              itemCount: 5,
                               itemBuilder: (context, index) => Container(
                                     padding: EdgeInsets.symmetric(
                                         vertical: 7.5, horizontal: 5.0),
@@ -107,12 +107,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                                     2 -
                                                 randomLoadingLinesSize[index]),
                                     child: Shimmer.fromColors(
-                                      baseColor: Colors.grey[300],
-                                      highlightColor: Colors.grey[400],
+                                      baseColor: Styles.subBackgroundColor,
+                                      highlightColor:
+                                          Styles.mainColor.withOpacity(0.5),
+                                      period: Duration(milliseconds: 2000),
                                       child: Container(
                                         height: 15,
                                         decoration: BoxDecoration(
-                                            color: Colors.grey,
+                                            color: Styles.subBackgroundColor,
                                             borderRadius:
                                                 BorderRadius.circular(10)),
                                       ),

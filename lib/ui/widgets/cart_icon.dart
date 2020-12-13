@@ -55,7 +55,7 @@ class _CartIconState extends State<CartIcon> {
                     child: Container(
                       padding: EdgeInsets.all(2),
                       decoration: ShapeDecoration(
-                          shape: CircleBorder(), color: Colors.white),
+                          shape: CircleBorder(), color: Styles.subBackgroundColor),
                       child: Container(
                           width: 18,
                           height: 18,

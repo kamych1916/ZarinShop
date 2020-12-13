@@ -87,10 +87,12 @@ class _CartProductCardState extends State<CartProductCard> {
                           child: frame != null
                               ? child
                               : Shimmer.fromColors(
-                                  baseColor: Colors.grey[300],
-                                  highlightColor: Colors.grey[400],
+                                  baseColor: Styles.subBackgroundColor,
+                                  highlightColor:
+                                      Styles.mainColor.withOpacity(0.5),
+                                  period: Duration(milliseconds: 2000),
                                   child: Container(
-                                    color: Colors.grey,
+                                    color: Styles.subBackgroundColor,
                                     width: 100,
                                     height: double.infinity,
                                   ),

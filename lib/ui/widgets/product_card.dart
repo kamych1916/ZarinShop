@@ -41,6 +41,7 @@ class ProductCard extends StatelessWidget {
                   child: Hero(
                     tag: product.id,
                     child: Image(
+                      alignment: Alignment.center,
                       fit: BoxFit.cover,
                       height: MediaQuery.of(context).size.height / 3 - 15.0,
                       image: NetworkImage(product.firstImage ?? ""),
@@ -49,21 +50,24 @@ class ProductCard extends StatelessWidget {
                         if (wasSynchronouslyLoaded) {
                           return child;
                         } else {
-                          return AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 500),
-                              child: frame != null
-                                  ? child
-                                  : Shimmer.fromColors(
-                                      baseColor: Colors.grey[300],
-                                      highlightColor: Colors.grey[400],
-                                      child: Container(
-                                        color: Colors.grey,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                    3 -
-                                                15.0,
-                                      ),
-                                    ));
+                          return frame != null
+                              ? child
+                              : Shimmer.fromColors(
+                                  baseColor: Styles.subBackgroundColor,
+                                  highlightColor:
+                                      Styles.mainColor.withOpacity(0.5),
+                                  period: Duration(milliseconds: 2000),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Styles.subBackgroundColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    height:
+                                        MediaQuery.of(context).size.height /
+                                                3 -
+                                            15.0,
+                                  ),
+                                );
                         }
                       },
                     ),

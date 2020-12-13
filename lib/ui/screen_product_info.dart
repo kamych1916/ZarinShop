@@ -135,11 +135,16 @@ class _ProductInfoState extends State<ProductInfo> {
                                             child: frame != null
                                                 ? child
                                                 : Shimmer.fromColors(
-                                                    baseColor: Colors.grey[300],
-                                                    highlightColor:
-                                                        Colors.grey[400],
+                                                    baseColor: Styles
+                                                        .subBackgroundColor,
+                                                    highlightColor: Styles
+                                                        .mainColor
+                                                        .withOpacity(0.5),
+                                                    period: Duration(
+                                                        milliseconds: 3000),
                                                     child: Container(
-                                                      color: Colors.grey,
+                                                      color: Styles
+                                                          .subBackgroundColor,
                                                       width: double.infinity,
                                                       height:
                                                           MediaQuery.of(context)
@@ -171,11 +176,16 @@ class _ProductInfoState extends State<ProductInfo> {
                                             child: frame != null
                                                 ? child
                                                 : Shimmer.fromColors(
-                                                    baseColor: Colors.grey[300],
-                                                    highlightColor:
-                                                        Colors.grey[400],
+                                                    baseColor: Styles
+                                                        .subBackgroundColor,
+                                                    highlightColor: Styles
+                                                        .mainColor
+                                                        .withOpacity(0.5),
+                                                    period: Duration(
+                                                        milliseconds: 3000),
                                                     child: Container(
-                                                      color: Colors.grey,
+                                                      color: Styles
+                                                          .subBackgroundColor,
                                                       width: double.infinity,
                                                       height:
                                                           MediaQuery.of(context)
@@ -212,23 +222,23 @@ class _ProductInfoState extends State<ProductInfo> {
                                   style: TextStyle(
                                       fontFamily: "SegoeUIBold", fontSize: 20),
                                 ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 5.0),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    (widget.product.price).floor().toString() +
-                                        " сум",
-                                    overflow: TextOverflow.clip,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        fontFamily: "SegoeUIBold",
-                                        fontSize: 14,
-                                        color: Colors.red[300],
-                                        decoration: TextDecoration.lineThrough),
+                                widget.product.discount != 0 ? Expanded(
+                                  child: Padding(
+                                    padding:
+                                      EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: Text(
+                                      (widget.product.price).floor().toString() +
+                                          " сум",
+                                      overflow: TextOverflow.clip,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          fontFamily: "SegoeUIBold",
+                                          fontSize: 14,
+                                          color: Colors.red[300],
+                                          decoration: TextDecoration.lineThrough),
+                                    ),
                                   ),
-                                ),
+                                ) : Container(),
                               ],
                             ),
                           ),

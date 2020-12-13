@@ -175,4 +175,56 @@ class ProductApiProvider {
           : ApiResponse.error('Отсутствует интернет-соединение');
     }
   }
+
+  Future<ApiResponse<List<Product>>> getProductsSales() async {
+    String url = "https://mirllex.site/server/api/v1/hit_sales";
+
+    try {
+      Response response = await client.get(url).timeout(Duration(seconds: 5));
+
+      if (response.statusCode == 200) {
+        List<Product> products = [];
+        final responseDecode = json.decode(utf8.decode(response.bodyBytes));
+        for (dynamic product in responseDecode)
+          products.add(Product.fromJson(product));
+        return ApiResponse.completed(products);
+      }
+      throw SocketException;
+    } catch (exception) {
+      bool internetStatus = await Utils.checkInternetConnection();
+
+      return internetStatus
+          ? exception.runtimeType == SocketException ||
+                  exception.runtimeType == TimeoutException
+              ? ApiResponse.error('Сервис недоступен')
+              : ApiResponse.error('Возникла внутренняя ошибка')
+          : ApiResponse.error('Отсутствует интернет-соединение');
+    }
+  }
+
+  Future<ApiResponse<List<Product>>> getProductsOffers() async {
+    String url = "https://mirllex.site/server/api/v1/special_offer";
+
+    try {
+      Response response = await client.get(url).timeout(Duration(seconds: 5));
+
+      if (response.statusCode == 200) {
+        List<Product> products = [];
+        final responseDecode = json.decode(utf8.decode(response.bodyBytes));
+        for (dynamic product in responseDecode)
+          products.add(Product.fromJson(product));
+        return ApiResponse.completed(products);
+      }
+      throw SocketException;
+    } catch (exception) {
+      bool internetStatus = await Utils.checkInternetConnection();
+
+      return internetStatus
+          ? exception.runtimeType == SocketException ||
+                  exception.runtimeType == TimeoutException
+              ? ApiResponse.error('Сервис недоступен')
+              : ApiResponse.error('Возникла внутренняя ошибка')
+          : ApiResponse.error('Отсутствует интернет-соединение');
+    }
+  }
 }

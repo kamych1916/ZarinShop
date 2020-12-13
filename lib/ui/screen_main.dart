@@ -3,7 +3,7 @@ import 'package:Zarin/ui/widgets/cart_icon.dart';
 import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/ui/screen_cart.dart';
-import 'package:Zarin/ui/screen_categories.dart';
+import 'package:Zarin/ui/screen_home.dart';
 import 'package:Zarin/ui/screen_favorites.dart';
 import 'package:Zarin/ui/screen_user.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -24,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     screens = [
-      CategoriesScreen(),
+      HomeScreen(),
       SearchScreen(),
       CartScreen(),
       FavoritesScreen(),
@@ -65,13 +65,13 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
-      navBarHeight: 40,
-      iconSize: 24,
+      navBarHeight: 50,
+      iconSize: 20,
       controller: appBloc.tabController,
       screens: screens,
       items: tabs,
       confineInSafeArea: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Styles.subBackgroundColor,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
@@ -81,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
       screenTransitionAnimation: ScreenTransitionAnimation(
         animateTabTransition: false,
       ),
-      navBarStyle: NavBarStyle.style2,
+      navBarStyle: NavBarStyle.style14,
     );
   }
 }

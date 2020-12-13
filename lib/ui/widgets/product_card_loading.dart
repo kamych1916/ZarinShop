@@ -1,3 +1,4 @@
+import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -8,13 +9,14 @@ class ProductCardLoading extends StatelessWidget {
       child: Column(
         children: [
           Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[400],
+            baseColor: Styles.subBackgroundColor,
+            highlightColor: Styles.mainColor.withOpacity(0.5),
+            period: Duration(milliseconds: 2000),
             child: Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 3 - 15.0,
               decoration: BoxDecoration(
-                  color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+                  color: Styles.subBackgroundColor, borderRadius: BorderRadius.circular(10)),
             ),
           ),
           Container(
@@ -24,13 +26,14 @@ class ProductCardLoading extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[400],
+                  baseColor: Styles.subBackgroundColor,
+                  highlightColor: Styles.mainColor.withOpacity(0.5),
+                  period: Duration(milliseconds: 2000),
                   child: Container(
                     width: 100,
                     height: 15.0,
                     decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Styles.subBackgroundColor,
                         borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
@@ -38,13 +41,14 @@ class ProductCardLoading extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 2.5),
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[400],
+                  baseColor: Styles.subBackgroundColor,
+                  highlightColor: Styles.mainColor.withOpacity(0.5),
+                  period: Duration(milliseconds: 2000),
                   child: Container(
                     width: double.infinity,
                     height: 15.0,
                     decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Styles.subBackgroundColor,
                         borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
