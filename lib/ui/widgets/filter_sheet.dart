@@ -15,11 +15,40 @@ class _FilterSheetState extends State<FilterSheet> {
   final BehaviorSubject<List<int>> sizesSubject =
       new BehaviorSubject<List<int>>()..sink.add([]);
 
+  List<int> activeColors = [];
+  List<int> activeSizes = [];
+  double minPrice, maxPrice;
+
+  @override
+  void initState() {
+    if (productBloc.filter.colors != null)
+      activeColors = productBloc.filter.colors;
+    if (productBloc.filter.minPrice != null)
+      minPrice = productBloc.filter.minPrice;
+    if (productBloc.filter.maxPrice != null)
+      maxPrice = productBloc.filter.maxPrice;
+    if (productBloc.filter.sizes != null) {
+      activeSizes = productBloc.filter.sizes;
+      sizesSubject.sink.add(activeSizes);
+    }
+
+    sizesSubject.listen((value) {
+      print(value);
+      this.activeSizes = value;
+    });
+    super.initState();
+  }
+
   @override
   void dispose() {
     sizesSubject.close();
     super.dispose();
   }
+
+  colorCallback(List<int> activeColors) => this.activeColors = activeColors;
+
+  minValueCallback(double value) => this.minPrice = value;
+  maxValueCallback(double value) => this.maxPrice = value;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +56,14 @@ class _FilterSheetState extends State<FilterSheet> {
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-            color: Colors.white),
+            color: Styles.subBackgroundColor),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
               child: Container(
-                margin: EdgeInsets.only(top: 10.0, bottom: 20.0),
+                margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 width: 25.0,
                 height: 2.0,
                 decoration: BoxDecoration(
@@ -43,32 +72,58 @@ class _FilterSheetState extends State<FilterSheet> {
                 ),
               ),
             ),
-            Text('Фильтр',
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 16.0,
-                    fontFamily: "SegoeUIBold")),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Фильтр',
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 16.0,
+                        fontFamily: "SegoeUIBold")),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    productBloc.filter.clear();
+                    productBloc.cancelFilter();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Сбросить',
+                      style: TextStyle(
+                          color: Colors.blue[400],
+                          fontSize: 15.0,
+                          fontFamily: "SegoeUIBold")),
+                ),
+              ],
+            ),
             Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
             Text('Цвет',
                 style: TextStyle(
                     color: Colors.black87,
                     fontSize: 14.0,
                     fontFamily: "SegoeUIBold")),
-            Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-            ColorPicker(),
+            Padding(padding: EdgeInsets.symmetric(vertical: 2.5)),
+            ColorPicker(activeColors, colorCallback),
             Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
             Text('Цена',
                 style: TextStyle(
                     color: Colors.black87,
                     fontSize: 14.0,
                     fontFamily: "SegoeUIBold")),
-            Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-            ZarinRangeSlider(),
-            Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-            Sizes(["XS", "S", "M", "L", "XL"], sizesSubject),
+            Padding(padding: EdgeInsets.symmetric(vertical: 2.5)),
+            ZarinRangeSlider(
+                minPrice, maxPrice, minValueCallback, maxValueCallback),
+            Padding(padding: EdgeInsets.symmetric(vertical: 2.5)),
+            Sizes(AppBloc.sizes, sizesSubject),
             Padding(padding: EdgeInsets.symmetric(vertical: 15.0)),
             GestureDetector(
-              onTap: Navigator.of(context).pop,
+              onTap: () {
+                productBloc.filter.colors = activeColors;
+                productBloc.filter.minPrice = minPrice;
+                productBloc.filter.maxPrice = maxPrice;
+                productBloc.filter.sizes = activeSizes;
+                Navigator.of(context).pop();
+                productBloc.filterProducts();
+              },
               child: Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
@@ -84,7 +139,7 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 20.0),
+              padding: EdgeInsets.only(bottom: 10.0),
             )
           ],
         ));
@@ -92,37 +147,75 @@ class _FilterSheetState extends State<FilterSheet> {
 }
 
 class ColorPicker extends StatefulWidget {
+  final Function(List<int>) callback;
+  final List<int> initColors;
+  const ColorPicker(this.initColors, this.callback, {Key key})
+      : super(key: key);
+
   @override
   _ColorPickerState createState() => _ColorPickerState();
 }
 
 class _ColorPickerState extends State<ColorPicker> {
+  List<int> activeColors = [];
+
+  @override
+  void initState() {
+    if (widget.initColors != null) activeColors = widget.initColors;
+    super.initState();
+  }
+
+  void colorTap(int index) {
+    if (activeColors.contains(index))
+      activeColors.remove(index);
+    else
+      activeColors.add(index);
+
+    widget.callback(activeColors);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(AppBloc.colors.length,
-          (index) => ColorPickerCircle(AppBloc.colors[index])),
+      children: List.generate(
+          AppBloc.colors.length,
+          (index) => ColorPickerCircle(AppBloc.colors[index], colorTap, index,
+              activeColors.contains(index))),
     );
   }
 }
 
 class ColorPickerCircle extends StatefulWidget {
   final String color;
+  final int index;
+  final Function(int) callback;
+  final bool isActive;
 
-  const ColorPickerCircle(this.color, {Key key}) : super(key: key);
+  const ColorPickerCircle(this.color, this.callback, this.index, this.isActive,
+      {Key key})
+      : super(key: key);
 
   @override
   _ColorPickerCircleState createState() => _ColorPickerCircleState();
 }
 
 class _ColorPickerCircleState extends State<ColorPickerCircle> {
-  bool isActive = false;
+  bool isActive;
+
+  @override
+  void initState() {
+    isActive = widget.isActive;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => setState(() => isActive = !isActive),
+      onTap: () {
+        widget.callback(widget.index);
+        setState(() => isActive = !isActive);
+      },
       child: Container(
         height: 32,
         width: 25,
@@ -183,6 +276,16 @@ extension HexColor on Color {
 }
 
 class ZarinRangeSlider extends StatefulWidget {
+  final double initMinPrice;
+  final double initMaxPrice;
+  final Function(double) minValueCallback;
+  final Function(double) maxValueCallback;
+
+  const ZarinRangeSlider(this.initMinPrice, this.initMaxPrice,
+      this.minValueCallback, this.maxValueCallback,
+      {Key key})
+      : super(key: key);
+
   @override
   _ZarinRangeSliderState createState() => _ZarinRangeSliderState();
 }
@@ -194,16 +297,28 @@ class _ZarinRangeSliderState extends State<ZarinRangeSlider> {
 
   @override
   void initState() {
-    if (productBloc.products.value == null ||
-        productBloc.products.value.data == null ||
-        productBloc.products.value.data.isEmpty) {
+    if (productBloc.minFilterPrice == null ||
+        productBloc.maxFilterPrice == null) {
       min = 0;
       max = 50000;
     } else {
-      min = productBloc.getProductsMinPrice();
-      max = productBloc.getProductsMaxPrice();
+      min = productBloc.minFilterPrice;
+      max = productBloc.maxFilterPrice;
     }
-    _currentRangeValues = RangeValues(min, max);
+
+    double minTemp, maxTemp;
+
+    if (widget.initMinPrice != null)
+      minTemp = widget.initMinPrice;
+    else
+      minTemp = min;
+
+    if (widget.initMaxPrice != null)
+      maxTemp = widget.initMaxPrice;
+    else
+      maxTemp = max;
+
+    _currentRangeValues = RangeValues(minTemp, maxTemp);
 
     super.initState();
   }
@@ -221,6 +336,12 @@ class _ZarinRangeSliderState extends State<ZarinRangeSlider> {
         _currentRangeValues.end.round().toString(),
       ),
       onChanged: (RangeValues values) {
+        if (values.start != _currentRangeValues.start)
+          widget.minValueCallback(values.start);
+
+        if (values.end != _currentRangeValues.end)
+          widget.maxValueCallback(values.end);
+
         setState(() {
           _currentRangeValues = values;
         });

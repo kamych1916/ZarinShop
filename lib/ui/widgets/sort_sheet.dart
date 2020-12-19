@@ -39,7 +39,7 @@ class SortSheet extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-            color: Colors.white),
+            color: Styles.subBackgroundColor),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

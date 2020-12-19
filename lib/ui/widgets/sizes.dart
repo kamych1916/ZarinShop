@@ -103,6 +103,15 @@ class _SizeContainerState extends State<SizeContainer> {
       streamSubscription = widget.currentSizeSubject.listen((value) {
         if (value != widget.index && isActive) setState(() => isActive = false);
       });
+
+    if (widget.currentSizeSubject is BehaviorSubject<List<int>>) {
+      if (widget.currentSizeSubject.value != null &&
+          widget.currentSizeSubject.value.isNotEmpty) {
+        if (widget.currentSizeSubject.value.contains(widget.index))
+          isActive = true;
+      }
+    }
+
     super.initState();
   }
 

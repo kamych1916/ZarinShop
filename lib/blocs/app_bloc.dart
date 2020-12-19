@@ -152,6 +152,8 @@ class AppBloc {
     "#FFA500",
     "#FFC0CB"
   ];
+
+  static final List<String> sizes = ["XS", "S", "M", "L", "XL"];
 }
 
 final AppBloc appBloc = AppBloc();

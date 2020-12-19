@@ -282,7 +282,7 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
                 helperText: ' ',
                 contentPadding: EdgeInsets.only(left: 15, right: 15, top: 5),
                 filled: true,
-                fillColor: Color.fromRGBO(230, 236, 240, 1),
+                fillColor: Colors.white,
                 hintMaxLines: 1,
                 hintStyle: TextStyle(
                     color: Color.fromRGBO(134, 145, 173, 1), fontSize: 14.0),
@@ -314,8 +314,13 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
     ]);
 
     return Container(
-      padding: MediaQuery.of(context).viewInsets,
-      margin: EdgeInsets.symmetric(horizontal: 20.0),
+      //padding: MediaQuery.of(context).viewInsets,
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      decoration: BoxDecoration(
+        
+      color: Styles.subBackgroundColor,
+      borderRadius: BorderRadius.circular(25) 
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -458,7 +463,7 @@ class DeliveryTypePickerSheet extends StatelessWidget {
         },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 5.0),
-          color: Styles.backgroundColor,
+          color: Styles.subBackgroundColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -477,8 +482,13 @@ class DeliveryTypePickerSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: MediaQuery.of(context).viewInsets,
-      margin: EdgeInsets.symmetric(horizontal: 20.0),
+      //padding: MediaQuery.of(context).viewInsets,
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      decoration: BoxDecoration(
+        
+      color: Styles.subBackgroundColor,
+      borderRadius: BorderRadius.circular(25) 
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,

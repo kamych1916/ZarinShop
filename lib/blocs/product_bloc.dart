@@ -7,6 +7,7 @@ import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/cart_entity.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/models/event.dart';
+import 'package:Zarin/models/filter.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/resources/product_api_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +34,8 @@ class ProductBloc {
     SortType.PriceAsc: "По возрастанию цены",
     SortType.PriceDesc: "По уменьшению цены"
   };
+
+  Filter filter = Filter();
 
   final Event<ApiResponse<List<Category>>> categories = Event();
   final Event<ApiResponse<List<Product>>> products = Event();
@@ -80,6 +83,8 @@ class ProductBloc {
   }
 
   Future getProductsByCategoryId(String id, context) async {
+    print(id);
+    filter = Filter();
     products.publish(ApiResponse.loading("Загрузка товара"));
 
     ApiResponse<List<Product>> productsResponse =
@@ -87,8 +92,18 @@ class ProductBloc {
 
     if (productsResponse.status != Status.COMPLETED)
       products.publish(productsResponse);
-    else
-      sortProducts(list: productsResponse.data);
+    else {
+      if (productsResponse.data.isEmpty)
+        products.publish(productsResponse);
+      else
+        sortProducts(list: productsResponse.data);
+    }
+
+    if (productsResponse.status == Status.COMPLETED &&
+        productsResponse.data.isNotEmpty) {
+      minFilterPrice = getProductsMinPrice();
+      maxFilterPrice = getProductsMaxPrice();
+    }
   }
 
   double getProductsMaxPrice() =>
@@ -97,6 +112,7 @@ class ProductBloc {
       products.value.data.map((e) => e.totalPrice).reduce(min);
 
   sortProducts({List<Product> list}) {
+    if (products.value == null) return;
     List<Product> sortProducts = list ?? products.value.data;
     if (sortProducts == null || sortProducts.isEmpty) return;
 
@@ -124,7 +140,46 @@ class ProductBloc {
     ApiResponse<List<Product>> searchReslut =
         await _productApiProvider.search(search);
 
-    products.publish(searchReslut);
+    if (searchReslut.status != Status.COMPLETED)
+      products.publish(searchReslut);
+    else {
+      if (searchReslut.data.isEmpty)
+        products.publish(searchReslut);
+      else
+        sortProducts(list: searchReslut.data);
+    }
+
+    if (searchReslut.status == Status.COMPLETED &&
+        searchReslut.data.isNotEmpty) {
+      minFilterPrice = getProductsMinPrice();
+      maxFilterPrice = getProductsMaxPrice();
+    }
+  }
+
+  List<Product> filterProductsTemp = [];
+  double minFilterPrice;
+  double maxFilterPrice;
+
+  filterProducts() {
+    if (products.value.data == null) return;
+    filterProductsTemp = filterProductsTemp.isNotEmpty
+        ? filterProductsTemp
+        : products.value.data;
+
+    List<Product> filterProducts = [];
+
+    for (Product product in filterProductsTemp) {
+      if (filter.check(product)) filterProducts.add(product);
+    }
+
+    if (filterProducts.isEmpty) products.publish(ApiResponse.completed([]));
+
+    sortProducts(list: filterProducts);
+  }
+
+  cancelFilter() {
+    sortProducts(list: filterProductsTemp);
+    filterProductsTemp = [];
   }
 
   /// Корзина

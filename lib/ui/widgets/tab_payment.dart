@@ -194,7 +194,11 @@ class _AddCardSheetState extends State<AddCardSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: MediaQuery.of(context).viewInsets,
+      decoration: BoxDecoration(
+        
+      color: Styles.subBackgroundColor,
+      borderRadius: BorderRadius.circular(25) 
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -226,7 +230,7 @@ class _AddCardSheetState extends State<AddCardSheet> {
                 borderRadius: BorderRadius.circular(10)),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
+            padding: EdgeInsets.symmetric(vertical: 10.0),
           )
         ],
       ),

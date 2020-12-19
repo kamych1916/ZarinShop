@@ -465,7 +465,7 @@ class _CounterState extends State<Counter> {
           child: Container(
             padding: EdgeInsets.only(right: 20, left: 20),
             child: Text("-",
-                style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16)),
+                style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16, color: current == 1 ? Colors.grey : Colors.black)),
           ),
         ),
         Text(
@@ -479,7 +479,7 @@ class _CounterState extends State<Counter> {
             padding: EdgeInsets.only(left: 20, right: 20.0),
             child: Text(
               "+",
-              style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16),
+              style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16, color: current >= maxCount ? Colors.grey : Colors.black),
             ),
           ),
         )

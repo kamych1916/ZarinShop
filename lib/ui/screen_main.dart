@@ -65,6 +65,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
+      decoration: NavBarDecoration(
+          border: Border.all(color: Colors.transparent),
+          colorBehindNavBar: Styles.subBackgroundColor),
       navBarHeight: 50,
       iconSize: 20,
       controller: appBloc.tabController,

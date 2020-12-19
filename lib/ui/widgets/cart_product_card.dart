@@ -115,7 +115,7 @@ class _CartProductCardState extends State<CartProductCard> {
                     children: [
                       Expanded(
                         child: Text(
-                          product.id + " " + product.name,
+                          product.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -127,9 +127,10 @@ class _CartProductCardState extends State<CartProductCard> {
                       GestureDetector(
                         onTap: () => productBloc
                             .removeProductFromCart(widget.cartEntity),
+                        behavior: HitTestBehavior.translucent,
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                              vertical: 2.5, horizontal: 5.0),
+                              vertical: 5, horizontal: 15.0),
                           child: Icon(
                             Icons.close,
                             size: 16,

@@ -92,7 +92,7 @@ class ProductCard extends StatelessWidget {
                         fontSize: 16.0,
                         fontFamily: "SegoeUISemiBold"),
                   ),
-                  Text(product.id + " " + product.name,
+                  Text(product.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
