@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:Zarin/blocs/app_bloc.dart';
+import 'package:Zarin/ui/screen_order_await.dart';
 import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/models/address.dart';
 import 'package:Zarin/models/credit_card.dart';
@@ -8,7 +11,9 @@ import 'package:Zarin/ui/widgets/tab_payment.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class OrderScreen extends StatefulWidget {
   @override
@@ -187,20 +192,77 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  decoration: BoxDecoration(
-                      color: Styles.mainColor,
-                      borderRadius: new BorderRadius.only(
-                        topLeft: const Radius.circular(10.0),
-                        topRight: const Radius.circular(10.0),
-                      )),
-                  child: Text(
-                    "Оплатить",
-                    style: TextStyle(
-                        fontFamily: 'SegoeUIBold', color: Colors.white),
+                GestureDetector(
+                  onTap: () async {
+                    int amount = 1000;
+                    Random random = new Random();
+                    int merchantTransId = random.nextInt(10000) + 1000;
+
+                    String url =
+                        "https://my.click.uz/services/pay/?service_id=${AppBloc.serviceId}&merchant_id=${AppBloc.merchantId}&amount=$amount&transaction_param=$merchantTransId";
+
+                    print(url);
+
+                    final Completer<WebViewController> _controller =
+                        Completer<WebViewController>();
+
+                    await pushNewScreen(
+                      context,
+                      screen: Scaffold(
+                        appBar: PreferredSize(
+                          preferredSize: Size.fromHeight(40),
+                          child: AppBar(
+                            brightness: Brightness.light,
+                            backgroundColor: Styles.subBackgroundColor,
+                            iconTheme: new IconThemeData(color: Colors.black87),
+                            elevation: 0,
+                            title: Text(
+                              "Оформить заказ",
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontFamily: "SegoeUIBold",
+                                  fontSize: 16),
+                            ),
+                            centerTitle: true,
+                            automaticallyImplyLeading: true,
+                          ),
+                        ),
+                        body: WebView(
+                          gestureNavigationEnabled: true,
+                          javascriptMode: JavascriptMode.unrestricted,
+                          initialUrl: url,
+                          onWebViewCreated:
+                              (WebViewController webViewController) {
+                            _controller.complete(webViewController);
+                          },
+                        ),
+                      ),
+                      withNavBar: false,
+                      pageTransitionAnimation: PageTransitionAnimation.fade,
+                    );
+
+                    pushNewScreen(
+                      context,
+                      screen: OrderAwaitScreen(merchantTransId),
+                      withNavBar: false,
+                      pageTransitionAnimation: PageTransitionAnimation.fade,
+                    );
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    decoration: BoxDecoration(
+                        color: Styles.mainColor,
+                        borderRadius: new BorderRadius.only(
+                          topLeft: const Radius.circular(10.0),
+                          topRight: const Radius.circular(10.0),
+                        )),
+                    child: Text(
+                      "Оплатить",
+                      style: TextStyle(
+                          fontFamily: 'SegoeUIBold', color: Colors.white),
+                    ),
                   ),
                 )
               ],

@@ -154,6 +154,10 @@ class AppBloc {
   ];
 
   static final List<String> sizes = ["XS", "S", "M", "L", "XL"];
+
+  static int serviceId = 14950;
+  static int merchantId = 10466;
+  static int merchantUserId = 14849;
 }
 
 final AppBloc appBloc = AppBloc();
