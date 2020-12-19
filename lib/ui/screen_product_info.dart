@@ -63,8 +63,6 @@ class _ProductInfoState extends State<ProductInfo> {
           widget.product, countSubject.value, sizeSubject.value);
     else
       appBloc.tabController.jumpToTab(2);
-
-    /// TODO: Как то показать что нужно авторизоваться, но хз как я не ебал. МБ перекинуть на страницу с логином и все
   }
 
   @override
