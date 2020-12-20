@@ -5,11 +5,39 @@
     <nav>
       <a @click="closeLeftBar(leftSidebarVal)">
         <div class="sidebar-back text-left">
-          <i class="fa fa-angle-left pr-2" aria-hidden="true"></i> Back
+          <i class="fa fa-angle-left pr-2" aria-hidden="true"></i> Выйти
         </div>
       </a>
       <!-- Sample menu definition -->
+
       <ul id="sub-menu" class="sidebar-menu">
+        <li v-for="(category, i) in categories" :key="i">
+          <nuxt-link :to="'/collection/leftsidebar/' + category.id" v-if="category.subcategories.length > 0" href="javascript:void(0)" @click="setActive('clothing')">{{category.name}}
+            <span class="sub-arrow"></span>
+          </nuxt-link>
+          <nuxt-link :to="'/collection/leftsidebar/' + category.id" v-else>
+            {{category.name}}
+          </nuxt-link>
+          <ul v-if="category.subcategories.length > 0" class="mega-menu clothing-menu" :class="{ opensidesubmenu: isActive('clothing') }">
+            <li>
+                <div class="row m-0">
+                  <div v-for="(sub, i) in category.subcategories" :key="i" class="col-xl-6">
+                    <div  class="link-section">
+                      <nuxt-link :to="'/collection/leftsidebar/' + sub.id" v-if="sub.subcategories.length > 0" style="padding: 0"><h5>{{sub.name}}</h5></nuxt-link> 
+                      <nuxt-link :to="'/collection/leftsidebar/' + sub.id" v-else style="padding: 0"><h5 style="font-weight:100">{{sub.name}}</h5></nuxt-link> 
+                      <ul v-if="sub.subcategories.length > 0">
+                        <li v-for="(lastSub, i) in sub.subcategories" :key="i">
+                          <nuxt-link :to="'/collection/leftsidebar/' + lastSub.id">{{lastSub.name}}</nuxt-link>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <!-- <ul id="sub-menu" class="sidebar-menu">
         <li>
           <a href="javascript:void(0)" @click="setActive('clothing')">clothing
             <span class="sub-arrow"></span>
@@ -179,20 +207,41 @@
         <li>
           <a href="#">kitchen</a>
         </li>
-      </ul>
+      </ul> -->
     </nav>
   </div>
 </template>
 
 <script>
+import Api from "~/utils/api";
 export default {
   props: ['leftSidebarVal'],
   data() {
     return {
-      activeItem: 'clothing'
+      activeItem: 'clothing',
+      categories: null,
     }
   },
+  mounted(){
+    this.getCategories();
+  },
   methods: {
+
+    // encrypt(id){
+    //   return CryptoJS.AES.encrypt(id, "Secret Passphrase");
+    // },
+
+    getCategories(){
+        Api.getInstance().categories.getCategories()
+          .then((response) => {
+            this.categories = response.data;
+          })
+          .catch((error) => {
+            console.log('getCategories-> ', error)
+            this.forgottitle = true
+          });
+    },
+
     closeLeftBar(val) {
       val = false
       this.$emit('closeVal', val)

@@ -551,7 +551,7 @@ methods:{
     // ИЗМЕНЕНИЕ ТОВАРА И ДОБАВЛЕНИЕ НОВОГО
     eventProduct(){
         // РАЗОБРАТЬСЯ С КОЛИЧЕСТВОМ РАЗМЕРОВ И ВЫХОДОМ ИЗ МОДАЛЬНОГО ОКНА
-        let StoreSizeProduct = this.size_kol.filter(el=> el.kol !== 0);
+        let StoreSizeProduct = this.New_Product.size_kol.filter(el=> el.kol !== 0);
         if(StoreSizeProduct.length > 0){
             let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера')
             if(StoreNoneSizeProduct[0]){
@@ -563,7 +563,6 @@ methods:{
             }else this.New_Product.size_kol = StoreSizeProduct;
 
             if(this.eventBtnProduct){
-
                 this.New_Product.discount = parseInt(this.New_Product.discount);
                 this.New_Product.price = parseInt(this.New_Product.price);
                 Api.getInstance().products.sendNewProduct(this.New_Product).then((response) => {

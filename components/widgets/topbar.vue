@@ -22,11 +22,11 @@
                 </span>  
               </nuxt-link>
             </li>
-            <li class=" mobile-account">
-              <nuxt-link to="/page/account/login">
+            <li class=" mobile-account" @click="auth()">
+              <!-- <nuxt-link to="/page/account/login"> -->
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span style="color: #999999" >Мой аккаунт</span>  
-              </nuxt-link>
+              <!-- </nuxt-link> -->
             </li>
           </ul>
         </div>
@@ -36,8 +36,9 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import UserAuth from '../../pages/page/account/auth/auth'
+import firebase from 'firebase';
+import UserAuth from '../../pages/page/account/auth/auth';
+import Api from "~/utils/api";
 export default {
   data() {
     return {
@@ -50,12 +51,22 @@ export default {
     }
   },
   methods: {
-    logout: function () {
-      firebase.auth().signOut().then(() => {
-        UserAuth.Logout()
-        this.$router.replace('/page/account/login-firebase')
-      })
-    }
+    auth(){
+      Api.getInstance().auth.is_login()
+        .then((response) => {
+          this.$router.push('/page/account/dashboard');
+        })
+        .catch((error) => {
+          console.log('is_login-> ', error);
+          this.$router.push('/page/account/login');
+        });
+    },
+    // logout: function () {
+    //   firebase.auth().signOut().then(() => {
+    //     UserAuth.Logout()
+    //     this.$router.replace('/page/account/login-firebase')
+    //   })
+    // }
   }
 }
 </script>

@@ -18,29 +18,95 @@
         </span>
       </div>
       <div class="collection-collapse-block open">
-       <h3 class="collapse-block-title" v-b-toggle.category>Category</h3>
-        <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
-          <div class="collection-collapse-block-content">
-          <div class="collection-brand-filter">
-            <ul class="category-list">
-              <li>
-                <nuxt-link :to="{ path: '/collection/leftsidebar/all'}">All products</nuxt-link>
-              </li>
-              <li
-              v-for="(category,index) in filterbyCategory"
-              :key="index">
-                <nuxt-link :to="{ path: '/collection/leftsidebar/'+category}" @click="getCategoryFilter(category)">{{ category }}</nuxt-link>
-              </li>
-            </ul>
-          </div>
+        <div v-for="(category, i) in categories" :key="i">
+
+          <template v-if="category.id == $route.params.id ">
+            <h3 class="collapse-block-title" v-b-toggle.category>{{category.name}}</h3>
+            <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
+              <div class="collection-collapse-block-content">
+                <div class="collection-brand-filter">
+                  <div v-for="(sub, y) in categories[i].subcategories" :key="y">
+                    <ul class="category-list">
+                      <li>
+                        <nuxt-link :to="{ path: categories[i].subcategories[y].id}">{{categories[i].subcategories[y].name}}</nuxt-link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </b-collapse>
+          </template>
+
+          <template v-else-if="category.id != $route.params.id & typeof(category.subcategories[0]) != undefined  & category.subcategories.length > 0">
+            <div v-for="(sub, y) in categories[i].subcategories" :key="y">
+
+              <div v-if="categories[i].subcategories[y].id == $route.params.id">
+                <h3 class="collapse-block-title" v-b-toggle.category>{{categories[i].name}}</h3>
+                <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
+                  <div class="collection-collapse-block-content">
+                    <div class="collection-brand-filter">
+                      <ul class="category-list">
+                        <li>
+                            <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: categories[i].subcategories[y].id}">{{categories[i].subcategories[y].name}}</nuxt-link>
+                        </li>
+                        <div v-for="(lastSub, x) in categories[i].subcategories[y].subcategories" :key="x">
+                          <li v-if="lastSub">
+                            <nuxt-link :to="{ path: lastSub.id}">{{lastSub.name}}</nuxt-link>
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </b-collapse>
+              </div>
+
+              <div v-else>
+                <div v-for="(lastSub, x) in categories[i].subcategories[y].subcategories" :key="x">
+                  <div v-if="lastSub.id == $route.params.id">
+                    <h3 class="collapse-block-title" v-b-toggle.category>{{categories[i].name}}</h3>
+                    <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
+                      <div class="collection-collapse-block-content">
+                        <div class="collection-brand-filter">
+                          <ul class="category-list">
+                            <li>
+                              <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: categories[i].subcategories[y].id}">{{categories[i].subcategories[y].name}}</nuxt-link>
+                            </li>
+                            <li>
+                              <nuxt-link :to="{ path: lastSub.id}">{{lastSub.name}}</nuxt-link>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </b-collapse>
+                    
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </template>
+
+          <!-- <template v-else>
+            <h3 class="collapse-block-title" v-b-toggle.category>{{category.name}}</h3>
+            <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
+              <div class="collection-collapse-block-content">
+                <div class="collection-brand-filter">
+                  <ul class="category-list">
+                    <li>
+                      <nuxt-link :to="{ path: '/collection/leftsidebar/all'}">All products</nuxt-link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </b-collapse>
+          </template> -->
         </div>
-      </b-collapse>
       </div>
     </div>
     <!-- side-bar colleps block stat -->
     <div class="collection-filter-block">
       <!-- brand filter start -->
-      <div class="collection-collapse-block open" v-if="filterbyBrand.length">
+      <!-- <div class="collection-collapse-block open" v-if="filterbyBrand.length">
         <h3 class="collapse-block-title"  v-b-toggle.brand >brand</h3>
          <b-collapse id="brand" visible accordion="myaccordion1" role="tabpanel">
         <div class="collection-collapse-block-content">
@@ -62,9 +128,10 @@
           </div>
         </div>
          </b-collapse>
-      </div>
+      </div> -->
+
       <!-- color filter start here -->
-      <div class="collection-collapse-block open" v-if="filterbycolor.length">
+      <!-- <div class="collection-collapse-block open" v-if="filterbycolor.length">
         <h3 class="collapse-block-title" v-b-toggle.colors>colors</h3>
           <b-collapse id="colors" visible accordion="myaccordion2" role="tabpanel">
         <div class="collection-collapse-block-content">
@@ -87,7 +154,8 @@
           </div>
         </div>
         </b-collapse>
-      </div>
+      </div> -->
+
       <!-- size filter start here -->
       <div class="collection-collapse-block open" v-if="filterbysize.length">
         <h3 class="collapse-block-title" v-b-toggle.size>Size</h3>
@@ -213,11 +281,15 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters } from 'vuex'
-import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js'
+import Api from "~/utils/api";
+import { mapState, mapGetters } from 'vuex';
+import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js';
 export default {
   data() {
     return {
+      filterbysize: [],
+      categoryID: null,
+      categories: null,
       bannerimagepath: require('@/assets/images/side-banner.png'),
       value: [50, 550],
       selectedcolor: [],
@@ -244,16 +316,32 @@ export default {
       currency: state => state.products.currency
     }),
     ...mapGetters({
-      filterbyCategory: 'filter/filterbyCategory',
-      filterbyBrand: 'filter/filterbyBrand',
-      filterbycolor: 'filter/filterbycolor',
-      filterbysize: 'filter/filterbysize'
+      // filterbyCategory: 'filter/filterbyCategory',
+      // filterbyBrand: 'filter/filterbyBrand',
+      // filterbycolor: 'filter/filterbycolor',
+      // filterbysize: 'filter/filterbysize'
     })
   },
   mounted() {
-    this.$emit('priceVal', this.value)
+    this.getCategories();
+    this.$emit('priceVal', this.value);
+    // this.$store.dispatch("filter/changeProducts", this.StoreProducts);
+    // this.filterbysize = this.$store.filter.filterbysize();
+    console.log(this.$store.getters.filter)
+    // console.log('kekkk -> ', this.filterbysize)
   },
   methods: {
+    getCategories(){
+      Api.getInstance().categories.getCategories()
+        .then((response) => {
+          this.categories = response.data;
+        })
+        .catch((error) => {
+          console.log('getCategories-> ', error)
+          this.forgottitle = true
+        });
+    },
+
     getCategoryProduct(collection) {
       return this.productslist.filter((item) => {
         if (item.collection.find(i => i === collection)) {

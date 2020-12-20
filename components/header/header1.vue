@@ -23,7 +23,7 @@
                 </div>
               </div>
               <div class="menu-right pull-right">
-                  <Nav/>
+                  <!-- <Nav/> -->
                   <HeaderWidgets/>
               </div>
             </div>

@@ -13,7 +13,7 @@
               <div class="page-main-content">
                 <div class="row">
                   <div class="col-sm-12">
-                    <div class="top-banner-wrapper">
+                    <!-- <div class="top-banner-wrapper">
                       <a href="#">
                         <img
                           :src='"@/assets/images/mega-menu/2.jpg"'
@@ -26,7 +26,7 @@
                         <h5>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h5>
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                       </div>
-                    </div>
+                    </div> -->
                     <ul class="product-filter-tags">
                       <li
                       class="mr-1"
@@ -42,7 +42,7 @@
                           <div class="col-12">
                             <div class="product-filter-content">
                               <div class="search-count">
-                                <h5>Showing Products 1-12 of {{ filterProduct.length }} Result</h5>
+                                <h5>Showing Products 1-12 of {{ StoreProducts.length }} Result</h5>
                               </div>
                               <div class="collection-view">
                                 <ul>
@@ -89,8 +89,8 @@
                               <div class="product-page-filter">
                                 <select @change="onChangeSort($event)">
                                   <option value="all">Sorting Items</option>
-                                  <option value="a-z">Alphabetically, A-Z</option>
-                                  <option value="z-a">Alphabetically, Z-A</option>
+                                  <option value="а-я">Alphabetically, А-Я</option>
+                                  <option value="я-а">Alphabetically, Я-А</option>
                                   <option value="low">price, low to high</option>
                                   <option value="high">price, high to low</option>
                                 </select>
@@ -102,7 +102,7 @@
                       <div class="product-wrapper-grid" :class="{'list-view':listview == true}">
                         <div class="row">
                           <div class="col-sm-12">
-                            <div class="text-center section-t-space section-b-space" v-if="filterProduct.length == 0">
+                            <div class="text-center section-t-space section-b-space" v-if="StoreProducts.length == 0">
                               <img :src='"@/assets/images/empty-search.jpg"' class="img-fluid" alt />
                               <h3 class="mt-3">Sorry! Couldn't find the product you were looking For!!!</h3>
                               <div class="col-12 mt-3">
@@ -110,10 +110,14 @@
                               </div>
                             </div>
                           </div>
+                          <!-- {{StoreProducts}} -->
+                          <!-- <br> -->
+                          <!-- {{filterProduct}} -->
+                          
                           <div
                           class="col-grid-box"
                           :class="{'col-lg-3':col4 == true, 'col-lg-4':col3 == true, 'col-lg-6':col2 == true, 'col-lg-2':col6 == true, 'col-lg-12':listview == true}"
-                          v-for="(product,index) in filterProduct"
+                          v-for="(product,index) in StoreProducts"
                           :key="index"
                           v-show="setPaginate(index)"
                           >
@@ -131,7 +135,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="product-pagination mb-0" v-if="filterProduct.length > this.paginate">
+                      <div class="product-pagination mb-0" v-if="StoreProducts.length > this.paginate">
                         <div class="theme-paggination-block">
                           <div class="row">
                             <div class="col-xl-6 col-md-6 col-sm-12">
@@ -163,7 +167,7 @@
                             </div>
                             <div class="col-xl-6 col-md-6 col-sm-12">
                               <div class="product-search-count-bottom">
-                                <h5>Showing Products 1-12 of {{ filterProduct.length }} Result</h5>
+                                <h5>Showing Products 1-12 of {{ StoreProducts.length }} Result</h5>
                               </div>
                             </div>
                           </div>
@@ -188,7 +192,7 @@
     </b-alert>
     <quickviewModel :openModal="showquickviewmodel" :productData="quickviewproduct" />
     <compareModel :openCompare="showcomparemodal" :productData="comapreproduct" @closeCompare="closeCompareModal" />
-    <cartModel :openCart="showcartmodal" :productData="cartproduct" @closeCart="closeCartModal" :products="filterProduct" />
+    <cartModel :openCart="showcartmodal" :productData="cartproduct" @closeCart="closeCartModal" :products="StoreProducts" />
     <Footer />
   </div>
 </template>
@@ -202,6 +206,7 @@ import sidebar from '../../../components/widgets/collection-sidebar'
 import quickviewModel from '../../../components/widgets/quickview'
 import compareModel from '../../../components/widgets/compare-popup'
 import cartModel from '../../../components/cart-model/cart-modal-popup'
+import Api from "~/utils/api"
 export default {
   components: {
     Header,
@@ -237,6 +242,7 @@ export default {
       cartproduct: {},
       dismissSecs: 5,
       dismissCountDown: 0,
+      StoreProducts: [],
       swiperOption: {
         loop: false,
         navigation: {
@@ -254,9 +260,20 @@ export default {
     })
   },
   mounted() {
-    this.updatePaginate(1)
+    this.updatePaginate(1);
+    this.getDataProducts();
   },
   methods: {
+    getDataProducts(){
+      Api.getInstance().products.getItems_cat(this.$route.params.id).then((response) => {
+        this.StoreProducts = response.data;
+        this.$store.dispatch("filter/changeProducts", this.StoreProducts);
+        // console.log(this.$store.state.filter.products);
+        // console.log(this.StoreProducts);
+      }).catch((error) => {
+        console.log("getDataProducts -> ", error)
+      });
+    },
     onChangeSort(event) {
       this.$store.dispatch('filter/sortProducts', event.target.value)
     },
@@ -325,7 +342,8 @@ export default {
       this.updatePaginate(1)
     },
     getPaginate() {
-      this.paginates = Math.round(this.filterProduct.length / this.paginate)
+      this.paginates = Math.round(this.StoreProducts.length / this.paginate);
+      
       this.pages = []
       for (let i = 0; i < this.paginates; i++) {
         this.pages.push(i + 1)

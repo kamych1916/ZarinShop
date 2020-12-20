@@ -1,8 +1,11 @@
-import products from '../../data/products'
+'use strict'
+import products from '../../data/products';
 
 const state = {
   productslist: products.data,
   products: products.data,
+  // productslist: getDataProducts().then((response) => {return response.data}), 
+  // products: getDataProducts().then((response) => {return response.data}),
   tagItems: [],
   filteredProduct: [],
   paginate: 12,
@@ -11,26 +14,26 @@ const state = {
 }
 // getters
 const getters = {
-  filterbyCategory: (state) => {
-    const category = [...new Set(state.products.map(product => product.type))]
-    return category
-  },
-  filterbyBrand: (state) => {
-    const brands = [...new Set(state.filteredProduct.map(product => product.brand))]
-    return brands
-  },
-  filterbycolor: (state) => {
-    const uniqueColors = []
-    state.filteredProduct.filter((product) => {
-      product.variants.filter((variant) => {
-        if (variant.color) {
-          const index = uniqueColors.indexOf(variant.color)
-          if (index === -1) uniqueColors.push(variant.color)
-        }
-      })
-    })
-    return uniqueColors
-  },
+  // filterbyCategory: (state) => {
+  //   const category = [...new Set(state.products.map(product => product.type))]
+  //   return category
+  // },
+  // filterbyBrand: (state) => {
+  //   const brands = [...new Set(state.filteredProduct.map(product => product.brand))]
+  //   return brands
+  // },
+  // filterbycolor: (state) => {
+  //   const uniqueColors = []
+  //   state.filteredProduct.filter((product) => {
+  //     product.variants.filter((variant) => {
+  //       if (variant.color) {
+  //         const index = uniqueColors.indexOf(variant.color)
+  //         if (index === -1) uniqueColors.push(variant.color)
+  //       }
+  //     })
+  //   })
+  //   return uniqueColors
+  // },
   filterbysize: (state) => {
     const uniqueSize = []
     state.filteredProduct.filter((product) => {
@@ -59,6 +62,12 @@ const getters = {
 }
 // mutations
 const mutations = {
+  update_products: (state, payload) => {
+        
+    state.products = payload
+    state.filteredProduct = payload
+    
+  },
   getCategoryFilter: (state, payload) => {
     state.filteredProduct = []
     state.tagItems = []
@@ -85,20 +94,21 @@ const mutations = {
     state.tagItems = payload
   },
   sortProducts: (state, payload) => {
-    if (payload === 'a-z') {
+    console.log(payload)
+    if (payload === 'а-я') {
       state.filteredProduct.sort(function (a, b) {
-        if (a.title < b.title) {
+        if (a.name < b.name) {
           return -1
-        } else if (a.title > b.title) {
+        } else if (a.name > b.name) {
           return 1
         }
         return 0
       })
-    } else if (payload === 'z-a') {
+    } else if (payload === 'я-а') {
       state.filteredProduct.sort(function (a, b) {
-        if (a.title > b.title) {
+        if (a.name > b.name) {
           return -1
-        } else if (a.title < b.title) {
+        } else if (a.name < b.name) {
           return 1
         }
         return 0
@@ -126,6 +136,9 @@ const mutations = {
 }
 // actions
 const actions = {
+  changeProducts({commit}, products){
+    commit('update_products', products)
+  },
   getpaginate: (context, payload) => {
     context.commit('getpaginate', payload)
   },

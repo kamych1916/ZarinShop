@@ -18,12 +18,12 @@ Vue.use(VueLazyLoad)
 Vue.use(ProductZoomer)
 Vue.use(VueScrollTo)
 
-const config = {
-  apiKey: 'YOUR_API_KEY',
-  authDomain: 'YOUR_AUTHDOMAIN',
-  databaseURL: 'YOUR_DATABASE_URL',
-  projectId: 'YOUR_PROJECT_ID',
-  storageBucket: 'YOUR_STORAGE_BACKET',
-  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID'
-}
-firebase.initializeApp(config)
+// const config = {
+//   apiKey: 'YOUR_API_KEY',
+//   authDomain: 'YOUR_AUTHDOMAIN',
+//   databaseURL: 'YOUR_DATABASE_URL',
+//   projectId: 'YOUR_PROJECT_ID',
+//   storageBucket: 'YOUR_STORAGE_BACKET',
+//   messagingSenderId: 'YOUR_MESSAGING_SENDER_ID'
+// }
+// firebase.initializeApp(config)

@@ -8,10 +8,10 @@
       <div class="front">
         <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
           <img
-            :src='getImgUrl(imageSrc ? imageSrc : product.images[0].src)'
+            :src='product.images[0]'
             :id="product.id"
             class="img-fluid bg-img"
-            :alt="product.title"
+            :alt="product.name"
             :key="index"
           />
         </nuxt-link>
@@ -19,13 +19,13 @@
       <ul class="product-thumb-list">
         <li
           class="grid_thumb_img"
-          :class="{active: imageSrc === image.src}"
+          :class="{active: imageSrc === image}"
           v-for="(image,index) in product.images"
           :key="index"
-          @click="productVariantChange(image.src)"
+          @click="productVariantChange(image)"
         >
           <a href="javascript:void(0);">
-            <img :src="getImgUrl(image.src)" />
+            <img :src="image" />
           </a>
         </li>
       </ul>
@@ -60,7 +60,7 @@
         <i class="fa fa-star"></i>
       </div>
       <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
-        <h6>{{ product.title }}</h6>
+        <h6>{{ product.name }}</h6>
       </nuxt-link>
       <p>{{ product.description }}</p>
       <h4 v-if="product.sale">
@@ -68,7 +68,7 @@
         <del>{{ product.price * curr.curr | currency(curr.symbol) }}</del>
       </h4>
       <h4 v-else>{{ product.price * curr.curr | currency(curr.symbol) }}</h4>
-      <ul class="color-variant" v-if="product.variants[0].color">
+      <!-- <ul class="color-variant" v-if="product.variants[0].color">
         <li v-for="(variant,variantIndex) in Color(product.variants)" :key="variantIndex">
           <a
             @click="productColorchange(variant, product)"
@@ -76,7 +76,7 @@
             v-bind:style="{ 'background-color' : variant}"
           ></a>
         </li>
-      </ul>
+      </ul> -->
     </div>
   </div>
 </template>

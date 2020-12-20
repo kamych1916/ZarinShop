@@ -16,13 +16,10 @@ export default class Api {
 
     products ={
         async getDataProducts() {
-            return axios.get(`${API_BASE_URL}/items`, 
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('st')}`
-                    }  
-                } 
-            )
+            return axios.get(`${API_BASE_URL}/items`)
+        },
+        async getItems_cat(id) {
+            return axios.get(`${API_BASE_URL}/items_cat/${id}`)
         },
         async sendNewProduct(product) {
             return axios.post(`${API_BASE_URL}/items`, product ,
@@ -74,6 +71,12 @@ export default class Api {
         },
     }
 
+    categories = {
+        async getCategories() {
+            return axios.get(`${API_BASE_URL}/categories`)
+        },
+    }
+
     auth = {
         async register(first_name, last_name, email, password, phone) {
             return axios.post(
@@ -91,7 +94,15 @@ export default class Api {
         async send_activate_code(code, email) {
             return axios.get(`${API_BASE_URL}/checkcode_activ?code=${code}&email=${email}`)
         },
-        
+        async is_login(){
+            return axios.get(`${API_BASE_URL}/is_login`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
         
         async login(email, password) {
             return axios.post(
