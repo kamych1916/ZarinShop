@@ -8,7 +8,7 @@ const state = {
   // products: getDataProducts().then((response) => {return response.data}),
   tagItems: [],
   filteredProduct: [],
-  paginate: 12,
+  paginate: 11,
   pages: [],
   priceArray: []
 }
