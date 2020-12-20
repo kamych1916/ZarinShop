@@ -88,11 +88,11 @@
                               </div>
                               <div class="product-page-filter">
                                 <select @change="onChangeSort($event)">
-                                  <option value="all">Sorting Items</option>
-                                  <option value="а-я">Alphabetically, А-Я</option>
-                                  <option value="я-а">Alphabetically, Я-А</option>
-                                  <option value="low">price, low to high</option>
-                                  <option value="high">price, high to low</option>
+                                  <option value="all">Сортировка товаров</option>
+                                  <option value="а-я">Сортировать от А до Я</option>
+                                  <option value="я-а">Сорстировать от Я до А</option>
+                                  <option value="low">Сначала дешевые</option>
+                                  <option value="high">Сначала дорогие</option>
                                 </select>
                               </div>
                             </div>
@@ -268,14 +268,48 @@ export default {
       Api.getInstance().products.getItems_cat(this.$route.params.id).then((response) => {
         this.StoreProducts = response.data;
         this.$store.dispatch("filter/changeProducts", this.StoreProducts);
-        // console.log(this.$store.state.filter.products);
-        // console.log(this.StoreProducts);
       }).catch((error) => {
         console.log("getDataProducts -> ", error)
       });
     },
     onChangeSort(event) {
-      this.$store.dispatch('filter/sortProducts', event.target.value)
+        if (event.target.value === 'а-я') {
+        this.StoreProducts.sort(function (a, b) {
+          if (a.name < b.name) {
+            return -1
+          } else if (a.name > b.name) {
+            return 1
+          }
+          return 0
+        })
+      } else if (event.target.value === 'я-а') {
+        this.StoreProducts.sort(function (a, b) {
+          if (a.name > b.name) {
+            return -1
+          } else if (a.name < b.name) {
+            return 1
+          }
+          return 0
+        })
+      } else if (event.target.value === 'low') {
+        this.StoreProducts.sort(function (a, b) {
+          if (a.price < b.price) {
+            return -1
+          } else if (a.price > b.price) {
+            return 1
+          }
+          return 0
+        })
+      } else if (event.target.value === 'high') {
+        this.StoreProducts.sort(function (a, b) {
+          if (a.price > b.price) {
+            return -1
+          } else if (a.price < b.price) {
+            return 1
+          }
+          return 0
+        })
+      }
     },
     gridView() {
       this.col4 = true
@@ -336,8 +370,16 @@ export default {
       this.updatePaginate(1)
     },
     pricefilterArray(item) {
-      this.getCategoryFilter()
-      this.$store.dispatch('filter/priceFilter', item)
+      let FilteredProducts = [];
+      this.$store.state.filter.products.find((product) => {
+        if (product.price >= item[0] && product.price <= item[1]) {
+          FilteredProducts.push(product)
+          console.log(FilteredProducts)
+        }
+      })
+      if(FilteredProducts.length>0){
+        this.StoreProducts = FilteredProducts
+      }
       this.getPaginate()
       this.updatePaginate(1)
     },

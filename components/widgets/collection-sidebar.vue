@@ -191,7 +191,7 @@
             <vue-slider
             v-model="value"
             :min="0"
-            :max="800"
+            :max="10000"
             ref="slider"
             @change="sliderChange($refs.slider.getValue())">
             </vue-slider>
@@ -327,7 +327,7 @@ export default {
     this.$emit('priceVal', this.value);
     // this.$store.dispatch("filter/changeProducts", this.StoreProducts);
     // this.filterbysize = this.$store.filter.filterbysize();
-    console.log(this.$store.getters.filter)
+    // console.log(this.$store.getters.filter)
     // console.log('kekkk -> ', this.filterbysize)
   },
   methods: {

@@ -2,13 +2,13 @@
 import products from '../../data/products';
 
 const state = {
-  productslist: products.data,
-  products: products.data,
-  // productslist: getDataProducts().then((response) => {return response.data}), 
-  // products: getDataProducts().then((response) => {return response.data}),
+  // productslist: products.data,
+  // products: products.data,
+  productslist: [], 
+  products: [],
   tagItems: [],
   filteredProduct: [],
-  paginate: 11,
+  paginate: 12,
   pages: [],
   priceArray: []
 }
@@ -64,21 +64,24 @@ const getters = {
 const mutations = {
   update_products: (state, payload) => {
         
-    state.products = payload
-    state.filteredProduct = payload
+    state.products = payload;
+    state.filteredProduct = payload;
     
   },
   getCategoryFilter: (state, payload) => {
     state.filteredProduct = []
     state.tagItems = []
+    
     state.products.filter((product) => {
-      if (payload === product.type) {
-        state.filteredProduct.push(product)
-        state.priceArray = state.filteredProduct
-      }
-      if (payload === 'all' || payload === undefined) {
-        state.filteredProduct.push(product)
-        state.priceArray = state.filteredProduct
+      for(let cat of product.categories){
+        if (payload === cat) {
+          state.filteredProduct.push(product)
+          state.priceArray = state.filteredProduct
+        }
+        if (payload === 'all' || payload === undefined) {
+          state.filteredProduct.push(product)
+          state.priceArray = state.filteredProduct
+        }
       }
     })
   },
@@ -94,7 +97,6 @@ const mutations = {
     state.tagItems = payload
   },
   sortProducts: (state, payload) => {
-    console.log(payload)
     if (payload === 'а-я') {
       state.filteredProduct.sort(function (a, b) {
         if (a.name < b.name) {
