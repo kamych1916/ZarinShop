@@ -287,10 +287,6 @@ import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.mi
 export default {
   data() {
     return {      
-      productSize: {
-        size_s: false,
-        size_m: false
-      },
       categoryID: null,
       categories: null,
       bannerimagepath: require('@/assets/images/side-banner.png'),

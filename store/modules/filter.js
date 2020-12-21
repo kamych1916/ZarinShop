@@ -28,7 +28,10 @@ const getters = {
       product.link_color.filter((variant) => {
         if (variant.color) {
           const index = uniqueColors.indexOf(variant.color)
-          if (index === -1) uniqueColors.push(variant.color)
+          if (index === -1) {
+            uniqueColors.push(variant.color)
+            product.tags.push(variant.color) 
+          }
         }
       })
     })
@@ -40,10 +43,14 @@ const getters = {
       product.size_kol.filter((variant) => {
         if (variant.size) {
           const index = uniqueSize.indexOf(variant.size)
-          if (index === -1) uniqueSize.push(variant.size)
+          if (index === -1) {
+            uniqueSize.push(variant.size)
+            product.tags.push(variant.size)
+          }
         }
       })
     })
+    
     return uniqueSize
   },
   filterProducts: (state) => {
@@ -63,10 +70,11 @@ const getters = {
 // mutations
 const mutations = {
   update_products: (state, payload) => {
-        
-    state.products = payload;
     state.filteredProduct = payload;
-    
+    state.filteredProduct.filter((product) => {
+      product.tags = [] 
+    })
+    state.products = payload;
   },
   getCategoryFilter: (state, payload) => {
     state.filteredProduct = []

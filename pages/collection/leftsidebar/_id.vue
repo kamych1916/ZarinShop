@@ -42,7 +42,7 @@
                           <div class="col-12">
                             <div class="product-filter-content">
                               <div class="search-count">
-                                <h5>Отображено товаров 1-12 из {{ StoreProducts.length }} имеющихся</h5>
+                                <h5>Отображено товаров 1-12 из {{ filterProduct.length }} имеющихся</h5>
                               </div>
                               <div class="collection-view">
                                 <ul>
@@ -102,7 +102,7 @@
                       <div class="product-wrapper-grid" :class="{'list-view':listview == true}">
                         <div class="row">
                           <div class="col-sm-12">
-                            <div class="text-center section-t-space section-b-space" v-if="StoreProducts.length == 0">
+                            <div class="text-center section-t-space section-b-space" v-if="filterProduct.length == 0">
                               <img :src='"@/assets/images/empty-search.jpg"' class="img-fluid" alt />
                               <h3 class="mt-3">Упс! Не удалось найти товары, которые вы искали!!!</h3>
                               <div class="col-12 mt-3">
@@ -117,7 +117,7 @@
                           <div
                           class="col-grid-box"
                           :class="{'col-lg-3':col4 == true, 'col-lg-4':col3 == true, 'col-lg-6':col2 == true, 'col-lg-2':col6 == true, 'col-lg-12':listview == true}"
-                          v-for="(product,index) in StoreProducts"
+                          v-for="(product,index) in filterProduct"
                           :key="index"
                           v-show="setPaginate(index)"
                           >
@@ -135,7 +135,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="product-pagination mb-0" v-if="StoreProducts.length > this.paginate">
+                      <div class="product-pagination mb-0" v-if="filterProduct.length > this.paginate">
                         <div class="theme-paggination-block">
                           <div class="row">
                             <div class="col-xl-6 col-md-6 col-sm-12">
@@ -167,7 +167,7 @@
                             </div>
                             <div class="col-xl-6 col-md-6 col-sm-12">
                               <div class="product-search-count-bottom">
-                                <h5>Showing Products 1-12 of {{ StoreProducts.length }} Result</h5>
+                                <h5>Showing Products 1-12 of {{ filterProduct.length }} Result</h5>
                               </div>
                             </div>
                           </div>
@@ -192,7 +192,7 @@
     </b-alert>
     <quickviewModel :openModal="showquickviewmodel" :productData="quickviewproduct" />
     <compareModel :openCompare="showcomparemodal" :productData="comapreproduct" @closeCompare="closeCompareModal" />
-    <cartModel :openCart="showcartmodal" :productData="cartproduct" @closeCart="closeCartModal" :products="StoreProducts" />
+    <cartModel :openCart="showcartmodal" :productData="cartproduct" @closeCart="closeCartModal" :products="filterProduct" />
     <Footer />
   </div>
 </template>
@@ -242,7 +242,6 @@ export default {
       cartproduct: {},
       dismissSecs: 5,
       dismissCountDown: 0,
-      StoreProducts: [],
       swiperOption: {
         loop: false,
         navigation: {
@@ -266,50 +265,13 @@ export default {
   methods: {
     getDataProducts(){
       Api.getInstance().products.getItems_cat(this.$route.params.id).then((response) => {
-        this.StoreProducts = response.data;
-        this.$store.dispatch("filter/changeProducts", this.StoreProducts);
+        this.$store.dispatch("filter/changeProducts", response.data);
       }).catch((error) => {
         console.log("getDataProducts -> ", error)
       });
     },
     onChangeSort(event) {
-        if (event.target.value === 'а-я') {
-        this.StoreProducts.sort(function (a, b) {
-          if (a.name < b.name) {
-            return -1
-          } else if (a.name > b.name) {
-            return 1
-          }
-          return 0
-        })
-      } else if (event.target.value === 'я-а') {
-        this.StoreProducts.sort(function (a, b) {
-          if (a.name > b.name) {
-            return -1
-          } else if (a.name < b.name) {
-            return 1
-          }
-          return 0
-        })
-      } else if (event.target.value === 'low') {
-        this.StoreProducts.sort(function (a, b) {
-          if (a.price < b.price) {
-            return -1
-          } else if (a.price > b.price) {
-            return 1
-          }
-          return 0
-        })
-      } else if (event.target.value === 'high') {
-        this.StoreProducts.sort(function (a, b) {
-          if (a.price > b.price) {
-            return -1
-          } else if (a.price < b.price) {
-            return 1
-          }
-          return 0
-        })
-      }
+      this.$store.dispatch('filter/sortProducts', event.target.value)
     },
     gridView() {
       this.col4 = true
@@ -364,29 +326,19 @@ export default {
       this.$store.dispatch('filter/getCategoryFilter', this.$route.params.id)
     },
     allfilter(selectedVal) {
-      this.allfilters = selectedVal
-      console.log(this.allfilters)
-      this.$store.dispatch('filter/setTags', selectedVal)
-      this.getPaginate()
-      this.updatePaginate(1)
-      // console.log(this.$store.state.filter.filteredProduct)
-      // console.log(this.StoreProducts)
+      this.allfilters = selectedVal;
+      this.$store.dispatch('filter/setTags', selectedVal);
+      this.getPaginate();
+      this.updatePaginate(1);
     },
     pricefilterArray(item) {
-      let FilteredProducts = [];
-      this.$store.state.filter.products.find((product) => {
-        if (product.price >= item[0] && product.price <= item[1]) {
-          FilteredProducts.push(product)
-        }
-      })
-      if(FilteredProducts.length>0){
-        this.StoreProducts = FilteredProducts
-      }
+      this.getCategoryFilter()
+      this.$store.dispatch('filter/priceFilter', item)
       this.getPaginate()
       this.updatePaginate(1)
     },
     getPaginate() {
-      this.paginates = Math.round(this.StoreProducts.length / this.paginate);
+      this.paginates = Math.round(this.filterProduct.length / this.paginate);
       
       this.pages = []
       for (let i = 0; i < this.paginates; i++) {

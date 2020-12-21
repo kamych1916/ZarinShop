@@ -3,7 +3,7 @@
     <div class="img-wrapper">
       <div class="lable-block">
         <span class="lable3" v-if="product.new">new</span>
-        <span class="lable4" v-if="product.sale">on sale</span>
+        <span class="lable4" v-if="product.hit_sales">on sale</span>
       </div>
       <div class="front">
         <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
@@ -69,16 +69,15 @@
       </h4>
       <h4 v-else>{{ product.price * curr.curr | currency(curr.symbol) }}</h4>
       <ul class="color-variant" v-if="product.color">
-        <!-- <li v-for="(variant,variantIndex) in Color(product.variants)" :key="variantIndex">
+        <li v-for="(variant,variantIndex) in Color(product.link_color)" :key="variantIndex">
           <a
-            @click="productColorchange(variant, product)"
             :class="[variant]"
-            v-bind:style="{ 'background-color' : variant}"
+            v-bind:style="{ 'background-color' : variant, 'border': '1px solid #ccc'}"
           ></a>
-        </li> -->
-        <li>
-          <a v-bind:style="{ 'background-color' : product.color, 'border' : '1px solid #ccc'}"></a>
         </li>
+        <!-- <li >
+          <a v-bind:style="{ 'background-color' : product.color, 'border' : '1px solid #ccc'}"></a>
+        </li> -->
       </ul>
     </div>
   </div>
@@ -151,7 +150,7 @@ export default {
       return uniqColor
     },
     productColorchange(color, product) {
-      product.variants.map((item) => {
+      product.link_color.map((item) => {
         if (item.color === color) {
           product.images.map((img) => {
             if (img.image_id === item.image_id) {
