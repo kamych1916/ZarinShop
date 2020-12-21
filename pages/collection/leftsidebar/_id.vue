@@ -42,7 +42,7 @@
                           <div class="col-12">
                             <div class="product-filter-content">
                               <div class="search-count">
-                                <h5>Showing Products 1-12 of {{ StoreProducts.length }} Result</h5>
+                                <h5>Отображено товаров 1-12 из {{ StoreProducts.length }} имеющихся</h5>
                               </div>
                               <div class="collection-view">
                                 <ul>
@@ -104,9 +104,9 @@
                           <div class="col-sm-12">
                             <div class="text-center section-t-space section-b-space" v-if="StoreProducts.length == 0">
                               <img :src='"@/assets/images/empty-search.jpg"' class="img-fluid" alt />
-                              <h3 class="mt-3">Sorry! Couldn't find the product you were looking For!!!</h3>
+                              <h3 class="mt-3">Упс! Не удалось найти товары, которые вы искали!!!</h3>
                               <div class="col-12 mt-3">
-                                  <nuxt-link :to="{ path: '/'}" class="btn btn-solid">continue shopping</nuxt-link>
+                                  <nuxt-link :to="{ path: '/'}" class="btn btn-solid">Продолжить покупки</nuxt-link>
                               </div>
                             </div>
                           </div>
@@ -365,16 +365,18 @@ export default {
     },
     allfilter(selectedVal) {
       this.allfilters = selectedVal
+      console.log(this.allfilters)
       this.$store.dispatch('filter/setTags', selectedVal)
       this.getPaginate()
       this.updatePaginate(1)
+      // console.log(this.$store.state.filter.filteredProduct)
+      // console.log(this.StoreProducts)
     },
     pricefilterArray(item) {
       let FilteredProducts = [];
       this.$store.state.filter.products.find((product) => {
         if (product.price >= item[0] && product.price <= item[1]) {
           FilteredProducts.push(product)
-          console.log(FilteredProducts)
         }
       })
       if(FilteredProducts.length>0){

@@ -22,22 +22,22 @@ const getters = {
   //   const brands = [...new Set(state.filteredProduct.map(product => product.brand))]
   //   return brands
   // },
-  // filterbycolor: (state) => {
-  //   const uniqueColors = []
-  //   state.filteredProduct.filter((product) => {
-  //     product.variants.filter((variant) => {
-  //       if (variant.color) {
-  //         const index = uniqueColors.indexOf(variant.color)
-  //         if (index === -1) uniqueColors.push(variant.color)
-  //       }
-  //     })
-  //   })
-  //   return uniqueColors
-  // },
+  filterbycolor: (state) => {
+    const uniqueColors = []
+    state.filteredProduct.filter((product) => {
+      product.link_color.filter((variant) => {
+        if (variant.color) {
+          const index = uniqueColors.indexOf(variant.color)
+          if (index === -1) uniqueColors.push(variant.color)
+        }
+      })
+    })
+    return uniqueColors
+  },
   filterbysize: (state) => {
     const uniqueSize = []
     state.filteredProduct.filter((product) => {
-      product.variants.filter((variant) => {
+      product.size_kol.filter((variant) => {
         if (variant.size) {
           const index = uniqueSize.indexOf(variant.size)
           if (index === -1) uniqueSize.push(variant.size)

@@ -52,31 +52,34 @@
       </div>
     </div>
     <div class="product-detail">
-      <div class="rating">
+      <!-- <div class="rating">
         <i class="fa fa-star"></i>
         <i class="fa fa-star"></i>
         <i class="fa fa-star"></i>
         <i class="fa fa-star"></i>
         <i class="fa fa-star"></i>
-      </div>
+      </div> -->
       <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
         <h6>{{ product.name }}</h6>
       </nuxt-link>
       <p>{{ product.description }}</p>
-      <h4 v-if="product.sale">
+      <h4 v-if="product.hit_sales">
         {{ discountedPrice(product) * curr.curr | currency(curr.symbol) }}
         <del>{{ product.price * curr.curr | currency(curr.symbol) }}</del>
       </h4>
       <h4 v-else>{{ product.price * curr.curr | currency(curr.symbol) }}</h4>
-      <!-- <ul class="color-variant" v-if="product.variants[0].color">
-        <li v-for="(variant,variantIndex) in Color(product.variants)" :key="variantIndex">
+      <ul class="color-variant" v-if="product.color">
+        <!-- <li v-for="(variant,variantIndex) in Color(product.variants)" :key="variantIndex">
           <a
             @click="productColorchange(variant, product)"
             :class="[variant]"
             v-bind:style="{ 'background-color' : variant}"
           ></a>
+        </li> -->
+        <li>
+          <a v-bind:style="{ 'background-color' : product.color, 'border' : '1px solid #ccc'}"></a>
         </li>
-      </ul> -->
+      </ul>
     </div>
   </div>
 </template>
@@ -127,6 +130,7 @@ export default {
       this.$store.dispatch('products/addToWishlist', product)
     },
     showQuickview: function (productData) {
+      console.log(productData)
       this.showquickview = true
       this.quickviewProduct = productData
       this.$emit('openquickview', this.showquickview, this.quickviewProduct)

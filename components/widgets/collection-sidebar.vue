@@ -131,8 +131,8 @@
       </div> -->
 
       <!-- color filter start here -->
-      <!-- <div class="collection-collapse-block open" v-if="filterbycolor.length">
-        <h3 class="collapse-block-title" v-b-toggle.colors>colors</h3>
+      <div class="collection-collapse-block open" v-if="filterbycolor.length">
+        <h3 class="collapse-block-title" v-b-toggle.colors>Цвета</h3>
           <b-collapse id="colors" visible accordion="myaccordion2" role="tabpanel">
         <div class="collection-collapse-block-content">
           <div class="collection-brand-filter color-filter">
@@ -154,11 +154,11 @@
           </div>
         </div>
         </b-collapse>
-      </div> -->
+      </div>
 
       <!-- size filter start here -->
       <div class="collection-collapse-block open" v-if="filterbysize.length">
-        <h3 class="collapse-block-title" v-b-toggle.size>Size</h3>
+        <h3 class="collapse-block-title" v-b-toggle.size>Размеры</h3>
          <b-collapse id="size" visible accordion="myaccordion3" role="tabpanel">
         <div class="collection-collapse-block-content">
           <div class="color-selector">
@@ -184,7 +184,7 @@
       </div>
       <!-- price filter start here -->
       <div class="collection-collapse-block border-0 open">
-        <h3 class="collapse-block-title" v-b-toggle.price>price</h3>
+        <h3 class="collapse-block-title" v-b-toggle.price>Диапазон цен</h3>
          <b-collapse id="price" visible accordion="myaccordion4" role="tabpanel">
         <div class="collection-collapse-block-content">
           <div class="collection-brand-filter price-rangee-picker">
@@ -202,7 +202,7 @@
     </div>
               <!-- side-bar single product slider start -->
         <div class="theme-card">
-          <h5 class="title-border">new products</h5>
+          <h5 class="title-border">Новые товары</h5>
           <div class="offer-slider slide-1">
             <div v-swiper:mySwiper="swiperOption">
               <div class="swiper-wrapper">
@@ -286,8 +286,11 @@ import { mapState, mapGetters } from 'vuex';
 import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js';
 export default {
   data() {
-    return {
-      filterbysize: [],
+    return {      
+      productSize: {
+        size_s: false,
+        size_m: false
+      },
       categoryID: null,
       categories: null,
       bannerimagepath: require('@/assets/images/side-banner.png'),
@@ -318,8 +321,8 @@ export default {
     ...mapGetters({
       // filterbyCategory: 'filter/filterbyCategory',
       // filterbyBrand: 'filter/filterbyBrand',
-      // filterbycolor: 'filter/filterbycolor',
-      // filterbysize: 'filter/filterbysize'
+      filterbycolor: 'filter/filterbycolor',
+      filterbysize: 'filter/filterbysize'
     })
   },
   mounted() {
