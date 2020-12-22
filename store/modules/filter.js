@@ -1,4 +1,3 @@
-'use strict'
 import products from '../../data/products';
 
 const state = {
@@ -28,10 +27,8 @@ const getters = {
       product.link_color.filter((variant) => {
         if (variant.color) {
           const index = uniqueColors.indexOf(variant.color)
-          if (index === -1) {
-            uniqueColors.push(variant.color)
-            product.tags.push(variant.color) 
-          }
+          product.tags.push(variant.color) 
+          if (index == -1) uniqueColors.push(variant.color)
         }
       })
     })
@@ -43,10 +40,8 @@ const getters = {
       product.size_kol.filter((variant) => {
         if (variant.size) {
           const index = uniqueSize.indexOf(variant.size)
-          if (index === -1) {
-            uniqueSize.push(variant.size)
-            product.tags.push(variant.size)
-          }
+          product.tags.push(variant.size)
+          if (index === -1) uniqueSize.push(variant.size)
         }
       })
     })

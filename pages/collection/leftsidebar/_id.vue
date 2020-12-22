@@ -34,7 +34,7 @@
                       :key="index">
                       <a href="javascript:void(0)" class="filter_tag">{{tag}}<i class="ti-close" @click="removeTags(tag)"></i></a>
                       </li>
-                      <li class="clear_filter" v-if="allfilters.length > 0"><a href="javascript:void(0)" class="clear_filter" @click="removeAllTags()">Clear all</a></li>
+                      <li class="clear_filter" v-if="allfilters.length > 0"><a href="javascript:void(0)" class="clear_filter" @click="removeAllTags()">Убрать все фильтры</a></li>
                     </ul>
                     <div class="collection-product-wrapper">
                       <div class="product-top-filter">
