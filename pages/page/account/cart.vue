@@ -9,23 +9,23 @@
             <table class="table cart-table table-responsive-xs" v-if="cart.length">
               <thead>
                 <tr class="table-head">
-                  <th scope="col">image</th>
-                  <th scope="col">product name</th>
-                  <th scope="col">price</th>
-                  <th scope="col">quantity</th>
-                  <th scope="col">action</th>
-                  <th scope="col">total</th>
+                  <th scope="col">Изображение</th>
+                  <th scope="col">Наименование</th>
+                  <th scope="col">Цена</th>
+                  <th scope="col">Количество</th>
+                  <th scope="col">Убрать с корзины</th>
+                  <th scope="col">Итого</th>
                 </tr>
               </thead>
               <tbody v-for="(item,index) in cart" :key="index">
                 <tr>
                   <td>
                     <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
-                      <img :src="getImgUrl(item.images[0].src)" alt />
+                      <img :src="item.images[0]" alt />
                     </nuxt-link>
                   </td>
                   <td>
-                    <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">{{item.title}}</nuxt-link>
+                    <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">{{item.name}}</nuxt-link>
                     <div class="mobile-cart-content row">
                       <div class="col-xs-3">
                         <div class="qty-box">
@@ -127,7 +127,7 @@
             <table class="table cart-table table-responsive-md" v-if="cart.length">
               <tfoot>
                 <tr>
-                  <td>total price :</td>
+                  <td>Общая стоимость:</td>
                   <td>
                     <h2>{{ cartTotal * curr.curr | currency(curr.symbol) }}</h2>
                   </td>
@@ -137,21 +137,21 @@
             <div class="col-sm-12 empty-cart-cls text-center" v-if="!cart.length">
               <img :src='"@/assets/images/icon-empty-cart.png"' class="img-fluid" alt="empty cart" />
               <h3 class="mt-3">
-                <strong>Your Cart is Empty</strong>
+                <strong>Ваша корзина пуста</strong>
               </h3>
-              <h4 class="mb-3">Add something to make me happy :)</h4>
+              <h4 class="mb-3">Добавьте в корзину товар для вашего счастья :)</h4>
               <div class="col-12">
-                <nuxt-link :to="{ path: '/'}" class="btn btn-solid">continue shopping</nuxt-link>
+                <nuxt-link :to="{ path: '/'}" class="btn btn-solid">Вернутся к товарам</nuxt-link>
               </div>
             </div>
           </div>
         </div>
         <div class="row cart-buttons" v-if="cart.length">
           <div class="col-6">
-            <nuxt-link :to="{ path: '/'}" :class="'btn btn-solid'">continue shopping</nuxt-link>
+            <nuxt-link :to="{ path: '/'}" :class="'btn btn-solid'">Вернутся к товарам</nuxt-link>
           </div>
           <div class="col-6">
-            <nuxt-link :to="{ path: '/page/account/checkout'}" :class="'btn btn-solid'">check out</nuxt-link>
+            <nuxt-link :to="{ path: '/page/account/checkout'}" :class="'btn btn-solid'">Купить</nuxt-link>
           </div>
         </div>
       </div>
@@ -204,3 +204,8 @@ export default {
   }
 }
 </script>
+<style>
+.cart-section .cart-table thead th, .wishlist-section .cart-table thead th{
+  font-weight: inherit;
+}
+</style>

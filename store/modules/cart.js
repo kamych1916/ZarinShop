@@ -1,7 +1,7 @@
 import products from '../../data/products'
 
 const state = {
-  products: products.data,
+  products: [],
   cart: []
 }
 // getters
@@ -17,8 +17,11 @@ const getters = {
 }
 // mutations
 const mutations = {
+  update_product: (state, payload) => {
+    state.products = payload;
+  },
   addToCart: (state, payload) => {
-    const product = state.products.find(item => item.id === payload.id)
+    const product = state.products
     const cartItems = state.cart.find(item => item.id === payload.id)
     const qty = payload.quantity ? payload.quantity : 1
     if (cartItems) {
@@ -64,6 +67,9 @@ const mutations = {
 }
 // actions
 const actions = {
+  changeProduct({commit}, products){
+    commit('update_product', products)
+  },
   addToCart: (context, payload) => {
     context.commit('addToCart', payload)
   },

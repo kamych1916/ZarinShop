@@ -21,6 +21,9 @@ export default class Api {
         async getItems_cat(id) {
             return axios.get(`${API_BASE_URL}/items_cat/${id}`)
         },
+        async getData_item(id){
+            return axios.get(`${API_BASE_URL}/items/${id}`)
+        },
         async sendNewProduct(product) {
             return axios.post(`${API_BASE_URL}/items`, product ,
                 {

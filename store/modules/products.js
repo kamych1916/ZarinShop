@@ -1,69 +1,8 @@
 import products from '../../data/products'
-// {
-//   "id": "1",
-//   "name": "Халат 1",
-//   "description": "что то про халат",
-//   "size_kol": [
-//     {
-//       "size": "S",
-//       "kol": 5
-//     },
-//     {
-//       "size": "M",
-//       "kol": 1
-//     },
-//     {
-//       "size": "L",
-//       "kol": 1
-//     },
-//     {
-//       "size": "XL",
-//       "kol": 5
-//     },
-//     {
-//       "size": "XXL",
-//       "kol": 1
-//     }
-//   ],
-//   "color": "#0000FF",
-//   "images": [
-//     "https://mirllex.site/img/hl_10.jpg",
-//     "https://mirllex.site/img/hl_10_2.jpg"
-//   ],
-//   "price": 5000,
-//   "discount": 10,
-//   "hit_sales": true,
-//   "special_offer": false,
-//   "categories": [
-//     "1",
-//     "11",
-//     "111"
-//   ],
-//   "link_color": [
-//     {
-//       "id": 1,
-//       "color": "#0000FF"
-//     },
-//     {
-//       "id": 2,
-//       "color": "#C0C0C0"
-//     }
-//   ],
-//   "favorites": false,
-//   "categories_value": [
-//     "Халат",
-//     "Мужской",
-//     "Велюр"
-//   ],
-//   "name_images": [
-//     "hl_10.jpg",
-//     "hl_10_2.jpg"
-//   ]
-// },
 
 const state = {
-  productslist: products.data,
-  products: products.data,
+  productslist: [],
+  products: [],
   wishlist: [],
   compare: [],
   currency: {
@@ -82,9 +21,7 @@ const getters = {
     })
   },
   getProductById: (state) => {
-    return id => state.products.find((product) => {
-      return product.id === +id
-    })
+    return state.products
   },
   compareItems: (state) => {
     return state.compare
@@ -113,6 +50,13 @@ const getters = {
 }
 // mutations
 const mutations = {
+  update_product: (state, payload) => {
+    // state.filteredProduct = payload;
+    // state.filteredProduct.filter((product) => {
+    //   product.tags = [] 
+    // })
+    state.products = payload;
+  },
   changeCurrency: (state, payload) => {
     state.currency = payload
   },
@@ -157,10 +101,14 @@ const mutations = {
   },
   createOrder: (state, payload) => {
     state.order = payload
-  }
+  },
+
 }
 // actions
 const actions = {
+  changeProduct({commit}, products){
+    commit('update_product', products)
+  },
   changeCurrency: (context, payload) => {
     context.commit('changeCurrency', payload)
   },

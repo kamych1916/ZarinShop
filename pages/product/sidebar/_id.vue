@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <Breadcrumbs :title="getDetail.title" />
+    <Breadcrumbs :title="getDetail.name" />
     <section class="section-b-space">
       <div class="collection-wrapper">
         <div class="container">
@@ -19,10 +19,10 @@
                           :key="index"
                         >
                           <img
-                            :src="getImgUrl(product.src)"
-                            :id="product.image_id"
+                            :src="product"
+                            :id="index"
                             class="img-fluid bg-img"
-                            :alt="product.alt"
+                            :alt="product"
                           />
                         </div>
                       </div>
@@ -37,8 +37,8 @@
                               :key="index"
                             >
                               <img
-                                :src="getImgUrl(product.src)"
-                                :id="product.image_id"
+                                :src="product"
+                                :id="index"
                                 class="img-fluid bg-img"
                                 alt="product.alt"
                                 @click="slideTo(index)"
@@ -51,37 +51,36 @@
                   </div>
                   <div class="col-lg-6 rtl-text">
                     <div class="product-right">
-                      <h2>{{ getDetail.title }}</h2>
+                      <h2>{{ getDetail.name }}</h2>
                       <h4 v-if="getDetail.sale">
                         <del>{{ getDetail.price * curr.curr | currency(curr.symbol) }}</del>
                         <span>{{ getDetail.discount }}% off</span>
                       </h4>
                       <h3 v-if="getDetail.sale">{{ discountedPrice(getDetail) * curr.curr | currency(curr.symbol) }}</h3>
                       <h3 v-else>{{ getDetail.price * curr.curr | currency(curr.symbol) }}</h3>
-                      <ul class="color-variant">
+                      <ul class="color-variant" v-if="getDetail.link_color">
                         <li
                           v-bind:class="{ active: activeColor == variant}"
-                          v-for="(variant,variantIndex) in Color(getDetail.variants)"
+                          v-for="(variant,variantIndex) in Color(getDetail.link_color)"
                           :key="variantIndex"
                         >
-                          <a
+                          <nuxt-link :to="{ path: `/product/sidebar/${variant.id}`}"
                             :class="[variant]"
-                            v-bind:style="{ 'background-color' : variant}"
-                            @click="sizeVariant(getDetail.variants[variantIndex].image_id, variantIndex, variant)"
-                          ></a>
+                            v-bind:style="{ 'background-color' : variant.color}"
+                          ></nuxt-link>
                         </li>
                       </ul>
-                      <div class="pro_inventory" v-if="getDetail.stock < 8">
+                      <!-- <div class="pro_inventory" v-if="getDetail.stock < 8">
                         <p class="active"> Hurry! We have only {{ getDetail.stock }} product in stock. </p>
                         <div class="inventory-scroll">
                           <span style="width: 95%;"></span>
                         </div>
-                      </div>
+                      </div> -->
                       <div class="product-description border-product">
                         <h6 class="product-title size-text">
-                          select size
+                          Выберите размер
                           <span>
-                            <a href="javascript:void(0)" v-b-modal.modal-1>size chart</a>
+                            <a href="javascript:void(0)" v-b-modal.modal-1>таблица размеров</a>
                           </span>
                         </h6>
                         <div class="size-box">
@@ -99,13 +98,13 @@
                             </li>
                           </ul>
                         </div>
-                        <h5 class="avalibility" v-if="counter <= getDetail.stock">
-                          <span>In Stock</span>
+                        <h5 class="avalibility" v-if="counter <= productStock">
+                          <span>В наличии {{productStock}} шт.</span>
                         </h5>
-                        <h5 class="avalibility" v-if="counter > getDetail.stock">
+                        <!-- <h5 class="avalibility" v-if="counter > productStock">
                           <span>Out of Stock</span>
-                        </h5>
-                        <h6 class="product-title">quantity</h6>
+                        </h5> -->
+                        <h6 class="product-title">Выберите количество</h6>
                         <div class="qty-box">
                           <div class="input-group">
                             <span class="input-group-prepend">
@@ -123,7 +122,8 @@
                               type="text"
                               name="quantity"
                               class="form-control input-number"
-                              :disabled="counter > getDetail.stock"
+                              readonly
+                              :disabled="counter > productStock"
                               v-model="counter"
                             />
                             <span class="input-group-prepend">
@@ -141,67 +141,39 @@
                         </div>
                       </div>
                       <div class="product-buttons">
-                        <nuxt-link :to="{ path: '/page/account/cart'}">
+                        <!-- <nuxt-link :to="{ path: '/page/account/cart'}"> -->
                           <button
-                            class="btn btn-solid"
+                            class="btn btn-solid "
                             title="Add to cart"
                             @click="addToCart(getDetail, counter)"
                             :disabled="counter > getDetail.stock"
-                          >Add To Cart</button>
-                        </nuxt-link>
+                          >В корзину</button>
+                        <!-- </nuxt-link> -->
                         <button
                             class="btn btn-solid"
                             title="buy now"
                             @click="buyNow(getDetail, counter)"
                             :disabled="counter > getDetail.stock"
-                          >Buy Now</button>
+                          >Купить сейчас</button>
                       </div>
                       <div class="border-product">
-                        <h6 class="product-title">product details</h6>
-                        <p>{{getDetail.description.substring(0,200)+"...."}}</p>
+                        <h6 class="product-title">Описание товара</h6>
+                        <p v-if="getDetail.description">{{getDetail.description.substring(0,200)+"...."}}</p>
                       </div>
                       <div class="border-product">
-                        <h6 class="product-title">share it</h6>
                         <div class="product-icon">
-                          <ul class="product-social">
-                            <li>
-                              <a href="javascript:void(0)">
-                                <i class="fa fa-facebook"></i>
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                <i class="fa fa-google-plus"></i>
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                <i class="fa fa-twitter"></i>
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                <i class="fa fa-instagram"></i>
-                              </a>
-                            </li>
-                            <li>
-                              <a href="javascript:void(0)">
-                                <i class="fa fa-rss"></i>
-                              </a>
-                            </li>
-                          </ul>
                           <form class="d-inline-block">
                             <button class="wishlist-btn" @click="addToWishlist(product)">
                               <i class="fa fa-heart"></i>
-                              <span class="title-font">Add To WishList</span>
+                              <span class="title-font">Добавить в избранное</span>
                             </button>
                           </form>
                         </div>
                       </div>
-                      <div class="border-product">
+                      <!-- <div class="border-product">
                         <h6 class="product-title">Time Reminder</h6>
                         <Timer date="December 20, 2020" />
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -210,12 +182,11 @@
                 <div class="row">
                   <div class="col-sm-12 col-lg-12">
                     <b-tabs card>
-                      <b-tab title="Description" active>
+                      <b-tab title="Описание товара" active>
                         <b-card-text>{{getDetail.description}}</b-card-text>
                       </b-tab>
-                      <b-tab title="Details">
+                      <b-tab title="Детали товара">
                         <b-card-text>
-                          {{getDetail.description}}
                           <div class="single-product-tables">
                             <table>
                               <tbody>
@@ -248,7 +219,7 @@
                           </div>
                         </b-card-text>
                       </b-tab>
-                      <b-tab title="Video">
+                      <!-- <b-tab title="Video">
                         <b-card-text>
                           <div class="mt-3 text-center">
                             <iframe
@@ -260,8 +231,8 @@
                             ></iframe>
                           </div>
                         </b-card-text>
-                      </b-tab>
-                      <b-tab title="Write Review">
+                      </b-tab> -->
+                      <!-- <b-tab title="Write Review">
                         <b-card-text>
                           <form class="theme-form">
                             <div class="form-row">
@@ -324,7 +295,7 @@
                             </div>
                           </form>
                         </b-card-text>
-                      </b-tab>
+                      </b-tab> -->
                     </b-tabs>
                   </div>
                 </div>
@@ -336,9 +307,9 @@
           </div>
         </div>
       </div>
-      <relatedProduct :productTYpe="productTYpe" :productId="productId" />
+      <!-- <relatedProduct :productTYpe="productTYpe" :productId="productId" /> -->
       <b-modal id="modal-1" size="md" centered hide-footer>
-        <template v-slot:modal-title>{{getDetail.title}}</template>
+        <template v-slot:modal-title>{{getDetail.name}}</template>
         <img src="../../../assets/images/size-chart.jpg" alt="size-chart" class="img-fluid" />
       </b-modal>
     </section>
@@ -353,6 +324,7 @@ import Breadcrumbs from '../../../components/widgets/breadcrumbs'
 import Timer from '../../../components/widgets/timer'
 import productSidebar from '../../../components/widgets/product-sidebar'
 import relatedProduct from '../../../components/widgets/related-products'
+import Api from "~/utils/api"
 export default {
   components: {
     Header,
@@ -364,6 +336,7 @@ export default {
   },
   data() {
     return {
+      productStock: 0,
       counter: 1,
       activeColor: '',
       selectedSize: '',
@@ -389,28 +362,43 @@ export default {
       currency: state => state.products.currency
     }),
     ...mapGetters({
-      curr: 'products/changeCurrency'
+      curr: 'products/changeCurrency',
+      getDetail: 'products/getProductById'
     }),
-    getDetail: function () {
-      return this.$store.getters['products/getProductById'](
-        this.$route.params.id
-      )
-    },
+    // getDetail: function () {
+    //   return this.$store.getters['products/getProductById'](
+    //     this.$route.params.id
+    //   )
+    // },
     swiper() {
       return this.$refs.mySwiper.swiper
     }
   },
   mounted() {
+    this.getDataProduct();
     // For displaying default color and size on pageload
-    this.uniqColor = this.getDetail.variants[0].color
-    this.sizeVariant(this.getDetail.variants[0].image_id)
+    // this.uniqColor = this.getDetail.variants[0].color
+    
     // Active default color
     this.activeColor = this.uniqColor
-    this.changeSizeVariant(this.getDetail.variants[0].size)
+    // this.changeSizeVariant(this.getDetail.variants[0].size)
     // related product type
     this.relatedProducts()
   },
   methods: {
+    getDataProduct(){
+      Api.getInstance().products.getData_item(this.$route.params.id).then((response) => {
+        this.$store.dispatch("products/changeProduct", response.data);
+        this.$store.dispatch('cart/changeProduct', response.data);
+        // this.sizeVariant(response.data.size_kol[0].size)
+        response.data.size_kol.filter((item)=>{
+          this.size.push(item.size)  
+        })
+        this.changeSizeVariant(response.data.size_kol[0].size)
+      }).catch((error) => {
+        console.log("getDataProducts -> ", error)
+      });
+    },
     priceCurrency: function () {
       this.$store.dispatch('products/changeCurrency')
     },
@@ -431,14 +419,15 @@ export default {
       const uniqColor = []
       for (let i = 0; i < Object.keys(variants).length; i++) {
         if (uniqColor.indexOf(variants[i].color) === -1) {
-          uniqColor.push(variants[i].color)
+          uniqColor.push({color: variants[i].color, id: variants[i].id})
         }
       }
       return uniqColor
     },
     // add to cart
     addToCart: function (product, qty) {
-      product.quantity = qty || 1
+      product.quantity = qty || 1;
+      product.stock = this.productStock;
       this.$store.dispatch('cart/addToCart', product)
     },
     buyNow: function (product, qty) {
@@ -448,13 +437,21 @@ export default {
     },
     // Item Count
     increment() {
-      this.counter++
+      if(this.counter < this.productStock){
+        this.counter++
+      }
     },
     decrement() {
       if (this.counter > 1) this.counter--
     },
     // Change size variant
     changeSizeVariant(variant) {
+      this.counter = 1;
+      this.getDetail.size_kol.filter((size_item)=>{
+        if(size_item.size == variant){
+          this.productStock = size_item.kol
+        }
+      })
       this.selectedSize = variant
     },
     getImgUrl(path) {
@@ -476,4 +473,16 @@ export default {
   }
 }
 </script>
-
+<style>
+.product-right .size-box ul li a {
+  font-size: inherit !important
+}
+.form-control:disabled, .form-control[readonly]{
+  background-color: inherit;
+}
+.product-right .product-icon .wishlist-btn i{
+  border-left: 0px;
+  padding-left: 0px;
+  margin-left: 0px;
+}
+</style>

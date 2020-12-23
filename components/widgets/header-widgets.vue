@@ -70,12 +70,12 @@
             <li v-for="(item,index) in cart" :key="index">
               <div class="media">
                 <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
-                  {{item}}
-                  <!-- <img alt class="mr-3" :src='item.images[0]'> -->
+                  <!-- {{item}} -->
+                  <img alt class="mr-3" :src='item.images[0]'>
                 </nuxt-link>
                 <div class="media-body">
                   <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
-                    <h4>{{item.title}}</h4>
+                    <h4>{{item.name}}</h4>
                   </nuxt-link>
                   <h4>
                     <span>{{item.quantity}} x {{ item.price | currency }}</span>
@@ -91,7 +91,7 @@
             <li>
               <div class="total">
                 <h5>
-                  subtotal :
+                  Итого :
                   <span>{{ cartTotal | currency }}</span>
                 </h5>
               </div>

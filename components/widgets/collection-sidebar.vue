@@ -21,10 +21,11 @@
         <div v-for="(category, i) in categories" :key="i">
 
           <template v-if="category.id == $route.params.id ">
-            <h3 class="collapse-block-title" v-b-toggle.category>{{category.name}}</h3>
+            <h3 class="collapse-block-title" v-b-toggle.category>категории</h3>
             <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
               <div class="collection-collapse-block-content">
                 <div class="collection-brand-filter">
+                  <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: category.id}">{{category.name}}</nuxt-link>
                   <div v-for="(sub, y) in categories[i].subcategories" :key="y">
                     <ul class="category-list">
                       <li>
@@ -41,11 +42,14 @@
             <div v-for="(sub, y) in categories[i].subcategories" :key="y">
 
               <div v-if="categories[i].subcategories[y].id == $route.params.id">
-                <h3 class="collapse-block-title" v-b-toggle.category>{{categories[i].name}}</h3>
+                <h3 class="collapse-block-title" v-b-toggle.category>Категории</h3>
                 <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
                   <div class="collection-collapse-block-content">
                     <div class="collection-brand-filter">
                       <ul class="category-list">
+                        <li>
+                          {{categories[i].name}}
+                        </li>
                         <li>
                             <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: categories[i].subcategories[y].id}">{{categories[i].subcategories[y].name}}</nuxt-link>
                         </li>
@@ -63,7 +67,7 @@
               <div v-else>
                 <div v-for="(lastSub, x) in categories[i].subcategories[y].subcategories" :key="x">
                   <div v-if="lastSub.id == $route.params.id">
-                    <h3 class="collapse-block-title" v-b-toggle.category>{{categories[i].name}}</h3>
+                    <h3 class="collapse-block-title" v-b-toggle.category>Категории</h3>
                     <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
                       <div class="collection-collapse-block-content">
                         <div class="collection-brand-filter">
@@ -149,7 +153,7 @@
               v-model="applyFilter"
               @change="appliedFilter(color)" />
               <span :class="color" v-bind:style="{ 'background-color' : color}"></span>
-              <label class="custom-control-label" :class="{selected: isActive(color)}" v-bind:for="color">{{color}}</label>
+              <label class="custom-control-label" :class="{selected: isActive(color)}" v-bind:for="color">{{convertColor(color)}}</label>
             </div>
           </div>
         </div>
@@ -340,7 +344,24 @@ export default {
           this.forgottitle = true
         });
     },
-
+    convertColor(color){
+      let Colors = {
+        blue: { title: 'Синий', color: '#0000FF'},
+        green: { title: 'зеленый', color: '#008000'},
+        black: { title: 'черный', color: '#000000'},
+        white: { title: 'белый', color: '#FFFFFF'},
+        silver: { title: 'серый', color: '#C0C0C0'},
+        yellow: { title: 'желтый', color: '#FFFF00'},
+        purple: { title: 'фиолетовый', color: '#800080'},
+        orange: { title: 'оранжевый', color: '#FFA500'},
+        pink: { title: 'розовый', color: '#FFC0CB'},
+      }
+      for(let indx in Colors){
+        if(Colors[indx].color == color){
+          return Colors[indx].title
+        }
+      }
+    },
     getCategoryProduct(collection) {
       return this.productslist.filter((item) => {
         if (item.collection.find(i => i === collection)) {
@@ -373,3 +394,13 @@ export default {
   }
 }
 </script>
+<style>
+.custom-control-input{
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid #eee;
+    top: 2px;
+}
+</style>
