@@ -21,7 +21,7 @@ const mutations = {
     state.products = payload;
   },
   addToCart: (state, payload) => {
-    const product = state.products
+    const product = payload
     const cartItems = state.cart.find(item => item.id === payload.id)
     const qty = payload.quantity ? payload.quantity : 1
     if (cartItems) {

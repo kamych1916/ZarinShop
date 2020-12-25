@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <Breadcrumbs title="collection" />
+    <Breadcrumbs title="коллекции" />
     <section class="section-b-space ratio_asos">
       <div class="collection-wrapper">
         <div class="container">
@@ -42,7 +42,7 @@
                           <div class="col-12">
                             <div class="product-filter-content">
                               <div class="search-count">
-                                <h5>Отображено товаров 1-12 из {{ filterProduct.length }} имеющихся</h5>
+                                <h5 style="text-transform: none">Отображено 1-12 из {{ filterProduct.length }} имеющихся</h5>
                               </div>
                               <div class="collection-view">
                                 <ul>
@@ -104,7 +104,7 @@
                           <div class="col-sm-12">
                             <div class="text-center section-t-space section-b-space" v-if="filterProduct.length == 0">
                               <img :src='"@/assets/images/empty-search.jpg"' class="img-fluid" alt />
-                              <h3 class="mt-3">Упс! Не удалось найти товары, которые вы искали!!!</h3>
+                              <h3 class="mt-3">Упс! Не удалось найти товары, которые вы искали.</h3>
                               <div class="col-12 mt-3">
                                   <nuxt-link :to="{ path: '/'}" class="btn btn-solid">Продолжить покупки</nuxt-link>
                               </div>

@@ -283,6 +283,13 @@
                 <template #cell(color)="row">
                     <div :style="'width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color:' +  row.item.color"></div>
                 </template>
+                <template #cell(size_kol)="row">
+                    <b-row>
+                        <div v-for="(item, i) in row.item.size_kol" :key="i">
+                            {{item.size}} - {{item.kol}}; &nbsp;&nbsp;
+                        </div>
+                    </b-row>
+                </template>
             </b-table>
         </div>
     </b-card>

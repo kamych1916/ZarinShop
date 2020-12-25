@@ -6,8 +6,8 @@ const state = {
   wishlist: [],
   compare: [],
   currency: {
-    curr: 'usd',
-    symbol: '$'
+    curr: 'uz',
+    symbol: ''
   },
   order: [],
   locale: 'en',
@@ -39,7 +39,7 @@ const getters = {
     } else if (state.currency.curr === 'gbp') {
       state.currency.curr = 0.78
       return state.currency
-    } else if (state.currency.curr === 'usd') {
+    } else if (state.currency.curr === 'uz') {
       state.currency.curr = 1
       return state.currency
     }

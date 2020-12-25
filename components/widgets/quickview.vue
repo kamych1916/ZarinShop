@@ -11,14 +11,14 @@
       <div class="row quickview-modal">
         <div class="col-lg-6 col-xs-12">
           <div class="quick-view-img">
-            <div v-swiper:mySwiper="swiperOption">
+            <div v-swiper:mySwiper="">
               <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(image,index) in productData.images" :key="index">
                   <img
                     :src="image"
                     :id="index"
                     class="img-fluid bg-img"
-                    alt="imag.alt"
+                    :alt="image"
                   />
                 </div>
               </div>
@@ -29,33 +29,33 @@
           <div class="product-right">
             <h2>{{productData.name}}</h2>
             <h3 v-if="productData.hit_sales">
-              {{ discountedPrice(productData) * curr.curr | currency(curr.symbol) }}
-              <del>{{ productData.price * curr.curr | currency(curr.symbol) }}</del>
+              {{ (parseInt(discountedPrice(productData))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small>
+              <del>{{ (parseInt(productData.price)).toLocaleString('ru-RU') }}</del>
             </h3>
-            <h3 v-else>{{ productData.price * curr.curr | currency(curr.symbol) }}</h3>
+            <h3 v-else>{{ (parseInt(productData.price)).toLocaleString('ru-RU') }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></h3>
             <ul class="color-variant" v-if="productData.color">
               <h6 class="product-title">Цвета в наличии</h6>
-              <li>
-                <a v-bind:style="{ 'background-color' : productData.color, 'border' : '1px solid #ccc'}"></a>
+              <li v-for="(variant,variantIndex) in productData.link_color" :key="variantIndex">
+                <a v-bind:style="{ 'background-color' : variant.color, 'border' : '1px solid #ccc'}"></a>
               </li>
             </ul>
-            <!-- <div class="product-description border-product" v-if="productData.variants[0].size">
-              <h6 class="product-title">select size</h6>
+            <div class="product-description border-product" v-if="productData.size_kol[0].size">
+              <h6 class="product-title">Размеры</h6>
               <div class="size-box">
                 <ul>
-                  <li v-for="(variant,variantIndex) in Size(productData.variants)" :key="variantIndex">
-                    <a href="javascript:void(0)">{{variant}}</a>
+                  <li v-for="(variant,variantIndex) in productData.size_kol" :key="variantIndex">
+                    <a href="javascript:void(0)">{{variant.size}}</a>
                   </li>
                 </ul>
               </div>
-            </div> -->
+            </div>
             <div class="border-product">
               <h6 class="product-title">Описание товара</h6>
               <p>{{productData.description.substring(0,250)+"...."}}</p>
             </div>
             <div class="product-buttons">
-              <a href="javascript:void(0)" @click="addToCart(product)" class="btn btn-solid">в корзину</a>
-              <nuxt-link :to="{ path: '/product/sidebar/'+productData.id}" class="btn btn-solid">Подробнее</nuxt-link>
+              <!-- <a href="javascript:void(0)" @click="addToCart(productData)" class="btn btn-solid">в корзину</a> -->
+              <nuxt-link :to="{ path: '/product/sidebar/'+productData.id}" class="btn btn-solid ml-0">Подробнее</nuxt-link>
             </div>
           </div>
         </div>
@@ -71,9 +71,9 @@ export default {
     return {
       swiperOption: {
         slidesPerView: 1,
-        spaceBetween: 20,
+        spaceBetween: 10,
         freeMode: true
-      }
+      },
     }
   },
   computed: {
@@ -103,9 +103,9 @@ export default {
       return uniqSize
     },
     // add to cart
-    addToCart: function (product) {
-      this.$store.dispatch('cart/addToCart', product)
-    },
+    // addToCart: function (product) {
+    //   this.$store.dispatch('cart/addToCart', product)
+    // },
     // Get Image Url
     getImgUrl(path) {
       return require('@/assets/images/' + path)

@@ -12,13 +12,21 @@
 
       <ul id="sub-menu" class="sidebar-menu">
         <li v-for="(category, i) in categories" :key="i">
-          <nuxt-link :to="'/collection/leftsidebar/' + category.id" v-if="category.subcategories.length > 0" href="javascript:void(0)" @click="setActive('clothing')">{{category.name}}
+          <!-- <nuxt-link :to="'/collection/leftsidebar/' + category.id" v-if="category.subcategories.length > 0" @click="setActive('clothing')">{{category.name}}
             <span class="sub-arrow"></span>
           </nuxt-link>
           <nuxt-link :to="'/collection/leftsidebar/' + category.id" v-else>
             {{category.name}}
+          </nuxt-link> -->
+          <a href="javascript:void(0)" v-if="category.subcategories.length > 0" @click="setActive(category.name)">
+            {{category.name}}
+            <span class="sub-arrow"></span>
+          </a>
+          <nuxt-link :to="'/collection/leftsidebar/' + category.id" v-else>
+            {{category.name}}
           </nuxt-link>
-          <ul v-if="category.subcategories.length > 0" class="mega-menu clothing-menu" :class="{ opensidesubmenu: isActive('clothing') }">
+
+          <ul v-if="category.subcategories.length > 0" class="mega-menu clothing-menu" :class="{ opensidesubmenu: isActive(category.name) }">
             <li>
                 <div class="row m-0">
                   <div v-for="(sub, i) in category.subcategories" :key="i" class="col-xl-6">
@@ -259,3 +267,5 @@ export default {
   }
 }
 </script>
+
+

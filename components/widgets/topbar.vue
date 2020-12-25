@@ -17,16 +17,12 @@
             <li class="mobile-wishlist">
               <nuxt-link :to="{ path: '/page/account/wishlist' }">
                 <i class="fa fa-heart" aria-hidden="true"></i>
-                <span style="color: #999999" >
-                Избранное
-                </span>  
+                <span style="color: #999999" >Избранное</span>  
               </nuxt-link>
             </li>
             <li class=" mobile-account" @click="auth()">
-              <!-- <nuxt-link to="/page/account/login"> -->
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span style="color: #999999" >Мой аккаунт</span>  
-              <!-- </nuxt-link> -->
             </li>
           </ul>
         </div>

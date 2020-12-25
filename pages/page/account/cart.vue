@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <Breadcrumbs title="Cart" />
+    <Breadcrumbs title="Корзина" />
     <section class="cart-section section-b-space">
       <div class="container">
         <div class="row">

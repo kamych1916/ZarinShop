@@ -58,11 +58,11 @@
           </div>
         </li>
         <li class="onhover-div mobile-cart">
-          <div>
+          <nuxt-link :to="{ path: '/page/account/cart'}" :class="'view-cart'">
             <img alt :src='"@/assets/images/icon/layout4/cart.png"' class="img-fluid">
             <i class="ti-shopping-cart"></i>
             <span class="cart_qty_cls">{{cart.length}}</span>
-          </div>
+          </nuxt-link>
           <ul class="show-div shopping-cart" v-if="!cart.length">
             <li>Корзина пуста</li>
           </ul>
@@ -99,10 +99,10 @@
             <li>
               <div class="buttons">
                 <nuxt-link :to="{ path: '/page/account/cart'}" :class="'view-cart'">
-                  view cart
+                  корзина
                 </nuxt-link>
                 <nuxt-link :to="{ path: '/page/account/checkout'}" :class="'checkout'">
-                  checkout
+                  купить сейчас
                 </nuxt-link>
               </div>
             </li>
@@ -174,9 +174,6 @@ export default {
     })
   },
   methods: {
-    getImgUrl(path) {
-      return require('@/assets/images/' + path)
-    },
     openSearch() {
       this.search = true
     },

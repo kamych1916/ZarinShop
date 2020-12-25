@@ -2,7 +2,7 @@
   <div>
     <Header />
     <Breadcrumbs title="Мой аккаунт" />
-    <section class="section-b-space">
+    <section class="section-b-space" v-if="is_login">
       <div class="container">
         <div class="row">
           <b-card no-body v-bind:class="'dashboardtab'">
@@ -120,6 +120,7 @@
                   </div>
                 </b-card-text>
               </b-tab> -->
+              <b-tab @click="$router.push('/page/account/admin-dashboard')" title="Админ панель"></b-tab>
               <b-tab title="Мои заказы">
                 <b-card-text>
                   <div class="dashboard-right">
@@ -172,6 +173,7 @@
                   </div>
                 </b-card-text>
               </b-tab>
+              
               <b-tab @click="logout()" title="Выход"></b-tab>
             </b-tabs>
           </b-card>
@@ -192,6 +194,8 @@ export default {
     return {
       client_fullname: null,
       client_email: null,
+      is_admin: null,
+      is_login: false,
     }
   },
   components: {
@@ -203,10 +207,31 @@ export default {
     // if(!this.$store.state.auth.login_access){
     //   this.$router.push("/page/account/login")
     // }
+    this.check_is_login();
+    this.check_is_admin();
     this.client_fullname = localStorage.getItem('cfn');
     this.client_email = localStorage.getItem('ce');
   },
   methods:{
+    check_is_admin(){
+      Api.getInstance().auth.check_is_admin()
+          .then((response) => {
+              this.is_admin = true;
+          })
+          .catch((error) => {
+              this.is_admin = false;
+          });
+    },
+    check_is_login(){
+      Api.getInstance().auth.is_login()          
+          .then((response) => {
+              this.is_login = true;
+          })
+          .catch((error) => {
+              this.is_login = false;
+              setTimeout(()=>{this.$router.push('/page/account/login')})
+          });
+    },
     logout(){
       Api.getInstance().auth.logout().then((response) => {
           localStorage.removeItem('st');

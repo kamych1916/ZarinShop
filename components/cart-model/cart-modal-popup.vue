@@ -16,35 +16,35 @@
           </button>
           <div class="media">
             <img
-              :src="getImgUrl(productData.images[0].src)"
+              :src="productData.images[0]"
               class="img-fluid"
-              :alt="productData.images[0].alt"
+              :alt="productData.images[0]"
             />
             <div class="media-body align-self-center text-center">
               <h5>
-                <i class="fa fa-check"></i>Item
-                <span>{{productData.title}}</span>
-                <span>successfully added to your Cart.</span>
+                <i class="fa fa-check"></i>
+                <span>{{productData.name}}</span>
+                <span>успешно добавлен в коризну.</span>
               </h5>
               <div class="buttons d-flex justify-content-center">
                 <nuxt-link
                   :to="{ path: '/page/account/cart'}"
                   class="btn-sm btn-solid mr-2"
-                >View Cart</nuxt-link>
+                >Корзина</nuxt-link>
                 <nuxt-link
                   :to="{ path: '/page/account/checkout'}"
                   class="btn-sm btn-solid mr-2"
-                >Checkout</nuxt-link>
+                >Купить сейчас</nuxt-link>
                 <nuxt-link
                   :to="{ path: '/'}"
                   class="btn-sm btn-solid"
-                >Continue Shopping</nuxt-link>
+                >Продожить покупки</nuxt-link>
               </div>
               <div class="upsell_payment">
                 <img alt="" class="img-fluid w-auto mt-3" :src='"@/assets/images/payment_cart.png"'></div>
             </div>
           </div>
-          <div class="product-section">
+          <!-- <div class="product-section">
                 <div class="col-12 product-upsell text-center">
                   <h4>Customers who bought this item also.</h4>
                 </div>
@@ -57,9 +57,9 @@
                       <div class="front">
                         <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
                           <img
-                            :src='getImgUrl(product.images[0].src)'
+                            :src='product.images[0]'
                             class="img-fluid"
-                            :alt="product.title"
+                            :alt="product.name"
                           />
                         </nuxt-link>
                       </div>
@@ -75,7 +75,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
         </div>
       </div>
     </b-modal>
@@ -102,15 +102,15 @@ export default {
       val = false
       this.$emit('closeCart', val)
     },
-    cartRelatedProducts(collection, id) {
-      return this.products.filter((item) => {
-        if (item.collection.find(i => i === collection)) {
-          if (item.id !== id) {
-            return item
-          }
-        }
-      })
-    },
+    // cartRelatedProducts(collection, id) {
+    //   return this.products.filter((item) => {
+    //     if (item.collection.find(i => i === collection)) {
+    //       if (item.id !== id) {
+    //         return item
+    //       }
+    //     }
+    //   })
+    // },
     discountedPrice(product) {
       return product.price - (product.price * product.discount / 100)
     }

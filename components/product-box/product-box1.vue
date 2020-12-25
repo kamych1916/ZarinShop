@@ -2,8 +2,7 @@
   <div>
     <div class="img-wrapper">
       <div class="lable-block">
-        <span class="lable3" v-if="product.new">new</span>
-        <span class="lable4" v-if="product.hit_sales">on sale</span>
+        <span class="lable3" v-if="product.hit_sales">{{product.discount}}%</span>
       </div>
       <div class="front">
         <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
@@ -46,9 +45,9 @@
         <a href="javascript:void(0)" title="Quick View" @click="showQuickview(product)" v-b-modal.modal-lg variant="primary">
           <i class="ti-search" aria-hidden="true"></i>
         </a>
-        <a href="javascript:void(0)" title="Comapre" @click="addToCompare(product)" v-b-modal.modal-compare variant="primary">
+        <!-- <a href="javascript:void(0)" title="Comapre" @click="addToCompare(product)" v-b-modal.modal-compare variant="primary">
           <i class="ti-reload" aria-hidden="true"></i>
-        </a>
+        </a> -->
       </div>
     </div>
     <div class="product-detail">
@@ -60,18 +59,17 @@
         <i class="fa fa-star"></i>
       </div> -->
       <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
-        <h6>{{ product.name }}</h6>
+        <h6>{{ product.name }} </h6>
       </nuxt-link>
       <p>{{ product.description }}</p>
       <h4 v-if="product.hit_sales">
-        {{ discountedPrice(product) * curr.curr | currency(curr.symbol) }}
-        <del>{{ product.price * curr.curr | currency(curr.symbol) }}</del>
+        {{ (parseInt(discountedPrice(product))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small> 
+        <del>{{ (parseInt(product.price)).toLocaleString('ru-RU') }}</del>
       </h4>
-      <h4 v-else>{{ product.price * curr.curr | currency(curr.symbol) }}</h4>
+      <h4 v-else>{{ (parseInt(product.price)).toLocaleString('ru-RU') }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></h4>
       <ul class="color-variant" v-if="product.color">
         <li v-for="(variant,variantIndex) in Color(product.link_color)" :key="variantIndex">
           <a
-            :class="[variant]"
             v-bind:style="{ 'background-color' : variant, 'border': '1px solid #ccc'}"
           ></a>
         </li>
@@ -114,9 +112,6 @@ export default {
     })
   },
   methods: {
-    getImgUrl(path) {
-      return require('@/assets/images/' + path)
-    },
     addToCart: function (product) {
       this.cartval = true
       this.cartProduct = product
@@ -129,7 +124,6 @@ export default {
       this.$store.dispatch('products/addToWishlist', product)
     },
     showQuickview: function (productData) {
-      console.log(productData)
       this.showquickview = true
       this.quickviewProduct = productData
       this.$emit('openquickview', this.showquickview, this.quickviewProduct)
@@ -161,7 +155,6 @@ export default {
       })
     },
     productVariantChange(imgsrc) {
-      console.log("I am calll");      
       this.imageSrc = imgsrc
     },
     countDownChanged(dismissCountDown) {
@@ -169,9 +162,15 @@ export default {
       this.$emit('alertseconds', this.dismissCountDown)
     },
     discountedPrice(product) {
-      const price = product.price - (product.price * product.discount / 100)
-      return price
+        const price = product.price - (product.price * product.discount / 100)
+        return price
     }
   }
 }
 </script>
+
+<style >
+.product-box .img-wrapper .lable-block .lable3, .product-wrap .img-wrapper .lable-block .lable3{
+  width: 40px;
+}
+</style>

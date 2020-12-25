@@ -3,7 +3,7 @@
       <Header />
       <Breadcrumbs title="Админ Панель" />
           <section class="section-b-space">
-      <div class="container">
+      <div class="container" v-if="is_admin">
         <div class="row">
           <b-card no-body v-bind:class="'dashboardtab'">
             <AddCategory/>
@@ -43,18 +43,14 @@ export default {
   },
   methods: {  
     check_is_admin(){
-      Api.getInstance().auth.check_is_admin().then((response) => {
+      Api.getInstance().auth.check_is_admin()
+          .then((response) => {
               this.is_admin = true;
           })
           .catch((error) => {
               console.log(error)
               this.is_admin = false;
-              this.$bvToast.toast("У вас нет доступа к данной странице.", {
-                      title: `Ошибка аутентификации`,
-                  variant: "danger",
-                  solid: true,
-              });
-              // setTimeout(()=>{this.$router.push('/')}, 1500)
+              setTimeout(()=>{this.$router.push('/')})
           });
     }
   }

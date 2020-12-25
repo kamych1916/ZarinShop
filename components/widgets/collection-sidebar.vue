@@ -4,7 +4,7 @@
         <div class="col-xl-12">
           <div class="filter-main-btn"  @click="filter = !filter">
             <span class="filter-btn btn btn-theme">
-              <i class="fa fa-filter" aria-hidden="true"></i> Filter
+              <i class="fa fa-filter" aria-hidden="true"></i> Фильтры
             </span>
           </div>
         </div>
@@ -25,12 +25,14 @@
             <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
               <div class="collection-collapse-block-content">
                 <div class="collection-brand-filter">
-                  <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: category.id}">{{category.name}}</nuxt-link>
+                    <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: category.id}">
+                      <li style="border-bottom: 1px solid #ccc; width:100%" class="py-3">{{category.name}}</li>
+                    </nuxt-link>
                   <div v-for="(sub, y) in categories[i].subcategories" :key="y">
                     <ul class="category-list">
-                      <li>
-                        <nuxt-link :to="{ path: categories[i].subcategories[y].id}">{{categories[i].subcategories[y].name}}</nuxt-link>
-                      </li>
+                      <nuxt-link style="color: #444444;" :to="{ path: categories[i].subcategories[y].id}">
+                        <li style="border-bottom: 1px solid #ccc" class="py-3">{{categories[i].subcategories[y].name}}</li>
+                      </nuxt-link>
                     </ul>
                   </div>
                 </div>
@@ -47,16 +49,18 @@
                   <div class="collection-collapse-block-content">
                     <div class="collection-brand-filter">
                       <ul class="category-list">
-                        <li>
-                          {{categories[i].name}}
-                        </li>
-                        <li>
-                            <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: categories[i].subcategories[y].id}">{{categories[i].subcategories[y].name}}</nuxt-link>
-                        </li>
+                        <nuxt-link style="color: #444444; font-weight: 600;"  :to="{ path: category.id}">
+                          <li style="border-bottom: 1px solid #ccc" class="py-3">{{category.name}}</li>
+                        </nuxt-link>
+
+                        <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: categories[i].subcategories[y].id}">
+                          <li style="border-bottom: 1px solid #ccc" class="py-3">{{categories[i].subcategories[y].name}}</li>
+                        </nuxt-link>
+
                         <div v-for="(lastSub, x) in categories[i].subcategories[y].subcategories" :key="x">
-                          <li v-if="lastSub">
-                            <nuxt-link :to="{ path: lastSub.id}">{{lastSub.name}}</nuxt-link>
-                          </li>
+                          <nuxt-link style="color: #444444;" v-if="lastSub" :to="{ path: lastSub.id}">
+                            <li style="border-bottom: 1px solid #ccc" class="py-3">{{lastSub.name}}</li>
+                          </nuxt-link>
                         </div>
                       </ul>
                     </div>
@@ -72,12 +76,15 @@
                       <div class="collection-collapse-block-content">
                         <div class="collection-brand-filter">
                           <ul class="category-list">
-                            <li>
-                              <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: categories[i].subcategories[y].id}">{{categories[i].subcategories[y].name}}</nuxt-link>
-                            </li>
-                            <li>
-                              <nuxt-link :to="{ path: lastSub.id}">{{lastSub.name}}</nuxt-link>
-                            </li>
+                            <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: category.id}">
+                              <li style="border-bottom: 1px solid #ccc" class="py-3">{{category.name}}</li>
+                            </nuxt-link>
+                            <nuxt-link style="color: #444444; font-weight: 600;" :to="{ path: categories[i].subcategories[y].id}">
+                              <li style="border-bottom: 1px solid #ccc" class="py-3">{{categories[i].subcategories[y].name}}</li>
+                            </nuxt-link>
+                            <nuxt-link style="color: #444444;" :to="{ path: lastSub.id}">
+                              <li style="border-bottom: 1px solid #ccc" class="py-3">{{lastSub.name}}</li>
+                            </nuxt-link>
                           </ul>
                         </div>
                       </div>
@@ -89,51 +96,29 @@
 
             </div>
           </template>
-
-          <!-- <template v-else>
-            <h3 class="collapse-block-title" v-b-toggle.category>{{category.name}}</h3>
-            <b-collapse id="category" visible accordion="myaccordion" role="tabpanel">
-              <div class="collection-collapse-block-content">
-                <div class="collection-brand-filter">
-                  <ul class="category-list">
-                    <li>
-                      <nuxt-link :to="{ path: '/collection/leftsidebar/all'}">All products</nuxt-link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </b-collapse>
-          </template> -->
         </div>
       </div>
     </div>
     <!-- side-bar colleps block stat -->
     <div class="collection-filter-block">
-      <!-- brand filter start -->
-      <!-- <div class="collection-collapse-block open" v-if="filterbyBrand.length">
-        <h3 class="collapse-block-title"  v-b-toggle.brand >brand</h3>
-         <b-collapse id="brand" visible accordion="myaccordion1" role="tabpanel">
+      <!-- price filter start here -->
+      <div class="collection-collapse-block border-0 open">
+        <h3 class="collapse-block-title" v-b-toggle.price>Диапазон цен</h3>
+         <b-collapse id="price" visible accordion="myaccordion4" role="tabpanel">
         <div class="collection-collapse-block-content">
-          <div class="collection-brand-filter">
-            <div
-              class="custom-control custom-checkbox collection-filter-checkbox"
-              v-for="(brand,index) in filterbyBrand"
-              :key="index"
-            >
-              <input
-              type="checkbox"
-              class="custom-control-input"
-              :value="brand"
-              :id="brand"
-              v-model="applyFilter"
-              @change="appliedFilter(brand)" />
-              <label class="custom-control-label" v-bind:for="brand">{{brand}}</label>
-            </div>
+          <div class="collection-brand-filter price-rangee-picker">
+            <vue-slider
+            v-model="value"
+            :min="0"
+            :max="10000"
+            :interval="1000"
+            ref="slider"
+            @change="sliderChange($refs.slider.getValue())">
+            </vue-slider>
           </div>
         </div>
          </b-collapse>
-      </div> -->
-
+      </div>
       <!-- color filter start here -->
       <div class="collection-collapse-block open" v-if="filterbycolor.length">
         <h3 class="collapse-block-title" v-b-toggle.colors>Цвета</h3>
@@ -186,100 +171,15 @@
         </div>
          </b-collapse>
       </div>
-      <!-- price filter start here -->
-      <div class="collection-collapse-block border-0 open">
-        <h3 class="collapse-block-title" v-b-toggle.price>Диапазон цен</h3>
-         <b-collapse id="price" visible accordion="myaccordion4" role="tabpanel">
-        <div class="collection-collapse-block-content">
-          <div class="collection-brand-filter price-rangee-picker">
-            <vue-slider
-            v-model="value"
-            :min="0"
-            :max="10000"
-            ref="slider"
-            @change="sliderChange($refs.slider.getValue())">
-            </vue-slider>
-          </div>
-        </div>
-         </b-collapse>
-      </div>
+
     </div>
-              <!-- side-bar single product slider start -->
-        <div class="theme-card">
-          <h5 class="title-border">Новые товары</h5>
-          <div class="offer-slider slide-1">
-            <div v-swiper:mySwiper="swiperOption">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <div>
-                    <div class="media" v-for="(product,index) in getCategoryProduct('new products').splice(0,3)" :key="index">
-                      <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
-                        <img class="img-fluid" :src="getImgUrl(product.images[0].src)" alt>
-                      </nuxt-link>
-                      <div class="media-body align-self-center">
-                        <div class="rating">
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                        </div>
-                        <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
-                          <h6>{{product.title}}</h6>
-                        </nuxt-link>
-                        <h4 v-if="product.sale">
-                          {{ discountedPrice(product) * currency.curr | currency(currency.symbol) }}
-                          <del>{{ product.price * currency.curr | currency(currency.symbol) }}</del>
-                        </h4>
-                        <h4 v-else>{{ product.price * currency.curr | currency(currency.symbol) }}</h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                  <div class="swiper-slide" v-if="getCategoryProduct('new products').length >= 4">
-                  <div>
-                    <div class="media" v-for="(product, index) in getCategoryProduct('new products').splice(3,3)" :key="index">
-                      <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
-                        <img class="img-fluid" :src="getImgUrl(product.images[0].src)" alt>
-                      </nuxt-link>
-                      <div class="media-body align-self-center">
-                        <div class="rating">
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                        </div>
-                        <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
-                          <h6>{{product.title}}</h6>
-                        </nuxt-link>
-                        <h4 v-if="product.sale">
-                          {{ discountedPrice(product) * currency.curr | currency(currency.symbol) }}
-                          <del>{{ product.price * currency.curr | currency(currency.symbol) }}</del>
-                        </h4>
-                        <h4 v-else>{{ product.price * currency.curr | currency(currency.symbol) }}</h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <div class="swiper-button-prev" slot="button-prev">
-              <i class="fa fa-angle-left" aria-hidden="true"></i>
-            </div>
-            <div class="swiper-button-next" slot="button-next">
-              <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </div>
-            </div>
-          </div>
-        </div>
-            <!-- side-bar single product slider end -->
-            <!-- side-bar banner start here -->
-            <div class="collection-sidebar-banner">
-              <a href="#">
-                <img :src="bannerimagepath" class="img-fluid" />
-              </a>
-            </div>
-            <!-- side-bar banner end here -->
+      <!-- side-bar banner start here -->
+      <div class="collection-sidebar-banner">
+        <a href="#">
+          <img :src="bannerimagepath" class="img-fluid" />
+        </a>
+      </div>
+      <!-- side-bar banner end here -->
     </div>
     <!-- silde-bar colleps block end here -->
   </div>
@@ -395,12 +295,7 @@ export default {
 }
 </script>
 <style>
-.custom-control-input{
-    width: 14px;
-    height: 14px;
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid #eee;
-    top: 2px;
+.custom-control{
+  padding-left: 1.6rem
 }
 </style>
