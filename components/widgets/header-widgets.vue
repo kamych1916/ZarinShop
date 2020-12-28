@@ -4,12 +4,22 @@
       <ul>
         <li class="onhover-div mobile-search">
           <div>
-            <img
+            <!-- <img
               alt
               :src='"@/assets/images/icon/layout4/search.png"'
               @click="openSearch()"
               class="img-fluid"
-            >
+            > -->
+            <div class="desktop-serach p-1 bg-light rounded rounded-pill">
+              <div class="input-group">
+                <input type="search" v-model="searchString" placeholder="Я ищу.." aria-describedby="button-addon1" class="form-control border-0 rounded rounded-pill  bg-light">
+                <div class="input-group-append">
+                  <button id="button-addon1" @click="searchString ? $router.push(`/collection/0?search=${searchString}`) : ''" class="btn btn-link text-primary">
+                    <img alt :src='"@/assets/images/icon/layout4/search.png"' class="img-fluid">
+                  </button>
+                </div>
+              </div>
+            </div>
             <i class="ti-search" @click="openSearch()"></i>
           </div>
           <div id="search-overlay" class="search-overlay" :class="{ opensearch:search }">
@@ -19,28 +29,25 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-xl-12">
-                      <form>
-                        <div class="form-group mb-0">
-                          <input
-                            type="text"
-                            class="form-control"
-                            v-model="searchString"
-                            @keyup="searchProduct"
-                            placeholder="Search a Product"
-                          >
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                          <i class="fa fa-search"></i>
-                        </button>
-                      </form>
-                      <ul class="search-results" v-if="searchItems.length">
+                      <div class="form-group mb-0">
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model="searchString"
+                          placeholder="Я ищу.."
+                        >
+                      </div>
+                      <button @click="searchString ? ($router.push(`/collection/0?search=${searchString}`), closeSearch()) : ''" class="btn btn-primary">
+                        <img alt :src='"@/assets/images/icon/layout4/search.png"' class="img-fluid">
+                      </button>
+                      <!-- <ul class="search-results" v-if="searchItems.length">
                         <li v-for="(product,index) in searchItems" :key="index" class="product-box">
                           <div class="img-wrapper">
-                            <!-- <img
+                            <img
                               :src='product.images[0]'
                               class="img-fluid bg-img"
                               :key="index"
-                            /> -->
+                            />
                           </div>
                           <div class="product-detail">
                             <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
@@ -49,7 +56,7 @@
                             <h4>{{ product.price * curr.curr | currency(curr.symbol) }}</h4>
                           </div>
                         </li>
-                      </ul>
+                      </ul> -->
                     </div>
                   </div>
                 </div>
@@ -58,11 +65,11 @@
           </div>
         </li>
         <li class="onhover-div mobile-cart">
-          <nuxt-link :to="{ path: '/page/account/cart'}" :class="'view-cart'">
+          <div>
             <img alt :src='"@/assets/images/icon/layout4/cart.png"' class="img-fluid">
             <i class="ti-shopping-cart"></i>
             <span class="cart_qty_cls">{{cart.length}}</span>
-          </nuxt-link>
+          </div>
           <ul class="show-div shopping-cart" v-if="!cart.length">
             <li>Корзина пуста</li>
           </ul>

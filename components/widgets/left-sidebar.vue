@@ -22,7 +22,7 @@
             {{category.name}}
             <span class="sub-arrow"></span>
           </a>
-          <nuxt-link :to="'/collection/leftsidebar/' + category.id" v-else>
+          <nuxt-link :to="'/collection/' + category.id" v-else>
             {{category.name}}
           </nuxt-link>
 
@@ -31,11 +31,11 @@
                 <div class="row m-0">
                   <div v-for="(sub, i) in category.subcategories" :key="i" class="col-xl-6">
                     <div  class="link-section">
-                      <nuxt-link :to="'/collection/leftsidebar/' + sub.id" v-if="sub.subcategories.length > 0" style="padding: 0"><h5>{{sub.name}}</h5></nuxt-link> 
-                      <nuxt-link :to="'/collection/leftsidebar/' + sub.id" v-else style="padding: 0"><h5 style="font-weight:100">{{sub.name}}</h5></nuxt-link> 
+                      <nuxt-link :to="'/collection/' + sub.id" v-if="sub.subcategories.length > 0" style="padding: 0"><h5>{{sub.name}}</h5></nuxt-link> 
+                      <nuxt-link :to="'/collection/' + sub.id" v-else style="padding: 0"><h5 style="font-weight:100">{{sub.name}}</h5></nuxt-link> 
                       <ul v-if="sub.subcategories.length > 0">
                         <li v-for="(lastSub, i) in sub.subcategories" :key="i">
-                          <nuxt-link :to="'/collection/leftsidebar/' + lastSub.id">{{lastSub.name}}</nuxt-link>
+                          <nuxt-link :to="'/collection/' + lastSub.id">{{lastSub.name}}</nuxt-link>
                         </li>
                       </ul>
                     </div>

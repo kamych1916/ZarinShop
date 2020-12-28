@@ -10,14 +10,14 @@
         </div>
       </div>
       <div class="collection-filter" :class="{ 'openFilterbar' : filter }">
-     <div class="collection-filter-block">
+     <div class="collection-filter-block" v-if="$route.params.id != 0">
       <!-- brand filter start -->
       <div class="collection-mobile-back">
         <span class="filter-back" @click="filter = !filter">
-          <i class="fa fa-angle-left" aria-hidden="true"></i> back
+          <i class="fa fa-angle-left" aria-hidden="true"></i> назад
         </span>
       </div>
-      <div class="collection-collapse-block open">
+      <div class="collection-collapse-block open" >
         <div v-for="(category, i) in categories" :key="i">
 
           <template v-if="category.id == $route.params.id ">
@@ -96,6 +96,7 @@
 
             </div>
           </template>
+
         </div>
       </div>
     </div>

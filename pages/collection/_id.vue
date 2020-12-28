@@ -198,14 +198,14 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import productBox1 from '../../../components/product-box/product-box1'
-import Header from '../../../components/header/header1'
-import Footer from '../../../components/footer/footer1'
-import Breadcrumbs from '../../../components/widgets/breadcrumbs'
-import sidebar from '../../../components/widgets/collection-sidebar'
-import quickviewModel from '../../../components/widgets/quickview'
-import compareModel from '../../../components/widgets/compare-popup'
-import cartModel from '../../../components/cart-model/cart-modal-popup'
+import productBox1 from '~/components/product-box/product-box1'
+import Header from '~/components/header/header1'
+import Footer from '~/components/footer/footer1'
+import Breadcrumbs from '~/components/widgets/breadcrumbs'
+import sidebar from '~/components/widgets/collection-sidebar'
+import quickviewModel from '~/components/widgets/quickview'
+import compareModel from '~/components/widgets/compare-popup'
+import cartModel from '~/components/cart-model/cart-modal-popup'
 import Api from "~/utils/api"
 export default {
   components: {
@@ -264,6 +264,14 @@ export default {
   },
   methods: {
     getDataProducts(){
+      if(this.$route.params.id == 0){
+        // Api.getInstance().products.getItems_cat(this.$route.params.id).then((response) => {
+        //   this.$store.dispatch("filter/changeProducts", response.data);
+        // }).catch((error) => {
+        //   console.log("getDataProducts -> ", error)
+        // });
+        console.log(this.$route.query.search)
+      }
       Api.getInstance().products.getItems_cat(this.$route.params.id).then((response) => {
         this.$store.dispatch("filter/changeProducts", response.data);
       }).catch((error) => {
