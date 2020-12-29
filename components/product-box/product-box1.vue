@@ -32,7 +32,7 @@
           <button
             data-toggle="modal"
             data-target="#addtocart"
-            title="Add to cart"
+            title="Добавить в корзину"
             @click="addToCart(product)"
             v-b-modal.modal-cart
             variant="primary"
@@ -120,7 +120,7 @@ export default {
     },
     addToWishlist: function (product) {
       this.dismissCountDown = this.dismissSecs
-      this.$emit('showalert', this.dismissCountDown)
+      // this.$emit('showalert', this.dismissCountDown)
       this.$store.dispatch('products/addToWishlist', product)
     },
     showQuickview: function (productData) {

@@ -1,13 +1,13 @@
 <template>
   <div>
     <!-- theme setting -->
-    <a href="javascript:void(0)">
+    <!-- <a href="javascript:void(0)">
       <div class="setting-sidebar" id="setting-icon" @click="openlayoutSidebar()">
         <div>
           <i class="fa fa-cog" aria-hidden="true"></i>
         </div>
       </div>
-    </a>
+    </a> -->
     <div id="setting_box" class="setting-box" :class="{ opensetting:layoutsidebar }">
       <a href="javascript:void(0)" class="overlay" @click="closelayoutSidebar()"></a>
       <div class="setting_box_body">
@@ -569,11 +569,11 @@
       </div>
     </div>
     <!-- theme setting -->
-    <div class="sidebar-btn dark-light-btn">
+    <!-- <div class="sidebar-btn dark-light-btn">
       <div class="dark-light">
         <div class="theme-layout-version" @click="customizeLayoutVersion()">Dark</div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Copy Config -->
     <div class="addcart_btm_popup" id="fixed_cart_icon">

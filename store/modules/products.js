@@ -61,7 +61,7 @@ const mutations = {
     state.currency = payload
   },
   addToWishlist: (state, payload) => {
-    const product = state.products.find(item => item.id === payload.id)
+    const product = payload
     const wishlistItems = state.wishlist.find(item => item.id === payload.id)
     if (wishlistItems) {
     } else {

@@ -179,7 +179,10 @@
           .qty-box {
             .input-group {
               .form-control {
-                width: 75px;
+                width: 55px;
+              }
+              .btn {
+                padding: 7px;
               }
             }
           }
@@ -1311,7 +1314,7 @@
           .qty-box {
             .input-group {
               .form-control {
-                width: 52px;
+                // width: 52px;
               }
             }
           }
@@ -4371,61 +4374,61 @@
     tbody {
       tr {
         td {
-          a {
-            justify-content: center;
-            display: flex;
-            align-items: center;
-          }
+          // a {
+          //   justify-content: center;
+          //   display: flex;
+          //   align-items: center;
+          // }
         }
       }
     }
   }
   .cart-section {
-    .cart-table {
-      thead {
-        th {
-          &:nth-last-child(-n+4) {
-            display: none;
-          }
-        }
-      }
-    }
+    // .cart-table {
+    //   thead {
+    //     th {
+    //       &:nth-last-child(-n+4) {
+    //         display: none;
+    //       }
+    //     }
+    //   }
+    // }
     tbody {
       tr {
         td {
-          &:nth-last-child(-n+4) {
-            display: none;
-          }
-          .mobile-cart-content {
-            display: flex;
-          }
+          // &:nth-last-child(-n+4) {
+          //   display: none;
+          // }
+          // .mobile-cart-content {
+          //   display: flex;
+          // }
         }
       }
     }
   }
-  .wishlist-section {
-    .cart-table {
-      thead {
-        th {
-          &:nth-last-child(-n+3) {
-            display: none;
-          }
-        }
-      }
-    }
-    tbody {
-      tr {
-        td {
-          &:nth-last-child(-n+3) {
-            display: none;
-          }
-          .mobile-cart-content {
-            display: flex;
-          }
-        }
-      }
-    }
-  }
+  // .wishlist-section {
+  //   .cart-table {
+  //     thead {
+  //       th {
+  //         &:nth-last-child(-n+3) {
+  //           display: none;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   tbody {
+  //     tr {
+  //       td {
+  //         &:nth-last-child(-n+3) {
+  //           display: none;
+  //         }
+  //         .mobile-cart-content {
+  //           display: flex;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
   .search-product {
     > div {
       &:nth-last-child(4) {

@@ -85,7 +85,7 @@
                     <h4>{{item.name}}</h4>
                   </nuxt-link>
                   <h4>
-                    <span>{{item.quantity}} x {{ item.price | currency }}</span>
+                    <span>{{item.quantity}} x {{ parseInt(discountedPrice(item)).toLocaleString('ru-RU') }} <small>сум/шт.</small></span>
                   </h4>
                 </div>
               </div>
@@ -99,7 +99,7 @@
               <div class="total">
                 <h5>
                   Итого :
-                  <span>{{ cartTotal | currency }}</span>
+                  <span>{{ parseInt(cartTotal).toLocaleString('ru-RU') }} сум.</span>
                 </h5>
               </div>
             </li>
@@ -196,6 +196,10 @@ export default {
     updateCurrency: function (currency, currSymbol) {
       this.currencyChange = { curr: currency, symbol: currSymbol }
       this.$store.dispatch('products/changeCurrency', this.currencyChange)
+    },
+    discountedPrice(product) {
+        const price = product.price - (product.price * product.discount / 100)
+        return price
     }
   }
 }

@@ -6,9 +6,9 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <table class="table cart-table table-responsive-xs" v-if="cart.length">
+            <table class="table cart-table table-responsive-sm" v-if="cart.length">
               <thead>
-                <tr class="table-head">
+                <tr>
                   <th scope="col">Изображение</th>
                   <th scope="col">Наименование</th>
                   <th scope="col">Цена</th>
@@ -62,7 +62,7 @@
                         </div>
                       </div>
                       <div class="col-xs-3">
-                        <h2 class="td-color">{{ item.price * curr.curr | currency(curr.symbol) }}</h2>
+                        <p>{{ (parseInt(discountedPrice(item))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></p>
                       </div>
                       <div class="col-xs-3">
                         <h2 class="td-color">
@@ -74,7 +74,7 @@
                     </div>
                   </td>
                   <td>
-                    <h2>{{ item.price * curr.curr | currency(curr.symbol) }}</h2>
+                    <p>{{ (parseInt(discountedPrice(item))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></p>
                   </td>
                   <td>
                     <div class="qty-box">
@@ -117,9 +117,7 @@
                     </a>
                   </td>
                   <td>
-                    <h2
-                      class="td-color"
-                    >{{ (item.price * curr.curr) * item.quantity | currency(curr.symbol) }}</h2>
+                    <p>{{ (parseInt(discountedPrice(item))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></p>
                   </td>
                 </tr>
               </tbody>
@@ -129,7 +127,7 @@
                 <tr>
                   <td>Общая стоимость:</td>
                   <td>
-                    <h2>{{ cartTotal * curr.curr | currency(curr.symbol) }}</h2>
+                    <h2>{{ (cartTotal * curr.curr).toLocaleString('ru-RU') }}&nbsp;<small style="color: #aaaaaa; text-transform: initial">сум.</small></h2>
                   </td>
                 </tr>
               </tfoot>
@@ -200,6 +198,10 @@ export default {
         product: product,
         qty: qty
       })
+    },
+    discountedPrice(product) {
+        const price = product.price - (product.price * product.discount / 100)
+        return price
     }
   }
 }

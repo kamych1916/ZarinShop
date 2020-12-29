@@ -6,49 +6,28 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <table class="table cart-table table-responsive-xs" v-if="wishlist.length">
+            <table class="table cart-table table-responsive-sm" v-if="wishlist.length">
               <thead>
-                <tr class="table-head">
-                  <th scope="col">image</th>
-                  <th scope="col">product name</th>
-                  <th scope="col">price</th>
-                  <th scope="col">availability</th>
-                  <th scope="col">action</th>
+                <tr>
+                  <th scope="col">Изображение</th>
+                  <th scope="col">Наименование</th>
+                  <th scope="col">Цена</th>
+                  <th scope="col">Действие</th>
                 </tr>
               </thead>
               <tbody v-for="(item,index) in wishlist" :key="index">
                 <tr>
                   <td>
-                    <a href="#">
-                      <img :src='getImgUrl(item.images[0].src)' alt="">
-                    </a>
+                    <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
+                      <img :src='item.images[0]' alt="">
+                    </nuxt-link>
                   </td>
                   <td>
-                    <a href="#">{{item.title}}</a>
-                    <div class="mobile-cart-content row">
-                      <div class="col-xs-3">
-                        <p>in stock</p>
-                      </div>
-                      <div class="col-xs-3">
-                        <h2 class="td-color">{{ item.price * curr.curr | currency(curr.symbol) }}</h2>
-                      </div>
-                      <div class="col-xs-3">
-                        <h2 class="td-color">
-                          <a href="#" class="icon mr-1">
-                            <i class="ti-close" @click="removeWishlistItem(item)"></i>
-                          </a>
-                          <a href="#" class="cart">
-                            <i class="ti-shopping-cart" @click="addToCart(item)"></i>
-                          </a>
-                        </h2>
-                      </div>
-                    </div>
+                    <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">{{item.name}}</nuxt-link>
                   </td>
                   <td>
-                    <h2>{{ item.price * curr.curr | currency(curr.symbol) }}</h2>
-                  </td>
-                  <td>
-                    <p>in stock</p>
+                    <p>{{ (parseInt(discountedPrice(item))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></p>
+                    <!-- <del>{{ (parseInt(item.price)).toLocaleString('ru-RU') }}</del> -->
                   </td>
                   <td>
                     <a href="javascript:void(0)" class="icon mr-3" @click="removeWishlistItem(item)">
@@ -65,16 +44,16 @@
         </div>
         <div class="row wishlist-buttons" v-if="wishlist.length">
           <div class="col-12">
-            <nuxt-link :to="{ path: '/'}" :class="'btn btn-solid'">continue shopping</nuxt-link>
+            <nuxt-link :to="{ path: '/'}" :class="'btn btn-solid'">Продолжить покупки</nuxt-link>
           </div>
         </div>
         <div class="col-sm-12 empty-cart-cls text-center" v-if="!wishlist.length">
               <img :src='"@/assets/images/empty-wishlist.png"' class="img-fluid" alt="empty cart" />
               <h3 class="mt-3">
-                <strong>Your Wishlist is Empty</strong>
+                <strong>Ваш список изобранных пуст</strong>
               </h3>
               <div class="col-12">
-                <nuxt-link :to="{ path: '/'}" class="btn btn-solid">continue shopping</nuxt-link>
+                <nuxt-link :to="{ path: '/'}" class="btn btn-solid">Продолжить покупки</nuxt-link>
               </div>
             </div>
       </div>
@@ -108,6 +87,10 @@ export default {
     },
     addToCart: function (product) {
       this.$store.dispatch('cart/addToCart', product)
+    },
+    discountedPrice(product) {
+        const price = product.price - (product.price * product.discount / 100)
+        return price
     }
   }
 }

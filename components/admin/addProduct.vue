@@ -269,7 +269,7 @@
                             <b-button type="submit">ИЗМЕНИТЬ ТОВАР</b-button>&nbsp;&nbsp;&nbsp;&nbsp;
                             <b-button @click="deleteProduct()" variant="danger">УДАЛИТЬ ТОВАР</b-button>                            
                         </b-row>
-                        <b-button class="float-right" @click="closeModal()"> Отменить </b-button>
+                        <b-button class="float-right" @click="resetModal(), AddProductModal=!AddProductModal"> Отменить </b-button>
                     </div>
                 </b-form>
             </b-modal>

@@ -167,7 +167,7 @@
                             </div>
                             <div class="col-xl-6 col-md-6 col-sm-12">
                               <div class="product-search-count-bottom">
-                                <h5>Showing Products 1-12 of {{ filterProduct.length }} Result</h5>
+                                <h5>Отображено 1-12 из {{ filterProduct.length }} имеющихся</h5>
                               </div>
                             </div>
                           </div>
@@ -256,27 +256,36 @@ export default {
       filterProduct: 'filter/filterProducts',
       tags: 'filter/setTags',
       curr: 'products/changeCurrency'
-    })
+    }),
+
+  },
+  watch: {
+    $route(path) {
+      this.getDataProducts(path.query.search);
+    }
   },
   mounted() {
     this.updatePaginate(1);
     this.getDataProducts();
+    // this.$route.query.search
   },
   methods: {
-    getDataProducts(){
+    getDataProducts(val){
       if(this.$route.params.id == 0){
-        // Api.getInstance().products.getItems_cat(this.$route.params.id).then((response) => {
-        //   this.$store.dispatch("filter/changeProducts", response.data);
-        // }).catch((error) => {
-        //   console.log("getDataProducts -> ", error)
-        // });
-        console.log(this.$route.query.search)
+        let storeVal = this.$route.query.search;
+        if(val){storeVal = val}
+        Api.getInstance().products.getItems_srch(storeVal).then((response) => {
+          this.$store.dispatch("filter/changeProducts", response.data);
+        }).catch((error) => {
+          console.log("getDataProducts -> ", error)
+        });
+      }else{
+        Api.getInstance().products.getItems_cat(this.$route.params.id).then((response) => {
+          this.$store.dispatch("filter/changeProducts", response.data);
+        }).catch((error) => {
+          console.log("getDataProducts -> ", error)
+        });
       }
-      Api.getInstance().products.getItems_cat(this.$route.params.id).then((response) => {
-        this.$store.dispatch("filter/changeProducts", response.data);
-      }).catch((error) => {
-        console.log("getDataProducts -> ", error)
-      });
     },
     onChangeSort(event) {
       this.$store.dispatch('filter/sortProducts', event.target.value)

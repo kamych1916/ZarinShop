@@ -10,8 +10,12 @@ const getters = {
     return state.cart
   },
   cartTotalAmount: (state) => {
+    function discountedPrice(product) {
+      const price = product.price - (product.price * product.discount / 100)
+      return price
+    }
     return state.cart.reduce((total, product) => {
-      return total + (product.price * product.quantity)
+      return total + (discountedPrice(product) * product.quantity)
     }, 0)
   }
 }

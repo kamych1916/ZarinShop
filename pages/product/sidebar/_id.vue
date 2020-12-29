@@ -162,12 +162,10 @@
                       </div>
                       <div class="border-product">
                         <div class="product-icon">
-                          <form class="d-inline-block">
-                            <button class="wishlist-btn" @click="addToWishlist(product)">
+                            <button class="wishlist-btn" @click="addToWishlist(getDetail)">
                               <i class="fa fa-heart"></i>
                               <span class="title-font">Добавить в избранное</span>
                             </button>
-                          </form>
                         </div>
                       </div>
                       <!-- <div class="border-product">
