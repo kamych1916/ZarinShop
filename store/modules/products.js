@@ -51,7 +51,7 @@ const getters = {
 // mutations
 const mutations = {
   update_product: (state, payload) => {
-    // state.filteredProduct = payload;
+    state.filteredProduct = payload;
     // state.filteredProduct.filter((product) => {
     //   product.tags = [] 
     // })

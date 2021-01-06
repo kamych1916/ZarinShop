@@ -107,6 +107,7 @@
         <h3 class="collapse-block-title" v-b-toggle.price>Диапазон цен</h3>
          <b-collapse id="price" visible accordion="myaccordion4" role="tabpanel">
         <div class="collection-collapse-block-content">
+          {{getMaxLenghtFilter()}}
           <div class="collection-brand-filter price-rangee-picker">
             <vue-slider
             v-model="value"
@@ -262,6 +263,19 @@ export default {
           return Colors[indx].title
         }
       }
+    },
+    getMaxLenghtFilter(){
+      let firstItemPrice = 0;
+      console.log(this.productslist)
+      if(this.productslist[0]){
+         firstItemPrice = this.productslist[0].price 
+      }
+      this.productslist.filter((item)=>{
+        if(firstItemPrice < item.price){
+          firstItemPrice = item.price
+        }
+      })
+      return firstItemPrice
     },
     getCategoryProduct(collection) {
       return this.productslist.filter((item) => {

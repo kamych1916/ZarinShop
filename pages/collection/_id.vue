@@ -42,7 +42,7 @@
                           <div class="col-12">
                             <div class="product-filter-content">
                               <div class="search-count">
-                                <h5 style="text-transform: none">Отображено 1-12 из {{ filterProduct.length }} имеющихся</h5>
+                                <h5 style="text-transform: none">Отображено 1-8 из {{ filterProduct.length }} имеющихся</h5>
                               </div>
                               <div class="collection-view">
                                 <ul>
@@ -148,14 +148,15 @@
                                       </span>
                                     </a>
                                   </li>
-                                  <li class="page-item" v-for="(page_index, index) in this.pages" :key="index" :class="{'active': page_index == current}">
+                                  <!-- {{this.pages}} -->
+                                  <li class="page-item" v-for="(page_index, index) in pages" :key="index" :class="{'active': page_index == current}">
                                     <a
                                       class="page-link"
                                       href="javascrip:void(0)"
                                       @click.prevent="updatePaginate(page_index)"
                                     >{{ page_index }}</a>
                                   </li>
-                                  <li class="page-item" :class="{'disable': current == this.paginates }">
+                                  <li class="page-item" :class="{'disable': current == paginates }">
                                     <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current+1)">
                                       <span aria-hidden="true">
                                         <i class="fa fa-chevron-right" aria-hidden="true"></i>
@@ -167,7 +168,7 @@
                             </div>
                             <div class="col-xl-6 col-md-6 col-sm-12">
                               <div class="product-search-count-bottom">
-                                <h5>Отображено 1-12 из {{ filterProduct.length }} имеющихся</h5>
+                                <h5>Отображено 1-8 из {{ filterProduct.length }} имеющихся</h5>
                               </div>
                             </div>
                           </div>
@@ -230,7 +231,7 @@ export default {
       allfilters: [],
       items: [],
       current: 1,
-      paginate: 12,
+      paginate: 8,
       paginateRange: 3,
       pages: [],
       paginates: '',
@@ -265,8 +266,8 @@ export default {
     }
   },
   mounted() {
-    this.updatePaginate(1);
     this.getDataProducts();
+    this.updatePaginate(1);
     // this.$route.query.search
   },
   methods: {
@@ -276,12 +277,16 @@ export default {
         if(val){storeVal = val}
         Api.getInstance().products.getItems_srch(storeVal).then((response) => {
           this.$store.dispatch("filter/changeProducts", response.data);
+          this.getPaginate();
+          this.updatePaginate(1);
         }).catch((error) => {
           console.log("getDataProducts -> ", error)
         });
       }else{
         Api.getInstance().products.getItems_cat(this.$route.params.id).then((response) => {
           this.$store.dispatch("filter/changeProducts", response.data);
+          this.getPaginate();
+          this.updatePaginate(1);
         }).catch((error) => {
           console.log("getDataProducts -> ", error)
         });
@@ -356,7 +361,6 @@ export default {
     },
     getPaginate() {
       this.paginates = Math.round(this.filterProduct.length / this.paginate);
-      
       this.pages = []
       for (let i = 0; i < this.paginates; i++) {
         this.pages.push(i + 1)
@@ -387,6 +391,7 @@ export default {
         end = this.paginates
       }
       this.pages = []
+      
       for (let i = start; i <= end; i++) {
         this.pages.push(i)
       }
