@@ -107,12 +107,12 @@
         <h3 class="collapse-block-title" v-b-toggle.price>Диапазон цен</h3>
          <b-collapse id="price" visible accordion="myaccordion4" role="tabpanel">
         <div class="collection-collapse-block-content">
-          {{getMaxLenghtFilter()}}
+            <!-- {{getMaxLenghtFilter()}} -->
           <div class="collection-brand-filter price-rangee-picker">
             <vue-slider
             v-model="value"
             :min="0"
-            :max="10000"
+            :max="20000"
             :interval="1000"
             ref="slider"
             @change="sliderChange($refs.slider.getValue())">
@@ -196,7 +196,7 @@ export default {
       categoryID: null,
       categories: null,
       bannerimagepath: require('@/assets/images/side-banner.png'),
-      value: [50, 550],
+      value: [0, 15000],
       selectedcolor: [],
       selectedbrand: [],
       selectedsize: [],
@@ -264,19 +264,21 @@ export default {
         }
       }
     },
-    getMaxLenghtFilter(){
-      let firstItemPrice = 0;
-      console.log(this.productslist)
-      if(this.productslist[0]){
-         firstItemPrice = this.productslist[0].price 
-      }
-      this.productslist.filter((item)=>{
-        if(firstItemPrice < item.price){
-          firstItemPrice = item.price
-        }
-      })
-      return firstItemPrice
-    },
+    // getMaxLenghtFilter(){
+    //   let firstItemPrice = 0;
+    //   let StoreProducts = this.$store.state.filter.filteredProduct; 
+      
+    //   if(StoreProducts[0]){
+    //      firstItemPrice = StoreProducts[0].price 
+    //   }
+    //   StoreProducts.filter((item)=>{
+    //     if(firstItemPrice < item.price){
+    //       firstItemPrice = item.price
+    //     }
+    //   })
+    //   // this.value[1] = firstItemPrice
+    //   return firstItemPrice
+    // },
     getCategoryProduct(collection) {
       return this.productslist.filter((item) => {
         if (item.collection.find(i => i === collection)) {

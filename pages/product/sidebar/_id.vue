@@ -52,11 +52,11 @@
                   <div class="col-lg-6 rtl-text">
                     <div class="product-right">
                       <h2>{{ getDetail.name }}</h2>
-                      <h4 v-if="getDetail.sale">
-                        <del>{{ getDetail.price * curr.curr | currency(curr.symbol) }}</del>
-                        <span>{{ getDetail.discount }}% off</span>
+                      <h4 v-if="getDetail.hit_sales">
+                        <del>{{ (parseInt(getDetail.price)).toLocaleString('ru-RU') }}</del>
+                        <span>скидка {{ getDetail.discount }}%</span>
                       </h4>
-                      <h3 v-if="getDetail.sale">{{ discountedPrice(getDetail) * curr.curr | currency(curr.symbol) }}</h3>
+                      <h3 v-if="getDetail.hit_sales">{{ (parseInt(discountedPrice(getDetail))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></h3>
                       <h3 v-else>{{ getDetail.price * curr.curr | currency(curr.symbol) }}</h3>
                       <ul class="color-variant" v-if="getDetail.link_color">
                         <li
@@ -482,5 +482,8 @@ export default {
   border-left: 0px;
   padding-left: 0px;
   margin-left: 0px;
+}
+.product-right h4 span{
+  text-transform: capitalize
 }
 </style>

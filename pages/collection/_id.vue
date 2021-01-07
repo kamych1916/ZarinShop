@@ -142,7 +142,7 @@
                               <nav aria-label="Page navigation">
                                 <ul class="pagination">
                                   <li class="page-item" :class="{'disable': current == 1 }">
-                                    <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current-1)">
+                                    <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current-1); scrollTop()">
                                       <span aria-hidden="true">
                                         <i class="fa fa-chevron-left" aria-hidden="true"></i>
                                       </span>
@@ -153,11 +153,11 @@
                                     <a
                                       class="page-link"
                                       href="javascrip:void(0)"
-                                      @click.prevent="updatePaginate(page_index)"
+                                      @click.prevent="updatePaginate(page_index); scrollTop()"
                                     >{{ page_index }}</a>
                                   </li>
                                   <li class="page-item" :class="{'disable': current == paginates }">
-                                    <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current+1)">
+                                    <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current+1); scrollTop()">
                                       <span aria-hidden="true">
                                         <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                       </span>
@@ -396,6 +396,13 @@ export default {
         this.pages.push(i)
       }
       return this.pages
+    },
+    scrollTop(){
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
     },
     alert(item) {
       this.dismissCountDown = item
