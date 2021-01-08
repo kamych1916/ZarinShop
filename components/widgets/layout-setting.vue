@@ -576,7 +576,7 @@
     </div> -->
 
     <!-- Copy Config -->
-    <div class="addcart_btm_popup" id="fixed_cart_icon">
+    <!-- <div class="addcart_btm_popup" id="fixed_cart_icon">
       <a href="#" class="fixed_cart">
         <i
           class="fa fa-clone"
@@ -586,7 +586,7 @@
           @click="$bvModal.show('bv-modal-example')"
         ></i>
       </a>
-    </div>
+    </div> -->
 
     <!-- Config Popup -->
     <b-modal id="bv-modal-example" centered hide-footer hide-header>

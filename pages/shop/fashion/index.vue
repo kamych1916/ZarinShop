@@ -7,8 +7,8 @@
     <Banner />
     <ProductTab :products="products" :category="category" @openQuickview="showQuickview" @openCompare="showCoampre" @openCart="showCart" />
     <Services />
-    <Blog />
-    <Instagram />
+    <!-- <Blog /> -->
+    <!-- <Instagram /> -->
     <LogoSlider />
     <Footer />
     <quickviewModel :openModal="showquickviewmodel" :productData="quickviewproduct" />

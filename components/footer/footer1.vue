@@ -8,8 +8,8 @@
               <div class="col-lg-6">
                 <div class="subscribe">
                   <div>
-                    <h4>KNOW IT ALL FIRST!</h4>
-                    <p>Never Miss Anything From Multikart By Signing Up To Our Newsletter.</p>
+                    <h4>УЗНАЙТЕ О НОВОСТЯХ ПЕРВЫМИ!</h4>
+                    <p>Вы не пропустите о поступлении новых товарах, подписавшись на рассылку.</p>
                   </div>
                 </div>
               </div>
@@ -27,11 +27,11 @@
                       class="form-control"
                       name="EMAIL"
                       id="mce-EMAIL"
-                      placeholder="Enter your email"
+                      placeholder="Введите свою почту"
                       required="required"
                     />
                   </div>
-                  <button type="submit" class="btn btn-solid" id="mc-submit">subscribe</button>
+                  <button type="submit" class="btn btn-solid" id="mc-submit">подписаться</button>
                 </form>
               </div>
             </div>
@@ -41,13 +41,13 @@
       <section class="section-b-space light-layout">
         <div class="container">
           <div class="row footer-theme partition-f">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-6 col-md-6">
               <div class="footer-title footer-mobile-title">
                 <h4>about</h4>
               </div>
               <div class="footer-contant">
                 <div class="footer-logo">
-                  <img :src='"@/assets/images/icon/logo.png"' alt="logo" />
+                  <h1>ZARINSHOP</h1>
                 </div>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
                 <div class="footer-social">
@@ -81,58 +81,10 @@
                 </div>
               </div>
             </div>
-            <div class="col offset-xl-1">
-              <div class="sub-title">
-                <div class="footer-title">
-                  <h4>my account</h4>
-                </div>
-                <div class="footer-contant">
-                  <ul>
-                    <li>
-                      <a href="#">mens</a>
-                    </li>
-                    <li>
-                      <a href="#">womens</a>
-                    </li>
-                    <li>
-                      <a href="#">clothing</a>
-                    </li>
-                    <li>
-                      <a href="#">accessories</a>
-                    </li>
-                    <li>
-                      <a href="#">featured</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
             <div class="col">
-              <div class="sub-title">
-                <div class="footer-title">
-                  <h4>why we choose</h4>
-                </div>
-                <div class="footer-contant">
-                  <ul>
-                    <li>
-                      <a href="#">shipping & return</a>
-                    </li>
-                    <li>
-                      <a href="#">secure shopping</a>
-                    </li>
-                    <li>
-                      <a href="#">gallary</a>
-                    </li>
-                    <li>
-                      <a href="#">affiliates</a>
-                    </li>
-                    <li>
-                      <a href="#">contacts</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+
             </div>
+
             <div class="col">
               <div class="sub-title">
                 <div class="footer-title">
@@ -141,14 +93,14 @@
                 <div class="footer-contant">
                   <ul class="contact-list">
                     <li>
-                      <i class="fa fa-map-marker"></i>Multikart Demo Store, Demo store India 345-659
+                      <i class="fa fa-map-marker"></i>страна Узбекистан, город Ташкен, улица такая-то
                     </li>
                     <li>
-                      <i class="fa fa-phone"></i>Call Us: 123-456-7898
+                      <i class="fa fa-phone"></i>+998 (78) 150-00-02
                     </li>
                     <li>
-                      <i class="fa fa-envelope-o"></i>Email Us:
-                      <a href="#">Support@Fiot.com</a>
+                      <i class="fa fa-envelope-o"></i>
+                      <a href="#">zarinshop@gmail.com</a>
                     </li>
                     <li>
                       <i class="fa fa-fax"></i>Fax: 123456
@@ -166,7 +118,7 @@
             <div class="col-xl-6 col-md-6 col-sm-12">
               <div class="footer-end">
                 <p>
-                  <i class="fa fa-copyright" aria-hidden="true"></i> 2020 разработано компанией Mirllex
+                  <i class="fa fa-copyright" aria-hidden="true"></i> 2021 разработано компанией Mirllex
                 </p>
               </div>
             </div>

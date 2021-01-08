@@ -106,12 +106,12 @@
 export default {
   data() {
     return {
-      title_1: 'free shipping',
-      subtitle_1: 'free shipping world wide',
-      title_2: '24 X 7 service',
-      subtitle_2: 'online service for new customer',
-      title_3: 'festival offer',
-      subtitle_3: 'new special festival offer'
+      title_1: 'бесплатная доставка',
+      subtitle_1: 'Доставка по всему городу',
+      title_2: '24 X 7 Обслуживание',
+      subtitle_2: 'Онлайн обслуживание круглосуточно',
+      title_3: 'Почтовая рассылка',
+      subtitle_3: 'Производим рассылку на почту о добавлении новыго товара'
     }
   }
 }

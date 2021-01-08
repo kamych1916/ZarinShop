@@ -58,8 +58,8 @@ export default {
   },
   data() {
     return {
-      title: 'special products',
-      subtitle: 'exclusive products',
+      title: 'спец предложения',
+      subtitle: 'эксклюзивные продукты',
       showCart: false,
       showquickviewmodel: false,
       showcomapreModal: false,
@@ -99,3 +99,9 @@ export default {
   }
 }
 </script>
+
+<style >
+h4{
+  text-transform: inherit
+}
+</style>

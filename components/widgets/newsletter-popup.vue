@@ -8,17 +8,17 @@
               <div class="modal-bg">
                 <div class="offer-content">
                   <img :src="imagepath" class="img-fluid" alt="offer" />
-                  <h2>newsletter</h2>
+                  <h2>рассылка</h2>
                   <form class="auth-form needs-validation" target="_blank">
                     <div class="form-group mx-sm-3">
                       <input
                         type="email"
                         class="form-control"
                         name="EMAIL"
-                        placeholder="Enter your email"
+                        placeholder="Введите вашу почту.."
                         required="required"
                       />
-                      <button type="submit" class="btn btn-solid" id="mc-submit">subscribe</button>
+                      <button type="submit" class="btn btn-solid" id="mc-submit">подписаться</button>
                     </div>
                   </form>
                 </div>

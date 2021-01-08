@@ -25,11 +25,17 @@
 export default {
   data() {
     return {
-      imagepath: require('@/assets/images/parallax/1.jpg'),
-      title: '2019',
-      subtitle: 'fashion trends',
-      text: 'special offer'
+      imagepath: require('@/assets/images/parallax/1-1.jpg'),
+      title: '2021',
+      subtitle: 'МОДНЫЕ ПИЖАМЫ',
+      text: 'распродажа'
     }
   }
 }
 </script>
+
+<style >
+h4{
+  text-transform: inherit
+}
+</style>

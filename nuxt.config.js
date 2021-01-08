@@ -6,7 +6,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: 'Multikart Ecommerce | Vuejs shopping theme',
+    title: 'Интернет магазин домашнего текстиля - Zarin Shop | Ташкент',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

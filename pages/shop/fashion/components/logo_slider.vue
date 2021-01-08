@@ -5,6 +5,10 @@
         <div class="row">
           <div class="col-md-12">
             <div class="slide-6 no-arrow">
+              <div class="title1 section-t-space">
+                <h4>сотрудничество с лучшими</h4>
+                <h2 class="title-inner1">наши партнёры</h2>
+              </div>
               <div v-swiper:mySwiper="swiperOption">
                 <div class="swiper-wrapper">
                   <div class="swiper-slide" v-for="(item, index) in items" :key="index">
@@ -74,3 +78,8 @@ export default {
   }
 }
 </script>
+<style >
+h4{
+  text-transform: inherit
+}
+</style>
