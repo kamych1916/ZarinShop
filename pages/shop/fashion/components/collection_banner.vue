@@ -31,12 +31,12 @@ export default {
         {
           imagepath: require('@/assets/images/sub-banner1.jpg'),
           title: 'men',
-          subtitle: 'save 30%'
+          subtitle: 'скидки %'
         },
         {
           imagepath: require('@/assets/images/sub-banner2.jpg'),
           title: 'women',
-          subtitle: 'save 60%'
+          subtitle: 'скидки %'
         }
       ]
     }

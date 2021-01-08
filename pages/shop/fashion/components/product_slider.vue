@@ -62,8 +62,8 @@ export default {
   },
   data() {
     return {
-      title: 'top collection',
-      subtitle: 'special offer',
+      title: 'Топовая коллекция',
+      subtitle: 'спец предложения',
       showCart: false,
       showquickviewmodel: false,
       showcomapreModal: false,

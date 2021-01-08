@@ -76,12 +76,12 @@ export default {
   methods: {
     productsArray: function () {
       this.productslist.map((item) => {
-        if (item.type === 'fashion') {
+        if (item.special_offer) {
           this.products.push(item)
-          item.collection.map((i) => {
-            const index = this.category.indexOf(i)
-            if (index === -1) this.category.push(i)
-          })
+          // item.collection.map((i) => {
+          //   const index = this.category.indexOf(i)
+          //   if (index === -1) this.category.push(i)
+          // })
         }
       })
     },

@@ -20,7 +20,7 @@
                         <div>
                           <h4>{{ item.title }}</h4>
                           <h1>{{ item.subtitle }}</h1>
-                          <nuxt-link :to="{ path: '/collection/leftsidebar/all'}" class="btn btn-solid">shop now</nuxt-link>
+                          <nuxt-link :to="{ path: '/collection/0?search='}" class="btn btn-solid">к товарам</nuxt-link>
                         </div>
                       </div>
                     </div>
@@ -50,14 +50,14 @@ export default {
       },
       items: [
         {
-          imagepath: require('@/assets/images/home-banner/1.jpg'),
-          title: 'welcome to fashion',
+          imagepath: require('@/assets/images/home-banner/adc29cb.jpg'),
+          title: 'женские пижамы',
           subtitle: 'women fashion',
           alignclass: 'p-left'
         },
         {
-          imagepath: require('@/assets/images/home-banner/1.jpg'),
-          title: 'welcome to fashion',
+          imagepath: require('@/assets/images/home-banner/bdc29cb.jpg'),
+          title: 'мужские пижамы',
           subtitle: 'men fashion',
           alignclass: 'p-left'
         }
