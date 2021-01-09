@@ -42,6 +42,9 @@ export default {
   data() {
     return {
       swiperOption: {
+        autoplay: {
+          delay: 3000
+        },
         loop: true,
         navigation: {
           nextEl: '.swiper-button-next',

@@ -27,6 +27,12 @@ export default class Api {
         async getData_item(id){
             return axios.get(`${API_BASE_URL}/items/${id}`)
         },
+        async getHitSales() {
+            return axios.get(`${API_BASE_URL}/hit_sales`)
+        },
+        async getSpecialOffer() {
+            return axios.get(`${API_BASE_URL}/special_offer`)
+        },
         async sendNewProduct(product) {
             return axios.post(`${API_BASE_URL}/items`, product ,
                 {

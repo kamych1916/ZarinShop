@@ -54,16 +54,18 @@
 </template>
 
 <script>
+import Api from "~/utils/api";
 import productBox1 from '../../../../components/product-box/product-box1'
 export default {
-  props: ['products'],
+  // props: ['products'],
   components: {
     productBox1
   },
   data() {
     return {
+      products: null,
       title: 'Топовая коллекция',
-      subtitle: 'спец предложения',
+      subtitle: 'Хит продаж',
       showCart: false,
       showquickviewmodel: false,
       showcomapreModal: false,
@@ -73,8 +75,11 @@ export default {
       dismissSecs: 5,
       dismissCountDown: 0,
       description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s.',
+        'Компания Zrin Shop предоставляет обширный спектр товаров. Каждый посетитель сможет найти подходящий себе товар. Гарантия качества! ',
       swiperOption: {
+        autoplay: {
+          delay: 2000
+        },
         slidesPerView: 4,
         spaceBetween: 20,
         freeMode: false,
@@ -95,7 +100,23 @@ export default {
       }
     }
   },
+  mounted(){
+    this.getHitSales()
+  },
   methods: {
+    getHitSales(){
+      Api.getInstance().products.getHitSales().then((response) => {
+          this.products = response.data
+      })
+      .catch((error) => {
+          console.log('getCategories -> ', error);
+          this.$bvToast.toast("Категории не подгрузились.", {
+              title: `Системная ошибка`,
+              variant: "danger",
+              solid: true,
+          });
+      });
+    },
     alert(item) {
       this.dismissCountDown = item
     },

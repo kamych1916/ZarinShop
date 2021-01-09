@@ -1,7 +1,15 @@
 <template>
     <b-card header="Товары" >
-        <div class="wrap__products">       
-            <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
+        <div class="wrap__products">   
+            <b-row class="d-flex row justify-content-between">
+                <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
+                <input
+                    v-model="filter__employee"
+                    type="text"
+                    id="filterProduct"
+                    placeholder="Поиск.."
+                >
+            </b-row>    
             <b-modal @hidden="resetModal" scrollable hide-footer size="lg" v-model="AddProductModal">
                 <b-form @submit.prevent="eventProduct()">
                     <div class="pt-2">
@@ -252,9 +260,9 @@
                                     <b-col v-for="(file, i) in files" :key="i">
                                         <div class="imgs_object pb-4">
                                             <a :href="file.file_url" download class="pt-2">
-                                                <img :src="file.file_url" width="100%" height="200">
+                                                <img :src="file.file_url" width="100%" height="300">
                                             </a>
-                                            <span @click="deleteFile(i)" class="delete_imgs">
+                                            <span @click="deleteFile(i)" class="delete_imgs" style="cursor: pointer; color: red">
                                                 удалить
                                             </span>
                                         </div>
@@ -274,7 +282,7 @@
                 </b-form>
             </b-modal>
             <!-- <b-table @row-selected="onRowlink_colorProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive> -->
-            <b-table ref="allProducts" @row-selected="onRowProductSelected($event)" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable select-mode="single" striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
+            <b-table :filter="filter__employee" ref="allProducts" @row-selected="onRowProductSelected($event)" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable select-mode="single" striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
                 <template #empty="scope">
                     <div  class="d-flex justify-content-center w-100">
                         <h6>{{ scope.emptyText }}</h6>
@@ -315,6 +323,7 @@ let Store_New_Product = {
 export default {
   data () {
     return {
+        filter__employee: null,
         AddProductModal: false,
         eventBtnProduct: true,
         show_overlay: false,

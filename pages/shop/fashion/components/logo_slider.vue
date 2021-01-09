@@ -34,6 +34,9 @@ export default {
   data() {
     return {
       swiperOption: {
+        autoplay: {
+          delay: 2000
+        },
         slidesPerView: 6,
         freeMode: true,
         breakpoints: {

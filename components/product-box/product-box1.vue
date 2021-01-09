@@ -2,7 +2,7 @@
   <div>
     <div class="img-wrapper">
       <div class="lable-block">
-        <span class="lable3" v-if="product.hit_sales">{{product.discount}}%</span>
+        <span class="lable3" v-if="product.discount">{{product.discount}}%</span>
       </div>
       <div class="front">
         <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
@@ -62,13 +62,13 @@
         <h6>{{ product.name }} </h6>
       </nuxt-link>
       <p>{{ product.description }}</p>
-      <h4 v-if="product.hit_sales">
+      <h4 v-if="product.discount">
         {{ (parseInt(discountedPrice(product))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small> 
         <del>{{ (parseInt(product.price)).toLocaleString('ru-RU') }}</del>
       </h4>
       <h4 v-else>{{ (parseInt(product.price)).toLocaleString('ru-RU') }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></h4>
       <ul class="color-variant" v-if="product.color">
-        <li v-for="(variant,variantIndex) in Color(product.link_color)" :key="variantIndex">
+        <li v-for="(variant, variantIndex) in Color(product.link_color)" :key="variantIndex">
           <a
             v-bind:style="{ 'background-color' : variant, 'border': '1px solid #ccc'}"
           ></a>

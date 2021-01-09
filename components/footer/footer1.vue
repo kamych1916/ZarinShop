@@ -49,7 +49,7 @@
                 <div class="footer-logo">
                   <h1>ZARINSHOP</h1>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
+                <p>Компания Zrin Shop предоставляет обширный спектр товаров. Каждый посетитель сможет найти подходящий себе товар. Гарантия качества!</p>
                 <div class="footer-social">
                   <ul>
                     <li>
@@ -85,7 +85,7 @@
 
             </div>
 
-            <div class="col">
+            <div class="col-xl-4">
               <div class="sub-title">
                 <div class="footer-title">
                   <h4>store information</h4>
