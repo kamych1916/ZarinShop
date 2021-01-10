@@ -12,7 +12,11 @@ class ZSProductDetailSpecificationSizes: UIView {
 
     //MARK: - Public variables
     
-    var selectedSize: String = "S"
+    var selectedSize: String = "S" {
+        didSet {
+            NotificationCenter.default.post(name: .productDetailSizeChanged, object: nil)
+        }
+    }
     var sizes: [String] = []
     
     //MARK: - GUI variables

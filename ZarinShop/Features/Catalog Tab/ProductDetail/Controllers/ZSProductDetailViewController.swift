@@ -15,6 +15,16 @@ class ZSProductDetailViewController: ZSBaseViewController {
     // MARK: - Public Variables
     
     // MARK: - Private Variables
+    var selectedSize: String?
+    var selectedCount: Int? {
+        didSet {
+            guard let selectedCount = selectedCount,
+                  let selectedSize = selectedSize,
+                  let product = product else { return }
+            
+        }
+    }
+    
     private var navBarDefaultImage: UIImage?
     private var navBarDefaultColor: UIColor?
     private var product: ZSProductModel?
@@ -41,6 +51,11 @@ class ZSProductDetailViewController: ZSBaseViewController {
     
     lazy var titleView: ZSProductDetailTitleView = {
         var view = ZSProductDetailTitleView()
+        if let product = product,
+           product.size_kol.count > 0,
+           selectedCount == nil {
+            view.stepperView.maxValue = product.size_kol[0].kol
+        }
         return view
     }()
     
@@ -76,6 +91,10 @@ class ZSProductDetailViewController: ZSBaseViewController {
         self.product = product
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
@@ -85,6 +104,18 @@ class ZSProductDetailViewController: ZSBaseViewController {
         addSubviews()
         makeConstraints()
         setupWithProduct()
+        NotificationCenter.default.addObserver(self, selector: #selector(sizeChanged), name: .productDetailSizeChanged, object: nil)
+    }
+    
+    @objc func sizeChanged() {
+        let selectedSize = specificationView.secondItem.selectedSize
+        guard let product = product,
+              let foundedSize = product.size_kol.first(where: { (item) -> Bool in
+            return item.size == selectedSize
+              }) else { return }
+        
+        titleView.stepperView.maxValue = foundedSize.kol
+        titleView.stepperView.value = 1
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -205,7 +236,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
         guard let product = product else { return }
         var images: [InputSource] = []
         let group = DispatchGroup()
-        for imageURL in product.image {
+        for imageURL in product.images {
             group.enter()
             guard let imageURL = URL(string: imageURL) else {
                 group.leave()

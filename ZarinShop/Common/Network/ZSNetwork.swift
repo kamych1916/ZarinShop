@@ -71,6 +71,7 @@ class ZSNetwork {
                             let json = try JSONDecoder().decode(T.self, from: data)
                             completion(.success(json))
                         } catch {
+                            print(error)
                             completion(.failure(.parsing))
                         }
                         return
@@ -87,6 +88,7 @@ class ZSNetwork {
                             }
                             completion(.failure(.unowned("\(errorJson.detail)\ncode: \(statusCode)")))
                         } catch {
+                            print(error)
                             completion(.failure(.parsing))
                         }
                         return

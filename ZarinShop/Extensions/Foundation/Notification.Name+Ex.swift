@@ -9,9 +9,8 @@
 import Foundation
 
 extension Notification.Name {
-    static let favoritesValueChanged = Notification.Name("favoritesValueChanged")
-    static let cartValueChanged = Notification.Name("cartValueChanged")
     static let sortButtonTapped = Notification.Name("sortButtonTapped")
     static let filterButtonTapped = Notification.Name("filterButtonTapped")
     static let registationIsSuccessfully = Notification.Name("registationIsSuccessfully")
+    static let productDetailSizeChanged = Notification.Name("productDetailSizeChanged")
 }

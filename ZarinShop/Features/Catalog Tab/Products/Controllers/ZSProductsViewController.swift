@@ -19,9 +19,7 @@ class ZSProductsViewController: ZSBaseViewController {
     private var products: [ZSProductModel] = []
     private var isSearching: Bool = false
     private var searchedProducts: [ZSProductModel] = []
-    private var filterParams: [String: String] = ["color": "0000FF",
-                                                  "fromPrice": "1000",
-                                                  "toPrice": "100000"]
+    private var filterParams: [String: String] = [:]
     private var itemsAspect: CGFloat {
         return UIScreen.main.bounds.width - 20 - 20 - 10
     }
@@ -182,22 +180,46 @@ class ZSProductsViewController: ZSBaseViewController {
     }
     
     private func filterProducts() {
-        let params = self.filterParams
-        guard let color = params["color"],
-              let fromPrice = params["fromPrice"],
-              let toPrice = params["toPrice"],
-              let from = Double(fromPrice),
-              let to = Double(toPrice) else {
-            self.isSearching = false
-            self.collectionView.reloadData()
-            return
+        if filterParams.isEmpty {
+            isSearching = false
+        } else {
+            let params = self.filterParams
+            guard let color = params["color"],
+                  let size = params["size"],
+                  let fromPrice = params["fromPrice"],
+                  let toPrice = params["toPrice"],
+                  let from = Double(fromPrice),
+                  let to = Double(toPrice) else {
+                self.isSearching = false
+                self.collectionView.reloadData()
+                return
+            }
+            
+            guard !color.isEmpty || !size.isEmpty else {
+                isSearching = false
+                collectionView.reloadData()
+                return
+            }
+            
+            if !color.isEmpty {
+                searchedProducts = products.filter({ (product) -> Bool in
+                    return product.color == color &&
+                        (product.price >= from && product.price <= to)
+                })
+            }
+            
+            if !size.isEmpty {
+                searchedProducts = products.filter({ (product) -> Bool in
+                    guard (product.size_kol.first(where: { (item) -> Bool in
+                        return item.size.lowercased() == size.lowercased()
+                    }) != nil) && (product.price >= from && product.price <= to)  else { return false }
+                    
+                    return true
+                })
+            }
+            
+            isSearching = true
         }
-        
-        searchedProducts = products.filter({ (product) -> Bool in
-            return product.color == color &&
-                (product.price >= from && product.price <= to)
-        })
-        isSearching = true
         collectionView.reloadData()
     }
     
@@ -219,8 +241,13 @@ extension ZSProductsViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = ZSProductDetailViewController(product: self.products[indexPath.row])
-        Interface.shared.pushVC(vc: controller)
+        if self.isSearching {
+            let controller = ZSProductDetailViewController(product: self.searchedProducts[indexPath.row])
+            Interface.shared.pushVC(vc: controller)
+        } else {
+            let controller = ZSProductDetailViewController(product: self.products[indexPath.row])
+            Interface.shared.pushVC(vc: controller)
+        }
     }
 
     private func getProductsCollectionViewCell(at indexPath: IndexPath) -> UICollectionViewCell {

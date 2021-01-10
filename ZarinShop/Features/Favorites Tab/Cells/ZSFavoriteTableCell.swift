@@ -1,18 +1,17 @@
 //
-//  ZSCartTableViewCell.swift
+//  ZSFavoriteTableCell.swift
 //  ZarinShop
 //
-//  Created by Murad Ibrohimov on 10/5/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Created by Murodjon Ibrohimov on 10/01/21.
+//  Copyright © 2021 Murad Ibrohimov. All rights reserved.
 //
 
 import UIKit
 
-class ZSCartTableViewCell: UITableViewCell {
+class ZSFavoriteTableCell: UITableViewCell {
     
-    static let reuseId = "ZSCartTableViewCell"
+    static let reuseId = "ZSFavoriteTableCell"
     var didLoaded = false
-    var product: CartItemModel?
 
     // MARK: - GUI Variables
     
@@ -32,14 +31,6 @@ class ZSCartTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    lazy var stepperView: ZSStepperView = {
-        var stepper = ZSStepperView()
-        stepper.valueDidChangedHandler = { [weak self] value in
-            
-        }
-        stepper.isHidden = true
-        return stepper
-    }()
     
     lazy var titleLabel: UILabel = {
         var label = UILabel()
@@ -49,34 +40,17 @@ class ZSCartTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var colorLabel: UILabel = {
+    lazy var descriptionLabel: UILabel = {
         var label = UILabel()
-        label.font = .systemFont(ofSize: 17, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = .textDarkColor
+        label.numberOfLines = 2
         label.textAlignment = .left
         label.text = "Цвет:"
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
-    lazy var colorView: UIView = {
-        var view = UIView()
-        view.layer.cornerRadius = 6
-        view.backgroundColor = .red
-        view.clipsToBounds = true
-        return view
-    }()
-    
-    lazy var sizeLabel: UILabel = {
-        var label = UILabel()
-        label.font = .systemFont(ofSize: 17, weight: .medium)
-        label.textColor = .textDarkColor
-        label.textAlignment = .left
-        label.text = "Размер: М"
-        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        return label
-    }()
-
     lazy var priceLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -101,18 +75,13 @@ class ZSCartTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func initCell(model: CartItemModel) {
-        product = model
+    func initCell(model: ZSProductModel) {
         didLoaded = true
-        titleLabel.text = "\(model.name)"
-        stepperView.value = model.kol
-        sizeLabel.text = "Размер: \(model.size)"
+        titleLabel.text = model.name
+        descriptionLabel.text = model.description
         priceLabel.text = "\(model.price) сум"
-        colorView.backgroundColor = UIColor(hex: "#\(model.color)")
         if model.images.count > 0 {
-            //todo
-            bigImageView.image = UIImage(named: "defauldProduct")
-            //loadImage(from: model.image[0])
+            loadImage(from: model.images[0])
         } else {
             bigImageView.image = UIImage(named: "defauldProduct")
         }
@@ -124,9 +93,9 @@ class ZSCartTableViewCell: UITableViewCell {
         super.prepareForReuse()
         
         bigImageView.image = nil
-        product = nil
         didLoaded = false
     }
+
     
     // MARK: - Constraints
     
@@ -148,33 +117,17 @@ class ZSCartTableViewCell: UITableViewCell {
             make.right.equalToSuperview().inset(16)
         }
         
-        colorLabel.snp.updateConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(16)
+        descriptionLabel.snp.updateConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.left.equalTo(bigImageView.snp.right).offset(16)
+            make.right.equalToSuperview().inset(16)
         }
-        
-        colorView.snp.updateConstraints { (make) in
-            make.left.equalTo(colorLabel.snp.right).offset(10)
-            make.centerY.equalTo(colorLabel.snp.centerY)
-            make.size.equalTo(16)
-        }
-        
-        sizeLabel.snp.updateConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.left.equalTo(colorView.snp.right).offset(20)
-            make.right.lessThanOrEqualToSuperview().inset(20)
-        }
-        
+
         priceLabel.snp.updateConstraints { (make) in
             make.left.equalTo(bigImageView.snp.right).offset(16)
-            make.top.greaterThanOrEqualTo(colorLabel.snp.bottom)
+            make.top.greaterThanOrEqualTo(descriptionLabel.snp.bottom).offset(4)
             make.bottom.equalToSuperview().inset(10)
         }
-        
-        stepperView.snp.updateConstraints { (make) in
-            make.right.bottom.equalToSuperview().inset(10)
-        }
-        
         super.updateConstraints()
     }
     
@@ -183,11 +136,8 @@ class ZSCartTableViewCell: UITableViewCell {
     private func addSubviews() {
         contentView.addSubview(containerView)
         containerView.addSubview(bigImageView)
-        containerView.addSubview(stepperView)
         containerView.addSubview(titleLabel)
-        containerView.addSubview(colorLabel)
-        containerView.addSubview(colorView)
-        containerView.addSubview(sizeLabel)
+        containerView.addSubview(descriptionLabel)
         containerView.addSubview(priceLabel)
     }
     

@@ -15,7 +15,11 @@ class ZSFilterViewController: UIViewController {
     var filterHandler: (([String: String]) -> ())?
     var params: [String: String] = [:] {
         didSet {
-            self.setupWithParams()
+            if !params.isEmpty {
+                setupWithParams()
+            } else {
+                resetButtonTapped(resetButton)
+            }
         }
     }
     
@@ -27,6 +31,7 @@ class ZSFilterViewController: UIViewController {
     private var sizes: [String] = ["M", "L", "S", "XXL", "XS"]
     private var selectedColor: String = ""
     private var selectedSize: String = ""
+    
     private var hasSetPointOrigin = false
     private var pointOrigin: CGPoint?
     
@@ -36,7 +41,7 @@ class ZSFilterViewController: UIViewController {
         var view = UIView()
         view.isUserInteractionEnabled = true
         view.backgroundColor = .clear
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(self.topViewPan))
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(topViewPan))
         view.addGestureRecognizer(pan)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -85,11 +90,10 @@ class ZSFilterViewController: UIViewController {
     private var rangeSlider: RangeSlider = {
         var slider = RangeSlider()
         slider.sizeToFit()
-        slider.maximumValue = 100000
-        slider.minimumValue = 1000
-        slider.lowerValue = 1000
-        slider.upperValue = 100000
+        slider.maximumValue = 10_000_000
+        slider.minimumValue = 1_000
         slider.trackHighlightTintColor = .textGoldColor
+        slider.addTarget(self, action: #selector(rangeSliderValueChanged), for: .valueChanged)
         return slider
     }()
     
@@ -97,10 +101,10 @@ class ZSFilterViewController: UIViewController {
         var label = UILabel()
         label.text = "Выберите цвет"
         label.textAlignment = .left
+        
         label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17)
         label.isUserInteractionEnabled = false
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -110,7 +114,7 @@ class ZSFilterViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets.zero
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
-        layout.itemSize = CGSize(width: 40, height: 40)
+        layout.itemSize = CGSize(width: 32, height: 32)
         
         var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.delegate = self
@@ -132,7 +136,6 @@ class ZSFilterViewController: UIViewController {
         label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 17)
         label.isUserInteractionEnabled = false
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -142,7 +145,7 @@ class ZSFilterViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets.zero
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
-        layout.itemSize = CGSize(width: 50, height: 50)
+        layout.itemSize = CGSize(width: 40, height: 40)
         
         var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.delegate = self
@@ -164,7 +167,7 @@ class ZSFilterViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 17)
         button.backgroundColor = .mainColor
         button.layer.cornerRadius = 20
-        button.addTarget(self, action: #selector(self.confirmButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -176,7 +179,7 @@ class ZSFilterViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 17)
         button.backgroundColor = .mainLightColor
         button.layer.cornerRadius = 20
-        button.addTarget(self, action: #selector(self.resetButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -186,80 +189,80 @@ class ZSFilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .white
-        self.addSubviews()
-        self.makeConstraints()
-        self.rangeSlider.addTarget(self, action: #selector(self.rangeSliderValueChanged), for: .valueChanged)
+        view.backgroundColor = .white
+        addSubviews()
+        makeConstraints()
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if !self.hasSetPointOrigin {
-            self.hasSetPointOrigin = true
-            self.pointOrigin = self.view.frame.origin
+        if !hasSetPointOrigin {
+            hasSetPointOrigin = true
+            pointOrigin = view.frame.origin
         }
     }
     
     // MARK: - Constraints
     
     private func makeConstraints() {
-        self.topView.snp.makeConstraints { (make) in
+        topView.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
             make.height.equalTo(50)
         }
-        self.topDarkIndicatorView.snp.makeConstraints { (make) in
+        topDarkIndicatorView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(12)
             make.height.equalTo(3)
             make.width.equalTo(32)
             make.centerX.equalToSuperview()
         }
-        self.titleLabel.snp.makeConstraints { (make) in
+        titleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(30)
             make.left.right.equalToSuperview()
         }
-        self.priceLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+        priceLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.left.equalToSuperview().inset(20)
         }
-        self.priceValueLabel.snp.makeConstraints { (make) in
+        priceValueLabel.snp.makeConstraints { (make) in
             make.right.equalToSuperview().inset(20)
-            make.centerY.equalTo(self.priceLabel.snp.centerY)
+            make.centerY.equalTo(priceLabel.snp.centerY)
         }
-        self.rangeSlider.snp.makeConstraints { (make) in
-            make.top.equalTo(self.priceLabel.snp.bottom).offset(10)
+        rangeSlider.snp.makeConstraints { (make) in
+            make.top.equalTo(priceLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             let width = UIScreen.main.bounds.width - 20 - 20
             make.size.equalTo(CGSize(width: width, height: 28))
         }
-        self.colorsLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.rangeSlider.snp.bottom).offset(15)
+        colorsLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(rangeSlider.snp.bottom).offset(15)
             make.left.right.equalToSuperview().inset(20)
         }
-        self.colorsCollectionView.snp.updateConstraints { (make) in
-            make.top.equalTo(self.colorsLabel.snp.bottom).offset(10)
+        colorsCollectionView.snp.updateConstraints { (make) in
+            make.top.equalTo(colorsLabel.snp.bottom).offset(10)
             make.left.equalToSuperview().inset(20)
             make.right.equalToSuperview()
             make.height.equalTo(40)
         }
-        self.sizeLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.colorsCollectionView.snp.bottom).offset(15)
+        sizeLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(colorsCollectionView.snp.bottom).offset(15)
             make.left.right.equalToSuperview().inset(20)
         }
-        self.sizesCollectionView.snp.updateConstraints { (make) in
-            make.top.equalTo(self.sizeLabel.snp.bottom).offset(10)
+        sizesCollectionView.snp.updateConstraints { (make) in
+            make.top.equalTo(sizeLabel.snp.bottom).offset(10)
             make.left.equalToSuperview().inset(20)
             make.right.equalToSuperview()
             make.height.equalTo(50)
         }
-        self.confirmButton.snp.makeConstraints { (make) in
-            make.top.greaterThanOrEqualTo(self.sizesCollectionView.snp.bottom).offset(20)
+        confirmButton.snp.makeConstraints { (make) in
+            make.top.greaterThanOrEqualTo(sizesCollectionView.snp.bottom).offset(20)
             make.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(40)
             make.size.equalTo(CGSize(width: 150, height: 40))
         }
-        self.resetButton.snp.makeConstraints { (make) in
-            make.top.greaterThanOrEqualTo(self.sizesCollectionView.snp.bottom).offset(20)
+        resetButton.snp.makeConstraints { (make) in
+            make.top.greaterThanOrEqualTo(sizesCollectionView.snp.bottom).offset(20)
             make.left.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(40)
             make.size.equalTo(CGSize(width: 150, height: 40))
@@ -269,54 +272,61 @@ class ZSFilterViewController: UIViewController {
     // MARK: - Setters
     
     private func addSubviews() {
-        self.view.addSubview(self.topView)
-        self.topView.addSubview(self.topDarkIndicatorView)
-        self.view.addSubview(self.titleLabel)
-        self.view.addSubview(self.priceLabel)
-        self.view.addSubview(self.priceValueLabel)
-        self.view.addSubview(self.rangeSlider)
-        self.view.addSubview(self.colorsLabel)
-        self.view.addSubview(self.colorsCollectionView)
-        self.view.addSubview(self.sizeLabel)
-        self.view.addSubview(self.sizesCollectionView)
-        self.view.addSubview(self.confirmButton)
-        self.view.addSubview(self.resetButton)
+        view.addSubview(topView)
+        topView.addSubview(topDarkIndicatorView)
+        view.addSubview(titleLabel)
+        view.addSubview(priceLabel)
+        view.addSubview(priceValueLabel)
+        view.addSubview(rangeSlider)
+        view.addSubview(colorsLabel)
+        view.addSubview(colorsCollectionView)
+        view.addSubview(sizeLabel)
+        view.addSubview(sizesCollectionView)
+        view.addSubview(confirmButton)
+        view.addSubview(resetButton)
     }
     
     private func setupWithParams() {
-        guard let color = self.params["color"],
-              let fromPrice = self.params["fromPrice"],
-              let toPrice = self.params["toPrice"],
+        guard let color = params["color"],
+              let size = params["size"],
+              let fromPrice = params["fromPrice"],
+              let toPrice = params["toPrice"],
               let from = Double(fromPrice),
               let to = Double(toPrice) else { return }
         
-        self.rangeSlider.lowerValue = from
-        self.rangeSlider.upperValue = to
-        self.priceValueLabel.text = "от \(Int(from)) до \(Int(from))"
+        rangeSlider.lowerValue = from
+        rangeSlider.upperValue = to
+        priceValueLabel.text = "от \(Int(from)) до \(Int(to))"
         
-        guard let colorsFindedIndex = self.colors.firstIndex(of: color) else { return }
-        self.selectedColor = color
-        self.colorsCollectionView.selectItem(
+        guard let colorsFindedIndex = colors.firstIndex(of: color) else { return }
+        selectedColor = color
+        colorsCollectionView.selectItem(
             at: IndexPath(row: colorsFindedIndex, section: 0),
+            animated: true, scrollPosition: .centeredHorizontally)
+        
+        guard let sizesFindedIndex = sizes.firstIndex(of: size) else { return }
+        selectedSize = color
+        sizesCollectionView.selectItem(
+            at: IndexPath(row: sizesFindedIndex, section: 0),
             animated: true, scrollPosition: .centeredHorizontally)
     }
     
     //MARK: - Actions
     
     @objc private func topViewPan(_ sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: self.view)
+        let translation = sender.translation(in: view)
         
         guard translation.y >= 0,
-            let pointOrigin = self.pointOrigin else { return }
-        self.view.frame.origin = CGPoint(x: 0, y: pointOrigin.y + translation.y)
+            let pointOrigin = pointOrigin else { return }
+        view.frame.origin = CGPoint(x: 0, y: pointOrigin.y + translation.y)
         
         if sender.state == .ended {
-            let dragVelocity = sender.velocity(in: self.view)
+            let dragVelocity = sender.velocity(in: view)
             if dragVelocity.y >= 300 {
-                self.dismiss(animated: true, completion: nil)
+                dismiss(animated: true, completion: nil)
             } else {
                 UIView.animate(withDuration: 0.3) {
-                    self.view.frame.origin = self.pointOrigin ?? CGPoint(x: 0, y: 400)
+                    self.view.frame.origin = pointOrigin
                 }
             }
         }
@@ -325,19 +335,36 @@ class ZSFilterViewController: UIViewController {
     @objc private func rangeSliderValueChanged(_ sender: RangeSlider) {
         let lower = String(format: "%0.0f", sender.lowerValue.rounded())
         let upper = String(format: "%0.0f", sender.upperValue.rounded())
-        self.priceValueLabel.text = "от \(lower) до \(upper)"
+        priceValueLabel.text = "от \(lower) до \(upper)"
     }
     
     @objc private func confirmButtonTapped(_ sender: UIButton) {
-        let lower = String(format: "%0.0f", self.rangeSlider.lowerValue.rounded())
-        let upper = String(format: "%0.0f", self.rangeSlider.upperValue.rounded())
-        self.params = ["color": self.selectedColor, "fromPrice": lower, "toPrice": upper]
-        self.filterHandler?(self.params)
-        self.dismiss(animated: true, completion: nil)
+        let lower = String(format: "%0.0f", rangeSlider.lowerValue.rounded())
+        let upper = String(format: "%0.0f", rangeSlider.upperValue.rounded())
+        params = ["color": selectedColor, "size": selectedSize, "fromPrice": lower, "toPrice": upper]
+        filterHandler?(params)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func resetButtonTapped(_ sender: UIButton) {
-        print("reset")
+        
+        rangeSlider.lowerValue = 1_000
+        rangeSlider.upperValue = 10_000_000
+
+        let lower = String(format: "%0.0f", rangeSlider.lowerValue.rounded())
+        let upper = String(format: "%0.0f", rangeSlider.upperValue.rounded())
+        priceValueLabel.text = "от \(lower) до \(upper)"
+        
+        guard let color = params["color"],
+              let size = params["size"] else { return }
+        
+        guard let colorsFindedIndex = colors.firstIndex(of: color) else { return }
+        selectedColor = ""
+        colorsCollectionView.deselectItem(at: IndexPath(row: colorsFindedIndex, section: 0), animated: true)
+        
+        guard let sizesFindedIndex = sizes.firstIndex(of: size) else { return }
+        selectedSize = ""
+        sizesCollectionView.deselectItem(at: IndexPath(row: sizesFindedIndex, section: 0), animated: true)
     }
     
 }
@@ -347,40 +374,40 @@ class ZSFilterViewController: UIViewController {
 extension ZSFilterViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView === self.colorsCollectionView {
-            return self.colors.count
+        if collectionView === colorsCollectionView {
+            return colors.count
         }
-        return self.sizes.count
+        return sizes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView === self.colorsCollectionView  {
-            let cell = self.getColorsCollectionViewCell(at: indexPath)
+        if collectionView === colorsCollectionView  {
+            let cell = getColorsCollectionViewCell(at: indexPath)
             return cell
         }
-        return self.getSizesCollectionViewCell(at: indexPath)
+        return getSizesCollectionViewCell(at: indexPath)
     }
     
     private func getColorsCollectionViewCell(at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = self.colorsCollectionView.dequeueReusableCell(
+        let cell = colorsCollectionView.dequeueReusableCell(
             withReuseIdentifier: ZSColorsCollectionViewCell.identifier, for: indexPath)
-        (cell as? ZSColorsCollectionViewCell)?.initCell(hexColor: self.colors[indexPath.row])
+        (cell as? ZSColorsCollectionViewCell)?.initCell(hexColor: colors[indexPath.row])
         return cell
     }
 
     private func getSizesCollectionViewCell(at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = self.sizesCollectionView.dequeueReusableCell(
+        let cell = sizesCollectionView.dequeueReusableCell(
             withReuseIdentifier: ZSSizesCollectionViewCell.identifier, for: indexPath)
-        (cell as? ZSSizesCollectionViewCell)?.initCell(size: self.sizes[indexPath.row])
+        (cell as? ZSSizesCollectionViewCell)?.initCell(size: sizes[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        if collectionView === self.colorsCollectionView  {
-            self.selectedColor = self.colors[indexPath.row]
+        if collectionView === colorsCollectionView  {
+            selectedColor = colors[indexPath.row]
         } else {
-            self.selectedSize = self.sizes[indexPath.row]
+            selectedSize = sizes[indexPath.row]
         }
     }
 

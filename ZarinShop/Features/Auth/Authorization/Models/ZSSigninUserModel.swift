@@ -10,7 +10,7 @@ import Foundation
 
 struct ZSSigninUserModel: Codable {
     
-    let id: String
+    let id: Int
     let firstname: String
     let lastname: String
     let email: String
@@ -27,7 +27,7 @@ struct ZSSigninUserModel: Codable {
 }
 
 struct ZSUser: Codable {
-    let id: String
+    let id: Int
     let firstname: String
     let lastname: String
     let email: String

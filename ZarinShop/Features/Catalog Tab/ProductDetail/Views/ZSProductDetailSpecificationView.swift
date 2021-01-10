@@ -18,31 +18,26 @@ class ZSProductDetailSpecificationView: UIView {
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.textColor = .textDarkColor
         label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var firstItem: ZSProductDetailSpecificationColors = {
         var view = ZSProductDetailSpecificationColors()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     lazy var secondItem: ZSProductDetailSpecificationSizes = {
         var view = ZSProductDetailSpecificationSizes()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     lazy var thirdItem: ZSProductDetailSpecificationItemView = {
         var view = ZSProductDetailSpecificationItemView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     lazy var fourthItem: ZSProductDetailSpecificationItemView = {
         var view = ZSProductDetailSpecificationItemView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -51,45 +46,45 @@ class ZSProductDetailSpecificationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .mainLightColor
-        self.layer.cornerRadius = 20
-        self.addSubviews()
+        backgroundColor = .mainLightColor
+        layer.cornerRadius = 20
+        addSubviews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        self.addSubviews()
+        addSubviews()
     }
     
     func initView(colors: [ZSLinkColorModel], sizes: [String], model: ZSSpecificationModel, country: ZSSpecificationModel) {
-        self.firstItem.initView(colors: colors)
-        self.secondItem.initView(sizes: sizes)
-        self.thirdItem.initView(item: model)
-        self.fourthItem.initView(item: country)
-        self.setNeedsUpdateConstraints()
+        firstItem.initView(colors: colors)
+        secondItem.initView(sizes: sizes)
+        thirdItem.initView(item: model)
+        fourthItem.initView(item: country)
+        setNeedsUpdateConstraints()
     }
     
     //MARK: - Constraints
     
     override func updateConstraints() {
-        self.titleLabel.snp.updateConstraints { (make) in
+        titleLabel.snp.updateConstraints { (make) in
             make.top.left.right.equalToSuperview().inset(20)
         }
-        self.firstItem.snp.updateConstraints { (make) in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+        firstItem.snp.updateConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.left.right.equalToSuperview().inset(20)
         }
-        self.secondItem.snp.updateConstraints { (make) in
-            make.top.equalTo(self.firstItem.snp.bottom).offset(10)
+        secondItem.snp.updateConstraints { (make) in
+            make.top.equalTo(firstItem.snp.bottom).offset(10)
             make.left.right.equalToSuperview().inset(20)
         }
-        self.thirdItem.snp.updateConstraints { (make) in
-            make.top.equalTo(self.secondItem.snp.bottom).offset(10)
+        thirdItem.snp.updateConstraints { (make) in
+            make.top.equalTo(secondItem.snp.bottom).offset(10)
             make.left.right.equalToSuperview().inset(20)
         }
-        self.fourthItem.snp.updateConstraints { (make) in
-            make.top.equalTo(self.thirdItem.snp.bottom).offset(10)
+        fourthItem.snp.updateConstraints { (make) in
+            make.top.equalTo(thirdItem.snp.bottom).offset(10)
             make.left.right.bottom.equalToSuperview().inset(20)
         }
         super.updateConstraints()
@@ -98,11 +93,11 @@ class ZSProductDetailSpecificationView: UIView {
     //MARK: - Setters
     
     private func addSubviews() {
-        self.addSubview(self.titleLabel)
-        self.addSubview(self.firstItem)
-        self.addSubview(self.secondItem)
-        self.addSubview(self.thirdItem)
-        self.addSubview(self.fourthItem)
+        addSubview(titleLabel)
+        addSubview(firstItem)
+        addSubview(secondItem)
+        addSubview(thirdItem)
+        addSubview(fourthItem)
     }
     
 }

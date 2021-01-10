@@ -25,11 +25,14 @@ enum ZSURLPath: String {
     case searchProducts = "search"
     case hitSales = "hit_sales"
     case specialOffer = "special_offer"
+    case getFavList = "get_favourites"
     
     //MARK: - Post
     
     case changePassword = "change_password"
     case addToCart = "cart/addProduct"
+    case addToFav = "add_favourites"
+    case removeFromFav = "del_favourites"
    
     //MARK: - Delete
     

@@ -45,7 +45,7 @@ class ZSMainTableViewCell: UITableViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         collectionView.register(
             ZSProductsCollectionViewCell.self,
             forCellWithReuseIdentifier: ZSProductsCollectionViewCell.identifier)
@@ -90,7 +90,7 @@ class ZSMainTableViewCell: UITableViewCell {
         
         collectionView.snp.updateConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom).offset(12)
-            make.left.right.bottom.equalToSuperview().inset(16)
+            make.left.right.bottom.equalToSuperview()
         }
         
         super.updateConstraints()

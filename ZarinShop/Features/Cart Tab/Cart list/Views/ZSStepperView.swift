@@ -12,9 +12,12 @@ class ZSStepperView: UIView {
     
     //MARK: - Public variables
     
+    var valueDidChangedHandler: ((Int) -> ())?
+    var maxValue: Int?
     var value: Int = 0 {
         didSet {
             valueLabel.text = "\(value)"
+            valueDidChangedHandler?(value)
         }
     }
     
@@ -104,6 +107,8 @@ class ZSStepperView: UIView {
     //MARK: - Actions
     
     @objc private func incrementTapped() {
+        guard let max = maxValue,
+              value < max else { return }
         value += 1
     }
     

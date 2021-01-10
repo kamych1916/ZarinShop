@@ -12,6 +12,8 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ZSProductsCollectionViewCell"
     
+    private var product: ZSProductModel?
+    
     // MARK: - GUI Variables
     
     lazy var containerView: UIView = {
@@ -62,7 +64,7 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     
     lazy var descriptionLabel: UILabel = {
         var label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textColor = .textGoldColor
         label.textAlignment = .left
         label.numberOfLines = 1
@@ -95,18 +97,25 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
         
         bigImageView.dropShadow(
             conteinerView: bigImageContainerView, color: .black, opacity: 0.4,
-            offSet: .init(width: 0, height: 4), radius: 4)
+            offSet: .init(width: 0, height: 4), radius: 4, bounds: bigImageView.bounds)
     }
     
     func initCell(with model: ZSProductModel) {
+        self.product = model
         titleLabel.text = model.name
         descriptionLabel.text = String(format: "%0.2f", model.price) + " сум"
-        if model.image.count > 0 {
+        if model.images.count > 0 {
             //todo
             bigImageView.image = UIImage(named: "defauldProduct")
             //loadImage(from: model.image[0])
         } else {
             bigImageView.image = UIImage(named: "defauldProduct")
+        }
+        
+        if model.favorites {
+            favoriteImageView.image = UIImage(named: "favoriteHighlighted")
+        } else {
+            
         }
         
         layoutIfNeeded()
@@ -156,7 +165,7 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
             self.favoriteImageView.alpha = 1
             self.favoriteImageView.image = UIImage(named: "favoriteHighlighted")
         }
-        NotificationCenter.default.post(name: .favoritesValueChanged, object: nil)
+        changeFavorite()
     }
     
     // MARK: - Helpers
@@ -183,5 +192,21 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
                     self.bigImageView.image = UIImage(named: "defauldProduct")
                 }
             })
+    }
+    
+    private func changeFavorite() {
+        guard let product = product else { return }
+        
+        topMostController()?.startLoading()
+        
+        let path: ZSURLPath = product.favorites ? .removeFromFav : .addToFav
+        
+        ZSNetwork.shared.request(url: path, method: .post, parameters: ["id": product.id])
+        { [weak self] (response: Result<[Int], ZSNetworkError>) in
+            guard let self = self else { return}
+            self.topMostController()?.stopLoading()
+            self.product!.favorites = !self.product!.favorites
+        }
+        
     }
 }

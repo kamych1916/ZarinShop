@@ -56,6 +56,7 @@ class ZSCartViewController: ZSBaseViewController {
         view.layer.cornerRadius = 12
         view.backgroundColor = UIColor.mainLightColor.withAlphaComponent(0.7)
         view.clipsToBounds = true
+        view.isHidden = true
         return view
     }()
     
@@ -130,22 +131,22 @@ class ZSCartViewController: ZSBaseViewController {
         
         buyView.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(70)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         totalLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(16)
             make.left.equalToSuperview().inset(20)
         }
         
         totalValueLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
             make.right.equalToSuperview().inset(20)
+            make.centerY.equalTo(totalLabel)
         }
         
         buyButton.snp.makeConstraints { (make) in
-            make.top.equalTo(totalLabel.snp.bottom).offset(20)
-            make.left.right.bottom.equalToSuperview().inset(20)
+            make.top.equalTo(totalLabel.snp.bottom).offset(12)
+            make.left.right.bottom.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }
         
@@ -187,6 +188,11 @@ class ZSCartViewController: ZSBaseViewController {
             case .success(let model):
                 self.data = []
                 self.data = model.items
+                if model.items.isEmpty {
+                    self.buyView.isHidden = true
+                } else {
+                    self.buyView.isHidden = false
+                }
             case .failure(let error):
                 if error == .unauthorized {
                     self.alertSignin()
@@ -213,7 +219,7 @@ class ZSCartViewController: ZSBaseViewController {
         for i in data {
             total += i.price
         }
-        totalValueLabel.text = "\(total) сум"
+        totalValueLabel.text = "\(String(format: "%0.1f", total)) сум"
     }
     
     private func deleteItem(_ model: CartItemModel) {
@@ -238,10 +244,6 @@ class ZSCartViewController: ZSBaseViewController {
         }))
         
         present(alert, animated: true, completion: nil)
-    }
-    
-    private func updateItem(_ model: CartItemModel) {
-        print(model)
     }
     
 }

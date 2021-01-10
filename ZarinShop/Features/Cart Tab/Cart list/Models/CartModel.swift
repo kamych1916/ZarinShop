@@ -20,7 +20,7 @@ struct CartItemModel: Codable {
     let size: String
     let kol: Int
     let color: String
-    let image: [String]
+    let images: [String]
     let price: Double
     let discount: Double
 }
