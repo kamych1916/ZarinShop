@@ -87,6 +87,31 @@ export default class Api {
         async getCategories() {
             return axios.get(`${API_BASE_URL}/categories`)
         },
+        async send_new_category(category) {
+            return axios.post(`${API_BASE_URL}/categories`, category)
+        },
+        async changeCategory(category) {
+            return axios.patch(`${API_BASE_URL}/categories`, category,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
+        async deleteCategory(id) {
+            return axios.delete(`${API_BASE_URL}/categories`,
+                {
+                    params: {
+                        delete_id: id
+                    },
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
+        
     }
 
     auth = {
@@ -143,10 +168,6 @@ export default class Api {
                     }  
                 }
             )
-        },
-
-        async send_new_category(category) {
-            return axios.post(`${API_BASE_URL}/categories`, category)
         },
         async upload_file(formData) {
             return axios.post(`${API_BASE_URL}/uploadfile`, formData, 

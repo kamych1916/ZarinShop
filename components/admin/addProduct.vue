@@ -274,7 +274,7 @@
                     <div style="border-top: 1px solid #ccc" class="w-100 py-4">
                         <b-button v-if="eventBtnProduct" type='submit' class="float-left">СОЗДАТЬ НОВЫЙ ТОВАР</b-button>
                         <b-row v-else class="float-left d-flex justify-content-between" >
-                            <b-button type="submit">ИЗМЕНИТЬ ТОВАР</b-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <b-button class="ml-3" type="submit">ИЗМЕНИТЬ ТОВАР</b-button>&nbsp;&nbsp;&nbsp;&nbsp;
                             <b-button @click="deleteProduct()" variant="danger">УДАЛИТЬ ТОВАР</b-button>                            
                         </b-row>
                         <b-button class="float-right" @click="resetModal(), AddProductModal=!AddProductModal"> Отменить </b-button>
@@ -305,7 +305,6 @@
 
 <script>
 import Api from "~/utils/api";
-
 let Store_New_Product = {
     name: '',
     description: null,
@@ -327,18 +326,14 @@ export default {
         AddProductModal: false,
         eventBtnProduct: true,
         show_overlay: false,
-
         files: [],
         file: null,
-
         size_S: null,
         size_M: null,
         size_L: null,
         size_XL: null,
         size_XXL: null,
         none_size: null,
-
-
         categOptions: [],  
         size_kol: [
             {
@@ -380,7 +375,6 @@ export default {
             images: [],
             name_images: []
         },
-
         showProducts: false,
         dataLinksItems: null,  
         dataLinksFields: [
@@ -394,7 +388,6 @@ export default {
                 label: 'Наименование',
                 sortable: true
             },
-
             {
                 key: 'description',
                 label: 'Описание',
@@ -417,9 +410,7 @@ export default {
                 label: 'Выбранный',
             },
         ],
-
         selected: null,
-
         dataProductsItems: null,
         dataProductsFields: [
             {
@@ -432,19 +423,15 @@ export default {
                 label: 'Наименование',
                 sortable: true
             },
-
             {
                 key: 'description',
                 label: 'Описание',
                 sortable: true
             },
-
             {
                 key: 'size_kol',
                 label: 'Количество по размерам',
             },
-
-
             // {
             //     key: 'images',
             //     label: 'Изображения',
@@ -500,7 +487,6 @@ methods:{
           });
       });
     },
-
     onRowProductSelected(picked){
         if(picked[0]){
             this.eventBtnProduct = false;
@@ -545,10 +531,10 @@ methods:{
             this.New_Product.link_color.push(parseInt(picked[0].id));
         }
     },
-
     sizeEvents(value, inpt){
         if(value === ''){ value = 0 }
         let StoreProduct = this.size_kol;
+        
         if(inpt === 1){
             for(let s in StoreProduct){ if(StoreProduct[s].size === 'S'){ this.size_kol[s].kol = parseInt(value) } };     
         }else if(inpt === 2){
@@ -567,16 +553,26 @@ methods:{
     // ИЗМЕНЕНИЕ ТОВАРА И ДОБАВЛЕНИЕ НОВОГО
     eventProduct(){
         // РАЗОБРАТЬСЯ С КОЛИЧЕСТВОМ РАЗМЕРОВ И ВЫХОДОМ ИЗ МОДАЛЬНОГО ОКНА
-        let StoreSizeProduct = this.New_Product.size_kol.filter(el=> el.kol !== 0);
-        if(StoreSizeProduct.length > 0){
-            let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера')
+        let StoreSizeProduct = this.size_kol.filter(el=>  el.kol !== 0);
+        let StoreNPSizeKolProduct = this.New_Product.size_kol.filter(el=>  el.kol !== 0);
+
+        if(StoreSizeProduct.length > 0 || StoreNPSizeKolProduct.length > 0){
+            let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера');
+            let StoreNoneNPSizeProduct = StoreNPSizeKolProduct.filter(el=> el.size == 'Нет размера');
+            
             if(StoreNoneSizeProduct[0]){
                 if(StoreNoneSizeProduct[0].kol !== 0){
-                    this.New_Product.size_kol = StoreNoneSizeProduct    
+                    this.New_Product.size_kol = StoreNoneSizeProduct   
                 }else{
                     alert('Введите пожалуйста количество товара')
                 }
-            }else this.New_Product.size_kol = StoreSizeProduct;
+            }else {
+                if(StoreSizeProduct.length>0){
+                    this.New_Product.size_kol = StoreSizeProduct;
+                }else{
+                    this.New_Product.size_kol = StoreNoneNPSizeProduct;
+                }
+            }
 
             if(this.eventBtnProduct){
                 this.New_Product.discount = parseInt(this.New_Product.discount);
@@ -609,11 +605,11 @@ methods:{
                         variant: "success",
                         solid: true
                     });
-                    setTimeout(()=>{
+                    // setTimeout(()=>{
                         this.New_Product = Store_New_Product;
                         this.AddProductModal=false;
                         // window.location.reload(true);
-                    }, 1000)
+                    // }, 1000)
                 })
                 .catch((error) => {
                     console.log("changeProduct -> ", error)
@@ -646,7 +642,6 @@ methods:{
             // setTimeout(()=>{this.$router.push('/')}, 1500)
         });
     },
-
     handleFileUpload(){
         this.file = this.$refs.file.files[0];
         this.send_image()
@@ -692,7 +687,6 @@ methods:{
         }
       }
     },
-
     getCategories(){
       Api.getInstance().products.getCategories().then((response) => {
           this.categOptions = response.data;

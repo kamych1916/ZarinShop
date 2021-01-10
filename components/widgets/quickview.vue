@@ -33,22 +33,14 @@
         <div class="col-lg-6 rtl-text">
           <div class="product-right">
             <h2>{{ productData.name }}</h2>
-            <h3 v-if="productData.hit_sales">
-              {{
-                parseInt(discountedPrice(productData)).toLocaleString("ru-RU")
-              }}
-              <small style="color: #aaaaaa; text-transform: initial"
-                >сум/шт.</small
-              >
-              <del>{{
-                parseInt(productData.price).toLocaleString("ru-RU")
-              }}</del>
+            <h3 v-if="productData.discount && productData.discount != 0">
+              {{parseInt(discountedPrice(productData)).toLocaleString("ru-RU")}}
+              <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small>
+              <del>{{parseInt(productData.price).toLocaleString("ru-RU")}}</del>
             </h3>
             <h3 v-else>
               {{ parseInt(productData.price).toLocaleString("ru-RU") }}
-              <small style="color: #aaaaaa; text-transform: initial"
-                >сум/шт.</small
-              >
+              <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small>
             </h3>
             <ul class="color-variant" v-if="productData.color">
               <h6 class="product-title">Цвета в наличии</h6>

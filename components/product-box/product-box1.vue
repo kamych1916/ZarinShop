@@ -2,7 +2,7 @@
   <div>
     <div class="img-wrapper">
       <div class="lable-block">
-        <span class="lable3" v-if="product.discount">{{product.discount}}%</span>
+        <span class="lable3" v-if="product.discount && product.discount != 0">{{product.discount}}%</span>
       </div>
       <div class="front">
         <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
@@ -62,7 +62,7 @@
         <h6>{{ product.name }} </h6>
       </nuxt-link>
       <p>{{ product.description }}</p>
-      <h4 v-if="product.discount">
+      <h4 v-if="product.discount && product.discount != 0">
         {{ (parseInt(discountedPrice(product))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small> 
         <del>{{ (parseInt(product.price)).toLocaleString('ru-RU') }}</del>
       </h4>
