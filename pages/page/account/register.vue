@@ -77,7 +77,7 @@
                       id="password"
                       v-model="password"
                       placeholder="Придумайте пароль"
-                      name="password"
+                      name="password_zarinshop_1"
                     />
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
@@ -87,7 +87,7 @@
                     <input
                       type="password"
                       class="form-control"
-                      id="password"
+                      id="password_zarinshop_2"
                       placeholder="Повторите пароль"
                       name="password"
                     />

@@ -29,7 +29,7 @@
         </li>
       </ul>
       <div class="cart-info cart-wrap">
-          <button
+          <!-- <button
             data-toggle="modal"
             data-target="#addtocart"
             title="Добавить в корзину"
@@ -38,7 +38,7 @@
             variant="primary"
           >
             <i class="ti-shopping-cart"></i>
-          </button>
+          </button> -->
         <a href="javascript:void(0)" title="Wishlist">
           <i class="ti-heart" aria-hidden="true" @click="addToWishlist(product)"></i>
         </a>

@@ -102,20 +102,21 @@ export default {
       Api.getInstance()
         .auth.login(this.email, this.password)
         .then((response) => {
-          console.log('response-> ', response.data);
           localStorage.setItem('st', response.data.session_token);
           localStorage.setItem('cfn', response.data.last_name + ' ' + response.data.first_name);
           localStorage.setItem('ce', response.data.email);
-          this.$bvToast.toast('Авторизация прошла успешна.', {
+          localStorage.setItem('cil', true)
+          this.$bvToast.toast('Авторизация прошла успешно.', {
             title: `Сообщение`,
             variant: "success",
             solid: true
           })
+          this.UpdateCart();
           this.$store.dispatch("auth/load__login_access", response.data);
           setTimeout(()=>{this.$router.push('/page/account/dashboard')}, 1000)
         })
         .catch((error) => {
-          console.log('kek-> ', error)
+          console.log('login-> ', error)
           this.$bvToast.toast("Аторизация прошла безуспешно.", {
             title: `Ошибка авторизации`,
             variant: "danger",
@@ -123,7 +124,14 @@ export default {
           });
           this.forgottitle = true
         });
-    }
+    },
+    UpdateCart(){
+      Api.getInstance().cart.UpdateCart().then((response) => {
+        this.$store.dispatch('cart/changeCart', response.data.items);
+      }).catch((error) => {
+        console.log("addToCart -> ", error)
+      });
+    },
   }
 }
 </script>

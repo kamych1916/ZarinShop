@@ -15,33 +15,36 @@ const getters = {
       return price
     }
     return state.cart.reduce((total, product) => {
-      return total + (discountedPrice(product) * product.quantity)
+      return total + (discountedPrice(product) * product.kol)
     }, 0)
   }
 }
 // mutations
 const mutations = {
-  update_product: (state, payload) => {
-    state.products = payload;
+  update_cart: (state, payload) => {
+    state.cart = payload;
+  },
+  delete_cart: (state) => {
+    state.cart = [];
   },
   addToCart: (state, payload) => {
     const product = payload
-    const cartItems = state.cart.find(item => item.id === payload.id)
-    const qty = payload.quantity ? payload.quantity : 1
-    if (cartItems) {
-      cartItems.quantity = qty
-    } else {
+    // const cartItems = state.cart.find(item => item.id === payload.id)
+    const qty = payload.kol ? payload.kol : 1
+    // if (cartItems) {
+    //   cartItems.kol = qty
+    // } else {
       state.cart.push({
         ...product,
-        quantity: qty
+        kol: qty
       })
-    }
+    // }
     product.stock--
   },
   updateCartQuantity: (state, payload) => {
     // Calculate Product stock Counts
-    function calculateStockCounts(product, quantity) {
-      const qty = product.quantity + quantity
+    function calculateStockCounts(product, kol) {
+      const qty = product.kol + kol
       const stock = product.stock
       if (stock < qty) {
         return false
@@ -50,14 +53,14 @@ const mutations = {
     }
     state.cart.find((items, index) => {
       if (items.id === payload.product.id) {
-        const qty = state.cart[index].quantity + payload.qty
+        const qty = state.cart[index].kol + payload.qty
         const stock = calculateStockCounts(state.cart[index], payload.qty)
         if (qty !== 0 && stock) {
-          state.cart[index].quantity = qty
+          state.cart[index].kol = qty
         } else {
           // state.cart.push({
           //   ...product,
-          //   quantity: qty
+          //   kol: qty
           // })
         }
         return true
@@ -71,8 +74,11 @@ const mutations = {
 }
 // actions
 const actions = {
-  changeProduct({commit}, products){
-    commit('update_product', products)
+  changeCart({commit}, products){
+    commit('update_cart', products)
+  },
+  delete_cart({commit}){
+    commit('delete_cart')
   },
   addToCart: (context, payload) => {
     context.commit('addToCart', payload)

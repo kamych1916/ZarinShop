@@ -65,55 +65,57 @@
           </div>
         </li>
         <li class="onhover-div mobile-cart">
-          <div>
+          <div @click="is_login || locale_check_is_login ?  '' : $router.push(`/page/account/login`)">
             <img alt :src='"@/assets/images/icon/layout4/cart.png"' class="img-fluid">
             <i class="ti-shopping-cart"></i>
             <span class="cart_qty_cls">{{cart.length}}</span>
           </div>
-          <ul class="show-div shopping-cart" v-if="!cart.length">
-            <li>Корзина пуста</li>
-          </ul>
-          <ul class="show-div shopping-cart" v-if="cart.length">
-            <li v-for="(item,index) in cart" :key="index">
-              <div class="media">
-                <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
-                  <!-- {{item}} -->
-                  <img alt class="mr-3" :src='item.images[0]'>
-                </nuxt-link>
-                <div class="media-body">
-                  <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
-                    <h4>{{item.name}}</h4>
-                  </nuxt-link>
-                  <h4>
-                    <span>{{item.quantity}} x {{ parseInt(discountedPrice(item)).toLocaleString('ru-RU') }} <small>сум/шт.</small></span>
-                  </h4>
+          <span v-if="is_login">
+            <ul class="show-div shopping-cart" v-if="!cart.length">
+              <li>Корзина пуста</li>
+            </ul>
+            <ul class="show-div shopping-cart" v-if="cart.length">
+              <li>
+                <div class="total">
+                  <h5>
+                    Итого :
+                    <span>{{ parseInt(cartTotal).toLocaleString('ru-RU') }} сум.</span>
+                  </h5>
                 </div>
-              </div>
-              <div class="close-circle">
-                <a href="#" @click='removeCartItem(item)'>
-                  <i class="fa fa-times" aria-hidden="true"></i>
-                </a>
-              </div>
-            </li>
-            <li>
-              <div class="total">
-                <h5>
-                  Итого :
-                  <span>{{ parseInt(cartTotal).toLocaleString('ru-RU') }} сум.</span>
-                </h5>
-              </div>
-            </li>
-            <li>
-              <div class="buttons">
-                <nuxt-link :to="{ path: '/page/account/cart'}" :class="'view-cart'">
-                  корзина
-                </nuxt-link>
-                <nuxt-link :to="{ path: '/page/account/checkout'}" :class="'checkout'">
-                  купить сейчас
-                </nuxt-link>
-              </div>
-            </li>
-          </ul>
+              </li>
+              <li>
+                <div class="buttons wrap_buy_cart">
+                  <nuxt-link :to="{ path: '/page/account/cart'}" :class="'view-cart'">
+                    корзина
+                  </nuxt-link>
+                  <nuxt-link :to="{ path: '/page/account/checkout'}" :class="'checkout'">
+                    купить сейчас
+                  </nuxt-link>
+                </div>
+              </li>
+              <li v-for="(item,index) in cart" :key="index" class="mt-2">
+                <div class="media">
+                  <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
+                    <!-- {{item}} -->
+                    <img alt class="mr-3" :src='item.images[0]'>
+                  </nuxt-link>
+                  <div class="media-body">
+                    <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
+                      <h4>{{item.name}}</h4>
+                    </nuxt-link>
+                    <h4>
+                      <span>{{item.quantity}} x {{ parseInt(discountedPrice(item)).toLocaleString('ru-RU') }} <small>сум/шт.</small></span>
+                    </h4>
+                  </div>
+                </div>
+                <div class="close-circle">
+                  <a href="#" @click='removeCartItem(item)'>
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </span>
         </li>
         <li class="onhover-div mobile-setting">
           <div>
@@ -161,16 +163,21 @@
   </div>
 </template>
 <script>
+import Api from "~/utils/api"
 import { mapState, mapGetters } from 'vuex'
 export default {
   data() {
     return {
       currencyChange: {},
       search: false,
-      searchString: ''
+      searchString: '',
+      is_login: null,
     }
   },
   computed: {
+    locale_check_is_login(){
+      return localStorage.getItem('cil')
+    },
     ...mapState({
       searchItems: state => state.products.searchProduct
     }),
@@ -180,7 +187,15 @@ export default {
       curr: 'products/changeCurrency'
     })
   },
+  mounted(){
+    this.check_is_login()
+  },
   methods: {
+    check_is_login(){
+      Api.getInstance().auth.is_login().then((response) => {
+        this.is_login = true;
+      }).catch(error => {});
+    },
     openSearch() {
       this.search = true
     },
@@ -206,5 +221,8 @@ export default {
 </script>
 
 <style>
-
+.wrap_buy_cart{
+  border-bottom: 1px solid #f1f5f4;
+  padding-bottom: 10px;
+}
 </style>

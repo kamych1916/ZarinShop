@@ -2,7 +2,7 @@
   <div>
     <Header />
     <Breadcrumbs title="Корзина" />
-    <section class="cart-section section-b-space">
+    <section class="cart-section section-b-space" v-if="is_login">
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
@@ -11,10 +11,11 @@
                 <tr>
                   <th scope="col">Изображение</th>
                   <th scope="col">Наименование</th>
+                  <th scope="col">Размер</th>
                   <th scope="col">Цена</th>
                   <th scope="col">Количество</th>
                   <th scope="col">Убрать с корзины</th>
-                  <th scope="col">Итого</th>
+                  <!-- <th scope="col">Итого</th> -->
                 </tr>
               </thead>
               <tbody v-for="(item,index) in cart" :key="index">
@@ -74,6 +75,9 @@
                     </div>
                   </td>
                   <td>
+                    <p>{{item.size}}</p>
+                  </td>
+                  <td>
                     <p>{{ (parseInt(discountedPrice(item))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></p>
                   </td>
                   <td>
@@ -94,8 +98,8 @@
                           type="text"
                           name="quantity"
                           class="form-control input-number"
-                          :disabled="item.quantity > item.stock"
-                          v-model="item.quantity"
+                          :disabled="item.kol > item.stock"
+                          v-model="item.kol"
                         />
                         <span class="input-group-prepend">
                           <button
@@ -116,9 +120,9 @@
                       <i class="ti-close"></i>
                     </a>
                   </td>
-                  <td>
-                    <p>{{ (parseInt(discountedPrice(item))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></p>
-                  </td>
+                  <!-- <td>
+                    <p>{{ (parseInt(discountedPrice(item) * item.quantity)).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум.</small></p>
+                  </td> -->
                 </tr>
               </tbody>
             </table>
@@ -127,7 +131,7 @@
                 <tr>
                   <td>Общая стоимость:</td>
                   <td>
-                    <h2>{{ (cartTotal * curr.curr).toLocaleString('ru-RU') }}&nbsp;<small style="color: #aaaaaa; text-transform: initial">сум.</small></h2>
+                    <h2>{{ (cartTotal).toLocaleString('ru-RU') }}&nbsp;<small style="color: #aaaaaa; text-transform: initial">сум.</small></h2>
                   </td>
                 </tr>
               </tfoot>
@@ -162,10 +166,12 @@ import { mapGetters } from 'vuex'
 import Header from '../../../components/header/header1'
 import Footer from '../../../components/footer/footer1'
 import Breadcrumbs from '../../../components/widgets/breadcrumbs'
+import Api from "~/utils/api";
 export default {
   data() {
     return {
-      counter: 1
+      counter: 1,
+      is_login: false
     }
   },
   components: {
@@ -180,12 +186,36 @@ export default {
       curr: 'products/changeCurrency'
     })
   },
+  mounted(){
+    if(localStorage.getItem('cil')){
+      this.is_login = true
+      this.UpdateCart()
+    } else{
+      this.is_login = false
+      this.$router.push('/')
+    }
+  },
   methods: {
+    UpdateCart(){
+      Api.getInstance().cart.UpdateCart().then((response) => {
+        this.$store.dispatch('cart/changeCart', response.data.items);
+      }).catch((error) => {
+        console.log("addToCart -> ", error)
+      });
+    },
     getImgUrl(path) {
       return require('@/assets/images/' + path)
     },
     removeCartItem: function (product) {
-      this.$store.dispatch('cart/removeCartItem', product)
+      let storeProduct = {
+        id: product.id,
+        size: product.size
+      }
+      Api.getInstance().cart.DelFromCart(storeProduct).then((response) => {
+        this.$store.dispatch('cart/removeCartItem', product)
+      }).catch((error) => {
+        console.log("addToCart -> ", error)
+      });
     },
     increment(product, qty = 1) {
       this.$store.dispatch('cart/updateCartQuantity', {

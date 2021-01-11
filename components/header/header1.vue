@@ -61,8 +61,3 @@ export default {
 }
 </script>
 
-<style>
-      .kek{
-      position: fixed;
-    }
-</style>

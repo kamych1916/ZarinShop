@@ -342,6 +342,7 @@ export default {
       size: [],
       productTYpe: '',
       productId: '',
+
       swiperOption: {
         slidesPerView: 1,
         spaceBetween: 20,
@@ -374,6 +375,7 @@ export default {
   },
   mounted() {
     this.getDataProduct();
+
     // For displaying default color and size on pageload
     // this.uniqColor = this.getDetail.variants[0].color
     
@@ -387,7 +389,7 @@ export default {
     getDataProduct(){
       Api.getInstance().products.getData_item(this.$route.params.id).then((response) => {
         this.$store.dispatch("products/changeProduct", response.data);
-        this.$store.dispatch('cart/changeProduct', response.data);
+        // this.$store.dispatch('cart/changeProduct', response.data);
         // this.sizeVariant(response.data.size_kol[0].size)
         response.data.size_kol.filter((item)=>{
           this.size.push(item.size)  
@@ -423,11 +425,32 @@ export default {
       return uniqColor
     },
     // add to cart
-    addToCart: function (product, qty) {
-      product.quantity = qty || 1;
-      product.stock = this.productStock;
-      this.$store.dispatch('cart/addToCart', product)
+    addToCart(product, qty) {
+      if(localStorage.getItem('cil')){
+        product.kol = qty || 1;
+        product.stock = this.productStock;
+        product.size = this.selectedSize;
+        let CartProduct = {
+            id: product.id,
+            size: this.selectedSize,
+            kol: qty
+        }
+        Api.getInstance().cart.addToCart(CartProduct).then((response) => {
+          this.$bvToast.toast('Товар успешно добавлен в корзину.', {
+            title: `Сообщение`,
+            variant: "success",
+            solid: true
+          })
+          this.$store.dispatch('cart/addToCart', product)
+        }).catch((error) => {
+          console.log("addToCart -> ", error)
+        });
+      }else{
+        this.$router.push('/page/account/login')
+      }
+
     },
+
     buyNow: function (product, qty) {
       product.quantity = qty || 1
       this.$store.dispatch('cart/addToCart', product)
@@ -442,6 +465,7 @@ export default {
     decrement() {
       if (this.counter > 1) this.counter--
     },
+
     // Change size variant
     changeSizeVariant(variant) {
       this.counter = 1;
@@ -452,6 +476,7 @@ export default {
       })
       this.selectedSize = variant
     },
+
     getImgUrl(path) {
       return require('@/assets/images/' + path)
     },

@@ -234,7 +234,11 @@ export default {
     },
     logout(){
       Api.getInstance().auth.logout().then((response) => {
+          localStorage.removeItem('cfn');
+          localStorage.removeItem('ce');
           localStorage.removeItem('st');
+          localStorage.removeItem('cil');
+          this.$store.dispatch('cart/delete_cart');
           this.$bvToast.toast('Вы успешно вышли из системы.', {
               title: `Сообщение`,
               variant: "success",

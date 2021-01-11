@@ -83,6 +83,36 @@ export default class Api {
         },
     }
 
+    cart = {
+        async addToCart(CartProduct) {
+            return axios.post(`${API_BASE_URL}/cart/addProduct`, CartProduct,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                } 
+            )
+        },
+        async UpdateCart() {
+            return axios.get(`${API_BASE_URL}/cart/shopping_cart`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                }
+            )
+        },
+        async DelFromCart(product) {
+            return axios.delete(`${API_BASE_URL}/cart/delproduct`, product,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                }
+            )
+        },
+    }
+
     categories = {
         async getCategories() {
             return axios.get(`${API_BASE_URL}/categories`)
