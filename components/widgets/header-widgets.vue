@@ -194,7 +194,15 @@ export default {
     check_is_login(){
       Api.getInstance().auth.is_login().then((response) => {
         this.is_login = true;
+        this.UpdateCart();
       }).catch(error => {});
+    },
+    UpdateCart(){
+      Api.getInstance().cart.UpdateCart().then((response) => {
+        this.$store.dispatch('cart/changeCart', response.data.items);
+      }).catch((error) => {
+        console.log("addToCart -> ", error)
+      });
     },
     openSearch() {
       this.search = true
@@ -206,7 +214,20 @@ export default {
       this.$store.dispatch('products/searchProduct', this.searchString)
     },
     removeCartItem: function (product) {
-      this.$store.dispatch('cart/removeCartItem', product)
+      let storeProduct = {
+        id: product.id,
+        size: product.size
+      }
+      Api.getInstance().cart.DelFromCart(storeProduct).then((response) => {
+        this.$bvToast.toast('Товар успешно удалён из корзины.', {
+          title: `Сообщение`,
+          variant: "success",
+          solid: true
+        })
+        this.$store.dispatch('cart/removeCartItem', product)
+      }).catch((error) => {
+        console.log("addToCart -> ", error)
+      });
     },
     updateCurrency: function (currency, currSymbol) {
       this.currencyChange = { curr: currency, symbol: currSymbol }

@@ -183,7 +183,7 @@
                       <b-tab title="Описание товара" active>
                         <b-card-text>{{getDetail.description}}</b-card-text>
                       </b-tab>
-                      <b-tab title="Детали товара">
+                      <!-- <b-tab title="Детали товара">
                         <b-card-text>
                           <div class="single-product-tables">
                             <table>
@@ -216,7 +216,7 @@
                             </table>
                           </div>
                         </b-card-text>
-                      </b-tab>
+                      </b-tab> -->
                       <!-- <b-tab title="Video">
                         <b-card-text>
                           <div class="mt-3 text-center">
@@ -364,33 +364,19 @@ export default {
       curr: 'products/changeCurrency',
       getDetail: 'products/getProductById'
     }),
-    // getDetail: function () {
-    //   return this.$store.getters['products/getProductById'](
-    //     this.$route.params.id
-    //   )
-    // },
     swiper() {
       return this.$refs.mySwiper.swiper
     }
   },
   mounted() {
     this.getDataProduct();
-
-    // For displaying default color and size on pageload
-    // this.uniqColor = this.getDetail.variants[0].color
-    
-    // Active default color
     this.activeColor = this.uniqColor
-    // this.changeSizeVariant(this.getDetail.variants[0].size)
-    // related product type
     this.relatedProducts()
   },
   methods: {
     getDataProduct(){
       Api.getInstance().products.getData_item(this.$route.params.id).then((response) => {
         this.$store.dispatch("products/changeProduct", response.data);
-        // this.$store.dispatch('cart/changeProduct', response.data);
-        // this.sizeVariant(response.data.size_kol[0].size)
         response.data.size_kol.filter((item)=>{
           this.size.push(item.size)  
         })

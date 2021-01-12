@@ -116,7 +116,7 @@
                     </div>
                   </td>
                   <td>
-                    <a class="icon" @click="removeCartItem(item)">
+                    <a class="icon" @click="removeCartItem(item)" style="cursor: pointer">
                       <i class="ti-close"></i>
                     </a>
                   </td>
@@ -143,14 +143,14 @@
               </h3>
               <h4 class="mb-3">Добавьте в корзину товар для вашего счастья :)</h4>
               <div class="col-12">
-                <nuxt-link :to="{ path: '/'}" class="btn btn-solid">Вернутся к товарам</nuxt-link>
+                <nuxt-link :to="{ path: '/'}" class="btn btn-solid">К товарам</nuxt-link>
               </div>
             </div>
           </div>
         </div>
         <div class="row cart-buttons" v-if="cart.length">
           <div class="col-6">
-            <nuxt-link :to="{ path: '/'}" :class="'btn btn-solid'">Вернутся к товарам</nuxt-link>
+            <nuxt-link :to="{ path: '/'}" :class="'btn btn-solid'">К товарам</nuxt-link>
           </div>
           <div class="col-6">
             <nuxt-link :to="{ path: '/page/account/checkout'}" :class="'btn btn-solid'">Купить</nuxt-link>
@@ -212,6 +212,11 @@ export default {
         size: product.size
       }
       Api.getInstance().cart.DelFromCart(storeProduct).then((response) => {
+        this.$bvToast.toast('Товар успешно удалён из корзины.', {
+          title: `Сообщение`,
+          variant: "success",
+          solid: true
+        })
         this.$store.dispatch('cart/removeCartItem', product)
       }).catch((error) => {
         console.log("addToCart -> ", error)

@@ -2524,25 +2524,7 @@
     }
   }
   .cart-section {
-    .cart-table {
-      thead {
-        th {
-          &:last-child {
-            display: none;
-          }
-        }
-      }
-    }
-    tbody {
-      tr {
-        td {
-          min-width: 135px;
-          &:last-child {
-            display: none;
-          }
-        }
-      }
-    }
+
     .cart-buttons {
       > div {
         &:last-child {

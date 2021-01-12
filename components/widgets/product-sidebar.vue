@@ -1,16 +1,20 @@
 <template>
   <div>
-      <div class="row">
+    <div class="row">
     <div class="col-xl-12">
       <div class="filter-main-btn mb-2 ml-3">
         <span class="filter-btn btn btn-theme" @click="filter = !filter">
-          <i class="fa fa-filter" aria-hidden="true"></i> filter
+          <i class="fa fa-filter" aria-hidden="true"></i> Доп инфо.
         </span>
       </div>
     </div>
    </div>
      <div class="collection-filter" :class="{'openFilterbar' : filter}">
-
+      <div class="collection-mobile-back pl-4">
+        <span class="filter-back" @click="filter = !filter">
+          <i class="fa fa-angle-left" aria-hidden="true"></i> назад
+        </span>
+      </div>
       <div class="collection-filter-block">
         <div class="product-service">
           <div class="media">

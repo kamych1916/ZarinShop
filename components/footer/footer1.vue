@@ -42,9 +42,6 @@
         <div class="container">
           <div class="row footer-theme partition-f">
             <div class="col-lg-6 col-md-6">
-              <div class="footer-title footer-mobile-title">
-                <h4>about</h4>
-              </div>
               <div class="footer-contant">
                 <div class="footer-logo">
                   <h1>ZARINSHOP</h1>

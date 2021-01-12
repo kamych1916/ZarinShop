@@ -97,28 +97,28 @@
                       </div>
                       <ul class="qty"  v-if="cart.length">
                         <li v-for="(item,index) in cart" :key="index">
-                          {{ item.title | uppercase }} X {{ item.quantity }}
-                          <span>{{ (item.price * curr.curr) * item.quantity | currency(curr.symbol) }}</span>
+                          {{ item.name | uppercase }} * {{ item.kol }}
+                          <span>{{ (parseInt(discountedPrice(item) * item.kol)).toLocaleString('ru-RU')  }} сум.</span>
                         </li>
                       </ul>
                       <ul class="sub-total">
-                                        <li>
+                        <li>
                           Subtotal
                           <span class="count">{{ cartTotal * curr.curr | currency(curr.symbol) }}</span>
                         </li>
-                                        <li>Shipping
-                                            <div class="shipping">
-                                                <div class="shopping-option">
-                                                    <input type="checkbox" name="free-shipping" id="free-shipping">
-                                                    <label for="free-shipping">Free Shipping</label>
-                                                </div>
-                                                <div class="shopping-option">
-                                                    <input type="checkbox" name="local-pickup" id="local-pickup">
-                                                    <label for="local-pickup">Local Pickup</label>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                        <li>Shipping
+                            <div class="shipping">
+                                <div class="shopping-option">
+                                    <input type="checkbox" name="free-shipping" id="free-shipping">
+                                    <label for="free-shipping">Free Shipping</label>
+                                </div>
+                                <div class="shopping-option">
+                                    <input type="checkbox" name="local-pickup" id="local-pickup">
+                                    <label for="local-pickup">Local Pickup</label>
+                                </div>
+                            </div>
+                        </li>
+                      </ul>
                       <ul class="sub-total">
                         <li>
                           Total
@@ -239,6 +239,10 @@ export default {
     }
   },
   methods: {
+    discountedPrice(product) {
+        const price = product.price - (product.price * product.discount / 100)
+        return price
+    },
     order() {
       this.isLogin = localStorage.getItem('userlogin')
       if (this.isLogin) {
@@ -249,7 +253,7 @@ export default {
     },
     payWithStripe() {
       const handler = (window).StripeCheckout.configure({
-          key: 'PUBLISHBLE_KEY', // 'PUBLISHBLE_KEY'
+        key: 'PUBLISHBLE_KEY', // 'PUBLISHBLE_KEY'
         locale: 'auto',
         closed: function () {
           handler.close()

@@ -103,7 +103,7 @@ export default class Api {
             )
         },
         async DelFromCart(product) {
-            return axios.delete(`${API_BASE_URL}/cart/delproduct`, product,
+            return axios.post(`${API_BASE_URL}/cart/delproduct`, product, 
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('st')}`

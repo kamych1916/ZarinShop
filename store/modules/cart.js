@@ -51,8 +51,9 @@ const mutations = {
       }
       return true
     }
+    console.log(payload)
     state.cart.find((items, index) => {
-      if (items.id === payload.product.id) {
+      if (items.size === payload.product.size && items.id === payload.product.id) {
         const qty = state.cart[index].kol + payload.qty
         const stock = calculateStockCounts(state.cart[index], payload.qty)
         if (qty !== 0 && stock) {
