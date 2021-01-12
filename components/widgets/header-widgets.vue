@@ -96,7 +96,6 @@
               <li v-for="(item,index) in cart" :key="index" class="mt-2">
                 <div class="media">
                   <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
-                    <!-- {{item}} -->
                     <img alt class="mr-3" :src='item.images[0]'>
                   </nuxt-link>
                   <div class="media-body">
@@ -199,7 +198,9 @@ export default {
     },
     UpdateCart(){
       Api.getInstance().cart.UpdateCart().then((response) => {
-        this.$store.dispatch('cart/changeCart', response.data.items);
+        if(response.data.length > 0){
+          this.$store.dispatch('cart/changeCart', response.data.items);
+        }
       }).catch((error) => {
         console.log("addToCart -> ", error)
       });
