@@ -2,87 +2,81 @@
   <div>
     <Header />
     <Breadcrumbs title="Checkout" />
-    <section class="section-b-space">
+    <section class="section-b-space" v-if="is_login">
       <div class="container">
         <div class="checkout-page">
           <div class="checkout-form">
             <ValidationObserver v-slot="{ invalid }">
-            <form @submit.prevent="onSubmit">
+            <form @submit.prevent="onPaymentComplete">
               <div class="row">
                 <div class="col-lg-6 col-sm-12 col-xs-12">
                   <div class="checkout-title">
-                    <h3>Billing Details</h3>
+                    <h3>Платежные реквизиты</h3>
                   </div>
                   <div class="row check-out">
                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                      <div class="field-label">First Name</div>
+                      <div class="field-label">Имя</div>
                       <ValidationProvider rules="required" v-slot="{ errors }" name="First name">
                         <input type="text" v-model="user.firstName" name="First name"/>
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
                     </div>
                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                      <div class="field-label">Last Name</div>
+                      <div class="field-label">Фамилия</div>
                       <ValidationProvider rules="required" v-slot="{ errors }" name="Last name">
                         <input type="text" v-model="user.lastName" name="Last name" />
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
                     </div>
                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                      <ValidationProvider rules="required|digits:10" v-slot="{ errors }" name="phone Number">
-                        <div class="field-label">Phone</div>
+                      <ValidationProvider rules="required" v-slot="{ errors }" name="Phone">
+                        <div class="field-label">Номер телефона</div>
                         <input type="text" v-model="user.phone" name="Phone" />
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
                     </div>
                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                      <div class="field-label">Email Address</div>
+                      <div class="field-label">Email адрес</div>
                       <ValidationProvider rules="required|email" v-slot="{ errors }" name="Email">
                         <input type="text" v-model="user.email" name="Email Address" />
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
                     </div>
-                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                      <div class="field-label">Country</div>
+                    <!-- <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                      <div class="field-label">Страна</div>
                       <select>
-                        <option>India</option>
-                        <option selected>South Africa</option>
-                        <option>United State</option>
-                        <option>Australia</option>
+                        <option selected>Узбекистан</option>
+                        <option>Россия</option>
+                        <option>Украина</option>
                       </select>
-                    </div>
+                    </div> -->
                     <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                      <div class="field-label">Address</div>
+                      <div class="field-label">Адрес</div>
                       <ValidationProvider rules="required" v-slot="{ errors }" name="Address">
                         <input type="text" v-model="user.address" name="Address" />
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
                     </div>
                     <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                      <div class="field-label">Town/City</div>
+                      <div class="field-label">Город</div>
                       <ValidationProvider rules="required" v-slot="{ errors }" name="City">
                         <input type="text" v-model="user.city" name="City" />
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
                     </div>
                     <div class="form-group col-md-12 col-sm-6 col-xs-12">
-                      <div class="field-label">State / County</div>
+                      <div class="field-label">Улица</div>
                       <ValidationProvider rules="required" v-slot="{ errors }" name="State">
                         <input type="text" v-model="user.state" name="State" />
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
                     </div>
                     <div class="form-group col-md-12 col-sm-6 col-xs-12">
-                      <div class="field-label">Postal Code</div>
+                      <div class="field-label">Почтовый индекс</div>
                       <ValidationProvider rules="required" v-slot="{ errors }" name="Postal Code">
                         <input type="text" v-model="user.pincode" name="Postal Code" />
                         <span class="validate-error">{{ errors[0] }}</span>
                       </ValidationProvider>
-                    </div>
-                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <nuxt-link
-                  :to="{ path: '/page/account/register'}"
-                >Create an Account?</nuxt-link>
                     </div>
                   </div>
                 </div>
@@ -91,113 +85,97 @@
                     <div class="order-box">
                       <div class="title-box">
                         <div>
-                          Product
-                          <span>Total</span>
+                          Товары
+                          <span>Стоимость</span>
                         </div>
                       </div>
                       <ul class="qty"  v-if="cart.length">
                         <li v-for="(item,index) in cart" :key="index">
-                          {{ item.name | uppercase }} * {{ item.kol }}
+                          {{ item.name }} <div style="color: #eac075; display: inline">x {{ item.kol }}</div>
                           <span>{{ (parseInt(discountedPrice(item) * item.kol)).toLocaleString('ru-RU')  }} сум.</span>
                         </li>
                       </ul>
                       <ul class="sub-total">
                         <li>
-                          Subtotal
-                          <span class="count">{{ cartTotal * curr.curr | currency(curr.symbol) }}</span>
+                          Общая стоимость
+                          <span class="count">{{ (parseInt(cartTotal)).toLocaleString('ru-RU')  }} сум.</span>
                         </li>
-                        <li>Shipping
+                        <li>Способ доставки
                             <div class="shipping">
-                                <div class="shopping-option">
+                                <!-- <div class="shopping-option">
                                     <input type="checkbox" name="free-shipping" id="free-shipping">
-                                    <label for="free-shipping">Free Shipping</label>
+                                    <label for="free-shipping">Доставка</label>
                                 </div>
                                 <div class="shopping-option">
                                     <input type="checkbox" name="local-pickup" id="local-pickup">
-                                    <label for="local-pickup">Local Pickup</label>
-                                </div>
+                                    <label for="local-pickup">Самовывоз</label>
+                                </div> -->
+                                <b-form-group v-slot="{ Shipping }">
+                                  <b-form-radio v-model="shipping" :aria-describedby="Shipping" name="shipping-delivery" value="delivery">
+                                    Доставка
+                                  </b-form-radio>
+                                  <b-form-radio v-model="shipping" :aria-describedby="Shipping" name="shipping-pickup" value="pickup">
+                                    Самовывоз
+                                  </b-form-radio>
+                                </b-form-group>
                             </div>
                         </li>
                       </ul>
-                      <ul class="sub-total">
+                      <!-- <ul class="sub-total">
                         <li>
                           Total
                           <span class="count">{{ cartTotal * curr.curr | currency(curr.symbol) }}</span>
                         </li>
-                      </ul>
+                      </ul> -->
                     </div>
                     <div class="payment-box">
                       <div class="upper-box">
-                        <div class="payment-options">
-                          <ul>
-                            <li>
-                              <div class="radio-option">
-                                <input
-                                  type="radio"
-                                  name="payment-group"
-                                  id="payment-1"
-                                  checked="checked"
-                                  v-model="payment"
-                                  :value="false"
-                                />
-                                <label for="payment-1">
-                                  Stripe
-                                  <span
-                                    class="small-text"
-                                  >Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</span>
-                                </label>
-                              </div>
-                            </li>
-                            <li>
-                              <div class="radio-option paypal">
-                                <input type="radio" :value="true" v-model="payment" name="payment-group" id="payment-3" />
-                                <label for="payment-3">
-                                  PayPal
-                                  <span class="image">
-                                    <img src="../../../assets/images/paypal.png" alt />
-                                  </span>
-                                </label>
-                              </div>
-                            </li>
-                          </ul>
+                          <h5 class="pmnt-method">Выберите способ оплаты</h5>
+                        <div class="payment-options" >
+                          <b-form-group v-slot="{ Payment }">
+                            <b-form-radio v-model="payment" :aria-describedby="Payment" name="payment-uzcard" value="uzcard">
+                              UZCARD
+                            </b-form-radio>
+                            <b-form-radio v-model="payment" :aria-describedby="Payment" name="payment-humo" value="humo">
+                              HUMO
+                            </b-form-radio>
+                          </b-form-group>
+                          {{payment}}
+                          <!-- <div class="mt-3">Selected: <strong>{{ payment }}</strong></div> -->
                         </div>
                       </div>
-                      <div class="text-right">
-                            <no-ssr>
-                                <paypal-checkout
-                                  :amount=getamt()
-                                  currency="USD"
-                                  :client="paypal"
-                                  :env="environment"
-                                  :button-style="button_style"
-                                  v-if="payment"
-                                  v-on:payment-authorized="onPaymentComplete"
-                                  v-on:payment-cancelled="onCancelled()">
-                                </paypal-checkout>
-                                </no-ssr>
-                        <button type="submit" @click="order()" v-if="cart.length && !payment" :disabled="invalid" class="btn-solid btn">Place Order</button>
-                      </div>
+                      <!-- <div class="text-right">
+                        <no-ssr>
+                          
+                        </no-ssr>
+                        <button type="submit" @click="order()" v-if="cart.length && !payment" :disabled="invalid" class="btn-solid btn">Оплатить</button>
+                      </div> -->
                       <div>
-                        <form id="form-payme" method="POST" action="https://checkout.paycom.uz/">
-                          <input type="hidden" name="merchant" value="587f72c72cac0d162c722ae2">
+                        <!-- <form id="form-payme" method="POST" action="https://checkout.paycom.uz/">
+                          <input type="hidden" name="merchant" value="60002db48c0dbba78b37128c">
                           <input type="hidden" name="account[order_id]" value="197">
-                          <input type="hidden" name="amount" value="500">
+                          <input type="hidden" name="amount" value="20000">
+                          <input type="hidden" name="callback" value="https://mirllex.site/collection/12?uuid=234234234">
                           <input type="hidden" name="lang" value="ru">
                           <input type="hidden" name="button" data-type="svg" value="colored">
                           <div id="button-container"></div>
-                        </form>
+                        </form> -->
                       </div>
                       <div>
-                        <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
-                          <input type="hidden" name="amount" value="1000" />
+                        <button class="click_logo" type="submit" :disabled="invalid">
+                          Оплатить через CLICK
+                          <i></i>
+                        </button>
+                        <!-- <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
+                          <input type="hidden" name="amount" value="1005" />
                           <input type="hidden" name="merchant_id" value="46"/>
                           <input type="hidden" name="merchant_user_id" value="4"/>
                           <input type="hidden" name="service_id" value="36"/>
                           <input type="hidden" name="transaction_param" value="user23151"/>
-                          <input type="hidden" name="return_url" value="сайт поставщика"/>
+                          <input type="hidden" name="return_url" value="https://mirllex.site/collection/12?uuid=234234234"/>
                           <input type="hidden" name="card_type" value="uzcard"/>
                           <button type="submit" class="click_logo"><i></i>Оплатить через CLICK</button>
-                        </form>
+                        </form> -->
                       </div>
                     </div>
                   </div>
@@ -213,13 +191,14 @@
   </div>
 </template>
 <script>
+
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full.esm'
 import { mapGetters } from 'vuex'
 import Header from '../../../components/header/header1'
 import Footer from '../../../components/footer/footer1'
 import Breadcrumbs from '../../../components/widgets/breadcrumbs'
+import Api from "~/utils/api";
 export default {
-
   components: {
     Header,
     Footer,
@@ -246,11 +225,12 @@ export default {
         state: '',
         pincode: ''
       },
-      isLogin: false,
+      is_login: false,
       paypal: {
          sandbox: 'Your_Sendbox_Key'
       },
-      payment: false,
+      payment: '',
+      shipping: '',
       environment: 'sandbox',
       button_style: {
         label: 'checkout',
@@ -262,7 +242,13 @@ export default {
     }
   },
   mounted(){
-    (window).Paycom.Button('#form-payme', '#button-container')
+    if(localStorage.getItem('cil')){
+      this.is_login = true
+    } else{
+      this.is_login = false
+      this.$router.push('/')
+    }
+    // (window).Paycom.Button('#form-payme', '#button-container');
   },
   methods: {
     discountedPrice(product) {
@@ -300,17 +286,40 @@ export default {
         amount: this.cartTotal * 100
       })
     },
-    getamt() {
-      return this.cartTotal.toString()
-    },
     onPaymentComplete: function (data) {
-      this.$store.dispatch('products/createOrder', {
-        product: this.cart,
-        userDetail: this.user,
-        token: data.orderID,
-        amt: this.cartTotal
-      })
-      this.$router.push('/page/order-success')
+      // console.log(this.$store.state.cart.cart)
+      // console.log(this.user)
+      if(this.$store.state.cart.cart){
+        let order = {
+          list_items: this.$store.state.cart.cart,
+          which_bank: 'click',
+          cart_type: this.payment,
+          client_info: [this.user],
+          shipping_adress: this.shipping == 'pickup' ? 'Улица такаято зариншоповская' : (this.user.state + ' / '  + this.user.city + ' / ' + this.user.address + ' / ' + this.user.pincode), 
+          subtotal: this.cartTotal,
+          shipping_type: this.shipping,
+          cart_type: this.payment
+        }
+        // console.log(order)
+        // Api.getInstance().cart.onPaymentComplete(order).then((response) => {
+          this.$store.dispatch('products/createOrder', {
+            product: this.cart,
+            userDetail: this.user,
+            token: data.orderID,
+            amt: this.cartTotal
+          })
+          this.$router.push('/page/order-success')
+        // }).catch((error) => {
+        //   console.log("addToCart -> ", error)
+        // });
+      }
+      // this.$store.dispatch('products/createOrder', {
+      //   product: this.cart,
+      //   userDetail: this.user,
+      //   token: data.orderID,
+      //   amt: this.cartTotal
+      // })
+      // this.$router.push('/page/order-success')
     },
     onCancelled() {
       console.log('You cancelled a window')
@@ -354,5 +363,14 @@ width:30px;
 height: 25px;
 display: block;
 float: left;
+}
+.pmnt-method{
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+    line-height: 20px;
+    width: 100%;
 }
 </style>

@@ -11,7 +11,16 @@
 </template>
 
 <script>
+import { localize } from 'vee-validate/dist/vee-validate.full.esm'
 import layoutSetting from '../components/widgets/layout-setting'
+localize({
+  en: {
+    messages: {
+      required: 'Данное поле должно быть заполнено',
+      email: 'E-Mail некорректный'
+    }
+  }
+});
 export default {
   head() {
     return {

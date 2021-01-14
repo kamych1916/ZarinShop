@@ -77,6 +77,7 @@ import Footer from '../../../components/footer/footer1'
 import Breadcrumbs from '../../../components/widgets/breadcrumbs'
 import Api from "~/utils/api";
 
+
 export default {
   components: {
     Header,

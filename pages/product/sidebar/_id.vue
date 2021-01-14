@@ -142,19 +142,19 @@
                       </div>
                       <div class="product-buttons">
                         <!-- <nuxt-link :to="{ path: '/page/account/cart'}"> -->
-                          <button
+                          <button 
                             class="btn btn-solid "
                             title="Add to cart"
                             @click="addToCart(getDetail, counter)"
                             :disabled="counter > getDetail.stock"
-                          >В корзину</button>
+                          >Добавить в корзину</button>
                         <!-- </nuxt-link> -->
-                        <button
+                        <!-- <button
                             class="btn btn-solid"
                             title="buy now"
                             @click="buyNow(getDetail, counter)"
                             :disabled="counter > getDetail.stock"
-                          >Купить сейчас</button>
+                          >Купить сейчас</button> -->
                       </div>
                       <div class="border-product">
                         <h6 class="product-title">Описание товара</h6>

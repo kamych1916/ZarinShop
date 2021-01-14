@@ -111,6 +111,15 @@ export default class Api {
                 }
             )
         },
+        async onPaymentComplete(order){
+            return axios.post(`${API_BASE_URL}/make_an_order`, order, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('st')}`
+                    }  
+                }
+            )
+        }
     }
 
     categories = {

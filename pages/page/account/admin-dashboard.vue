@@ -29,6 +29,7 @@ export default {
   data () {
     return {
       is_admin: false,
+      is_user: true,
     }
   },
   components: {
