@@ -14,6 +14,12 @@ export default class Api {
         return Api.instance;
     }
 
+    lang = {
+        async GetLanguage(lang) {
+            return axios.get(`${API_BASE_URL}/get_language?language=${lang}`, )
+        },   
+    }
+
     products ={
         async getDataProducts() {
             return axios.get(`${API_BASE_URL}/items`)

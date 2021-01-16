@@ -13,6 +13,7 @@
 <script>
 import { localize } from 'vee-validate/dist/vee-validate.full.esm'
 import layoutSetting from '../components/widgets/layout-setting'
+import Api from "~/utils/api";
 localize({
   en: {
     messages: {
@@ -34,7 +35,18 @@ export default {
     this.$nextTick(() => {
       this.$nuxt.$loading.start()
       setTimeout(() => this.$nuxt.$loading.finish(), 3000)
-    })
-  }
+    });
+    // this.GetLanguage()
+  },
+  methods: {
+    // GetLanguage(){
+    //   Api.getInstance().lang.GetLanguage('ru').then((response) => {
+    //     localStorage.setItem('lang', 'ru');
+    //     this.$store.dispatch('langs/update__language', response.data)
+    //   }).catch((error) => {
+    //     console.log("GetLanguage -> ", error)
+    //   });
+    // }
+  },
 }
 </script>

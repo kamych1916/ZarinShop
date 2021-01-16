@@ -30,14 +30,16 @@
                     <div class="pt-2">
                         <span class="title_inputs pt-2">Введите описание товара</span> 
                         <b-row class="px-3 py-2">
-                            <input
-                            v-if="New_Product" 
-                            type="text"
-                            class="form-control"
-                            v-model="New_Product.description"
-                            id="description_product"
-                            name="description_product"
-                            required
+                            <textarea
+                                rows="5"
+                                wrap="hard"
+                                v-if="New_Product" 
+                                type="text"
+                                class="form-control"
+                                v-model="New_Product.description"
+                                id="description_product"
+                                name="description_product"
+                                required
                             />
                         </b-row>
                     </div>
@@ -555,6 +557,7 @@ methods:{
         // РАЗОБРАТЬСЯ С КОЛИЧЕСТВОМ РАЗМЕРОВ И ВЫХОДОМ ИЗ МОДАЛЬНОГО ОКНА
         let StoreSizeProduct = this.size_kol.filter(el=>  el.kol !== 0);
         let StoreNPSizeKolProduct = this.New_Product.size_kol.filter(el=>  el.kol !== 0);
+        this.New_Product.description = this.New_Product.description.replace(/\r?\n/g, '<br/>');
 
         if(StoreSizeProduct.length > 0 || StoreNPSizeKolProduct.length > 0){
             let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера');
@@ -569,8 +572,9 @@ methods:{
             }else {
                 if(StoreSizeProduct.length>0){
                     this.New_Product.size_kol = StoreSizeProduct;
-                }else{
-                    this.New_Product.size_kol = StoreNoneNPSizeProduct;
+                }
+                if(StoreNPSizeKolProduct.length>0){
+                    this.New_Product.size_kol = StoreNPSizeKolProduct;
                 }
             }
 
@@ -607,7 +611,7 @@ methods:{
                     });
                     // setTimeout(()=>{
                         this.New_Product = Store_New_Product;
-                        this.AddProductModal=false;
+                        this.AddProductModal = false;
                         // window.location.reload(true);
                     // }, 1000)
                 })

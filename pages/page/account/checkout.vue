@@ -151,7 +151,7 @@
                         <button type="submit" @click="order()" v-if="cart.length && !payment" :disabled="invalid" class="btn-solid btn">Оплатить</button>
                       </div> -->
                       <div>
-                        <!-- <form id="form-payme" method="POST" action="https://checkout.paycom.uz/">
+                        <form id="form-payme" method="POST" action="https://checkout.paycom.uz/">
                           <input type="hidden" name="merchant" value="60002db48c0dbba78b37128c">
                           <input type="hidden" name="account[order_id]" value="197">
                           <input type="hidden" name="amount" value="20000">
@@ -159,14 +159,14 @@
                           <input type="hidden" name="lang" value="ru">
                           <input type="hidden" name="button" data-type="svg" value="colored">
                           <div id="button-container"></div>
-                        </form> -->
+                        </form>
                       </div>
                       <div>
                         <button class="click_logo" type="submit" :disabled="invalid">
                           Оплатить через CLICK
                           <i></i>
                         </button>
-                        <!-- <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
+                        <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
                           <input type="hidden" name="amount" value="1005" />
                           <input type="hidden" name="merchant_id" value="46"/>
                           <input type="hidden" name="merchant_user_id" value="4"/>
@@ -175,7 +175,7 @@
                           <input type="hidden" name="return_url" value="https://mirllex.site/collection/12?uuid=234234234"/>
                           <input type="hidden" name="card_type" value="uzcard"/>
                           <button type="submit" class="click_logo"><i></i>Оплатить через CLICK</button>
-                        </form> -->
+                        </form>
                       </div>
                     </div>
                   </div>

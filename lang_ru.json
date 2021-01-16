@@ -1,0 +1,57 @@
+{
+    "web_header_welcome_title": "Добро пожаловать в магазин Zarin Shop",
+    "web_btn_wishlist": "Избранное",
+    "web_btn_my_account": "Мой аккаунт",
+    "web_search_placeholder": "Я ищу..",
+
+    "web_price_quantity": "сум/шт.",
+
+    "web_main_poster_womens_pajamas": "женские пижамы",
+    "web_main_poster_mens_pajamas": "мужские пижамы",
+    "web_main_poster_btn": "к товарам",
+    
+    "web_hit_sales_subtitle": "Хит продаж",
+    "web_hit_sales_title": "ТОПОВАЯ КОЛЛЕКЦИЯ",
+    "web_hit_sales_desc": "Компания Zrin Shop предоставляет обширный спектр товаров. Каждый посетитель сможет найти подходящий себе товар. Гарантия качества!",
+    
+    "web_parallax_title": "МОДНЫЕ ПИЖАМЫ",
+    "web_parallax_desc": "РАСПРОДАЖА",
+    
+    "web_special_offer_subtitle": "эксклюзивные продукты",
+    "web_special_offer_title": "СПЕЦ ПРЕДЛОЖЕНИЯ",
+    
+    "web_freeship_service_title": "БЕСПЛАТНАЯ ДОСТАВКА",
+    "web_freeship_service_subtitle": "Доставка по всему городу",
+    "web_time_service_title": "24 X 7 ОБСЛУЖИВАНИЕ",
+    "web_time_service_subtitle": "Онлайн обслуживание круглосуточно",
+    "web_mail_service_title": "ПОЧТОВАЯ РАССЫЛКА",
+    "web_mail_service_subtitle": "Производим рассылку на почту о добавлении новыго товара",
+
+    "web_partners_subtitle": "сотрудничество с лучшими",
+    "web_partners_title": "НАШИ ПАРТНЁРЫ",
+
+    "web_mailing_title": "УЗНАЙТЕ О НОВОСТЯХ ПЕРВЫМИ!",
+    "web_mailing_subtitle": "Вы не пропустите о поступлении новых товарах, подписавшись на рассылку.",
+    "web_mailing_placeholder": "Введите свою почту",
+    "web_mailing_btn": "ПОДПИСАТЬСЯ",
+
+    "web_sidebar_quit_title": "ВЫЙТИ",
+
+    "web_collection_title": "ГЛАВНАЯ",
+    "web_collection_subtitle": "КОЛЛЕЦИЯ",
+    "web_collection_btn_filter": "ФИЛЬТРЫ",
+    "web_collection_sort": "Сортировка товаров",
+    "web_collection_sort_cheap": "Сначала дешевые",
+    "web_collection_sort_dear": "Сначала дорогие",
+    "web_collection_filter_price": "ДИАПАЗОН ЦЕН",
+    "web_collection_filter_color": "ЦВЕТА",
+    "web_collection_filter_size": "РАЗМЕРЫ",
+    "web_collection_filter_sidebar_quit": "НАЗАД",
+    
+    "web_quickview_title": "Быстрый просмотр",
+    "web-quickview_available_colors": "Цвета в наличии",
+    "web-quickview_sizes": "Размеры",
+    "web-quickview_desc_title": "Описание товара",
+    "web-quickview_details_btn": "Подробнее"
+
+}

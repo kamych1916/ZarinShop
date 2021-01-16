@@ -74,7 +74,7 @@
             </div>
             <div class="border-product">
               <h6 class="product-title">Описание товара</h6>
-              <p>{{ productData.description.substring(0, 250) + "...." }}</p>
+              <p v-html="productData.description.substring(0,200)+'....'"></p>
             </div>
             <div class="product-buttons">
               <!-- <a href="javascript:void(0)" @click="addToCart(productData)" class="btn btn-solid">в корзину</a> -->

@@ -158,7 +158,7 @@
                       </div>
                       <div class="border-product">
                         <h6 class="product-title">Описание товара</h6>
-                        <p v-if="getDetail.description">{{getDetail.description.substring(0,200)+"...."}}</p>
+                        <p v-if="getDetail.description" v-html="getDetail.description.substring(0,200)+'....'"></p>
                       </div>
                       <div class="border-product">
                         <div class="product-icon">
@@ -181,7 +181,7 @@
                   <div class="col-sm-12 col-lg-12">
                     <b-tabs card>
                       <b-tab title="Описание товара" active>
-                        <b-card-text>{{getDetail.description}}</b-card-text>
+                        <b-card-text style="white-space: pre-line" v-html="getDetail.description"></b-card-text>
                       </b-tab>
                       <!-- <b-tab title="Детали товара">
                         <b-card-text>

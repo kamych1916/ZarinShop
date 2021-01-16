@@ -124,10 +124,10 @@
           <div class="show-div setting">
             <ul class="list-inline">
               <li>
-                <a href="javascript:void(0)" @click="updateCurrency('eur', '€')">Русский</a>
+                <a href="javascript:void(0)" @click="updateLanguage('ru')">Русский</a>
               </li>
               <li>
-                <a href="javascript:void(0)" @click="updateCurrency('inr', '₹')">Узбекский</a>
+                <a href="javascript:void(0)" @click="updateLanguage('uz')">Узбекский</a>
               </li>
  
             </ul>
@@ -230,9 +230,14 @@ export default {
         console.log("addToCart -> ", error)
       });
     },
-    updateCurrency: function (currency, currSymbol) {
-      this.currencyChange = { curr: currency, symbol: currSymbol }
-      this.$store.dispatch('products/changeCurrency', this.currencyChange)
+    updateLanguage(lang) {
+      Api.getInstance().lang.GetLanguage(lang).then((response) => {
+        conosle.log(response.data);
+        localStorage.setItem('lang', lang);
+        this.$store.dispatch('langs/update__language', response.data)
+      }).catch((error) => {
+        console.log("GetLanguage -> ", error)
+      });
     },
     discountedPrice(product) {
         const price = product.price - (product.price * product.discount / 100)
