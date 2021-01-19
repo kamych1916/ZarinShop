@@ -1,7 +1,7 @@
 <template>
     <b-card header="Товары" >
         <div class="wrap__products">   
-            <b-row class="d-flex row justify-content-between">
+            <b-row class="d-flex row justify-content-between mx-1 mb-3">
                 <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
                 <input
                     v-model="filter__employee"
@@ -13,13 +13,27 @@
             <b-modal @hidden="resetModal" scrollable hide-footer size="lg" v-model="AddProductModal">
                 <b-form @submit.prevent="eventProduct()">
                     <div class="pt-2">
-                        <span class="title_inputs">Введите наименование товара</span>
+                        <span class="title_inputs">Введите наименование товара на русском <img width="20" src="https://aux2.iconspalace.com/uploads/387440583.png" alt=""></span>
                         <b-row class="px-3 py-2">
                             <input
                             v-if="New_Product" 
                             type="text"
                             class="form-control"
-                            v-model="New_Product.name"
+                            v-model="New_Product.name_ru"
+                            id="name_product"
+                            name="name_product"
+                            required
+                            />
+                        </b-row>
+                    </div>
+                    <div class="pt-2">
+                        <span class="title_inputs">Введите наименование товара на узбекском <img width="20" src="https://cdn.countryflags.com/thumbs/uzbekistan/flag-button-round-250.png" alt=""></span>
+                        <b-row class="px-3 py-2">
+                            <input
+                            v-if="New_Product" 
+                            type="text"
+                            class="form-control"
+                            v-model="New_Product.name_uz"
                             id="name_product"
                             name="name_product"
                             required
@@ -28,7 +42,7 @@
                     </div>
 
                     <div class="pt-2">
-                        <span class="title_inputs pt-2">Введите описание товара</span> 
+                        <span class="title_inputs pt-2">Введите описание товара на русском <img width="20" src="https://aux2.iconspalace.com/uploads/387440583.png" alt=""></span> 
                         <b-row class="px-3 py-2">
                             <textarea
                                 rows="5"
@@ -36,7 +50,24 @@
                                 v-if="New_Product" 
                                 type="text"
                                 class="form-control"
-                                v-model="New_Product.description"
+                                v-model="New_Product.description_ru"
+                                id="description_product"
+                                name="description_product"
+                                required
+                            />
+                        </b-row>
+                    </div>
+
+                    <div class="pt-2">
+                        <span class="title_inputs pt-2">Введите описание товара на узбекском <img width="20" src="https://cdn.countryflags.com/thumbs/uzbekistan/flag-button-round-250.png" alt=""></span> 
+                        <b-row class="px-3 py-2">
+                            <textarea
+                                rows="5"
+                                wrap="hard"
+                                v-if="New_Product" 
+                                type="text"
+                                class="form-control"
+                                v-model="New_Product.description_uz"
                                 id="description_product"
                                 name="description_product"
                                 required
@@ -364,8 +395,10 @@ export default {
             }
         ],
         New_Product: {
-            name: '',
-            description: null,
+            name_ru: '',
+            name_uz: '',
+            description_ru: null,
+            description_uz: null,
             link_color: [],
             color: 'Нет цвета',
             price: null,
@@ -386,13 +419,23 @@ export default {
                 sortable: true
             },
             {
-                key: 'name',
+                key: 'name_ru',
                 label: 'Наименование',
                 sortable: true
             },
             {
-                key: 'description',
+                key: 'name_uz',
+                label: 'Mahsulot nomi',
+                sortable: true
+            },
+            {
+                key: 'description_ru',
                 label: 'Описание',
+                sortable: true
+            },
+            {
+                key: 'description_uz',
+                label: 'Mahsulot tavsifi',
                 sortable: true
             },
             {
@@ -421,13 +464,23 @@ export default {
                 sortable: true
             },
             {
-                key: 'name',
+                key: 'name_ru',
                 label: 'Наименование',
                 sortable: true
             },
             {
-                key: 'description',
+                key: 'name_uz',
+                label: 'Mahsulot nomi',
+                sortable: true
+            },
+            {
+                key: 'description_ru',
                 label: 'Описание',
+                sortable: true
+            },
+            {
+                key: 'description_uz',
+                label: 'Mahsulot tavsifi',
                 sortable: true
             },
             {
@@ -452,7 +505,7 @@ export default {
             },
             {
                 key: 'special_offer',
-                label: 'Специальное предложение',
+                label: 'Спец. предлож.',
             },
             {
                 key: 'color',
@@ -557,7 +610,8 @@ methods:{
         // РАЗОБРАТЬСЯ С КОЛИЧЕСТВОМ РАЗМЕРОВ И ВЫХОДОМ ИЗ МОДАЛЬНОГО ОКНА
         let StoreSizeProduct = this.size_kol.filter(el=>  el.kol !== 0);
         let StoreNPSizeKolProduct = this.New_Product.size_kol.filter(el=>  el.kol !== 0);
-        this.New_Product.description = this.New_Product.description.replace(/\r?\n/g, '<br/>');
+        this.New_Product.description_ru = this.New_Product.description_ru.replace(/\r?\n/g, '<br/>');
+        this.New_Product.description_uz = this.New_Product.description_uz.replace(/\r?\n/g, '<br/>');
 
         if(StoreSizeProduct.length > 0 || StoreNPSizeKolProduct.length > 0){
             let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера');
@@ -693,7 +747,18 @@ methods:{
     },
     getCategories(){
       Api.getInstance().products.getCategories().then((response) => {
-          this.categOptions = response.data;
+        //   this.categOptions = response.data;
+        let StoreCateg = response.data;
+        for(let ids of StoreCateg){
+            ids.text = ids.text_uz + ' / '+ ids.text_ru;
+            ids.value = ids.value_ru;
+            this.categOptions.push(ids)
+        }
+        // StoreCateg.text = StoreCateg.text_uz + ' / '+ StoreCateg.text_ru;
+        // StoreCateg.value = StoreCateg.value_ru;
+        // this.categOptions =  
+
+        //   console.log(this.categOptions)
       })
       .catch((error) => {
           console.log('getDataProducts -> ', error);

@@ -7,6 +7,7 @@ import cart from './modules/cart'
 import filter from './modules/filter'
 import layout from './modules/layout'
 import auth from './modules/auth'
+import lang from './modules/lang'
 
 Vue.use(Vuex)
 const createStore = () => {
@@ -18,7 +19,8 @@ const createStore = () => {
       cart,
       filter,
       layout,
-      auth
+      auth,
+      lang
     }
   })
 }

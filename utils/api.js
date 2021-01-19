@@ -34,10 +34,10 @@ export default class Api {
             return axios.get(`${API_BASE_URL}/items/${id}`)
         },
         async getHitSales() {
-            return axios.get(`${API_BASE_URL}/hit_sales`)
+            return axios.get(`${API_BASE_URL}/${localStorage.getItem('lang_select')}/hit_sales`)
         },
         async getSpecialOffer() {
-            return axios.get(`${API_BASE_URL}/special_offer`)
+            return axios.get(`${API_BASE_URL}/${localStorage.getItem('lang_select')}/special_offer`)
         },
         async sendNewProduct(product) {
             return axios.post(`${API_BASE_URL}/items`, product ,
@@ -130,7 +130,7 @@ export default class Api {
 
     categories = {
         async getCategories() {
-            return axios.get(`${API_BASE_URL}/categories`)
+            return axios.get(`${API_BASE_URL}/${localStorage.getItem('lang_select')}/categories`)
         },
         async send_new_category(category) {
             return axios.post(`${API_BASE_URL}/categories`, category)

@@ -38,6 +38,7 @@ import TopBar from '../widgets/topbar'
 import LeftSidebar from '../widgets/left-sidebar'
 import Nav from '../widgets/navbar'
 import HeaderWidgets from '../widgets/header-widgets'
+import Api from "~/utils/api";
 export default {
   data() {
     return {

@@ -124,10 +124,10 @@
           <div class="show-div setting">
             <ul class="list-inline">
               <li>
-                <a href="javascript:void(0)" @click="updateLanguage('ru')">Русский</a>
+                <a href="javascript:void(0)" @click="updateLanguage('ru')"><img width="20" src="https://aux2.iconspalace.com/uploads/387440583.png" alt=""> Русский </a>
               </li>
               <li>
-                <a href="javascript:void(0)" @click="updateLanguage('uz')">Узбекский</a>
+                <a href="javascript:void(0)" @click="updateLanguage('uz')"><img width="18" src="https://cdn.countryflags.com/thumbs/uzbekistan/flag-button-round-250.png" alt=""> Узбекский </a>
               </li>
  
             </ul>
@@ -232,9 +232,11 @@ export default {
     },
     updateLanguage(lang) {
       Api.getInstance().lang.GetLanguage(lang).then((response) => {
-        conosle.log(response.data);
-        localStorage.setItem('lang', lang);
-        this.$store.dispatch('langs/update__language', response.data)
+        localStorage.setItem('lang_select', lang);
+        this.$store.dispatch('lang/load_language', response.data);
+        setTimeout(()=>{
+          window.location.reload(true)
+        }, 500)
       }).catch((error) => {
         console.log("GetLanguage -> ", error)
       });

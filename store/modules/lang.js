@@ -4,7 +4,7 @@ const state = {
 }
 
 const mutations = {
-    update__language(state, language){
+    update_language(state, language){
         
         state.language = language
 
@@ -12,8 +12,8 @@ const mutations = {
 }
 
 const actions = {
-    load__language({commit}, language){ 
-        commit('update__language', language)
+    load_language({commit}, language){ 
+        commit('update_language', language)
     }
 }
 

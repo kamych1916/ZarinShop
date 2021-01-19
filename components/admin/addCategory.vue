@@ -11,39 +11,78 @@
             </div> 
             <b-modal @hidden="resetModal()" scrollable hide-footer size="lg" v-model="AddCategoryModal">
                 <b-form @submit.prevent="eventCategory()">
-                    <label for="main_cat">Введите главную категории</label>
+                    <label for="main_cat">Введите главную категории на русском <img width="20" src="https://aux2.iconspalace.com/uploads/387440583.png" alt=""></label>
                     <div>
                         <input
                         v-if="category" 
                         type="text"
                         class="form-control"
-                        v-model="category.main"
+                        v-model="category.main_ru"
                         id="main_cat"
                         placeholder="Введите категорию"
                         name="main_cat"
                         required
                         />
                     </div>
-                    <label for="main_sub_cat">Введите под категории</label>
+                    <label class="mt-4" for="main_cat">Введите главную категории на узбекском <img width="20" src="https://cdn.countryflags.com/thumbs/uzbekistan/flag-button-round-250.png" alt=""></label>
                     <div>
                         <input
                         v-if="category" 
                         type="text"
                         class="form-control"
-                        v-model="category.subtype"
+                        v-model="category.main_uz"
+                        id="main_cat"
+                        placeholder="Введите категорию"
+                        name="main_cat"
+                        required
+                        />
+                    </div>
+                    <label class="mt-4" for="main_sub_cat">Введите под категории на русском <img width="20" src="https://aux2.iconspalace.com/uploads/387440583.png" alt=""></label>
+                    <div>
+                        <input
+                        v-if="category" 
+                        type="text"
+                        class="form-control"
+                        v-model="category.subtype_ru"
                         id="sub_cat"
                         placeholder="Введите категорию"
                         name="sub_cat"
                         required
                         />
                     </div>
-                    <label for="last_cat">Введите последнюю категории</label>
+                    <label class="mt-4" for="main_sub_cat">Введите под категории на узбекском <img width="20" src="https://cdn.countryflags.com/thumbs/uzbekistan/flag-button-round-250.png" alt=""></label>
+
                     <div>
                         <input
                         v-if="category" 
                         type="text"
                         class="form-control"
-                        v-model="category.lasttype"
+                        v-model="category.subtype_uz"
+                        id="sub_cat"
+                        placeholder="Введите категорию"
+                        name="sub_cat"
+                        required
+                        />
+                    </div>
+                    <label class="mt-4" for="last_cat">Введите последнюю категории на русском <img width="20" src="https://aux2.iconspalace.com/uploads/387440583.png" alt=""></label>
+                    <div>
+                        <input
+                        v-if="category" 
+                        type="text"
+                        class="form-control"
+                        v-model="category.lasttype_ru"
+                        id="last_cat"
+                        placeholder="Введите категорию"
+                        name="last_cat"
+                        />
+                    </div>
+                    <label class="mt-4" for="last_cat">Введите последнюю категории на узбекском <img width="20" src="https://cdn.countryflags.com/thumbs/uzbekistan/flag-button-round-250.png" alt=""></label>
+                    <div>
+                        <input
+                        v-if="category" 
+                        type="text"
+                        class="form-control"
+                        v-model="category.lasttype_uz"
                         id="last_cat"
                         placeholder="Введите категорию"
                         name="last_cat"
@@ -99,9 +138,12 @@ data () {
 
         category: {
             id: null,
-            main: null,
-            subtype: null, 
-            lasttype: '',
+            main_ru: null,
+            main_uz: null,
+            subtype_ru: null, 
+            subtype_uz: null, 
+            lasttype_ru: '',
+            lasttype_uz: '',
         },
         dataCategoryItems: null,
         dataCategoryFields: [
@@ -111,8 +153,13 @@ data () {
                 sortable: true
             },
             {
-                key: 'value',
-                label: 'value',
+                key: 'value_ru',
+                label: 'категории',
+                sortable: true
+            },
+            {
+                key: 'value_uz',
+                label: 'toifalar',
                 sortable: true
             }
         ],
@@ -126,7 +173,7 @@ methods: {
     eventCategory(){
         if(this.eventBtnCategory){
             Api.getInstance().categories.send_new_category(this.category).then((response) => {
-                this.$bvToast.toast('Товар успешно добавлен в базу данных.', {
+                this.$bvToast.toast('Категория успешно добавлена в базу данных.', {
                     title: `Сообщение`,
                     variant: "success",
                     solid: true
@@ -190,9 +237,13 @@ methods: {
     onRowProductSelected(picked){
         this.eventBtnCategory = false;
         if(picked[0]){
-            if(picked[0].value[0]){ this.category.main = picked[0].value[0] }
-            if(picked[0].value[1]){ this.category.subtype = picked[0].value[1] }
-            if(picked[0].value[2]){ this.category.lasttype = picked[0].value[2] }
+            console.log(picked[0])
+            if(picked[0].value_ru[0]){ this.category.main_ru = picked[0].value_ru[0] }
+            if(picked[0].value_uz[0]){ this.category.main_uz = picked[0].value_uz[0] }
+            if(picked[0].value_ru[1]){ this.category.subtype_ru = picked[0].value_ru[1] }
+            if(picked[0].value_uz[1]){ this.category.subtype_uz = picked[0].value_uz[1] }
+            if(picked[0].value_ru[2]){ this.category.lasttype_ru = picked[0].value_ru[2] }
+            if(picked[0].value_ru[2]){ this.category.lasttype_uz = picked[0].value_uz[2] }
         }
         this.AddCategoryModal = true;
         this.category.id = parseInt(picked[0].id)
