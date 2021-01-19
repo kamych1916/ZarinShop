@@ -1324,7 +1324,7 @@ header{
       .mobile-account, .mobile-wishlist{
         position: fixed;
         bottom: 20px;
-        right: 32%;
+        right: 14%;
         font-size: 0;
         padding: 0;
         z-index: 9;
@@ -1348,7 +1348,7 @@ header{
         }
       }
       .mobile-wishlist {
-        right: 64%;
+        right: 59%;
         i {
           font-family: $font-themify;
           color: $header-font !important;
@@ -1375,7 +1375,7 @@ header{
         .mobile-setting, .mobile-cart,.mobile-search {
           position: fixed;
           bottom: 20px;
-          right: 16%;
+          right: 81%;
           font-size: 0;
           padding: 0;
           .show-div {
@@ -1406,7 +1406,7 @@ header{
           }
         }
         .mobile-cart {
-          right: 48%;
+          right: 36%;
           .close-circle {
             i {
               font-size: 14px;

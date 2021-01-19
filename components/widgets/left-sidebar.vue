@@ -231,21 +231,9 @@ export default {
     }
   },
   mounted(){
-    this.GetLanguage();
     this.getCategories();
   },
   methods: {
-    GetLanguage(){
-      // console.log(localStorage.getItem('lang_select'))
-      if(localStorage.getItem('lang_select') != 'ru' & localStorage.getItem('lang_select') != 'uz'){
-        Api.getInstance().lang.GetLanguage('ru').then((response) => {
-          localStorage.setItem('lang_select', 'ru');
-          this.$store.dispatch('lang/load_language', response.data)
-        }).catch((error) => {
-          console.log("GetLanguage -> ", error)
-        });
-      }        
-    },
     // encrypt(id){
     //   return CryptoJS.AES.encrypt(id, "Secret Passphrase");
     // },

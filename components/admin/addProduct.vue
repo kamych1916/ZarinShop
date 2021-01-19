@@ -13,27 +13,13 @@
             <b-modal @hidden="resetModal" scrollable hide-footer size="lg" v-model="AddProductModal">
                 <b-form @submit.prevent="eventProduct()">
                     <div class="pt-2">
-                        <span class="title_inputs">Введите наименование товара на русском <img width="20" src="https://aux2.iconspalace.com/uploads/387440583.png" alt=""></span>
+                        <span class="title_inputs">Введите наименование товара</span>
                         <b-row class="px-3 py-2">
                             <input
                             v-if="New_Product" 
                             type="text"
                             class="form-control"
-                            v-model="New_Product.name_ru"
-                            id="name_product"
-                            name="name_product"
-                            required
-                            />
-                        </b-row>
-                    </div>
-                    <div class="pt-2">
-                        <span class="title_inputs">Введите наименование товара на узбекском <img width="20" src="https://cdn.countryflags.com/thumbs/uzbekistan/flag-button-round-250.png" alt=""></span>
-                        <b-row class="px-3 py-2">
-                            <input
-                            v-if="New_Product" 
-                            type="text"
-                            class="form-control"
-                            v-model="New_Product.name_uz"
+                            v-model="New_Product.name"
                             id="name_product"
                             name="name_product"
                             required
@@ -42,7 +28,7 @@
                     </div>
 
                     <div class="pt-2">
-                        <span class="title_inputs pt-2">Введите описание товара на русском <img width="20" src="https://aux2.iconspalace.com/uploads/387440583.png" alt=""></span> 
+                        <span class="title_inputs pt-2">Введите описание товара</span> 
                         <b-row class="px-3 py-2">
                             <textarea
                                 rows="5"
@@ -50,24 +36,7 @@
                                 v-if="New_Product" 
                                 type="text"
                                 class="form-control"
-                                v-model="New_Product.description_ru"
-                                id="description_product"
-                                name="description_product"
-                                required
-                            />
-                        </b-row>
-                    </div>
-
-                    <div class="pt-2">
-                        <span class="title_inputs pt-2">Введите описание товара на узбекском <img width="20" src="https://cdn.countryflags.com/thumbs/uzbekistan/flag-button-round-250.png" alt=""></span> 
-                        <b-row class="px-3 py-2">
-                            <textarea
-                                rows="5"
-                                wrap="hard"
-                                v-if="New_Product" 
-                                type="text"
-                                class="form-control"
-                                v-model="New_Product.description_uz"
+                                v-model="New_Product.description"
                                 id="description_product"
                                 name="description_product"
                                 required
@@ -395,10 +364,8 @@ export default {
             }
         ],
         New_Product: {
-            name_ru: '',
-            name_uz: '',
-            description_ru: null,
-            description_uz: null,
+            name: '',
+            description: null,
             link_color: [],
             color: 'Нет цвета',
             price: null,
@@ -610,8 +577,7 @@ methods:{
         // РАЗОБРАТЬСЯ С КОЛИЧЕСТВОМ РАЗМЕРОВ И ВЫХОДОМ ИЗ МОДАЛЬНОГО ОКНА
         let StoreSizeProduct = this.size_kol.filter(el=>  el.kol !== 0);
         let StoreNPSizeKolProduct = this.New_Product.size_kol.filter(el=>  el.kol !== 0);
-        this.New_Product.description_ru = this.New_Product.description_ru.replace(/\r?\n/g, '<br/>');
-        this.New_Product.description_uz = this.New_Product.description_uz.replace(/\r?\n/g, '<br/>');
+        this.New_Product.description = this.New_Product.description.replace(/\r?\n/g, '<br/>');
 
         if(StoreSizeProduct.length > 0 || StoreNPSizeKolProduct.length > 0){
             let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера');
@@ -747,18 +713,18 @@ methods:{
     },
     getCategories(){
       Api.getInstance().products.getCategories().then((response) => {
-        //   this.categOptions = response.data;
-        let StoreCateg = response.data;
-        for(let ids of StoreCateg){
-            ids.text = ids.text_uz + ' / '+ ids.text_ru;
-            ids.value = ids.value_ru;
-            this.categOptions.push(ids)
-        }
-        // StoreCateg.text = StoreCateg.text_uz + ' / '+ StoreCateg.text_ru;
-        // StoreCateg.value = StoreCateg.value_ru;
-        // this.categOptions =  
+          this.categOptions = response.data;
+        // let StoreCateg = response.data;
+        // for(let ids of StoreCateg){
+        //     ids.text = ids.text_uz + ' / '+ ids.text_ru;
+        //     ids.value = ids.value_ru;
+        //     this.categOptions.push(ids)
+        // }
+        // // StoreCateg.text = StoreCateg.text_uz + ' / '+ StoreCateg.text_ru;
+        // // StoreCateg.value = StoreCateg.value_ru;
+        // // this.categOptions =  
 
-        //   console.log(this.categOptions)
+        // //   console.log(this.categOptions)
       })
       .catch((error) => {
           console.log('getDataProducts -> ', error);

@@ -13,7 +13,7 @@
 <script>
 import { localize } from 'vee-validate/dist/vee-validate.full.esm'
 import layoutSetting from '../components/widgets/layout-setting'
-import Api from "~/utils/api";
+// import Api from "~/utils/api";
 localize({
   en: {
     messages: {

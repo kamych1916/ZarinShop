@@ -109,7 +109,7 @@ export default {
           this.products = response.data
       })
       .catch((error) => {
-          console.log('getCategories -> ', error);
+          console.log('getHitSales -> ', error);
           this.$bvToast.toast("Категории не подгрузились.", {
               title: `Системная ошибка`,
               variant: "danger",
