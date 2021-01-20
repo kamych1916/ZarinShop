@@ -137,24 +137,29 @@
                           <h2>Order Information</h2>
                         </div> -->
                         <div>
-                          <div class="box">
+                          <div class="box" v-if="orderData">
                             <!-- <div class="box-title mb-3">
                               <h3>orders list</h3>
                               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
                             </div> -->
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <h4>Order no: 2105</h4>
-                                <h6>Slim Fit Cotton Shirt</h6>
+                            <div class="row mt-4" v-for="(order, index) in orderData" :key="index">
+                              <div class="ml-3">
+                                <h4>Номер:  &nbsp;<span style="color:#eac075">{{order.id}}</span></h4>
+                                <h4>Дата: &nbsp;&nbsp;&nbsp;&nbsp;  <span style="color:#eac075">{{order.date}}</span></h4>
+                                <h4>Сумма:  &nbsp;<span style="color:#eac075">{{order.subtotal}} сум.</span></h4>
+                                <h4>Товары:</h4>
+                                <div v-for="(orderItem, index) in order.items" :key="index">
+                                  <h6 class="mt-3"><img class="img-fluid" width="50" :src="orderItem.images[0]" alt=""> {{orderItem.name}} / {{orderItem.price}} сум. / размер - {{orderItem.size}} / кол. - {{orderItem.kol}}</h6>
+                                </div>
                               </div>
-                              <div class="col-sm-6">
+                              <!-- <div class="col-sm-6">
                                 <h4>Order no: 1032</h4>
                                 <h6>Slim Fit Cotton Shirt</h6>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                         </div>
-                        <div>
+                        <!-- <div>
                           <div class="box mt-2">
                             <div class="row">
                               <div class="col-sm-6">
@@ -167,7 +172,7 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                   </div>
@@ -196,6 +201,7 @@ export default {
       client_email: null,
       is_admin: null,
       is_login: false,
+      orderData: null
     }
   },
   components: {
@@ -209,10 +215,18 @@ export default {
     // }
     this.check_is_login();
     this.check_is_admin();
+    this.getOrderData();
     this.client_fullname = localStorage.getItem('cfn');
     this.client_email = localStorage.getItem('ce');
   },
   methods:{
+    getOrderData(){
+      Api.getInstance().auth.getOrderData().then((response) => {
+        this.orderData = response.data;
+      }).catch((error) => {
+        console.log('getOrderData -> ', error)
+      });
+    },
     check_is_admin(){
       Api.getInstance().auth.check_is_admin()
           .then((response) => {

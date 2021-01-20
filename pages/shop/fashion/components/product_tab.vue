@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       products: null,
-      title: 'спец предложения',
+      title: 'спецпредложения',
       subtitle: 'эксклюзивные продукты',
       showCart: false,
       showquickviewmodel: false,

@@ -16,10 +16,9 @@
               <div class="col-lg-6">
                 <form
                   class="form-inline subscribe-form auth-form needs-validation"
-                  method="post"
                   id="mc-embedded-subscribe-form"
                   name="mc-embedded-subscribe-form"
-                  target="_blank"
+                  @submit.prevent="sendClientEmail()"
                 >
                   <div class="form-group mx-sm-3">
                     <input
@@ -29,6 +28,7 @@
                       id="mce-EMAIL"
                       placeholder="Введите свою почту"
                       required="required"
+                      v-model="ClientEmail"
                     />
                   </div>
                   <button type="submit" class="btn btn-solid" id="mc-submit">подписаться</button>
@@ -46,7 +46,7 @@
                 <div class="footer-logo">
                   <h1>ZARINSHOP</h1>
                 </div>
-                <p>Компания Zrin Shop предоставляет обширный спектр товаров. Каждый посетитель сможет найти подходящий себе товар. Гарантия качества!</p>
+                <p>Компания Zarin Shop предоставляет обширный спектр товаров. Каждый посетитель сможет найти подходящий себе товар. Гарантия качества!</p>
                 <div class="footer-social">
                   <ul>
                     <li>
@@ -158,6 +158,27 @@
 </template>
 
 <script>
+import Api from "~/utils/api";
+
 export default {
+  data () {
+    return {
+      ClientEmail: ''
+    }
+  },
+  methods: {
+    sendClientEmail(){
+      console.log(this.ClientEmail)
+      Api.getInstance().auth.sendClientEmail(this.ClientEmail).then((response) => {
+        this.$bvToast.toast('Ваш E-mail был успешно добавлен в базу данных.', {
+            title: `Сообщение`,
+            variant: "success",
+            solid: true
+        })
+      }).catch((error) => {
+        console.log('sendClientEmail -> ', error)
+      });
+    },
+  }
 }
 </script>

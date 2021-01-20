@@ -1,6 +1,6 @@
 <template>
     <b-card header="Товары" >
-        <div class="wrap__products">   
+        <div class="wrap__products"> 
             <b-row class="d-flex row justify-content-between mx-1 mb-3">
                 <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
                 <input
@@ -183,6 +183,7 @@
                                 <b-form-radio value="#800080"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #800080"></div></b-form-radio>
                                 <b-form-radio value="#FFA500"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFA500"></div></b-form-radio>
                                 <b-form-radio value="#FFC0CB"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFC0CB"></div></b-form-radio>
+                                <b-form-radio value="#FF0000"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FF0000"></div></b-form-radio>
                                 <b-form-radio value="Нет Цвета">нет цвета</b-form-radio>
                             </b-form-radio-group>
                         </b-row>
@@ -431,23 +432,13 @@ export default {
                 sortable: true
             },
             {
-                key: 'name_ru',
+                key: 'name',
                 label: 'Наименование',
                 sortable: true
             },
             {
-                key: 'name_uz',
-                label: 'Mahsulot nomi',
-                sortable: true
-            },
-            {
-                key: 'description_ru',
+                key: 'description',
                 label: 'Описание',
-                sortable: true
-            },
-            {
-                key: 'description_uz',
-                label: 'Mahsulot tavsifi',
                 sortable: true
             },
             {
@@ -689,6 +680,9 @@ methods:{
       });
     },
     deleteFile(idImage){
+        console.log(this.files);
+        console.log(idImage);
+        
       for(let idi in this.files){
         if(idi == idImage){
           Api.getInstance().products.deleteFile(this.files[idi].file_name).then((response) => {
@@ -697,7 +691,17 @@ methods:{
                   variant: "success",
                   solid: true,
               })    
+              for(let idn in this.New_Product.images){
+                  if(this.New_Product.images[idn] == this.files[idi].file_url){
+                      this.New_Product.images.splice(idn, 1)
+                  } 
+                  if(this.New_Product.name_images[idn] == this.files[idi].file_name){
+                      this.New_Product.name_images.splice(idn, 1)
+                  }
+              }
               this.files.splice(idi, 1);
+              console.log(this.files);
+              console.log(this.New_Product);
           })
           .catch((error) => {
               console.log('deleteFile-> ', error)
