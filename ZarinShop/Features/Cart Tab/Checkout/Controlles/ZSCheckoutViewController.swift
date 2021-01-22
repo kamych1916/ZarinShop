@@ -119,8 +119,8 @@ class ZSCheckoutViewController: ZSBaseViewController {
         
         guard let url = URL(string: "https://my.click.uz/services/pay/?service_id=\(merchantServiceId)&merchant_id=\(merchantId)&amount=\(merchantTransAmount)&transaction_param=\(merchantTransId)") else { return }
         
-        print(mainView.selectedPaymentSystem)
-        //presentSafariVC(with: url)
+        //print(mainView.selectedPaymentSystem)
+        presentSafariVC(with: url)
     }
     
     // MARK: - Helpers

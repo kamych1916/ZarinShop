@@ -106,8 +106,8 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
         descriptionLabel.text = String(format: "%0.2f", model.price) + " сум"
         if model.images.count > 0 {
             //todo
-            bigImageView.image = UIImage(named: "defauldProduct")
-            //loadImage(from: model.image[0])
+            //bigImageView.image = UIImage(named: "defauldProduct")
+            loadImage(from: model.images[0])
         } else {
             bigImageView.image = UIImage(named: "defauldProduct")
         }

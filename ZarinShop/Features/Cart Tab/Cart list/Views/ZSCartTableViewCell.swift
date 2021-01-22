@@ -111,8 +111,8 @@ class ZSCartTableViewCell: UITableViewCell {
         colorView.backgroundColor = UIColor(hex: "#\(model.color)")
         if model.images.count > 0 {
             //todo
-            bigImageView.image = UIImage(named: "defauldProduct")
-            //loadImage(from: model.image[0])
+            //bigImageView.image = UIImage(named: "defauldProduct")
+            loadImage(from: model.images[0])
         } else {
             bigImageView.image = UIImage(named: "defauldProduct")
         }
