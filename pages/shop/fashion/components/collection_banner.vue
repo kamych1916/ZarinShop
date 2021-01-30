@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row partition2">
           <div class="col-md-6" v-for="(item, index) in items" :key="index">
-            <nuxt-link :to="{ path: '/collection/leftsidebar/all'}">
+            <nuxt-link :to="{ path: '/collection/0?search=' + item.queryparam}">
               <div class="collection-banner p-right text-center">
                 <div class="img-part">
                   <img :src="item.imagepath" class="img-fluid" alt />
@@ -31,12 +31,14 @@ export default {
         {
           imagepath: require('@/assets/images/sub-banner1.jpg'),
           title: 'men',
-          subtitle: 'скидки %'
+          subtitle: 'скидки %',
+          queryparam: 'муж'
         },
         {
           imagepath: require('@/assets/images/sub-banner2.jpg'),
           title: 'women',
-          subtitle: 'скидки %'
+          subtitle: 'скидки %',
+          queryparam: 'жен'
         }
       ]
     }

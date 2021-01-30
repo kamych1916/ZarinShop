@@ -20,7 +20,7 @@
                         <div>
                           <h4>{{ item.title }}</h4>
                           <h1>{{ item.subtitle }}</h1>
-                          <nuxt-link :to="{ path: '/collection/0?search='}" class="btn btn-solid">к товарам</nuxt-link>
+                          <nuxt-link :to="{ path: '/collection/0?search=' + item.queryparam}" class="btn btn-solid">к товарам</nuxt-link>
                         </div>
                       </div>
                     </div>
@@ -56,13 +56,15 @@ export default {
           imagepath: require('@/assets/images/home-banner/adc29cb.jpg'),
           title: 'женские пижамы',
           subtitle: 'women fashion',
-          alignclass: 'p-left'
+          alignclass: 'p-left',
+          queryparam: 'жен'
         },
         {
           imagepath: require('@/assets/images/home-banner/bdc29cb.jpg'),
           title: 'мужские пижамы',
           subtitle: 'men fashion',
-          alignclass: 'p-left'
+          alignclass: 'p-left',
+          queryparam: 'муж'
         }
       ]
     }

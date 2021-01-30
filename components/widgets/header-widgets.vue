@@ -100,15 +100,15 @@
                   </nuxt-link>
                   <div class="media-body">
                     <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
-                      <h4>{{item.name}}</h4>
+                      <h6>{{item.name}} - <b>{{item.size.toUpperCase()}}</b></h6> 
                     </nuxt-link>
                     <h4>
-                      <span>{{item.quantity}} x {{ parseInt(discountedPrice(item)).toLocaleString('ru-RU') }} <small>сум/шт.</small></span>
+                      <span>{{item.kol}} x {{ parseInt(discountedPrice(item)).toLocaleString('ru-RU') }} <small>сум/шт.</small></span>
                     </h4>
                   </div>
                 </div>
                 <div class="close-circle">
-                  <a href="#" @click='removeCartItem(item)'>
+                  <a @click='removeCartItem(item)'>
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </a>
                 </div>

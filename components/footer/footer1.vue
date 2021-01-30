@@ -168,7 +168,6 @@ export default {
   },
   methods: {
     sendClientEmail(){
-      console.log(this.ClientEmail)
       Api.getInstance().auth.sendClientEmail(this.ClientEmail).then((response) => {
         this.$bvToast.toast('Ваш E-mail был успешно добавлен в базу данных.', {
             title: `Сообщение`,

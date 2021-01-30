@@ -146,7 +146,7 @@
                             class="btn btn-solid "
                             title="Add to cart"
                             @click="addToCart(getDetail, counter)"
-                            :disabled="counter > getDetail.stock"
+                            :disabled="counter > productStock"
                           >Добавить в корзину</button>
                         <!-- </nuxt-link> -->
                         <!-- <button
@@ -158,7 +158,7 @@
                       </div>
                       <div class="border-product">
                         <h6 class="product-title">Описание товара</h6>
-                        <p v-if="getDetail.description" v-html="getDetail.description.substring(0,200)+'....'"></p>
+                        <p v-if="getDetail.description" v-html="getDetail.description.substring(0,80)+'....'"></p>
                       </div>
                       <div class="border-product">
                         <div class="product-icon">

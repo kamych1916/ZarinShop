@@ -9,7 +9,7 @@
                 <div class="offer-content">
                   <img :src="imagepath" class="img-fluid" alt="offer" />
                   <h2>рассылка</h2>
-                  <form class="auth-form needs-validation" target="_blank">
+                  <form class="auth-form needs-validation" @submit.prevent="sendClientEmail()">
                     <div class="form-group mx-sm-3">
                       <input
                         type="email"
@@ -17,6 +17,7 @@
                         name="EMAIL"
                         placeholder="Введите вашу почту.."
                         required="required"
+                        v-model="ClientEmail"
                       />
                       <button type="submit" class="btn btn-solid" id="mc-submit">подписаться</button>
                     </div>
@@ -34,6 +35,7 @@
 export default {
   data() {
     return {
+      ClientEmail: '',
       imagepath: require('@/assets/images//Offer-banner.png')
     }
   },
@@ -44,6 +46,17 @@ export default {
     }
   },
   methods: {
+    sendClientEmail(){
+      Api.getInstance().auth.sendClientEmail(this.ClientEmail).then((response) => {
+        this.$bvToast.toast('Ваш E-mail был успешно добавлен в базу данных.', {
+            title: `Сообщение`,
+            variant: "success",
+            solid: true
+        })
+      }).catch((error) => {
+        console.log('sendClientEmail -> ', error)
+      });
+    },
     showModal() {
       this.$refs['my-modal'].show()
     },

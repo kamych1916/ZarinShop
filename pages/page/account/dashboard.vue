@@ -2,6 +2,7 @@
   <div>
     <Header />
     <Breadcrumbs title="Мой аккаунт" />
+    <b-overlay :show="!is_login" rounded="sm">
     <section class="section-b-space" v-if="is_login">
       <div class="container">
         <div class="row">
@@ -16,7 +17,7 @@
                           <h2>Информация об аккаунте</h2>
                         </div>
                         <div class="row">
-                          <div class="col-sm-6">
+                          <div class="col">
                             <div class="box">
                               <div class="box-title">
                                 <h3>Контактная информация</h3>
@@ -31,148 +32,56 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-sm-6">
+                          <!-- <div class="col-sm-6">
                             <div class="box">
                               <div class="box-title">
                                 <h3>Новостная рассылка</h3>
-                                <!-- <a href="#">Edit</a> -->
                               </div>
                               <div class="box-content">
-                                <p>You are currently not subscribed to any newsletter.</p>
+                                <form class="auth-form needs-validation" @submit.prevent="sendClientEmail()">
+                                  <div class="form-group ">
+                                    <input
+                                      type="email"
+                                      class="form-control"
+                                      name="EMAIL"
+                                      placeholder="Введите вашу почту.."
+                                      required="required"
+                                      v-model="ClientEmail"
+                                    />
+                                    <button type="submit" class="btn btn-solid" >подписаться</button>
+                                  </div>
+                                </form>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
-                        <!-- <div>
-                          <div class="box">
-                            <div class="box-title">
-                              <h3>Address Book</h3>
-                              <a href="#">Manage Addresses</a>
-                            </div>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <h6>Default Billing Address</h6>
-                                <address>
-                                  You have not set a default billing address.
-                                  <br />
-                                  <a href="#">Edit Address</a>
-                                </address>
-                              </div>
-                              <div class="col-sm-6">
-                                <h6>Default Shipping Address</h6>
-                                <address>
-                                  You have not set a default shipping address.
-                                  <br />
-                                  <a href="#">Edit Address</a>
-                                </address>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
                       </div>
                     </div>
                   </div>
                 </b-card-text>
               </b-tab>
-              <!-- <b-tab title="Address Book">
-                <b-card-text>
-                  <div class="dashboard-right">
-                    <div class="dashboard">
-                      <div class="page-title">
-                        <h2>Address Book</h2>
-                      </div>
-                      <div class="welcome-msg">
-                        <p>Hello, MARK JECNO !</p>
-                        <p>From your Address book you have the ability to change or edit your shipping and billing address.</p>
-                      </div>
-                      <div class="box-account box-info">
-                        <div class="box-head">
-                          <h2>Address Information</h2>
-                        </div>
-                        <div>
-                          <div class="box">
-                            <div class="box-title">
-                              <h3>Address Book</h3>
-                              <a href="#">Manage Addresses</a>
-                            </div>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <h6>Default Billing Address</h6>
-                                <address>
-                                  You have not set a default billing address.
-                                  <br />
-                                  <a href="#">Edit Address</a>
-                                </address>
-                              </div>
-                              <div class="col-sm-6">
-                                <h6>Default Shipping Address</h6>
-                                <address>
-                                  You have not set a default shipping address.
-                                  <br />
-                                  <a href="#">Edit Address</a>
-                                </address>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </b-card-text>
-              </b-tab> -->
-              <b-tab @click="$router.push('/page/account/admin-dashboard')" title="Админ панель"></b-tab>
+              <b-tab v-if="is_admin" @click="$router.push('/page/account/admin-dashboard')" title="Админ панель"></b-tab>
               <b-tab title="Мои заказы">
                 <b-card-text>
                   <div class="dashboard-right">
                     <div class="dashboard">
-                      <div class="page-title">
+                      <div class="box-head pb-3" >
                         <h2>Мои заказы</h2>
                       </div>
-                      <!-- <div class="welcome-msg">
-                        <p>Hello, MARK JECNO !</p>
-                        <p>From your Orders you have the ability to view your all orders and status of order.</p>
-                      </div> -->
-                      <div class="box-account box-info">
-                        <!-- <div class="box-head">
-                          <h2>Order Information</h2>
-                        </div> -->
-                        <div>
+                      <div class="box-account box-info" style="border-top: 1px solid #ccc">
                           <div class="box" v-if="orderData">
-                            <!-- <div class="box-title mb-3">
-                              <h3>orders list</h3>
-                              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                            </div> -->
-                            <div class="row mt-4" v-for="(order, index) in orderData" :key="index">
-                              <div class="ml-3">
-                                <h4>Номер:  &nbsp;<span style="color:#eac075">{{order.id}}</span></h4>
-                                <h4>Дата: &nbsp;&nbsp;&nbsp;&nbsp;  <span style="color:#eac075">{{order.date}}</span></h4>
-                                <h4>Сумма:  &nbsp;<span style="color:#eac075">{{order.subtotal}} сум.</span></h4>
-                                <h4>Товары:</h4>
+                            <div class="row mt-2 " v-for="(order, index) in orderData" :key="index">
+                              <div class="ml-3 pb-2 w-100" style="border-bottom: 1px solid #ccc">
+                                <h6>Номер:  &nbsp;<span style="color:#eac075">{{order.id}}</span></h6>
+                                <h6>Дата: &nbsp;&nbsp;&nbsp;&nbsp;  <span style="color:#eac075">{{order.date}}</span></h6>
+                                <h6>Сумма:  &nbsp;<span style="color:#eac075">{{order.subtotal}} сум.</span></h6>
+                                <h6>Товары:</h6>
                                 <div v-for="(orderItem, index) in order.items" :key="index">
-                                  <h6 class="mt-3"><img class="img-fluid" width="50" :src="orderItem.images[0]" alt=""> {{orderItem.name}} / {{orderItem.price}} сум. / размер - {{orderItem.size}} / кол. - {{orderItem.kol}}</h6>
+                                  <h6 class="mt-3"><img class="img-fluid" width="50" :src="orderItem.images[0]" alt=""> {{orderItem.name.substring(0,15)+'....'}} / {{orderItem.price}} сум. / размер - {{orderItem.size}} / кол. - {{orderItem.kol}}</h6>
                                 </div>
                               </div>
-                              <!-- <div class="col-sm-6">
-                                <h4>Order no: 1032</h4>
-                                <h6>Slim Fit Cotton Shirt</h6>
-                              </div> -->
                             </div>
-                          </div>
                         </div>
-                        <!-- <div>
-                          <div class="box mt-2">
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <h4>Order no: 2105</h4>
-                                <h6>Slim Fit Cotton Shirt</h6>
-                              </div>
-                              <div class="col-sm-6">
-                                <h4>Order no: 1032</h4>
-                                <h6>Slim Fit Cotton Shirt</h6>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
                       </div>
                     </div>
                   </div>
@@ -185,6 +94,7 @@
         </div>
       </div>
     </section>
+    </b-overlay>
     <Footer />
   </div>
 </template>
@@ -230,7 +140,8 @@ export default {
     check_is_admin(){
       Api.getInstance().auth.check_is_admin()
           .then((response) => {
-              this.is_admin = true;
+            console.log(response.data)
+            response.data === true ? this.is_admin = true : this.is_admin = false;
           })
           .catch((error) => {
               this.is_admin = false;

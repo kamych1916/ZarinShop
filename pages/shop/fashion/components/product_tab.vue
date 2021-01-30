@@ -4,49 +4,43 @@
       <h4>{{subtitle}}</h4>
       <h2 class="title-inner1">{{title}}</h2>
     </div>
-    <section class="section-b-space p-t-0 ratio_asos">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="theme-tab">
-              <!-- <b-tabs content-class="mt-3">
-                <b-tab
-                  :title="collection"
-                  v-for="(collection,index) in category"
-                  :key="index"
-                > -->
-                  <div class="no-slider row">
-                    <div
-                      class="product-box"
-                      v-for="(product,index) in products"
-                      :key="index"
-                    >
-                    <productBox1
-                      @opencartmodel="showCartModal"
-                      @showCompareModal="showcomparemodal"
-                      @openquickview="showquickview"
-                      @showalert="alert"
-                      @alertseconds="alert"
-                      :product="product"
-                      :index="index"
-                    />
+    <b-overlay :show="!products" rounded="sm">
+      <section class="section-b-space p-t-0 ratio_asos">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="theme-tab">
+                <!-- <b-tabs content-class="mt-3">
+                  <b-tab
+                    :title="collection"
+                    v-for="(collection,index) in category"
+                    :key="index"
+                  > -->
+                    <div class="no-slider row">
+                      <div
+                        class="product-box"
+                        v-for="(product,index) in products"
+                        :key="index"
+                      >
+                      <productBox1
+                        @opencartmodel="showCartModal"
+                        @showCompareModal="showcomparemodal"
+                        @openquickview="showquickview"
+                        @showalert="alert"
+                        @alertseconds="alert"
+                        :product="product"
+                        :index="index"
+                      />
+                      </div>
                     </div>
-                  </div>
-                <!-- </b-tab>
-              </b-tabs> -->
+                  <!-- </b-tab>
+                </b-tabs> -->
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <b-alert
-      :show="dismissCountDown"
-      variant="success"
-      @dismissed="dismissCountDown=0"
-      @dismiss-count-down="alert"
-    >
-      <p>Product Is successfully added to your wishlist.</p>
-    </b-alert>
+      </section>
+    </b-overlay>
   </div>
 </template>
 <script type="text/javascript">

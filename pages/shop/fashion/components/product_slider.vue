@@ -13,43 +13,37 @@
         </div>
       </div>
     </div>
-    <section class="section-b-space p-t-0 ratio_asos">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div v-swiper:mySwiper="swiperOption">
-              <div class="swiper-wrapper">
-                <div
-                  class="swiper-slide"
-                  v-for="(product,index) in products"
-                  :key="index"
-                >
-                  <div class="product-box">
-                    <productBox1
-                      @opencartmodel="showCartModal"
-                      @showCompareModal="showcomparemodal"
-                      @openquickview="showquickview"
-                      @showalert="alert"
-                      @alertseconds="alert"
-                      :product="product"
-                      :index="index"
-                    />
+    <b-overlay :show="!products" rounded="sm">
+      <section class="section-b-space p-t-0 ratio_asos">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div v-swiper:mySwiper="swiperOption">
+                <div class="swiper-wrapper">
+                  <div
+                    class="swiper-slide"
+                    v-for="(product,index) in products"
+                    :key="index"
+                  >
+                    <div class="product-box">
+                      <productBox1
+                        @opencartmodel="showCartModal"
+                        @showCompareModal="showcomparemodal"
+                        @openquickview="showquickview"
+                        @showalert="alert"
+                        @alertseconds="alert"
+                        :product="product"
+                        :index="index"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <b-alert
-      :show="dismissCountDown"
-      variant="success"
-      @dismissed="dismissCountDown=0"
-      @dismiss-count-down="alert"
-    >
-      <p>Product Is successfully added to your wishlist.</p>
-    </b-alert>
+      </section>
+    </b-overlay>
   </div>
 </template>
 

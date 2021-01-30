@@ -1,89 +1,94 @@
 <template>
-        <b-card header="Категоррии" class="mb-5">
-            <div class="d-flex  justify-content-between">
-                <b-button @click="AddCategoryModal=true; eventBtnCategory= true">Добавить новую категорию</b-button>
-                <input
-                    v-model="filter__employee"
-                    type="text"
-                    id="filterCategory"
-                    placeholder="Поиск.."
+    <div>
+        <b-button class="mb-5" @click="getCategories()" v-if="!show_cat">Отобразить категории товаров</b-button>
+        
+        <b-card v-if="show_cat" header="Категории" class="mb-5">
+            <b-overlay :show="!dataCategoryItems" rounded="sm">
+                <div class="d-flex  justify-content-between">
+                    <b-button @click="AddCategoryModal=true; eventBtnCategory= true">Добавить новую категорию</b-button>
+                    <input
+                        v-model="filter__employee"
+                        type="text"
+                        id="filterCategory"
+                        placeholder="Поиск.."
+                    >
+                </div> 
+                <b-modal @hidden="resetModal()" scrollable hide-footer size="lg" v-model="AddCategoryModal">
+                    <b-form @submit.prevent="eventCategory()">
+                        <label for="main_cat">Введите главную категории</label>
+                        <div>
+                            <input
+                            v-if="category" 
+                            type="text"
+                            class="form-control"
+                            v-model="category.main"
+                            id="main_cat"
+                            placeholder="Введите категорию"
+                            name="main_cat"
+                            required
+                            />
+                        </div>
+                        <label class="mt-4" for="main_sub_cat">Введите под категории</label>
+                        <div>
+                            <input
+                            v-if="category" 
+                            type="text"
+                            class="form-control"
+                            v-model="category.subtype"
+                            id="sub_cat"
+                            placeholder="Введите категорию"
+                            name="sub_cat"
+                            required
+                            />
+                        </div>
+                        <label class="mt-4" for="last_cat">Введите последнюю категории</label>
+                        <div>
+                            <input
+                            v-if="category" 
+                            type="text"
+                            class="form-control"
+                            v-model="category.lasttype"
+                            id="last_cat"
+                            placeholder="Введите категорию"
+                            name="last_cat"
+                            />
+                        </div>
+
+                        <!-- <b-button type="submit" class="mt-2">Создать</b-button> -->
+                        <div style="border-top: 1px solid #ccc" class="w-100 py-4">
+                            <b-button v-if="eventBtnCategory" type='submit' class="float-left">СОЗДАТЬ НОВУЮ КАТЕГОРИЮ</b-button>
+                            <b-row v-else class="float-left d-flex justify-content-between" >
+                                <b-button class="ml-3" type="submit">ИЗМЕНИТЬ КАТЕГОРИЮ</b-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <b-button @click="deleteCategory()" variant="danger">УДАЛИТЬ КАТЕГОРИЮ</b-button>                            
+                            </b-row>
+                            <b-button class="float-right" @click="resetModal(), AddCategoryModal=!AddCategoryModal"> Отменить </b-button>
+                        </div>
+                    </b-form>
+                </b-modal>
+                <b-table 
+                    :filter="filter__employee" 
+                    ref="allProducts"
+                    @row-selected="onRowProductSelected($event)"
+                    show-empty empty-text="Таблица пуста"
+                    thead-class="wrap__clients__container__table__head"
+                    table-variant="light" 
+                    selectable
+                    select-mode="single"
+                    striped
+                    responsive
+                    class="pt-3"
+                    :items="dataCategoryItems"
+                    :fields="dataCategoryFields"
                 >
-            </div> 
-            <b-modal @hidden="resetModal()" scrollable hide-footer size="lg" v-model="AddCategoryModal">
-                <b-form @submit.prevent="eventCategory()">
-                    <label for="main_cat">Введите главную категории</label>
-                    <div>
-                        <input
-                        v-if="category" 
-                        type="text"
-                        class="form-control"
-                        v-model="category.main"
-                        id="main_cat"
-                        placeholder="Введите категорию"
-                        name="main_cat"
-                        required
-                        />
-                    </div>
-                    <label class="mt-4" for="main_sub_cat">Введите под категории</label>
-                    <div>
-                        <input
-                        v-if="category" 
-                        type="text"
-                        class="form-control"
-                        v-model="category.subtype"
-                        id="sub_cat"
-                        placeholder="Введите категорию"
-                        name="sub_cat"
-                        required
-                        />
-                    </div>
-                    <label class="mt-4" for="last_cat">Введите последнюю категории</label>
-                    <div>
-                        <input
-                        v-if="category" 
-                        type="text"
-                        class="form-control"
-                        v-model="category.lasttype"
-                        id="last_cat"
-                        placeholder="Введите категорию"
-                        name="last_cat"
-                        />
-                    </div>
-
-                    <!-- <b-button type="submit" class="mt-2">Создать</b-button> -->
-                    <div style="border-top: 1px solid #ccc" class="w-100 py-4">
-                        <b-button v-if="eventBtnCategory" type='submit' class="float-left">СОЗДАТЬ НОВУЮ КАТЕГОРИЮ</b-button>
-                        <b-row v-else class="float-left d-flex justify-content-between" >
-                            <b-button class="ml-3" type="submit">ИЗМЕНИТЬ КАТЕГОРИЮ</b-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <b-button @click="deleteCategory()" variant="danger">УДАЛИТЬ КАТЕГОРИЮ</b-button>                            
-                        </b-row>
-                        <b-button class="float-right" @click="resetModal(), AddCategoryModal=!AddCategoryModal"> Отменить </b-button>
-                    </div>
-                </b-form>
-            </b-modal>
-            <b-table 
-                :filter="filter__employee" 
-                ref="allProducts"
-                @row-selected="onRowProductSelected($event)"
-                show-empty empty-text="Таблица пуста"
-                thead-class="wrap__clients__container__table__head"
-                table-variant="light" 
-                selectable
-                select-mode="single"
-                striped
-                responsive
-                class="pt-3"
-                :items="dataCategoryItems"
-                :fields="dataCategoryFields"
-            >
-                <template #empty="scope">
-                    <div  class="d-flex justify-content-center w-100">
-                        <h6>{{ scope.emptyText }}</h6>
-                    </div>
-                </template>
-            </b-table>
+                    <template #empty="scope">
+                        <div  class="d-flex justify-content-center w-100">
+                            <h6>{{ scope.emptyText }}</h6>
+                        </div>
+                    </template>
+                </b-table>
+            </b-overlay>
         </b-card>
-
+    </div>
 
 </template>
 
@@ -92,6 +97,7 @@ import Api from "~/utils/api";
 export default {
 data () {
     return {
+        show_cat: false,
         AddCategoryModal: false,
         eventBtnCategory: true,
         show_overlay: false,
@@ -119,7 +125,6 @@ data () {
     }
 },
 mounted(){
-    this.getCategories()
 },
 methods: {
         // ИЗМЕНЕНИЕ ТОВАРА И ДОБАВЛЕНИЕ НОВОГО
@@ -206,7 +211,9 @@ methods: {
     
     getCategories(){
       Api.getInstance().products.getCategories().then((response) => {
+          this.show_cat = true;
           this.dataCategoryItems = response.data;
+          
       })
       .catch((error) => {
           console.log('getCategories -> ', error);

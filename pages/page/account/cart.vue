@@ -2,6 +2,7 @@
   <div>
     <Header />
     <Breadcrumbs title="Корзина" />
+    <b-overlay :show="!cart" rounded="sm">
     <section class="cart-section section-b-space" v-if="is_login">
       <div class="container">
         <div class="row">
@@ -21,9 +22,11 @@
               <tbody v-for="(item,index) in cart" :key="index">
                 <tr>
                   <td>
-                    <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
-                      <img :src="item.images[0]" alt />
-                    </nuxt-link>
+                    <b-overlay style=" height: 92px" :show="!is_Img_Load" rounded="sm">
+                      <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
+                        <img :src="item.images[0]" alt @load="is_Img_Load = !is_Img_Load" />
+                      </nuxt-link>
+                    </b-overlay>
                   </td>
                   <td>
                     <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">{{item.name}}</nuxt-link>
@@ -158,6 +161,7 @@
         </div>
       </div>
     </section>
+    </b-overlay>
     <Footer />
   </div>
 </template>
@@ -171,7 +175,8 @@ export default {
   data() {
     return {
       counter: 1,
-      is_login: false
+      is_login: false,
+      is_Img_Load: false,
     }
   },
   components: {

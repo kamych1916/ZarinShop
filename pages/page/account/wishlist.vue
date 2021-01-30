@@ -33,9 +33,9 @@
                     <a href="javascript:void(0)" class="icon mr-3" @click="removeWishlistItem(item)">
                       <i class="ti-close"></i>
                     </a>
-                    <a href="javascript:void(0)" class="cart" @click="addToCart(item)">
+                    <!-- <a href="javascript:void(0)" class="cart" @click="addToCart(item)">
                       <i class="ti-shopping-cart" ></i>
-                    </a>
+                    </a> -->
                   </td>
                 </tr>
               </tbody>
@@ -85,9 +85,9 @@ export default {
     removeWishlistItem: function (product) {
       this.$store.dispatch('products/removeWishlistItem', product)
     },
-    addToCart: function (product) {
-      this.$store.dispatch('cart/addToCart', product)
-    },
+    // addToCart: function (product) {
+    //   this.$store.dispatch('cart/addToCart', product)
+    // },
     discountedPrice(product) {
         const price = product.price - (product.price * product.discount / 100)
         return price

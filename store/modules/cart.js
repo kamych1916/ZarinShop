@@ -31,13 +31,47 @@ const mutations = {
     const product = payload
     // const cartItems = state.cart.find(item => item.id === payload.id)
     const qty = payload.kol ? payload.kol : 1
-    // if (cartItems) {
-    //   cartItems.kol = qty
-    // } else {
+
+    let check_size_already = false
+    if(state.cart.length > 0){
+      for(let idsc of state.cart){
+        if(idsc.id == payload.id ){
+          if(idsc.size == payload.size){
+            check_size_already = true
+          }
+        }
+      }
+      if(!check_size_already){
+        state.cart.push({
+          ...product,
+          kol: qty
+        })
+      }
+      for(let idc in state.cart){
+        if(state.cart[idc].id == payload.id){
+          if(state.cart[idc].size == payload.size){
+            if(state.cart[idc].stock != state.cart[idc].kol){
+              state.cart[idc].kol = qty
+              // state.cart.push({
+              //   ...product,
+              //   kol: qty
+              // })
+            }
+          }
+          // if(payload.kol != idc.stock){
+          //   state.cart.push({
+          //     ...product,
+          //     kol: qty
+          //   })
+          // }
+        }
+      }
+    }else{
       state.cart.push({
         ...product,
         kol: qty
       })
+    }
     // }
     product.stock--
   },

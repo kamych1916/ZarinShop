@@ -1,309 +1,319 @@
 <template>
-    <b-card header="Товары" >
-        <div class="wrap__products"> 
-            <b-row class="d-flex row justify-content-between mx-1 mb-3">
-                <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
-                <input
-                    v-model="filter__employee"
-                    type="text"
-                    id="filterProduct"
-                    placeholder="Поиск.."
-                >
-            </b-row>    
-            <b-modal @hidden="resetModal" scrollable hide-footer size="lg" v-model="AddProductModal">
-                <b-form @submit.prevent="eventProduct()">
-                    <div class="pt-2">
-                        <span class="title_inputs">Введите наименование товара</span>
-                        <b-row class="px-3 py-2">
-                            <input
-                            v-if="New_Product" 
-                            type="text"
-                            class="form-control"
-                            v-model="New_Product.name"
-                            id="name_product"
-                            name="name_product"
-                            required
-                            />
-                        </b-row>
-                    </div>
+    <div>
+        <b-button class="mb-5" @click="getCategories(); getDataProducts()" v-if="!show_products">Отобразить все товары</b-button>
 
-                    <div class="pt-2">
-                        <span class="title_inputs pt-2">Введите описание товара</span> 
-                        <b-row class="px-3 py-2">
-                            <textarea
-                                rows="5"
-                                wrap="hard"
+        <b-card v-if="show_products" header="Товары" >
+            <div class="wrap__products"> 
+                <b-row class="d-flex row justify-content-between mx-1 mb-3">
+                    <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
+                    <input
+                        v-model="filter__employee"
+                        type="text"
+                        id="filterProduct"
+                        placeholder="Поиск.."
+                    >
+                </b-row>    
+                <b-modal @hidden="resetModal" scrollable hide-footer size="lg" v-model="AddProductModal">
+                    <b-form @submit.prevent="eventProduct()">
+                        <div class="pt-2">
+                            <span class="title_inputs">Введите наименование товара</span>
+                            <b-row class="px-3 py-2">
+                                <input
                                 v-if="New_Product" 
                                 type="text"
                                 class="form-control"
-                                v-model="New_Product.description"
-                                id="description_product"
-                                name="description_product"
+                                v-model="New_Product.name"
+                                id="name_product"
+                                name="name_product"
                                 required
-                            />
-                        </b-row>
-                    </div>
-                    
-                    <!-- ВЫБРАТЬ К КАКОМУ ТОВАРУ СВЯЗАТЬ НОВЫЙ ТОВАР -->
-                    <div class="pt-2">
-                        <b-row class="px-3 py-2">
-                            <!-- ТАБЛИЦА, В КОТОРОЙ ПРИЛЕТАЮТ ТОВАРЫ, В ЗАИВИСИМОСТИ ОТ ВВЕДЕНЫХ ДАННЫХ В ИНПУТЕ NAME -->
-                            <!-- ДАЛЕЕЕ МЫ ЧЕКБОКСОМ ВЫБИРАЕМ КОНКРЕТНЫЙ ТОРВА -->
-                            <!-- ЕСЛИ ТАБЛИЦА ПУСТА, ТО ПОД КОНЕЦ ОТПРАВЛЯТЬ ПУСТОЙ СПИСОК  -->
-                            <span class="title_inputs">Выберете такой же товар, который схож по характеристикам (если он имеется), чтобы связать цвета товара:</span>
-
-                            <label @click="showProducts=!showProducts && New_Product.name!= ''" class="text-light my-2 py-2 px-3 bg-dark">Отобразить схожие товары</label>
-                            <div v-if="showProducts">
-                                <b-table @row-selected="onRowlink_colorProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive>
-                                    <template #empty="scope">
-                                        <div  class="d-flex justify-content-center w-100">
-                                            <h6>{{ scope.emptyText }}</h6>
-                                        </div>
-                                    </template>
-                                    <template #cell(color)="row">
-                                        <div :style="'width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color:' +  row.item.color"></div>
-                                    </template>
-                                    <template #cell(selected)="{ rowSelected }">
-                                        <template v-if="rowSelected">
-                                            <span aria-hidden="true">&check;</span>
-                                            <span class="sr-only">Selected</span>
-                                        </template>
-                                        <template v-else>
-                                            <span aria-hidden="true">&nbsp;</span>
-                                            <span class="sr-only">Not selected</span>
-                                        </template>
-                                    </template>
-                                </b-table>
-                            </div>
-                        </b-row>
-                    </div>
-                    
-                    <!-- SIZES -->
-                    <div class="pt-2">
-                        <div class="pb-2">
-                            <span class="title_inputs">Выберете размер товара и его количество:</span>
+                                />
+                            </b-row>
                         </div>
-                            Введите количество товара для размера S
-                            <b-row class="d-flex align-items-center py-2">
-                                <b-col>
-                                    <input
-                                        v-if="New_Product" 
-                                        type="number"
-                                        class="form-control"
-                                        id="size_S"
-                                        name="size_S"
-                                        v-model="size_S"
-                                        @change="sizeEvents(size_S, 1)"
-                                    />
-                                </b-col>
+
+                        <div class="pt-2">
+                            <span class="title_inputs pt-2">Введите описание товара</span> 
+                            <b-row class="px-3 py-2">
+                                <textarea
+                                    rows="5"
+                                    wrap="hard"
+                                    v-if="New_Product" 
+                                    type="text"
+                                    class="form-control"
+                                    v-model="New_Product.description"
+                                    id="description_product"
+                                    name="description_product"
+                                    required
+                                />
                             </b-row>
-                            Введите количество товара для размера M
-                            <b-row class="d-flex align-items-center py-2">
-                                <b-col>
-                                    <input
-                                        v-if="New_Product" 
-                                        type="number"
-                                        class="form-control"
-                                        id="size_M"
-                                        name="size_M"
-                                        v-model="size_M"
-                                        @change="sizeEvents(size_M, 2)"
-                                    />
-                                </b-col>
+                        </div>
+                        
+                        <!-- ВЫБРАТЬ К КАКОМУ ТОВАРУ СВЯЗАТЬ НОВЫЙ ТОВАР -->
+                        <div class="pt-2">
+                            <b-row class="px-3 py-2">
+                                <!-- ТАБЛИЦА, В КОТОРОЙ ПРИЛЕТАЮТ ТОВАРЫ, В ЗАИВИСИМОСТИ ОТ ВВЕДЕНЫХ ДАННЫХ В ИНПУТЕ NAME -->
+                                <!-- ДАЛЕЕЕ МЫ ЧЕКБОКСОМ ВЫБИРАЕМ КОНКРЕТНЫЙ ТОРВА -->
+                                <!-- ЕСЛИ ТАБЛИЦА ПУСТА, ТО ПОД КОНЕЦ ОТПРАВЛЯТЬ ПУСТОЙ СПИСОК  -->
+                                <span class="title_inputs">Выберете такой же товар, который схож по характеристикам (если он имеется), чтобы связать цвета товара:</span>
+
+                                <label @click="showProducts=!showProducts && New_Product.name!= ''" class="text-light my-2 py-2 px-3 bg-dark">Отобразить схожие товары</label>
+                                <div v-if="showProducts">
+                                    <b-table @row-selected="onRowlink_colorProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive>
+                                        <template #cell(description)="row">
+                                            {{row.item.description.substring(0,80)+'....'}}
+                                        </template>
+                                        <template #empty="scope">
+                                            <div  class="d-flex justify-content-center w-100">
+                                                <h6>{{ scope.emptyText }}</h6>
+                                            </div>
+                                        </template>
+                                        <template #cell(color)="row">
+                                            <div :style="'width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color:' +  row.item.color"></div>
+                                        </template>
+                                        <template #cell(selected)="{ rowSelected }">
+                                            <template v-if="rowSelected">
+                                                <span aria-hidden="true">&check;</span>
+                                                <span class="sr-only">Selected</span>
+                                            </template>
+                                            <template v-else>
+                                                <span aria-hidden="true">&nbsp;</span>
+                                                <span class="sr-only">Not selected</span>
+                                            </template>
+                                        </template>
+                                    </b-table>
+                                </div>
                             </b-row>
-                            Введите количество товара для размера L
-                            <b-row class="d-flex align-items-center py-2">
-                                <b-col>
-                                    <input
-                                        v-if="New_Product" 
-                                        type="number"
-                                        class="form-control"
-                                        id="size_L"
-                                        name="size_L"
-                                        v-model="size_L"
-                                        @change="sizeEvents(size_L, 3)"
-                                    />
-                                </b-col>
-                            </b-row>
-                            Введите количество товара для размера XL
-                            <b-row class="d-flex align-items-center py-2">
-                                <b-col>
-                                    <input
-                                        v-if="New_Product" 
-                                        type="number"
-                                        class="form-control"
-                                        id="size_XL"
-                                        name="size_XL"
-                                        v-model="size_XL"
-                                        @change="sizeEvents(size_XL, 4)"
-                                    />
-                                </b-col>
-                            </b-row>
-                            Введите количество товара для размера XXL
-                            <b-row class="d-flex align-items-center py-2">
-                                <b-col>
-                                    <input
-                                        v-if="New_Product" 
-                                        type="number"
-                                        class="form-control"
-                                        id="size_XXL"
-                                        name="size_XXL"
-                                        v-model="size_XXL"
-                                        @change="sizeEvents(size_XXL, 5)"
-                                    />
-                                </b-col>
-                            </b-row>
-                            Введите количество товара, если у товара нет размера
-                            <b-row class="d-flex align-items-center py-2">
-                                <b-col>
-                                    <input
-                                        v-if="New_Product" 
-                                        type="number"
-                                        class="form-control"
-                                        id="none_size"
-                                        name="none_size"
-                                        v-model="none_size"
-                                        @change="sizeEvents(none_size, 6)"
-                                    />
-                                </b-col>
-                            </b-row>
-                    </div>
-
-                    <!-- COLORS -->
-                    <div class="pt-2">
-                        <b-row class="px-3 py-2">
-                            <span class="title_inputs">Выберете цвет товара</span>
-                            <b-form-radio-group id="radio-group-2" v-if="New_Product" v-model="New_Product.color" name="radio-sub-component">
-                                <b-form-radio value="#0000FF"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #0000FF"></div></b-form-radio>
-                                <b-form-radio value="#008000"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #008000"></div></b-form-radio>
-                                <b-form-radio value="#000000"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #000000"></div></b-form-radio>
-                                <b-form-radio value="#FFFFFF"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFFFFF"></div></b-form-radio>
-                                <b-form-radio value="#C0C0C0"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #C0C0C0"></div></b-form-radio>
-                                <b-form-radio value="#FFFF00"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFFF00"></div></b-form-radio>
-                                <b-form-radio value="#800080"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #800080"></div></b-form-radio>
-                                <b-form-radio value="#FFA500"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFA500"></div></b-form-radio>
-                                <b-form-radio value="#FFC0CB"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFC0CB"></div></b-form-radio>
-                                <b-form-radio value="#FF0000"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FF0000"></div></b-form-radio>
-                                <b-form-radio value="Нет Цвета">нет цвета</b-form-radio>
-                            </b-form-radio-group>
-                        </b-row>
-                    </div>
-
-                    <!-- PRICE -->
-                    <div class="pt-2">
-                        <span class="title_inputs">Введите стоимость товара</span>
-                        <b-row class="px-3 py-2">
-                            <input
-                                v-if="New_Product" 
-                                type="number"
-                                class="form-control"
-                                v-model="New_Product.price"
-                                id="price_product"
-                                name="price_product"
-                                required
-                            />
-                        </b-row>
-                    </div>
-
-                    <!-- discount -->
-                    <div class="pt-2">
-                        <span class="title_inputs">Введите скидку для товара (без процента, просто цифру)</span>
-                        <b-row class="px-3 py-2">
-                            <input
-                                v-if="New_Product" 
-                                type="number"
-                                class="form-control"
-                                v-model="New_Product.discount"
-                                id="discount_product"
-                                name="discount_product"
-                                required
-                            />
-                        </b-row>
-                    </div>
-
-                    <!-- SPECIAL OFFER -->
-                    <div class="pt-2">
-                        <span class="title_inputs">Отметьте, если товар из спиацильных предложений</span>
-                        <b-row class="px-3 py-2">
-                            <!-- chekbox где отправляется true или false -->
-                            <b-form-checkbox v-if="New_Product" v-model="New_Product.special_offer">Специальное предложение</b-form-checkbox>
-                        </b-row>
-                    </div>
-
-                    <!-- Hit Sales -->
-                    <div class="pt-2">
-                        <span class="title_inputs">Отметьте, если товар с горчей скидкой</span>
-                        <b-row class="px-3 py-2">
-                            <!-- chekbox где отправляется true или false -->
-                            <b-form-checkbox v-if="New_Product" v-model="New_Product.hit_sales">Горячая скидка</b-form-checkbox>
-                        </b-row>
-                    </div>
-
-                    <!-- CATEGORIES МЫ ДОЛЖНЫ ТУТ ВЫБРАТЬ КАТЕГОРИЮ (КАТЕГОРИИ БЕРУТСЯ ОТ АПИ)  -->
-                    <div class="pt-2">
-                        <span class="title_inputs">Выберете категорию где будет лежать товар</span>
-                        <b-row class="px-3 py-2">
-                            <b-form-select v-if="New_Product" v-model="New_Product.categories" :options="categOptions">
-                                <template #first>
-                                    <b-form-select-option :value="null" disabled>-- Выберите категорию --</b-form-select-option>
-                                </template>
-                            </b-form-select>
-                        </b-row>
-                    </div>
-
-                    <div class="pt-2">
-                        <span class="title_inputs">Загрузите изображения для товара</span>
-                        <b-row class="px-3 py-2">
-                            <label for="load" class="text-light py-2 px-3 bg-dark">+ Добавить фото</label>
-                            <input id="load" ref="file" @change="handleFileUpload()" type="file" name="photo" style="display: none;">
-                        </b-row>
-                        <b-row class="px-3 py-2">
-                            <b-overlay :show="show_overlay" rounded="sm">
-                                <b-row  cols="3">
-                                    <b-col v-for="(file, i) in files" :key="i">
-                                        <div class="imgs_object pb-4">
-                                            <a :href="file.file_url" download class="pt-2">
-                                                <img :src="file.file_url" width="100%" height="300">
-                                            </a>
-                                            <span @click="deleteFile(i)" class="delete_imgs" style="cursor: pointer; color: red">
-                                                удалить
-                                            </span>
-                                        </div>
+                        </div>
+                        
+                        <!-- SIZES -->
+                        <div class="pt-2">
+                            <div class="pb-2">
+                                <span class="title_inputs">Выберете размер товара и его количество:</span>
+                            </div>
+                                Введите количество товара для размера S
+                                <b-row class="d-flex align-items-center py-2">
+                                    <b-col>
+                                        <input
+                                            v-if="New_Product" 
+                                            type="number"
+                                            class="form-control"
+                                            id="size_S"
+                                            name="size_S"
+                                            v-model="size_S"
+                                            @change="sizeEvents(size_S, 1)"
+                                        />
                                     </b-col>
                                 </b-row>
-                            </b-overlay>
-                        </b-row>
-                    </div>
-                    <div style="border-top: 1px solid #ccc" class="w-100 py-4">
-                        <b-button v-if="eventBtnProduct" type='submit' class="float-left">СОЗДАТЬ НОВЫЙ ТОВАР</b-button>
-                        <b-row v-else class="float-left d-flex justify-content-between" >
-                            <b-button class="ml-3" type="submit">ИЗМЕНИТЬ ТОВАР</b-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <b-button @click="deleteProduct()" variant="danger">УДАЛИТЬ ТОВАР</b-button>                            
-                        </b-row>
-                        <b-button class="float-right" @click="resetModal(), AddProductModal=!AddProductModal"> Отменить </b-button>
-                    </div>
-                </b-form>
-            </b-modal>
-            <!-- <b-table @row-selected="onRowlink_colorProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive> -->
-            <b-table :filter="filter__employee" ref="allProducts" @row-selected="onRowProductSelected($event)" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable select-mode="single" striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
-                <template #empty="scope">
-                    <div  class="d-flex justify-content-center w-100">
-                        <h6>{{ scope.emptyText }}</h6>
-                    </div>
-                </template>
-                <template #cell(color)="row">
-                    <div :style="'width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color:' +  row.item.color"></div>
-                </template>
-                <template #cell(size_kol)="row">
-                    <b-row>
-                        <div v-for="(item, i) in row.item.size_kol" :key="i">
-                            {{item.size}} - {{item.kol}}; &nbsp;&nbsp;
+                                Введите количество товара для размера M
+                                <b-row class="d-flex align-items-center py-2">
+                                    <b-col>
+                                        <input
+                                            v-if="New_Product" 
+                                            type="number"
+                                            class="form-control"
+                                            id="size_M"
+                                            name="size_M"
+                                            v-model="size_M"
+                                            @change="sizeEvents(size_M, 2)"
+                                        />
+                                    </b-col>
+                                </b-row>
+                                Введите количество товара для размера L
+                                <b-row class="d-flex align-items-center py-2">
+                                    <b-col>
+                                        <input
+                                            v-if="New_Product" 
+                                            type="number"
+                                            class="form-control"
+                                            id="size_L"
+                                            name="size_L"
+                                            v-model="size_L"
+                                            @change="sizeEvents(size_L, 3)"
+                                        />
+                                    </b-col>
+                                </b-row>
+                                Введите количество товара для размера XL
+                                <b-row class="d-flex align-items-center py-2">
+                                    <b-col>
+                                        <input
+                                            v-if="New_Product" 
+                                            type="number"
+                                            class="form-control"
+                                            id="size_XL"
+                                            name="size_XL"
+                                            v-model="size_XL"
+                                            @change="sizeEvents(size_XL, 4)"
+                                        />
+                                    </b-col>
+                                </b-row>
+                                Введите количество товара для размера XXL
+                                <b-row class="d-flex align-items-center py-2">
+                                    <b-col>
+                                        <input
+                                            v-if="New_Product" 
+                                            type="number"
+                                            class="form-control"
+                                            id="size_XXL"
+                                            name="size_XXL"
+                                            v-model="size_XXL"
+                                            @change="sizeEvents(size_XXL, 5)"
+                                        />
+                                    </b-col>
+                                </b-row>
+                                Введите количество товара, если у товара нет размера
+                                <b-row class="d-flex align-items-center py-2">
+                                    <b-col>
+                                        <input
+                                            v-if="New_Product" 
+                                            type="number"
+                                            class="form-control"
+                                            id="none_size"
+                                            name="none_size"
+                                            v-model="none_size"
+                                            @change="sizeEvents(none_size, 6)"
+                                        />
+                                    </b-col>
+                                </b-row>
                         </div>
-                    </b-row>
-                </template>
-            </b-table>
-        </div>
-    </b-card>
+
+                        <!-- COLORS -->
+                        <div class="pt-2">
+                            <b-row class="px-3 py-2">
+                                <span class="title_inputs">Выберете цвет товара</span>
+                                <b-form-radio-group id="radio-group-2" v-if="New_Product" v-model="New_Product.color" name="radio-sub-component">
+                                    <b-form-radio value="#0000FF"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #0000FF"></div></b-form-radio>
+                                    <b-form-radio value="#008000"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #008000"></div></b-form-radio>
+                                    <b-form-radio value="#000000"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #000000"></div></b-form-radio>
+                                    <b-form-radio value="#FFFFFF"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFFFFF"></div></b-form-radio>
+                                    <b-form-radio value="#C0C0C0"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #C0C0C0"></div></b-form-radio>
+                                    <b-form-radio value="#FFFF00"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFFF00"></div></b-form-radio>
+                                    <b-form-radio value="#800080"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #800080"></div></b-form-radio>
+                                    <b-form-radio value="#FFA500"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFA500"></div></b-form-radio>
+                                    <b-form-radio value="#FFC0CB"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FFC0CB"></div></b-form-radio>
+                                    <b-form-radio value="#FF0000"><div style="width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color: #FF0000"></div></b-form-radio>
+                                    <b-form-radio value="Нет Цвета">нет цвета</b-form-radio>
+                                </b-form-radio-group>
+                            </b-row>
+                        </div>
+
+                        <!-- PRICE -->
+                        <div class="pt-2">
+                            <span class="title_inputs">Введите стоимость товара</span>
+                            <b-row class="px-3 py-2">
+                                <input
+                                    v-if="New_Product" 
+                                    type="number"
+                                    class="form-control"
+                                    v-model="New_Product.price"
+                                    id="price_product"
+                                    name="price_product"
+                                    required
+                                />
+                            </b-row>
+                        </div>
+
+                        <!-- discount -->
+                        <div class="pt-2">
+                            <span class="title_inputs">Введите скидку для товара (без процента, просто цифру)</span>
+                            <b-row class="px-3 py-2">
+                                <input
+                                    v-if="New_Product" 
+                                    type="number"
+                                    class="form-control"
+                                    v-model="New_Product.discount"
+                                    id="discount_product"
+                                    name="discount_product"
+                                    required
+                                />
+                            </b-row>
+                        </div>
+
+                        <!-- SPECIAL OFFER -->
+                        <div class="pt-2">
+                            <span class="title_inputs">Отметьте, если товар из спиацильных предложений</span>
+                            <b-row class="px-3 py-2">
+                                <!-- chekbox где отправляется true или false -->
+                                <b-form-checkbox v-if="New_Product" v-model="New_Product.special_offer">Специальное предложение</b-form-checkbox>
+                            </b-row>
+                        </div>
+
+                        <!-- Hit Sales -->
+                        <div class="pt-2">
+                            <span class="title_inputs">Отметьте, если товар с горчей скидкой</span>
+                            <b-row class="px-3 py-2">
+                                <!-- chekbox где отправляется true или false -->
+                                <b-form-checkbox v-if="New_Product" v-model="New_Product.hit_sales">Горячая скидка</b-form-checkbox>
+                            </b-row>
+                        </div>
+
+                        <!-- CATEGORIES МЫ ДОЛЖНЫ ТУТ ВЫБРАТЬ КАТЕГОРИЮ (КАТЕГОРИИ БЕРУТСЯ ОТ АПИ)  -->
+                        <div class="pt-2">
+                            <span class="title_inputs">Выберете категорию где будет лежать товар</span>
+                            <b-row class="px-3 py-2">
+                                <b-form-select v-if="New_Product" v-model="New_Product.categories" :options="categOptions">
+                                    <template #first>
+                                        <b-form-select-option :value="null" disabled>-- Выберите категорию --</b-form-select-option>
+                                    </template>
+                                </b-form-select>
+                            </b-row>
+                        </div>
+
+                        <div class="pt-2">
+                            <span class="title_inputs">Загрузите изображения для товара</span>
+                            <b-row class="px-3 py-2">
+                                <label for="load" class="text-light py-2 px-3 bg-dark">+ Добавить фото</label>
+                                <input id="load" ref="file" @change="handleFileUpload()" type="file" name="photo" style="display: none;">
+                            </b-row>
+                            <b-row class="px-3 py-2">
+                                <b-overlay :show="show_overlay" rounded="sm">
+                                    <b-row  cols="3">
+                                        <b-col v-for="(file, i) in files" :key="i">
+                                            <div class="imgs_object pb-4">
+                                                <a :href="file.file_url" download class="pt-2">
+                                                    <img :src="file.file_url" width="100%" height="300">
+                                                </a>
+                                                <span @click="deleteFile(i)" class="delete_imgs" style="cursor: pointer; color: red">
+                                                    удалить
+                                                </span>
+                                            </div>
+                                        </b-col>
+                                    </b-row>
+                                </b-overlay>
+                            </b-row>
+                        </div>
+                        <div style="border-top: 1px solid #ccc" class="w-100 py-4">
+                            <b-button v-if="eventBtnProduct" type='submit' class="float-left">СОЗДАТЬ НОВЫЙ ТОВАР</b-button>
+                            <b-row v-else class="float-left d-flex justify-content-between" >
+                                <b-button class="ml-3" type="submit">ИЗМЕНИТЬ ТОВАР</b-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <b-button @click="deleteProduct()" variant="danger">УДАЛИТЬ ТОВАР</b-button>                            
+                            </b-row>
+                            <b-button class="float-right" @click="resetModal(), AddProductModal=!AddProductModal"> Отменить </b-button>
+                        </div>
+                    </b-form>
+                </b-modal>
+                <!-- <b-table @row-selected="onRowlink_colorProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive> -->
+                <b-table :filter="filter__employee" ref="allProducts" @row-selected="onRowProductSelected($event)" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable select-mode="single" striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
+                    <template #cell(description)="row">
+                        {{row.item.description.substring(0,80)+'....'}}
+                    </template>
+                    <template #empty="scope">
+                        <div  class="d-flex justify-content-center w-100">
+                            <h6>{{ scope.emptyText }}</h6>
+                        </div>
+                    </template>
+                    <template #cell(color)="row">
+                        <div :style="'width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color:' +  row.item.color"></div>
+                    </template>
+                    <template #cell(size_kol)="row">
+                        <b-row>
+                            <div v-for="(item, i) in row.item.size_kol" :key="i">
+                                {{item.size}} - {{item.kol}}; &nbsp;&nbsp;
+                            </div>
+                        </b-row>
+                    </template>
+                </b-table>
+            </div>
+        </b-card>
+    </div>
 </template>
 
 <script>
@@ -325,6 +335,7 @@ let Store_New_Product = {
 export default {
   data () {
     return {
+        show_products: false,
         filter__employee: null,
         AddProductModal: false,
         eventBtnProduct: true,
@@ -387,23 +398,14 @@ export default {
                 sortable: true
             },
             {
-                key: 'name_ru',
+                key: 'name',
                 label: 'Наименование',
                 sortable: true
             },
+
             {
-                key: 'name_uz',
-                label: 'Mahsulot nomi',
-                sortable: true
-            },
-            {
-                key: 'description_ru',
+                key: 'description',
                 label: 'Описание',
-                sortable: true
-            },
-            {
-                key: 'description_uz',
-                label: 'Mahsulot tavsifi',
                 sortable: true
             },
             {
@@ -482,13 +484,12 @@ export default {
   },
     
 mounted(){
-    this.getDataProducts();
-    this.getCategories();
 },
 methods:{
     // COMPONENT START
     getDataProducts(){
       Api.getInstance().products.getDataProducts().then((response) => {
+          this.show_products = true;
           this.dataProductsItems = response.data;
       })
       .catch((error) => {
@@ -572,8 +573,7 @@ methods:{
 
         if(StoreSizeProduct.length > 0 || StoreNPSizeKolProduct.length > 0){
             let StoreNoneSizeProduct = StoreSizeProduct.filter(el=> el.size == 'Нет размера');
-            let StoreNoneNPSizeProduct = StoreNPSizeKolProduct.filter(el=> el.size == 'Нет размера');
-            
+
             if(StoreNoneSizeProduct[0]){
                 if(StoreNoneSizeProduct[0].kol !== 0){
                     this.New_Product.size_kol = StoreNoneSizeProduct   
@@ -582,15 +582,21 @@ methods:{
                 }
             }else {
                 if(StoreSizeProduct.length>0){
-                    this.New_Product.size_kol = StoreSizeProduct;
-                }
-                if(StoreNPSizeKolProduct.length>0){
-                    this.New_Product.size_kol = StoreNPSizeKolProduct;
+                    if(StoreNoneSizeProduct[0]){
+                        for(let idsnp in StoreNPSizeKolProduct){
+                            for(let ids of StoreSizeProduct){
+                                if(StoreNPSizeKolProduct[idsnp].size == ids.size){
+                                    this.New_Product.size_kol[idsnp] = ids
+                                }
+                            }
+                        }
+                    }else{
+                        this.New_Product.size_kol = StoreSizeProduct
+                    }
                 }
             }
-
             if(this.eventBtnProduct){
-                this.New_Product.discount = parseInt(this.New_Product.discount);
+                    this.New_Product.discount = parseInt(this.New_Product.discount);
                 this.New_Product.price = parseInt(this.New_Product.price);
                 Api.getInstance().products.sendNewProduct(this.New_Product).then((response) => {
                     this.$bvToast.toast('Товар успешно добавлен в базу данных.', {

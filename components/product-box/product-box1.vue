@@ -5,15 +5,18 @@
         <span class="lable3" v-if="product.discount && product.discount != 0">{{product.discount}}%</span>
       </div>
       <div class="front">
-        <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
-          <img
-            :src='product.images[0]'
-            :id="product.id"
-            class="img-fluid bg-img"
-            :alt="product.name"
-            :key="index"
-          />
-        </nuxt-link>
+        <b-overlay style="width: 325px; height: 426px" :show="!isLoad" rounded="sm">
+          <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
+              <img
+                :src='product.images[0]'
+                :id="product.id"
+                class="img-fluid bg-img"
+                :alt="product.name"
+                :key="index"
+                @load="loaded"
+              />
+          </nuxt-link>
+        </b-overlay>
       </div>
       <ul class="product-thumb-list">
         <li
@@ -88,6 +91,7 @@ export default {
   props: ['product', 'index'],
   data() {
     return {
+      isLoad: false,
       imageSrc: '',
       quickviewProduct: {},
       compareProduct: {},
@@ -112,6 +116,9 @@ export default {
     })
   },
   methods: {
+    loaded() {
+        this.isLoad = true
+    },
     addToCart: function (product) {
       this.cartval = true
       this.cartProduct = product
@@ -120,7 +127,11 @@ export default {
     },
     addToWishlist: function (product) {
       this.dismissCountDown = this.dismissSecs
-      // this.$emit('showalert', this.dismissCountDown)
+      this.$bvToast.toast('Товар успешно добавлен в избранное.', {
+        title: `Сообщение`,
+        variant: "success",
+        solid: true
+      })
       this.$store.dispatch('products/addToWishlist', product)
     },
     showQuickview: function (productData) {
