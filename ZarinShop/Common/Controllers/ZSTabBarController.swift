@@ -58,15 +58,43 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         let tabs = [self.mainTab, self.searchTab, self.cartTab, self.favoriteTab, self.profile]
-        self.viewControllers = tabs.map { UINavigationController(rootViewController: $0)}
-        self.tabBarStyle()
+        viewControllers = tabs.map { UINavigationController(rootViewController: $0)}
+        
+        delegate = self
+        tabBar.tintColor = .black
+        tabBar.barTintColor = .white
+    }
+}
+
+extension TabBarController: UITabBarControllerDelegate {
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        if let navigVC = viewController as? UINavigationController,
+           (navigVC.viewControllers.first is ZSCartViewController ||
+            navigVC.viewControllers.first is ZSFavoritesViewController) &&
+            !UserDefaults.standard.isSingin() {
+            alertForSignin()
+            return false
+        } else {
+            tabBar.tintColor = .black
+            return true
+        }
+    }
+    
+    private func alertForSignin() {
+        let alert = UIAlertController(
+            title: "Ошибка", message: "Чтобы продолжить, нужно автризоваться", preferredStyle: .alert)
+        alert.addAction(.init(title: "Отмена", style: .cancel, handler: nil))
+        alert.addAction(.init(title: "Авторизация", style: .default, handler: { [weak self] (_) in
+            let controller = ZSAuthorizationViewController()
+            controller.modalPresentationStyle = .fullScreen
+            controller.loginHandler = { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
+            self?.present(controller, animated: true, completion: nil)
+        }))
+        present(alert, animated: true, completion: nil)
     }
 
-    // MARK: - Setters
-    
-    private func tabBarStyle() {
-        self.tabBar.tintColor = .black
-        self.tabBar.barTintColor = .white
-    }
-    
 }

@@ -103,10 +103,8 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     func initCell(with model: ZSProductModel) {
         self.product = model
         titleLabel.text = model.name
-        descriptionLabel.text = String(format: "%0.2f", model.price) + " сум"
+        descriptionLabel.text = "\(Int(model.price)) сум"
         if model.images.count > 0 {
-            //todo
-            //bigImageView.image = UIImage(named: "defauldProduct")
             loadImage(from: model.images[0])
         } else {
             bigImageView.image = UIImage(named: "defauldProduct")

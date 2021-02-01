@@ -396,7 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				20B2DFCC25274C980089BC55 /* Auth */,
-				2057B8E025259337007D8D05 /* Main  Tab */,
+				2057B8E025259337007D8D05 /* Main Tab */,
 				84C74BBD255FFA150074288C /* Catalog Tab */,
 				20FD49BC2545C4E50006F50C /* Favorites Tab */,
 				2057B8CB252591FC007D8D05 /* Cart Tab */,
@@ -468,14 +468,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		2057B8E025259337007D8D05 /* Main  Tab */ = {
+		2057B8E025259337007D8D05 /* Main Tab */ = {
 			isa = PBXGroup;
 			children = (
 				8432815F2573ADDB00746F1D /* Models */,
 				843281522573A5C300746F1D /* Views */,
 				8432814D2573A44300746F1D /* Controllers */,
 			);
-			path = "Main  Tab";
+			path = "Main Tab";
 			sourceTree = "<group>";
 		};
 		208483C7253C8DB40044D4A9 /* AddAddress */ = {

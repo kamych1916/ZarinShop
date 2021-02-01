@@ -29,7 +29,5 @@ class ZSBaseViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
     }
-    
-    
-    
+
 }
