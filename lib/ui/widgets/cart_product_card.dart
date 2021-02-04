@@ -208,7 +208,7 @@ class _CartProductCardState extends State<CartProductCard> {
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18)),
                       ),
-                      Counter(countSubject, initCount: widget.cartEntity.count),
+                      //Counter(countSubject, initCount: widget.cartEntity.count),
                     ],
                   )
                 ],

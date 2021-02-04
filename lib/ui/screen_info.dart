@@ -51,7 +51,8 @@ class InfoScreen extends StatelessWidget {
                     Expanded(
                         child: Text(
                       "Язык приложения",
-                      style: TextStyle(fontFamily: "SegoeUiSemiBold"),
+                      style: TextStyle(
+                          color: Colors.grey, fontFamily: "SegoeUiSemiBold"),
                     )),
                     DropdownButton<String>(
                       isDense: true,
@@ -66,16 +67,16 @@ class InfoScreen extends StatelessWidget {
                       items: [
                         DropdownMenuItem(
                           child: Text(
-                            "Русский",
-                            style: TextStyle(fontSize: 14),
+                            "Русский    ",
+                            style: TextStyle(color: Colors.grey, fontSize: 14),
                           ),
                         ),
-                        DropdownMenuItem(
-                          child: Text(
-                            "Узбекский",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
+                        // DropdownMenuItem(
+                        //   child: Text(
+                        //     "Узбекский",
+                        //     style: TextStyle(fontSize: 14),
+                        //   ),
+                        // ),
                       ],
                     )
                   ],

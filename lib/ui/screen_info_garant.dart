@@ -27,7 +27,7 @@ class GarantInfoScreen extends StatelessWidget {
               ),
             ),
             title: Text(
-              "Гарант качества",
+              "Гарантия качества",
               overflow: TextOverflow.fade,
               style: TextStyle(
                   color: Colors.black87,

@@ -51,7 +51,9 @@ class _AddressTabState extends State<AddressTab> {
                         ? ListView.separated(
                             physics: BouncingScrollPhysics(),
                             separatorBuilder: (context, index) => Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical:
+                                          showAddresses ? 10 : 0), //10.0),
                                 ),
                             shrinkWrap: true,
                             itemCount: !showAddresses
@@ -66,38 +68,38 @@ class _AddressTabState extends State<AddressTab> {
                                 return DeliveryTypePicker(
                                     deliveryTypePickerCallback);
 
-                              if (!showAddresses)
-                                return GestureDetector(
-                                  onTap: () =>
-                                      widget.callback(null, deliveryType),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 20.0),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.arrow_forward,
-                                          size: 26.0,
-                                          color: Styles.mainColor,
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10.0),
-                                        ),
-                                        Text(
-                                          "Далее",
-                                          style: TextStyle(
-                                              fontFamily: "SegoeUIBold"),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              else
+                              if (showAddresses)
+                                //   return GestureDetector(
+                                //     onTap: () =>
+                                //         widget.callback(null, deliveryType),
+                                //     child: Container(
+                                //       decoration: BoxDecoration(
+                                //           color: Colors.white,
+                                //           borderRadius:
+                                //               BorderRadius.circular(10)),
+                                //       padding: EdgeInsets.symmetric(
+                                //           vertical: 10.0, horizontal: 20.0),
+                                //       child: Row(
+                                //         children: [
+                                //           Icon(
+                                //             Icons.arrow_forward,
+                                //             size: 26.0,
+                                //             color: Styles.mainColor,
+                                //           ),
+                                //           Padding(
+                                //             padding: EdgeInsets.symmetric(
+                                //                 horizontal: 10.0),
+                                //           ),
+                                //           Text(
+                                //             "Далее",
+                                //             style: TextStyle(
+                                //                 fontFamily: "SegoeUIBold"),
+                                //           )
+                                //         ],
+                                //       ),
+                                //     ),
+                                //   );
+                                // else
                                 return index ==
                                             appBloc.addresses.value.length +
                                                 1 &&
@@ -244,7 +246,24 @@ class _AddressTabState extends State<AddressTab> {
                   })),
           Expanded(
             child: Container(),
-          )
+          ),
+          Container(
+            alignment: Alignment.center,
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            decoration: BoxDecoration(
+                //color: Styles.mainColor,
+                color: Colors.grey,
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            // borderRadius: new BorderRadius.only(
+            //   topLeft: const Radius.circular(10.0),
+            //   topRight: const Radius.circular(10.0),
+            // )),
+            child: Text(
+              "Оплатить",
+              style: TextStyle(fontFamily: 'SegoeUIBold', color: Colors.white),
+            ),
+          ),
         ],
       ),
     );
@@ -317,10 +336,8 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
       //padding: MediaQuery.of(context).viewInsets,
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
-        
-      color: Styles.subBackgroundColor,
-      borderRadius: BorderRadius.circular(25) 
-      ),
+          color: Styles.subBackgroundColor,
+          borderRadius: BorderRadius.circular(25)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -485,10 +502,8 @@ class DeliveryTypePickerSheet extends StatelessWidget {
       //padding: MediaQuery.of(context).viewInsets,
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
-        
-      color: Styles.subBackgroundColor,
-      borderRadius: BorderRadius.circular(25) 
-      ),
+          color: Styles.subBackgroundColor,
+          borderRadius: BorderRadius.circular(25)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,

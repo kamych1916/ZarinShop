@@ -89,6 +89,7 @@ class UserScreen extends StatelessWidget {
                                   Icon(
                                     AppIcons.map_marker,
                                     size: 20.0,
+                                    color: Colors.grey,
                                   ),
                                   Padding(
                                     padding:
@@ -98,11 +99,13 @@ class UserScreen extends StatelessWidget {
                                       child: Text(
                                     "Мои заказы",
                                     style: TextStyle(
+                                        color: Colors.grey,
                                         fontFamily: "SegoeUiSemiBold"),
                                   )),
                                   Icon(
                                     Icons.arrow_forward_ios,
                                     size: 10,
+                                    color: Colors.grey,
                                   )
                                 ],
                               ),
