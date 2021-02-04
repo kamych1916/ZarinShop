@@ -106,6 +106,7 @@ export default {
           localStorage.setItem('st', response.data.session_token);
           localStorage.setItem('cfn', response.data.last_name + ' ' + response.data.first_name);
           localStorage.setItem('ce', response.data.email);
+          
           localStorage.setItem('cil', true)
           this.$bvToast.toast('Авторизация прошла успешно.', {
             title: `Сообщение`,

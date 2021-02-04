@@ -5,10 +5,11 @@
         <span class="lable3" v-if="product.discount && product.discount != 0">{{product.discount}}%</span>
       </div>
       <div class="front">
-        <b-overlay style="width: 325px; height: 426px" :show="!isLoad" rounded="sm">
+        <b-overlay  :show="!isLoad" rounded="sm">
           <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
+                <!-- :src='product.images[0] getImgUrl(imageSrc ? imageSrc : product.images[0].src)' -->
               <img
-                :src='product.images[0]'
+                :src='getImgUrl(imageSrc ? imageSrc : product.images[0])'
                 :id="product.id"
                 class="img-fluid bg-img"
                 :alt="product.name"
@@ -27,7 +28,8 @@
           @click="productVariantChange(image)"
         >
           <a href="javascript:void(0);">
-            <img :src="image" />
+            <!-- <img :src=":src="getImgUrl(image.src)" image" /> -->
+            <img :src="getImgUrl(image)" />
           </a>
         </li>
       </ul>
@@ -116,6 +118,9 @@ export default {
     })
   },
   methods: {
+    getImgUrl(path) {
+      return path
+    },
     loaded() {
         this.isLoad = true
     },
