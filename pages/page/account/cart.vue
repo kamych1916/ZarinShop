@@ -250,4 +250,7 @@ export default {
 .cart-section .cart-table thead th, .wishlist-section .cart-table thead th{
   font-weight: inherit;
 }
+a{
+  text-transform: inherit !important
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-button class="mb-5" @click="getCategories(); getDataProducts()" v-if="!show_products">Отобразить все товары</b-button>
+        <b-button class="mb-5 w-100" @click="getCategories(); getDataProducts()" v-if="!show_products">Отобразить все товары</b-button>
 
         <b-card v-if="show_products" header="Товары" >
             <div class="wrap__products"> 

@@ -10,6 +10,14 @@
               <AddCategory />
 
               <AddProduct />
+
+              <b-button class="mb-5" @click="getEmails()" v-if="show_emails">Отобразить почты пользователей</b-button>
+
+              <b-card header="Почты пользователей" v-if="emails.length > 0" class="mt-5">
+                  <ul v-for="(item, i) in emails" :key="i">
+                    <li>{{item.email}}</li>
+                  </ul>
+              </b-card>
             </b-card>
           </div>
         </div>
@@ -31,6 +39,8 @@ export default {
     return {
       is_admin: false,
       is_user: true,
+      show_emails: true,
+      emails: []
     };
   },
   components: {
@@ -44,10 +54,17 @@ export default {
     this.check_is_admin();
   },
   methods: {
+    getEmails() {
+      Api.getInstance().auth.getEmailClients().then((response) => {
+          this.emails = response.data;
+          this.show_emails = false;
+        })
+        .catch((error) => {
+          console.log('getEmails-> ', error);
+        });
+    },
     check_is_admin() {
-      Api.getInstance()
-        .auth.check_is_admin()
-        .then((response) => {
+      Api.getInstance().auth.check_is_admin().then((response) => {
           response.data === true
             ? (this.is_admin = true)
             : ((this.is_admin = false),

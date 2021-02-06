@@ -48,9 +48,9 @@ export default {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
+    ['vue-scrollto/nuxt', { duration: 600 }],
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
-    'vue-scrollto/nuxt',
     'cookie-universal-nuxt',
   ],
   /*

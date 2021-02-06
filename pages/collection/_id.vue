@@ -4,7 +4,7 @@
     <Breadcrumbs title="коллекции" />
     <section class="section-b-space ratio_asos">
       <div class="collection-wrapper">
-        <div class="container">
+        <div class="container" id="topcontainer">
           <div class="row">
             <div class="col-lg-3">
               <sidebar @allFilters="allfilter" @priceVal="pricefilterArray" @categoryfilter="getCategoryFilter" />
@@ -89,10 +89,8 @@
                               <div class="product-page-filter">
                                 <select @change="onChangeSort($event)">
                                   <option value="all">Сортировка товаров</option>
-                                  <option value="а-я">Сортировать от А до Я</option>
-                                  <option value="я-а">Сорстировать от Я до А</option>
-                                  <option value="low">Сначала дешевые</option>
-                                  <option value="high">Сначала дорогие</option>
+                                  <option value="low">По цене дешевле </option>
+                                  <option value="high">По цене дороже</option>
                                 </select>
                               </div>
                             </div>
@@ -142,7 +140,7 @@
                               <nav aria-label="Page navigation">
                                 <ul class="pagination">
                                   <li class="page-item" :class="{'disable': current == 1 }">
-                                    <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current-1); scrollTop()">
+                                    <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current-1);" v-scroll-to="'#topcontainer'">
                                       <span aria-hidden="true">
                                         <i class="fa fa-chevron-left" aria-hidden="true"></i>
                                       </span>
@@ -150,14 +148,10 @@
                                   </li>
                                   <!-- {{this.pages}} -->
                                   <li class="page-item" v-for="(page_index, index) in pages" :key="index" :class="{'active': page_index == current}">
-                                    <a
-                                      class="page-link"
-                                      href="javascrip:void(0)"
-                                      @click.prevent="updatePaginate(page_index); scrollTop()"
-                                    >{{ page_index }}</a>
+                                    <a class="page-link" href="javascrip:void(0)" @click.prevent="updatePaginate(page_index);" v-scroll-to="'#topcontainer'">{{ page_index }}</a>
                                   </li>
                                   <li class="page-item" :class="{'disable': current == paginates }">
-                                    <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current+1); scrollTop()">
+                                    <a class="page-link" href="javascript:void(0)" @click="updatePaginate(current+1);" v-scroll-to="'#topcontainer'">
                                       <span aria-hidden="true">
                                         <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                       </span>
@@ -223,15 +217,15 @@ export default {
     return {
       bannerimagepath: require('@/assets/images/side-banner.png'),
       col2: false,
-      col3: false,
-      col4: true,
+      col3: true,
+      col4: false,
       col6: false,
       listview: false,
       priceArray: [],
       allfilters: [],
       items: [],
       current: 1,
-      paginate: 8,
+      paginate: 9,
       paginateRange: 3,
       pages: [],
       paginates: '',
@@ -360,6 +354,7 @@ export default {
       this.updatePaginate(1)
     },
     getPaginate() {
+      console.log(this.paginate)
       this.paginates = Math.round(this.filterProduct.length / this.paginate);
       this.pages = []
       for (let i = 0; i < this.paginates; i++) {

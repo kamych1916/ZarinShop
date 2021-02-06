@@ -257,6 +257,8 @@ export default {
         purple: { title: 'фиолетовый', color: '#800080'},
         orange: { title: 'оранжевый', color: '#FFA500'},
         pink: { title: 'розовый', color: '#FFC0CB'},
+        pink: { title: 'красный', color: '#FF0000'},
+        noneColor: {title: 'Нет цвета', color: 'Нет цвета'}
       }
       for(let indx in Colors){
         if(Colors[indx].color == color){

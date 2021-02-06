@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-button class="mb-5" @click="getCategories()" v-if="!show_cat">Отобразить категории товаров</b-button>
+        <b-button class="mb-5 w-100" @click="getCategories()" v-if="!show_cat">Отобразить категории товаров</b-button>
         
         <b-card v-if="show_cat" header="Категории" class="mb-5">
             <b-overlay :show="!dataCategoryItems" rounded="sm">

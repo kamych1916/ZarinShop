@@ -31,7 +31,7 @@
     "vue-masonry": "^0.11.8",
     "vue-paypal-checkout": "^3.2.0",
     "vue-product-zoomer": "^3.0.0",
-    "vue-scrollto": "^2.17.1",
+    "vue-scrollto": "^2.20.0",
     "vue-server-renderer": "2.6.11",
     "vue-slider-component": "^3.0.41",
     "vue2-animate": "^2.1.2",

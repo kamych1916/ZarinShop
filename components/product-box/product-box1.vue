@@ -1,87 +1,96 @@
 <template>
   <div>
-    <div class="img-wrapper">
-      <div class="lable-block">
-        <span class="lable3" v-if="product.discount && product.discount != 0">{{product.discount}}%</span>
-      </div>
-      <div class="front">
-        <b-overlay  :show="!isLoad" rounded="sm">
-          <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
-                <!-- :src='product.images[0] getImgUrl(imageSrc ? imageSrc : product.images[0].src)' -->
-              <img
-                :src='getImgUrl(imageSrc ? imageSrc : product.images[0])'
-                :id="product.id"
-                class="img-fluid bg-img"
-                :alt="product.name"
-                :key="index"
-                @load="loaded"
-              />
-          </nuxt-link>
-        </b-overlay>
-      </div>
-      <ul class="product-thumb-list">
-        <li
-          class="grid_thumb_img"
-          :class="{active: imageSrc === image}"
-          v-for="(image,index) in product.images"
-          :key="index"
-          @click="productVariantChange(image)"
-        >
-          <a href="javascript:void(0);">
-            <!-- <img :src=":src="getImgUrl(image.src)" image" /> -->
-            <img :src="getImgUrl(image)" />
-          </a>
-        </li>
-      </ul>
-      <div class="cart-info cart-wrap">
-          <!-- <button
-            data-toggle="modal"
-            data-target="#addtocart"
-            title="Добавить в корзину"
-            @click="addToCart(product)"
-            v-b-modal.modal-cart
-            variant="primary"
+    <template v-if="isLoad"> 
+      <b-skeleton-img height="437px"></b-skeleton-img> 
+      <b-skeleton width="85%" class="mt-2"></b-skeleton>
+      <b-skeleton width="55%"></b-skeleton>
+      <b-skeleton width="70%" ></b-skeleton>
+    </template>
+      
+    <div :class="!isLoad ? 'content-visible' : ''" style="visibility: hidden; display: none">
+      <div class="img-wrapper">
+        <div class="lable-block">
+          <span class="lable3" v-if="product.discount && product.discount != 0">{{product.discount}}%</span>
+        </div>
+        <div class="front">
+          <!-- <b-overlay  :show="!isLoad" rounded="sm"> -->
+            <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
+                  <!-- :src='product.images[0] getImgUrl(imageSrc ? imageSrc : product.images[0].src)' -->
+                <img
+                  :src='getImgUrl(imageSrc ? imageSrc : product.images[0])'
+                  :id="product.id"
+                  class="img-fluid bg-img"
+                  :alt="product.name"
+                  :key="index"
+                  @load="loaded"
+                />
+            </nuxt-link>
+          <!-- </b-overlay> -->
+        </div>
+        <ul class="product-thumb-list">
+          <li
+            class="grid_thumb_img"
+            :class="{active: imageSrc === image}"
+            v-for="(image,index) in product.images"
+            :key="index"
+            @click="productVariantChange(image)"
           >
-            <i class="ti-shopping-cart"></i>
-          </button> -->
-        <a href="javascript:void(0)" title="Wishlist">
-          <i class="ti-heart" aria-hidden="true" @click="addToWishlist(product)"></i>
-        </a>
-        <a href="javascript:void(0)" title="Quick View" @click="showQuickview(product)" v-b-modal.modal-lg variant="primary">
-          <i class="ti-search" aria-hidden="true"></i>
-        </a>
-        <!-- <a href="javascript:void(0)" title="Comapre" @click="addToCompare(product)" v-b-modal.modal-compare variant="primary">
-          <i class="ti-reload" aria-hidden="true"></i>
-        </a> -->
+            <a href="javascript:void(0);">
+              <!-- <img :src=":src="getImgUrl(image.src)" image" /> -->
+              <img :src="getImgUrl(image)" />
+            </a>
+          </li>
+        </ul>
+        <div class="cart-info cart-wrap">
+            <!-- <button
+              data-toggle="modal"
+              data-target="#addtocart"
+              title="Добавить в корзину"
+              @click="addToCart(product)"
+              v-b-modal.modal-cart
+              variant="primary"
+            >
+              <i class="ti-shopping-cart"></i>
+            </button> -->
+          <a href="javascript:void(0)" title="Wishlist">
+            <i class="ti-heart" aria-hidden="true" @click="addToWishlist(product)"></i>
+          </a>
+          <a href="javascript:void(0)" title="Quick View" @click="showQuickview(product)" v-b-modal.modal-lg variant="primary">
+            <i class="ti-search" aria-hidden="true"></i>
+          </a>
+          <!-- <a href="javascript:void(0)" title="Comapre" @click="addToCompare(product)" v-b-modal.modal-compare variant="primary">
+            <i class="ti-reload" aria-hidden="true"></i>
+          </a> -->
+        </div>
       </div>
-    </div>
-    <div class="product-detail">
-      <!-- <div class="rating">
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-        <i class="fa fa-star"></i>
-      </div> -->
-      <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
-        <h6>{{ product.name }} </h6>
-      </nuxt-link>
-      <p>{{ product.description }}</p>
-      <h4 v-if="product.discount && product.discount != 0">
-        {{ (parseInt(discountedPrice(product))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small> 
-        <del>{{ (parseInt(product.price)).toLocaleString('ru-RU') }}</del>
-      </h4>
-      <h4 v-else>{{ (parseInt(product.price)).toLocaleString('ru-RU') }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></h4>
-      <ul class="color-variant" v-if="product.color">
-        <li v-for="(variant, variantIndex) in Color(product.link_color)" :key="variantIndex">
-          <a
-            v-bind:style="{ 'background-color' : variant, 'border': '1px solid #ccc'}"
-          ></a>
-        </li>
-        <!-- <li >
-          <a v-bind:style="{ 'background-color' : product.color, 'border' : '1px solid #ccc'}"></a>
-        </li> -->
-      </ul>
+      <div class="product-detail">
+        <!-- <div class="rating">
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+        </div> -->
+        <nuxt-link :to="{ path: '/product/sidebar/'+product.id}">
+          <h6>{{ product.name }} </h6>
+        </nuxt-link>
+        <p>{{ product.description }}</p>
+        <h4 v-if="product.discount && product.discount != 0">
+          {{ (parseInt(discountedPrice(product))).toLocaleString('ru-RU')  }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small> 
+          <del>{{ (parseInt(product.price)).toLocaleString('ru-RU') }}</del>
+        </h4>
+        <h4 v-else>{{ (parseInt(product.price)).toLocaleString('ru-RU') }} <small style="color: #aaaaaa; text-transform: initial">сум/шт.</small></h4>
+        <ul class="color-variant" v-if="product.color">
+          <li v-for="(variant, variantIndex) in Color(product.link_color)" :key="variantIndex">
+            <a
+              v-bind:style="{ 'background-color' : variant, 'border': '1px solid #ccc'}"
+            ></a>
+          </li>
+          <!-- <li >
+            <a v-bind:style="{ 'background-color' : product.color, 'border' : '1px solid #ccc'}"></a>
+          </li> -->
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -93,7 +102,7 @@ export default {
   props: ['product', 'index'],
   data() {
     return {
-      isLoad: false,
+      isLoad: true,
       imageSrc: '',
       quickviewProduct: {},
       compareProduct: {},
@@ -122,7 +131,8 @@ export default {
       return path
     },
     loaded() {
-        this.isLoad = true
+      this.isLoad = false;
+      
     },
     addToCart: function (product) {
       this.cartval = true
@@ -188,5 +198,9 @@ export default {
 <style >
 .product-box .img-wrapper .lable-block .lable3, .product-wrap .img-wrapper .lable-block .lable3{
   width: 40px;
+}
+.content-visible{
+  visibility: visible !important;
+  display: inherit  !important;
 }
 </style>
