@@ -63,8 +63,7 @@ class ProductCard extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10)),
                                     height:
-                                        MediaQuery.of(context).size.height /
-                                                3 -
+                                        MediaQuery.of(context).size.height / 3 -
                                             15.0,
                                   ),
                                 );
@@ -73,9 +72,12 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                ProductCardFavoriteIcon(
-                  product,
-                  key: ValueKey(product.id),
+                Hero(
+                  tag: "heart" + product.id,
+                  child: ProductCardFavoriteIcon(
+                    product,
+                    key: ValueKey(product.id),
+                  ),
                 )
               ],
             ),

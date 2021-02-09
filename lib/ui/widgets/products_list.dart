@@ -203,7 +203,7 @@ class ProductsList extends StatelessWidget {
                             ProductCard(snapshot.data.data[index]),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 1 / 2 + 0.025,
+                          childAspectRatio: 1 / 2,
                           mainAxisSpacing: 0.0,
                           crossAxisSpacing: 10.0,
                         ),

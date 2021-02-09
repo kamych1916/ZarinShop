@@ -7,6 +7,7 @@ import 'package:Zarin/blocs/user_bloc.dart';
 import 'package:Zarin/ui/screen_product_info_image_view.dart';
 import 'package:Zarin/ui/widgets/colors_picker.dart';
 import 'package:Zarin/models/product.dart';
+import 'package:Zarin/ui/widgets/product_card_favorite_icon.dart';
 import 'package:Zarin/ui/widgets/progress_indicator.dart';
 import 'package:Zarin/ui/widgets/sizes.dart';
 import 'package:Zarin/utils/styles.dart';
@@ -80,124 +81,145 @@ class _ProductInfoState extends State<ProductInfo> {
                   Container(
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height * 0.6,
-                    child: Zarin.Slider(
-                      children: List.generate(
-                        widget.product.images.length,
-                        (index) => GestureDetector(
-                          onScaleUpdate: (scale) => scale.scale > 1.5
-                              ? pushNewScreen(
-                                  context,
-                                  screen: ProductInfoImageView(
-                                      index == 0
-                                          ? widget.heroTag
-                                          : widget.heroTag + index.toString(),
-                                      widget.product.images[index]),
-                                  withNavBar: true,
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.fade,
-                                )
-                              : null,
-                          onTap: () => pushNewScreen(
-                            context,
-                            screen: ProductInfoImageView(
-                                index == 0
+                    child: Stack(
+                      children: [
+                        Zarin.Slider(
+                          children: List.generate(
+                            widget.product.images.length,
+                            (index) => GestureDetector(
+                              onScaleUpdate: (scale) => scale.scale > 1.5
+                                  ? pushNewScreen(
+                                      context,
+                                      screen: ProductInfoImageView(
+                                          index == 0
+                                              ? widget.heroTag
+                                              : widget.heroTag +
+                                                  index.toString(),
+                                          widget.product.images[index]),
+                                      withNavBar: true,
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.fade,
+                                    )
+                                  : null,
+                              onTap: () => pushNewScreen(
+                                context,
+                                screen: ProductInfoImageView(
+                                    index == 0
+                                        ? widget.heroTag
+                                        : widget.heroTag + index.toString(),
+                                    widget.product.images[index]),
+                                withNavBar: true,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.fade,
+                              ),
+                              child: Hero(
+                                tag: index == 0
                                     ? widget.heroTag
                                     : widget.heroTag + index.toString(),
-                                widget.product.images[index]),
-                            withNavBar: true,
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.fade,
-                          ),
-                          child: Hero(
-                            tag: index == 0
-                                ? widget.heroTag
-                                : widget.heroTag + index.toString(),
-                            child: index == 0
-                                ? Image(
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.6,
-                                    image: NetworkImage(
-                                        widget.product.images[index]),
-                                    frameBuilder: (BuildContext context,
-                                        Widget child,
-                                        int frame,
-                                        bool wasSynchronouslyLoaded) {
-                                      if (wasSynchronouslyLoaded) {
-                                        return child;
-                                      } else {
-                                        return AnimatedSwitcher(
-                                            duration: const Duration(
-                                                milliseconds: 500),
-                                            child: frame != null
-                                                ? child
-                                                : Shimmer.fromColors(
-                                                    baseColor: Styles
-                                                        .subBackgroundColor,
-                                                    highlightColor: Styles
-                                                        .mainColor
-                                                        .withOpacity(0.5),
-                                                    period: Duration(
-                                                        milliseconds: 3000),
-                                                    child: Container(
-                                                      color: Styles
-                                                          .subBackgroundColor,
-                                                      width: double.infinity,
-                                                      height:
-                                                          MediaQuery.of(context)
+                                child: index == 0
+                                    ? Image(
+                                        fit: BoxFit.cover,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.6,
+                                        image: NetworkImage(
+                                            widget.product.images[index]),
+                                        frameBuilder: (BuildContext context,
+                                            Widget child,
+                                            int frame,
+                                            bool wasSynchronouslyLoaded) {
+                                          if (wasSynchronouslyLoaded) {
+                                            return child;
+                                          } else {
+                                            return AnimatedSwitcher(
+                                                duration: const Duration(
+                                                    milliseconds: 500),
+                                                child: frame != null
+                                                    ? child
+                                                    : Shimmer.fromColors(
+                                                        baseColor: Styles
+                                                            .subBackgroundColor,
+                                                        highlightColor: Styles
+                                                            .mainColor
+                                                            .withOpacity(0.5),
+                                                        period: Duration(
+                                                            milliseconds: 3000),
+                                                        child: Container(
+                                                          color: Styles
+                                                              .subBackgroundColor,
+                                                          width:
+                                                              double.infinity,
+                                                          height: MediaQuery.of(
+                                                                      context)
                                                                   .size
                                                                   .height *
                                                               0.6,
-                                                    ),
-                                                  ));
-                                      }
-                                    },
-                                  )
-                                : Image(
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.6,
-                                    image: NetworkImage(
-                                        widget.product.images[index]),
-                                    frameBuilder: (BuildContext context,
-                                        Widget child,
-                                        int frame,
-                                        bool wasSynchronouslyLoaded) {
-                                      if (wasSynchronouslyLoaded) {
-                                        return child;
-                                      } else {
-                                        return AnimatedSwitcher(
-                                            duration: const Duration(
-                                                milliseconds: 500),
-                                            child: frame != null
-                                                ? child
-                                                : Shimmer.fromColors(
-                                                    baseColor: Styles
-                                                        .subBackgroundColor,
-                                                    highlightColor: Styles
-                                                        .mainColor
-                                                        .withOpacity(0.5),
-                                                    period: Duration(
-                                                        milliseconds: 3000),
-                                                    child: Container(
-                                                      color: Styles
-                                                          .subBackgroundColor,
-                                                      width: double.infinity,
-                                                      height:
-                                                          MediaQuery.of(context)
+                                                        ),
+                                                      ));
+                                          }
+                                        },
+                                      )
+                                    : Image(
+                                        fit: BoxFit.cover,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.6,
+                                        image: NetworkImage(
+                                            widget.product.images[index]),
+                                        frameBuilder: (BuildContext context,
+                                            Widget child,
+                                            int frame,
+                                            bool wasSynchronouslyLoaded) {
+                                          if (wasSynchronouslyLoaded) {
+                                            return child;
+                                          } else {
+                                            return AnimatedSwitcher(
+                                                duration: const Duration(
+                                                    milliseconds: 500),
+                                                child: frame != null
+                                                    ? child
+                                                    : Shimmer.fromColors(
+                                                        baseColor: Styles
+                                                            .subBackgroundColor,
+                                                        highlightColor: Styles
+                                                            .mainColor
+                                                            .withOpacity(0.5),
+                                                        period: Duration(
+                                                            milliseconds: 3000),
+                                                        child: Container(
+                                                          color: Styles
+                                                              .subBackgroundColor,
+                                                          width:
+                                                              double.infinity,
+                                                          height: MediaQuery.of(
+                                                                      context)
                                                                   .size
                                                                   .height *
                                                               0.6,
-                                                    ),
-                                                  ));
-                                      }
-                                    },
-                                  ),
+                                                        ),
+                                                      ));
+                                          }
+                                        },
+                                      ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Align(
+                          alignment: Alignment(0.97, 0.97),
+                          child: Hero(
+                            tag: "heart" + widget.product.id,
+                            child: ProductCardFavoriteIcon(
+                              widget.product,
+                              key: ValueKey(widget.product.id),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   Padding(padding: EdgeInsets.symmetric(vertical: 10)),
@@ -220,23 +242,28 @@ class _ProductInfoState extends State<ProductInfo> {
                                   style: TextStyle(
                                       fontFamily: "SegoeUIBold", fontSize: 20),
                                 ),
-                                widget.product.discount != 0 ? Expanded(
-                                  child: Padding(
-                                    padding:
-                                      EdgeInsets.symmetric(horizontal: 10.0),
-                                    child: Text(
-                                      (widget.product.price).floor().toString() +
-                                          " сум",
-                                      overflow: TextOverflow.clip,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontFamily: "SegoeUIBold",
-                                          fontSize: 14,
-                                          color: Colors.red[300],
-                                          decoration: TextDecoration.lineThrough),
-                                    ),
-                                  ),
-                                ) : Container(),
+                                widget.product.discount != 0
+                                    ? Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          child: Text(
+                                            (widget.product.price)
+                                                    .floor()
+                                                    .toString() +
+                                                " сум",
+                                            overflow: TextOverflow.clip,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                fontFamily: "SegoeUIBold",
+                                                fontSize: 14,
+                                                color: Colors.red[300],
+                                                decoration:
+                                                    TextDecoration.lineThrough),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
                               ],
                             ),
                           ),
@@ -463,7 +490,10 @@ class _CounterState extends State<Counter> {
           child: Container(
             padding: EdgeInsets.only(right: 20, left: 20),
             child: Text("-",
-                style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16, color: current == 1 ? Colors.grey : Colors.black)),
+                style: TextStyle(
+                    fontFamily: "SegoeUISemiBold",
+                    fontSize: 16,
+                    color: current == 1 ? Colors.grey : Colors.black)),
           ),
         ),
         Text(
@@ -477,7 +507,10 @@ class _CounterState extends State<Counter> {
             padding: EdgeInsets.only(left: 20, right: 20.0),
             child: Text(
               "+",
-              style: TextStyle(fontFamily: "SegoeUISemiBold", fontSize: 16, color: current >= maxCount ? Colors.grey : Colors.black),
+              style: TextStyle(
+                  fontFamily: "SegoeUISemiBold",
+                  fontSize: 16,
+                  color: current >= maxCount ? Colors.grey : Colors.black),
             ),
           ),
         )
