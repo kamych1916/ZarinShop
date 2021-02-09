@@ -143,7 +143,7 @@ class ProductApiProvider {
     String productSize = cartEntity.size;
     String body = '{"id": "$productID", "size": "$productSize"}';
 
-    await client.send(Request("DELETE", Uri.parse(url))
+    await client.send(Request("POST", Uri.parse(url))
       ..headers["Authorization"] = "Bearer " + UserApiProvider.token
       ..body = body);
   }
