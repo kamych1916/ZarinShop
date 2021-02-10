@@ -22,11 +22,11 @@
               <tbody v-for="(item,index) in cart" :key="index">
                 <tr>
                   <td>
-                    <b-overlay style=" height: 92px" :show="!is_Img_Load" rounded="sm">
+                    <!-- <b-overlay style=" height: 92px" :show="!is_Img_Load" rounded="sm"> -->
                       <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">
                         <img :src="item.images[0]" alt @load="is_Img_Load = !is_Img_Load" />
                       </nuxt-link>
-                    </b-overlay>
+                    <!-- </b-overlay> -->
                   </td>
                   <td>
                     <nuxt-link :to="{ path: '/product/sidebar/'+item.id}">{{item.name}}</nuxt-link>

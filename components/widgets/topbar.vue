@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+// import firebase from 'firebase';
 import UserAuth from '../../pages/page/account/auth/auth';
 import Api from "~/utils/api";
 export default {

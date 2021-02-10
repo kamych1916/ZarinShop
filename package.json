@@ -15,7 +15,6 @@
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.16.0",
     "cookie-universal-nuxt": "^2.1.4",
-    "firebase": "^7.5.0",
     "js-cookie": "^2.2.1",
     "npx": "^10.2.2",
     "nuxt": "^2.14.5",

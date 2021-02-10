@@ -20,6 +20,17 @@ export default class Api {
         },   
     }
 
+    orders = {
+        async getDataOrders() {
+            return axios.get(`${API_BASE_URL}/get_all_user_order`, 
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('st')}`
+                }  
+            } )
+        }
+    }
+
     products ={
         async getDataProducts() {
             return axios.get(`${API_BASE_URL}/items`)
@@ -130,7 +141,12 @@ export default class Api {
 
     categories = {
         async getCategories() {
-            return axios.get(`${API_BASE_URL}/categories`)
+            return axios.get(`${API_BASE_URL}/categories`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('st')}`
+                }  
+            })
         },
         async send_new_category(category) {
             return axios.post(`${API_BASE_URL}/categories`, category)
@@ -169,7 +185,12 @@ export default class Api {
             })
         },
         async getEmailClients() {
-            return axios.get(`${API_BASE_URL}/mailing`)
+            return axios.get(`${API_BASE_URL}/mailing`, 
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('st')}`
+                }  
+            })
         },
         async sendClientEmail(email) {
             return axios.post(`${API_BASE_URL}/add_mailing`, {

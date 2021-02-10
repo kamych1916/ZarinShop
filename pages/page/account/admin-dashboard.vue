@@ -7,17 +7,21 @@
         <div class="container" v-if="is_admin">
           <div class="row">
             <b-card no-body v-bind:class="'dashboardtab'">
-              <AddCategory />
-
-              <AddProduct />
-
-              <b-button class="mb-5" @click="getEmails()" v-if="show_emails">Отобразить почты пользователей</b-button>
-
-              <b-card header="Почты пользователей" v-if="emails.length > 0" class="mt-5">
-                  <ul v-for="(item, i) in emails" :key="i">
-                    <li>{{item.email}}</li>
-                  </ul>
-              </b-card>
+              <b-tabs pills card vertical>
+                <b-tab title="Заказы" active><b-card-text><Orders /></b-card-text></b-tab>
+                <b-tab title="Товары"><b-card-text><Products /></b-card-text></b-tab>
+                <b-tab title="Категории"><b-card-text><Categories /></b-card-text></b-tab>
+                <b-tab title="Почты пользователей">
+                  <b-card-text>
+                    <b-card header="Почты пользователей" v-if="emails.length > 0" >
+                        <div class="p-3">
+                          <div v-for="(item, i)  in emails" :key="i" class="pt-2">
+                            <span >• {{item.email}}</span>  
+                          </div>
+                        </div>
+                    </b-card>
+                  </b-card-text></b-tab>
+              </b-tabs>
             </b-card>
           </div>
         </div>
@@ -31,15 +35,15 @@
 import Header from "../../../components/header/header1";
 import Footer from "../../../components/footer/footer1";
 import Breadcrumbs from "../../../components/widgets/breadcrumbs";
-import AddProduct from "../../../components/admin/addProduct";
-import AddCategory from "../../../components/admin/addCategory";
+import Products from "../../../components/admin/Products";
+import Categories from "../../../components/admin/Categories";
+import Orders from "../../../components/admin/Orders";
 import Api from "~/utils/api";
 export default {
   data() {
     return {
       is_admin: false,
       is_user: true,
-      show_emails: true,
       emails: []
     };
   },
@@ -47,17 +51,18 @@ export default {
     Header,
     Footer,
     Breadcrumbs,
-    AddProduct,
-    AddCategory,
+    Products,
+    Categories,
+    Orders
   },
   mounted() {
+    this.getEmails();
     this.check_is_admin();
   },
   methods: {
     getEmails() {
       Api.getInstance().auth.getEmailClients().then((response) => {
           this.emails = response.data;
-          this.show_emails = false;
         })
         .catch((error) => {
           console.log('getEmails-> ', error);

@@ -1,9 +1,8 @@
 <template>
     <div>
-        <b-button class="mb-5 w-100" @click="getCategories(); getDataProducts()" v-if="!show_products">Отобразить все товары</b-button>
 
-        <b-card v-if="show_products" header="Товары" >
-            <div class="wrap__products"> 
+        <b-card  header="Товары" >
+            <div class="wrap__products p-3"> 
                 <b-row class="d-flex row justify-content-between mx-1 mb-3">
                     <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
                     <input
@@ -249,7 +248,7 @@
                         <div class="pt-2">
                             <span class="title_inputs">Выберете категорию где будет лежать товар</span>
                             <b-row class="px-3 py-2">
-                                <b-form-select v-if="New_Product" v-model="New_Product.categories" :options="categOptions">
+                                <b-form-select v-if="categOptions" v-model="New_Product.categories" :options="categOptions">
                                     <template #first>
                                         <b-form-select-option :value="null" disabled>-- Выберите категорию --</b-form-select-option>
                                     </template>
@@ -335,7 +334,6 @@ let Store_New_Product = {
 export default {
   data () {
     return {
-        show_products: false,
         filter__employee: null,
         AddProductModal: false,
         eventBtnProduct: true,
@@ -484,12 +482,13 @@ export default {
   },
     
 mounted(){
+    this.getCategories(); 
+    this.getDataProducts()
 },
 methods:{
     // COMPONENT START
     getDataProducts(){
       Api.getInstance().products.getDataProducts().then((response) => {
-          this.show_products = true;
           this.dataProductsItems = response.data;
       })
       .catch((error) => {
