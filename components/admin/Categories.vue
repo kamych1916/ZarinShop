@@ -1,6 +1,5 @@
 <template>
     <div>
-        
         <b-card header="Категории" >
             <b-overlay :show="!dataCategoryItems" rounded="sm">
                 <div class="p-3">

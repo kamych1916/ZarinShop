@@ -22,12 +22,18 @@ export default class Api {
 
     orders = {
         async getDataOrders() {
-            return axios.get(`${API_BASE_URL}/get_all_user_order`, 
-            {
+            return axios.get(`${API_BASE_URL}/get_all_user_order`,{
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('st')}`
                 }  
-            } )
+            })
+        },
+        async changeOrderStatus(orderObj) {
+            return axios.patch(`${API_BASE_URL}/patch_user_order`, orderObj,{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('st')}`
+                }  
+            })
         }
     }
 

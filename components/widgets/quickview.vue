@@ -1,12 +1,12 @@
 <template>
   <div>
+      <!-- @hidden="resetSwiper()" -->
     <b-modal
       id="modal-lg"
       size="lg"
       centered
       title="Быстрый просмотр"
       :hide-footer="true"
-      @hidden="resetSwiper()"
       v-if="openModal"
     >
       <div class="row quickview-modal">
@@ -27,6 +27,7 @@
                   />
                 </div>
               </div>
+              <div class="swiper-pagination"></div>
             </div>
           </div>
         </div>
@@ -93,31 +94,25 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  watch: {
-    productData(){
-      this.swiperOption = {
-        spaceBetween: 20,
-        slidesPerView: 1,
-        freeMode: true,
-        loop: true
-      }
-    }
-  },
   props: ["openModal", "productData"],
   data() {
     return {
-      swiperOption: null,
+      swiperOption: {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        freeMode: true,
+      }
     };
   },
   methods: {
-    resetSwiper(){
-      this.swiperOption = {
-        spaceBetween: 22,
-        slidesPerView: 1,
-        freeMode: true,
-        loop: true
-      }
-    },
+    // resetSwiper(){
+    //   this.swiperOption = {
+    //     spaceBetween: 22,
+    //     slidesPerView: 1,
+    //     freeMode: true,
+    //     loop: true
+    //   }
+    // },
     // Display Unique Color
     Color(variants) {
       const uniqColor = [];
@@ -154,7 +149,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .product-title {
   text-transform: none !important;
 }

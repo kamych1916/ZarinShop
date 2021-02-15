@@ -3,7 +3,7 @@
 
         <b-card  header="Товары" >
             <div class="wrap__products p-3"> 
-                <b-row class="d-flex row justify-content-between mx-1 mb-3">
+                <div class="d-flex justify-content-between mx-1 mb-3">
                     <b-button @click="AddProductModal=true; eventBtnProduct= true">Добавить новый товар</b-button>
                     <input
                         v-model="filter__employee"
@@ -11,7 +11,7 @@
                         id="filterProduct"
                         placeholder="Поиск.."
                     >
-                </b-row>    
+                </div>    
                 <b-modal @hidden="resetModal" scrollable hide-footer size="lg" v-model="AddProductModal">
                     <b-form @submit.prevent="eventProduct()">
                         <div class="pt-2">
@@ -595,7 +595,7 @@ methods:{
                 }
             }
             if(this.eventBtnProduct){
-                    this.New_Product.discount = parseInt(this.New_Product.discount);
+                this.New_Product.discount = parseInt(this.New_Product.discount);
                 this.New_Product.price = parseInt(this.New_Product.price);
                 Api.getInstance().products.sendNewProduct(this.New_Product).then((response) => {
                     this.$bvToast.toast('Товар успешно добавлен в базу данных.', {

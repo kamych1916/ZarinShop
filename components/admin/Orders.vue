@@ -14,7 +14,7 @@
                     </div> 
                     <b-modal @hidden="resetModal()" scrollable hide-footer size="lg" v-model="changeStateModal">
                         <b-form @submit.prevent="eventOrders()">
-                            <label class="mt-4" for="last_cat">Введите последнюю категории</label>
+                            <!-- <label class="mt-4" for="last_cat">Введите последнюю категории</label>
                             <div>
                                 <input
                                 v-if="dataOrdersItems" 
@@ -25,13 +25,13 @@
                                 placeholder="Введите категорию"
                                 name="last_cat"
                                 />
-                            </div>
+                            </div> -->
 
-                            <!-- <b-form-select v-if="dataOrdersItems" v-model="orderStates" :options="orderOptions">
+                            <b-form-select v-if="dataOrdersItems" v-model="orderObj.state" :options="orderOptions">
                                 <template #first>
-                                    <b-form-select-option :value="null" disabled>-- Выберите категорию --</b-form-select-option>
+                                    <b-form-select-option :value="null" disabled>-- Выберите статус --</b-form-select-option>
                                 </template>
-                            </b-form-select> -->
+                            </b-form-select>
 
                             <!-- <b-button type="submit" class="mt-2">Создать</b-button> -->
                             <div style="border-top: 1px solid #ccc" class="w-100 py-4">
@@ -69,6 +69,14 @@
                                 {{item.name}}: &nbsp;&nbsp; <span style="font-weight: bold;">{{item.size}}</span> &nbsp;&nbsp;  - &nbsp;&nbsp;  <span style="font-weight: bold;">{{item.kol}} </span>
                             </div>
                         </template>
+                        <template #cell(state)="row">
+                            <!-- <div v-for="(item, i) in row.item.state" :key="i" class="mt-2"> -->
+                                <span v-if="row.item.state == 'Завершено'" style="color: green">{{row.item.state}}</span> 
+                                <span v-else style="color: orange">{{row.item.state}}</span> 
+                                
+                                <!-- {{item.name}}: &nbsp;&nbsp; <span style="font-weight: bold;">{{item.size}}</span> &nbsp;&nbsp;  - &nbsp;&nbsp;  <span style="font-weight: bold;">{{item.kol}} </span> -->
+                            <!-- </div> -->
+                        </template>
                     </b-table>
                 </div>
             </b-overlay>
@@ -82,15 +90,23 @@ import Api from "~/utils/api";
 export default {
 data () {
     return {
-        // orderOptions: { 
-        //     value: null,
-        //     text: 'Please select an option' 
-        // },  
+        orderOptions: [
+            { 
+                value: 'Завершено',
+                text: 'Завершено' 
+            },
+            {
+                value: 'В ожидании',
+                text: 'В ожидании'
+            }   
+        ],  
         eventBtnCategory: true,
         show_overlay: false,
         filter__employee: null,
         changeStateModal: false,
-        orderStatus: null,
+        
+        orderObj: {},
+
         dataOrdersItems: null,
         dataOrdersFields: [
             {
@@ -135,40 +151,42 @@ mounted(){
 methods: {
         // ИЗМЕНЕНИЕ ТОВАРА И ДОБАВЛЕНИЕ НОВОГО
     eventOrders(){
-            // Api.getInstance().categories.changeCategory(this.category).then((response) => {
-            //     this.$bvToast.toast('Категория успешно изменена.', {
-            //         title: `Сообщение`,
-            //         variant: "success",
-            //         solid: true
-            //     });
-            //     setTimeout(()=>{
-            //         this.resetModal()
-            //         this.changeStateModal=false;
-            //         window.location.reload(true);
-            //     }, 1000)
-            // })
-            // .catch((error) => {
-            //     console.log("changeProduct -> ", error)
-            //     this.$bvToast.toast("Товар не был изменён.", {
-            //         title: `Системная ошибка`,
-            //         variant: "danger",
-            //         solid: true,
-            //     });
-            // });
+        console.log(this.orderObj)
+        Api.getInstance().orders.changeOrderStatus(this.orderObj).then((response) => {
+            this.$bvToast.toast('Статус успешно изменён.', {
+                title: `Сообщение`,
+                variant: "success",
+                solid: true
+            });
+            setTimeout(()=>{
+                this.resetModal()
+                window.location.reload(true);
+            }, 1000)
+        })
+        .catch((error) => {
+            console.log("changeOrderStatus -> ", error)
+            this.$bvToast.toast("Статус не был изменён.", {
+                title: `Системная ошибка`,
+                variant: "danger",
+                solid: true,
+            });
+        });
     },
 
     onRowProductSelected(picked){
         this.eventBtnCategory = false;
         this.changeStateModal = true;
-        this.orderStatus = picked[0].state;
+        this.orderObj.state = picked[0].state;
+        this.orderObj.id = picked[0].id;
     },
     resetModal(){
-        this.orderStatus = null
+        this.orderStatus = {}
     },
     
     getOrders(){
       Api.getInstance().orders.getDataOrders().then((response) => {
         this.dataOrdersItems = response.data;
+        // this.orderOptions = 
       })
       .catch((error) => {
         console.log('getCategories -> ', error);
