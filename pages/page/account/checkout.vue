@@ -1,8 +1,10 @@
 <template>
   <div>
+
     <Header />
     <Breadcrumbs title="Checkout" />
-    <section class="section-b-space" v-if="is_login">
+    <section class="section-b-space" >
+
       <div class="container">
         <div class="checkout-page">
           <div class="checkout-form">
@@ -152,13 +154,12 @@
                       </div> -->
                       <div>
                         <form id="form-payme" method="POST" action="https://checkout.paycom.uz/">
-                          <input type="hidden" name="merchant" value="60002db48c0dbba78b37128c">
-                          <input type="hidden" name="account[order_id]" value="197">
-                          <input type="hidden" name="amount" value="20000">
-                          <input type="hidden" name="callback" value="https://mirllex.site/collection/12?uuid=234234234">
-                          <input type="hidden" name="lang" value="ru">
-                          <input type="hidden" name="button" data-type="svg" value="colored">
-                          <div id="button-container"></div>
+                            <input type="hidden" name="merchant" value="5e37a525d78b106a670aa0e7">
+                            <input type="hidden" name="account[order_id]" value="197">
+                            <input type="hidden" name="amount" value="50000">
+                            <input type="hidden" name="lang" value="ru">
+                            <input type="hidden" name="button" data-type="svg" value="colored">
+                            <div id="button-container"></div>
                         </form>
                       </div>
                       <div>
@@ -166,17 +167,18 @@
                           Оплатить через CLICK
                           <i></i>
                         </button>
-                        <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
-                          <input type="hidden" name="amount" value="1005" />
-                          <input type="hidden" name="merchant_id" value="46"/>
-                          <input type="hidden" name="merchant_user_id" value="4"/>
-                          <input type="hidden" name="service_id" value="36"/>
-                          <input type="hidden" name="transaction_param" value="user23151"/>
+                        <!-- <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
+                          <input type="hidden" name="amount" value="1000" />
+                          <input type="hidden" name="merchant_id" value="10466"/>
+                          <input type="hidden" name="merchant_user_id" value="14849"/>
+                          <input type="hidden" name="service_id" value="14950"/>
+                          <input type="hidden" name="transaction_param" value="kamol1916"/>
                           <input type="hidden" name="return_url" value="https://mirllex.site/collection/12?uuid=234234234"/>
                           <input type="hidden" name="card_type" value="uzcard"/>
                           <button type="submit" class="click_logo"><i></i>Оплатить через CLICK</button>
-                        </form>
+                        </form> -->
                       </div>
+
                     </div>
                   </div>
                 </div>
@@ -242,13 +244,15 @@ export default {
     }
   },
   mounted(){
-    if(localStorage.getItem('cil')){
-      this.is_login = true
-    } else{
-      this.is_login = false
-      this.$router.push('/')
-    }
-    // (window).Paycom.Button('#form-payme', '#button-container');
+    
+    // if(localStorage.getItem('cil')){
+    //   this.is_login = true;
+
+      (window).Paycom.Button('#form-payme', '#button-container');
+    // } else{
+    //   this.is_login = false
+    //   this.$router.push('/')
+    // }
   },
   methods: {
     discountedPrice(product) {

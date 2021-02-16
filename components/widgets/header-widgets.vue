@@ -187,7 +187,7 @@ export default {
     })
   },
   mounted(){
-    this.check_is_login()
+    this.check_is_login();
   },
   methods: {
     check_is_login(){
@@ -198,9 +198,7 @@ export default {
     },
     UpdateCart(){
       Api.getInstance().cart.UpdateCart().then((response) => {
-        if(response.data.length > 0){
-          this.$store.dispatch('cart/changeCart', response.data.items);
-        }
+        this.$store.dispatch('cart/changeCart', response.data.items);
       }).catch((error) => {
         console.log("addToCart -> ", error)
       });
