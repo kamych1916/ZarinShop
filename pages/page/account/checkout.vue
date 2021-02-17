@@ -155,9 +155,10 @@
                       <div>
                         <form id="form-payme" method="POST" action="https://checkout.paycom.uz/">
                             <input type="hidden" name="merchant" value="5e37a525d78b106a670aa0e7">
-                            <input type="hidden" name="account[order_id]" value="197">
-                            <input type="hidden" name="amount" value="50000">
+                            <input type="hidden" name="account[order_id]" value="4684-140120212012">
+                            <input type="hidden" name="amount" value="1000">
                             <input type="hidden" name="lang" value="ru">
+                            <input type="hidden" name="callback" value="https://mirllex.site/collection/12?uuid=234234234">
                             <input type="hidden" name="button" data-type="svg" value="colored">
                             <div id="button-container"></div>
                         </form>
@@ -167,7 +168,7 @@
                           Оплатить через CLICK
                           <i></i>
                         </button>
-                        <!-- <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
+                        <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
                           <input type="hidden" name="amount" value="1000" />
                           <input type="hidden" name="merchant_id" value="10466"/>
                           <input type="hidden" name="merchant_user_id" value="14849"/>
@@ -176,7 +177,7 @@
                           <input type="hidden" name="return_url" value="https://mirllex.site/collection/12?uuid=234234234"/>
                           <input type="hidden" name="card_type" value="uzcard"/>
                           <button type="submit" class="click_logo"><i></i>Оплатить через CLICK</button>
-                        </form> -->
+                        </form>
                       </div>
 
                     </div>
