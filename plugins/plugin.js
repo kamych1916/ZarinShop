@@ -8,9 +8,7 @@ import InfiniteLoading from 'vue-infinite-loading'
 import VueLazyLoad from 'vue-lazyload'
 import ProductZoomer from 'vue-product-zoomer'
 import VueScrollTo from 'vue-scrollto'
-import PayMe from './PayMe'
 
-Vue.use(PayMe)
 Vue.use(VueAwesomeSwiper)
 Vue.use(Vue2Filters)
 Vue.use(VueMasonryPlugin)

@@ -18,7 +18,6 @@ export default {
     ],
     script: [
       { src: 'https://checkout.stripe.com/checkout.js'},
-      { src: 'https://cdn.paycom.uz/integration/js/checkout.min.js'}
     ]
   },
 

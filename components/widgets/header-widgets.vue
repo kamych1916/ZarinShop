@@ -198,7 +198,9 @@ export default {
     },
     UpdateCart(){
       Api.getInstance().cart.UpdateCart().then((response) => {
-        this.$store.dispatch('cart/changeCart', response.data.items);
+        if(response.data.length > 0){
+          this.$store.dispatch('cart/changeCart', response.data.items);
+        }
       }).catch((error) => {
         console.log("addToCart -> ", error)
       });

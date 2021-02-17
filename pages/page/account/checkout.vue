@@ -91,7 +91,7 @@
                           <span>Стоимость</span>
                         </div>
                       </div>
-                      <ul class="qty"  v-if="cart.length">
+                      <ul class="qty" v-if="cart.length">
                         <li v-for="(item,index) in cart" :key="index">
                           {{ item.name }} <div style="color: #eac075; display: inline">x {{ item.kol }}</div>
                           <span>{{ (parseInt(discountedPrice(item) * item.kol)).toLocaleString('ru-RU')  }} сум.</span>
@@ -152,33 +152,41 @@
                         </no-ssr>
                         <button type="submit" @click="order()" v-if="cart.length && !payment" :disabled="invalid" class="btn-solid btn">Оплатить</button>
                       </div> -->
-                      <div>
-                        <form id="form-payme" method="POST" action="https://checkout.paycom.uz/">
-                            <input type="hidden" name="merchant" value="5e37a525d78b106a670aa0e7">
-                            <input type="hidden" name="account[order_id]" value="4684-140120212012">
-                            <input type="hidden" name="amount" value="1000">
-                            <input type="hidden" name="lang" value="ru">
-                            <input type="hidden" name="callback" value="https://mirllex.site/collection/12?uuid=234234234">
-                            <input type="hidden" name="button" data-type="svg" value="colored">
-                            <div id="button-container"></div>
-                        </form>
-                      </div>
-                      <div>
-                        <button class="click_logo" type="submit" :disabled="invalid">
-                          Оплатить через CLICK
-                          <i></i>
-                        </button>
-                        <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
-                          <input type="hidden" name="amount" value="1000" />
-                          <input type="hidden" name="merchant_id" value="10466"/>
-                          <input type="hidden" name="merchant_user_id" value="14849"/>
-                          <input type="hidden" name="service_id" value="14950"/>
-                          <input type="hidden" name="transaction_param" value="kamol1916"/>
-                          <input type="hidden" name="return_url" value="https://mirllex.site/collection/12?uuid=234234234"/>
-                          <input type="hidden" name="card_type" value="uzcard"/>
-                          <button type="submit" class="click_logo"><i></i>Оплатить через CLICK</button>
-                        </form>
-                      </div>
+                      <b-row>
+                        <div >
+                          <form method="POST" ref="formkek" action="https://checkout.paycom.uz/">
+
+                              <input type="hidden" name="merchant" value="5e37a525d78b106a670aa0e7"/>
+
+                              <input type="hidden" name="amount" value="1000"/>
+
+                              <input type="hidden" name="account[order_id]"  ref="order_id"/>
+
+                              <input type="hidden" name="lang" value="ru"/>
+
+                              <input type="hidden" name="currency" value="860"/>
+
+                              <input type="hidden" name="callback" value="https://zarinshop.uz/page/order-success"/>
+
+                              <input type="hidden" name="callback_timeout" value="5"/>
+
+                              <b-button @click="kek()" :disabled="invalid" class="m-0 p-0" style="background-color: unset; border: 0;"><b-img width="200px" src="https://cdn.paycom.uz/integration/images/btn_colored_ru.svg" ></b-img></b-button>
+                          </form>
+                        </div>
+                        <div>
+                          <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
+                            <input type="hidden" name="amount" value="1800" />
+                            <input type="hidden" name="merchant_id" value="10466"/>
+                            <input type="hidden" name="merchant_user_id" value="14849"/>
+                            <input type="hidden" name="service_id" value="14950"/>
+                            <input type="hidden" name="transaction_param" value="6552-170220211459"/>
+                            <input type="hidden" name="return_url" value="https://zarinshop.uz/collection/12?uuid=234234234"/>
+                            <input type="hidden" name="card_type" value="uzcard"/>
+                            <button type="submit" class="click_logo">ОПЛАТИТЬ CLICK<i style="float: right;" class="ml-2"></i></button>
+                          </form>
+                        </div>
+
+                      </b-row>
 
                     </div>
                   </div>
@@ -245,17 +253,44 @@ export default {
     }
   },
   mounted(){
-    
+    console.log(this.cart)
     // if(localStorage.getItem('cil')){
     //   this.is_login = true;
-
-      (window).Paycom.Button('#form-payme', '#button-container');
+    
+    // (window).Paycom.Button('#form-payme', '#button-container');
     // } else{
     //   this.is_login = false
     //   this.$router.push('/')
     // }
   },
   methods: {
+
+    kek(){
+      
+      let order = {
+        list_items: this.$store.state.cart.cart,
+        which_bank: 'click',
+        cart_type: this.payment,
+        client_info: [this.user],
+        shipping_adress: this.shipping == 'pickup' ? 'Улица такаято зариншоповская' : (this.user.state + ' / '  + this.user.city + ' / ' + this.user.address + ' / ' + this.user.pincode), 
+        subtotal: this.cartTotal,
+        shipping_type: this.shipping,
+        cart_type: this.payment
+      }
+      Api.getInstance().cart.onPaymentComplete(order).then((response) => {
+        this.$refs.order_id.value = response.data.order_id;
+        setTimeout(this.$refs.formkek.submit(), 5000)
+        
+      })
+      .catch((error) => {
+          console.log('getHitSales -> ', error);
+          this.$bvToast.toast("Категории не подгрузились.", {
+              title: `Системная ошибка`,
+              variant: "danger",
+              solid: true,
+          });
+      });
+    },
     discountedPrice(product) {
         const price = product.price - (product.price * product.discount / 100)
         return price

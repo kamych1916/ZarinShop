@@ -1,7 +1,7 @@
 
 import axios from "axios";
 // const API_BASE_URL = 'http://mirllex.site:8000/api/v1';
-const API_BASE_URL = 'https://mirllex.site/server/api/v1';
+const API_BASE_URL = 'https://zarinshop.uz/server/api/v1';
 
 export default class Api {
     instance = null;
@@ -135,6 +135,7 @@ export default class Api {
             )
         },
         async onPaymentComplete(order){
+            console.log(order)
             return axios.post(`${API_BASE_URL}/make_an_order`, order, 
                 {
                     headers: {
