@@ -2,7 +2,7 @@
   <div>
 
     <Header />
-    <Breadcrumbs title="Checkout" />
+    <Breadcrumbs title="Оплата" />
     <section class="section-b-space" >
 
       <div class="container">
@@ -132,7 +132,7 @@
                     </div>
                     <div class="payment-box">
                       <div class="upper-box">
-                          <h5 class="pmnt-method">Выберите способ оплаты</h5>
+                          <h5 class="pmnt-method">Выберите тип карты</h5>
                         <div class="payment-options" >
                           <b-form-group v-slot="{ Payment }">
                             <b-form-radio v-model="payment" :aria-describedby="Payment" name="payment-uzcard" value="uzcard">
@@ -142,7 +142,6 @@
                               HUMO
                             </b-form-radio>
                           </b-form-group>
-                          {{payment}}
                           <!-- <div class="mt-3">Selected: <strong>{{ payment }}</strong></div> -->
                         </div>
                       </div>
@@ -152,37 +151,40 @@
                         </no-ssr>
                         <button type="submit" @click="order()" v-if="cart.length && !payment" :disabled="invalid" class="btn-solid btn">Оплатить</button>
                       </div> -->
+                      <h5 class="mb-4 pmnt-method">Выберите способ оплаты</h5>
                       <b-row>
-                        <div >
-                          <form method="POST" ref="formkek" action="https://checkout.paycom.uz/">
+                        <div>
+                          <form method="POST" ref="PayMeForm" action="https://checkout.paycom.uz/">
 
-                              <input type="hidden" name="merchant" value="5e37a525d78b106a670aa0e7"/>
+                              <input type="hidden" name="merchant" ref="PayMe_Merchant"/>
 
-                              <input type="hidden" name="amount" value="1000"/>
+                              <input type="hidden" name="amount" :value="parseInt(cartTotal)"/>
 
-                              <input type="hidden" name="account[order_id]"  ref="order_id"/>
+                              <input type="hidden" name="account[order_id]" ref="PayMe_Order_id"/>
 
                               <input type="hidden" name="lang" value="ru"/>
 
                               <input type="hidden" name="currency" value="860"/>
 
-                              <input type="hidden" name="callback" value="https://zarinshop.uz/page/order-success"/>
+                              <input type="hidden" name="callback" value="https://zarinshop.uz"/>
 
                               <input type="hidden" name="callback_timeout" value="5"/>
 
-                              <b-button @click="kek()" :disabled="invalid" class="m-0 p-0" style="background-color: unset; border: 0;"><b-img width="200px" src="https://cdn.paycom.uz/integration/images/btn_colored_ru.svg" ></b-img></b-button>
+                              <!-- <b-button @click="onPaymentComplete('payme')" :disabled="invalid" class="m-0 p-0" style="background-color: unset; border: 0;"><b-img width="200px" src="https://cdn.paycom.uz/integration/images/btn_colored_ru.svg" ></b-img></b-button> -->
+                              <b-button @click="onPaymentComplete('payme')" :disabled="invalid" class="m-2 px-4 border" style="background-color: #fff;"><b-img width="120px" src="~/assets/images/payme_01.png" ></b-img></b-button>
                           </form>
                         </div>
                         <div>
-                          <form id="click_form" action="https://my.click.uz/services/pay" method="get" target="_blank">
+                          <form id="click_form" ref="ClickForm" action="https://my.click.uz/services/pay" method="get" target="_blank">
                             <input type="hidden" name="amount" value="1800" />
-                            <input type="hidden" name="merchant_id" value="10466"/>
-                            <input type="hidden" name="merchant_user_id" value="14849"/>
-                            <input type="hidden" name="service_id" value="14950"/>
-                            <input type="hidden" name="transaction_param" value="6552-170220211459"/>
-                            <input type="hidden" name="return_url" value="https://zarinshop.uz/collection/12?uuid=234234234"/>
-                            <input type="hidden" name="card_type" value="uzcard"/>
-                            <button type="submit" class="click_logo">ОПЛАТИТЬ CLICK<i style="float: right;" class="ml-2"></i></button>
+                            <input type="hidden" name="merchant_id" ref="Click_Merchant"/>
+                            <input type="hidden" name="merchant_user_id" ref="Click_Merchant_User_Id"/>
+                            <input type="hidden" name="service_id" ref="Click_Service_Id"/>
+                            <input type="hidden" name="transaction_param" ref="Click_Transaction_Param" />
+                            <input type="hidden" name="return_url" value="https://zarinshop.uz"/>
+                            <input type="hidden" name="card_type" :value="payment"/>
+                            <!-- <b-button @click="onPaymentComplete('click')" class="click_logo">ОПЛАТИТЬ CLICK<i style="float: right;" class="ml-2"></i></b-button> -->
+                            <b-button @click="onPaymentComplete('click')" :disabled="invalid" class="m-2 px-4 border" style="background-color: #fff;"><b-img width="92px" src="~/assets/images/click_01.png" ></b-img></b-button>
                           </form>
                         </div>
 
@@ -237,23 +239,12 @@ export default {
         pincode: ''
       },
       is_login: false,
-      paypal: {
-         sandbox: 'Your_Sendbox_Key'
-      },
       payment: '',
       shipping: '',
-      environment: 'sandbox',
-      button_style: {
-        label: 'checkout',
-        size: 'medium', // small | medium | large | responsive
-        shape: 'pill', // pill | rect
-        color: 'blue' // gold | blue | silver | black
-      },
       amtchar: ''
     }
   },
   mounted(){
-    console.log(this.cart)
     // if(localStorage.getItem('cil')){
     //   this.is_login = true;
     
@@ -264,75 +255,11 @@ export default {
     // }
   },
   methods: {
-
-    kek(){
-      
-      let order = {
-        list_items: this.$store.state.cart.cart,
-        which_bank: 'click',
-        cart_type: this.payment,
-        client_info: [this.user],
-        shipping_adress: this.shipping == 'pickup' ? 'Улица такаято зариншоповская' : (this.user.state + ' / '  + this.user.city + ' / ' + this.user.address + ' / ' + this.user.pincode), 
-        subtotal: this.cartTotal,
-        shipping_type: this.shipping,
-        cart_type: this.payment
-      }
-      Api.getInstance().cart.onPaymentComplete(order).then((response) => {
-        this.$refs.order_id.value = response.data.order_id;
-        setTimeout(this.$refs.formkek.submit(), 5000)
-        
-      })
-      .catch((error) => {
-          console.log('getHitSales -> ', error);
-          this.$bvToast.toast("Категории не подгрузились.", {
-              title: `Системная ошибка`,
-              variant: "danger",
-              solid: true,
-          });
-      });
-    },
-    discountedPrice(product) {
-        const price = product.price - (product.price * product.discount / 100)
-        return price
-    },
-    order() {
-      this.isLogin = localStorage.getItem('userlogin')
-      if (this.isLogin) {
-        this.payWithStripe()
-      } else {
-        this.$router.replace('/page/account/login-firebase')
-      }
-    },
-    payWithStripe() {
-      const handler = (window).StripeCheckout.configure({
-        key: 'PUBLISHBLE_KEY', // 'PUBLISHBLE_KEY'
-        locale: 'auto',
-        closed: function () {
-          handler.close()
-        },
-        token: (token) => {
-          this.$store.dispatch('products/createOrder', {
-            product: this.cart,
-            userDetail: this.user,
-            token: token.id,
-            amt: this.cartTotal
-          })
-          this.$router.push('/page/order-success')
-        }
-      })
-      handler.open({
-        name: 'Multikart ',
-        description: 'Reach to your Dream',
-        amount: this.cartTotal * 100
-      })
-    },
-    onPaymentComplete: function (data) {
-      // console.log(this.$store.state.cart.cart)
-      // console.log(this.user)
+    onPaymentComplete(bank){
       if(this.$store.state.cart.cart){
         let order = {
           list_items: this.$store.state.cart.cart,
-          which_bank: 'click',
+          which_bank: bank,
           cart_type: this.payment,
           client_info: [this.user],
           shipping_adress: this.shipping == 'pickup' ? 'Улица такаято зариншоповская' : (this.user.state + ' / '  + this.user.city + ' / ' + this.user.address + ' / ' + this.user.pincode), 
@@ -340,33 +267,74 @@ export default {
           shipping_type: this.shipping,
           cart_type: this.payment
         }
-        // console.log(order)
-        // Api.getInstance().cart.onPaymentComplete(order).then((response) => {
+        Api.getInstance().cart.onPaymentComplete(order).then((response) => {
+          // console.log(response.data)
+          if(response.data.which_bank == 'payme'){
+            this.$refs.PayMe_Order_id.value = response.data.order_id;
+            this.$refs.PayMe_Merchant.value = response.data.merchant;
+          } else if ('click'){
+            this.$refs.Click_Merchant.value          = response.data.merchant_id;
+            this.$refs.Click_Merchant_User_Id.value  = response.data.merchant_user_id;
+            this.$refs.Click_Service_Id.value        = response.data.service_id;
+            this.$refs.Click_Transaction_Param.value = response.data.order_id;
+          };
           this.$store.dispatch('products/createOrder', {
             product: this.cart,
             userDetail: this.user,
-            token: data.orderID,
+            // token: data.orderID,
             amt: this.cartTotal
           })
-          this.$router.push('/page/order-success')
-        // }).catch((error) => {
-        //   console.log("addToCart -> ", error)
-        // });
+          bank == 'payme' ? setTimeout(this.$refs.PayMeForm.submit(), 5000) : setTimeout(this.$refs.ClickForm.submit() , 5000) 
+        })
+        .catch((error) => {
+            console.log('onPaymentComplete -> ', error);
+            this.$bvToast.toast("Оплата не была произведена.", {
+                title: `Системная ошибка`,
+                variant: "danger",
+                solid: true,
+            });
+        });
       }
-      // this.$store.dispatch('products/createOrder', {
-      //   product: this.cart,
-      //   userDetail: this.user,
-      //   token: data.orderID,
-      //   amt: this.cartTotal
-      // })
-      // this.$router.push('/page/order-success')
     },
-    onCancelled() {
-      console.log('You cancelled a window')
+    discountedPrice(product) {
+        const price = product.price - (product.price * product.discount / 100)
+        return price
     },
-    onSubmit() {
-      console.log('Form has been submitted!')
-    }
+    // onPaymentComplete: function (data) {
+    //   // console.log(this.$store.state.cart.cart)
+    //   // console.log(this.user)
+    //   if(this.$store.state.cart.cart){
+    //     let order = {
+    //       list_items: this.$store.state.cart.cart,
+    //       which_bank: 'click',
+    //       cart_type: this.payment,
+    //       client_info: [this.user],
+    //       shipping_adress: this.shipping == 'pickup' ? 'Улица такаято зариншоповская' : (this.user.state + ' / '  + this.user.city + ' / ' + this.user.address + ' / ' + this.user.pincode), 
+    //       subtotal: this.cartTotal,
+    //       shipping_type: this.shipping,
+    //       cart_type: this.payment
+    //     }
+    //     // console.log(order)
+    //     // Api.getInstance().cart.onPaymentComplete(order).then((response) => {
+    //       this.$store.dispatch('products/createOrder', {
+    //         product: this.cart,
+    //         userDetail: this.user,
+    //         token: data.orderID,
+    //         amt: this.cartTotal
+    //       })
+    //       this.$router.push('/page/order-success')
+    //     // }).catch((error) => {
+    //     //   console.log("addToCart -> ", error)
+    //     // });
+    //   }
+    //   // this.$store.dispatch('products/createOrder', {
+    //   //   product: this.cart,
+    //   //   userDetail: this.user,
+    //   //   token: data.orderID,
+    //   //   amt: this.cartTotal
+    //   // })
+    //   // this.$router.push('/page/order-success')
+    // },
   }
 }
 </script>

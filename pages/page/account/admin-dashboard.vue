@@ -20,7 +20,19 @@
                           </div>
                         </div>
                     </b-card>
-                  </b-card-text></b-tab>
+                  </b-card-text>
+                </b-tab>
+                <b-tab title="Номера телефонов пользователей">
+                  <b-card-text>
+                    <b-card header="Номера телефонов пользователей" v-if="phonenumbers.length > 0" >
+                        <div class="p-3">
+                          <div v-for="(item, i) in phonenumbers" :key="i" class="pt-2">
+                            <span >• {{item.phone}} • {{item.Name}}</span>  
+                          </div>
+                        </div>
+                    </b-card>
+                  </b-card-text>
+                </b-tab>
               </b-tabs>
             </b-card>
           </div>
@@ -44,6 +56,7 @@ export default {
     return {
       is_admin: false,
       is_user: true,
+      phonenumbers: [],
       emails: []
     };
   },
@@ -56,16 +69,25 @@ export default {
     Orders
   },
   mounted() {
-    this.getEmails();
+    this.getPhonenumbers();
+    this.getEmailClients();
     this.check_is_admin();
   },
   methods: {
-    getEmails() {
+    getEmailClients() {
       Api.getInstance().auth.getEmailClients().then((response) => {
           this.emails = response.data;
         })
         .catch((error) => {
-          console.log('getEmails-> ', error);
+          console.log('getPhonenumbers-> ', error);
+        });
+    },
+    getPhonenumbers() {
+      Api.getInstance().auth.getPhonenumbers().then((response) => {
+          this.phonenumbers = response.data;
+        })
+        .catch((error) => {
+          console.log('getPhonenumbers-> ', error);
         });
     },
     check_is_admin() {

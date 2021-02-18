@@ -50,28 +50,18 @@
                 <div class="footer-social">
                   <ul>
                     <li>
-                      <a href="#">
+                      <a href="https://www.facebook.com/zarin.home.96">
                         <i class="fa fa-facebook" aria-hidden="true"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
-                        <i class="fa fa-google-plus" aria-hidden="true"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-twitter" aria-hidden="true"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
+                      <a href="https://instagram.com/zarin_home_collection.uz?igshid=b8ik4lwxxile">
                         <i class="fa fa-instagram" aria-hidden="true"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
-                        <i class="fa fa-rss" aria-hidden="true"></i>
+                      <a href="https://t.me/zarinhomecollection_1">
+                        <i class="fa fa-telegram" aria-hidden="true"></i>
                       </a>
                     </li>
                   </ul>
@@ -115,7 +105,7 @@
             <div class="col-xl-6 col-md-6 col-sm-12">
               <div class="footer-end">
                 <p>
-                  <i class="fa fa-copyright" aria-hidden="true"></i> 2021 разработано компанией Mirllex
+                  <i class="fa fa-copyright" aria-hidden="true"></i> 2021 разработано компанией <b> <a href="https://nirllex.space" style="color: black">Mirllex</a> </b> 
                 </p>
               </div>
             </div>

@@ -69,13 +69,14 @@
                                 {{item.name}}: &nbsp;&nbsp; <span style="font-weight: bold;">{{item.size}}</span> &nbsp;&nbsp;  - &nbsp;&nbsp;  <span style="font-weight: bold;">{{item.kol}} </span>
                             </div>
                         </template>
+                        <template #cell(state_payd)="row">
+                                <span v-if="row.item.state_payd === 'Сompleted'" style="color: green">{{row.item.state_payd}}</span> 
+                                <span v-else-if="row.item.state_payd === 'Awaiting'" style="color: orange">{{row.item.state_payd}}</span> 
+                                <span v-else style="color: red">{{row.item.state_payd}}</span> 
+                        </template>
                         <template #cell(state)="row">
-                            <!-- <div v-for="(item, i) in row.item.state" :key="i" class="mt-2"> -->
-                                <span v-if="row.item.state == 'Завершено'" style="color: green">{{row.item.state}}</span> 
+                                <span v-if="row.item.state == 'Сompleted'" style="color: green">{{row.item.state}}</span> 
                                 <span v-else style="color: orange">{{row.item.state}}</span> 
-                                
-                                <!-- {{item.name}}: &nbsp;&nbsp; <span style="font-weight: bold;">{{item.size}}</span> &nbsp;&nbsp;  - &nbsp;&nbsp;  <span style="font-weight: bold;">{{item.kol}} </span> -->
-                            <!-- </div> -->
                         </template>
                     </b-table>
                 </div>
@@ -92,12 +93,12 @@ data () {
     return {
         orderOptions: [
             { 
-                value: 'Завершено',
-                text: 'Завершено' 
+                value: 'Сompleted',
+                text: 'Сompleted' 
             },
             {
-                value: 'В ожидании',
-                text: 'В ожидании'
+                value: 'Awaiting',
+                text: 'Awaiting'
             }   
         ],  
         eventBtnCategory: true,
@@ -138,8 +139,12 @@ data () {
                 label: 'Итоговая сумма',
             },
             {
+                key: 'state_payd',
+                label: 'статус оплаты',
+            },
+            {
                 key: 'state',
-                label: 'Статус',
+                label: 'статус заказа',
             }
             
         ],

@@ -135,7 +135,6 @@ export default class Api {
             )
         },
         async onPaymentComplete(order){
-            console.log(order)
             return axios.post(`${API_BASE_URL}/make_an_order`, order, 
                 {
                     headers: {
@@ -184,8 +183,14 @@ export default class Api {
 
     auth = {
         async getOrderData() {
-            return axios.get(`${API_BASE_URL}/user_order`, 
-            {
+            return axios.get(`${API_BASE_URL}/user_order`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('st')}`
+                }  
+            })
+        },
+        async getPhonenumbers() {
+            return axios.get(`${API_BASE_URL}/get_user_phone`,{
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('st')}`
                 }  
@@ -266,10 +271,7 @@ export default class Api {
                 }
             }
            )
-        },
-        
-        
-        
+        },        
     }
     
 

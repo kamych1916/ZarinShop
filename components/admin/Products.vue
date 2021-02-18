@@ -290,7 +290,7 @@
                     </b-form>
                 </b-modal>
                 <!-- <b-table @row-selected="onRowlink_colorProducts($event)" :filter="New_Product.name" select-mode="single" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable striped :fields="dataLinksFields" :items="dataProductsItems" responsive> -->
-                <b-table :filter="filter__employee" ref="allProducts" @row-selected="onRowProductSelected($event)" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable select-mode="single" striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
+                <b-table  :filter="filter__employee" ref="allProducts" @row-selected="onRowProductSelected($event)" show-empty empty-text="Таблица пуста" thead-class=" wrap__clients__container__table__head" table-variant="light" selectable select-mode="single" striped :fields="dataProductsFields" :items="dataProductsItems" responsive>
                     <template #cell(description)="row">
                         {{row.item.description.substring(0,80)+'....'}}
                     </template>
@@ -303,11 +303,9 @@
                         <div :style="'width:30px; height:30px; border-radius: 30px; border: 1px solid #ccc; background-color:' +  row.item.color"></div>
                     </template>
                     <template #cell(size_kol)="row">
-                        <b-row>
                             <div v-for="(item, i) in row.item.size_kol" :key="i">
                                 {{item.size}} - {{item.kol}}; &nbsp;&nbsp;
                             </div>
-                        </b-row>
                     </template>
                 </b-table>
             </div>
