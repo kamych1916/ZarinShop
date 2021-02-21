@@ -10,11 +10,16 @@ import 'package:shimmer/shimmer.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
+  final String tag;
 
-  const ProductCard(this.product, {Key key}) : super(key: key);
+  const ProductCard(this.product, {Key key, this.tag = ""}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () async {
@@ -25,12 +30,13 @@ class ProductCard extends StatelessWidget {
         }
         pushNewScreen(
           context,
-          screen: ProductInfo(product, product.id),
+          screen: ProductInfo(product, tag),
           withNavBar: true,
           pageTransitionAnimation: PageTransitionAnimation.fade,
         );
       },
       child: Container(
+        width: size.width / 2 - 40,
         child: Column(
           children: [
             Stack(
@@ -39,11 +45,11 @@ class ProductCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Hero(
-                    tag: product.id,
+                    tag: tag + product.id,
                     child: Image(
                       alignment: Alignment.center,
                       fit: BoxFit.cover,
-                      height: MediaQuery.of(context).size.height / 3 - 15.0,
+                      height: itemHeight - 125,
                       image: NetworkImage(product.firstImage ?? ""),
                       frameBuilder:
                           (context, child, frame, wasSynchronouslyLoaded) {
@@ -62,9 +68,7 @@ class ProductCard extends StatelessWidget {
                                         color: Styles.subBackgroundColor,
                                         borderRadius:
                                             BorderRadius.circular(10)),
-                                    height:
-                                        MediaQuery.of(context).size.height / 3 -
-                                            15.0,
+                                    height: itemHeight - 125,
                                   ),
                                 );
                         }
@@ -73,7 +77,7 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 Hero(
-                  tag: "heart" + product.id,
+                  tag: tag + "heart" + product.id,
                   child: ProductCardFavoriteIcon(
                     product,
                     key: ValueKey(product.id),
@@ -87,12 +91,32 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    product.totalPrice.floor().toString() + " сум",
-                    style: TextStyle(
-                        color: Styles.cardTextColor,
-                        fontSize: 16.0,
-                        fontFamily: "SegoeUISemiBold"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          product.totalPrice.floor().toString() + " сум",
+                          maxLines: 2,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                              color: Styles.cardTextColor,
+                              fontSize: 16.0,
+                              fontFamily: "SegoeUISemiBold"),
+                        ),
+                      ),
+                      product.discount != null && product.discount != 0
+                          ? Text(
+                              product.price.floor().toString(),
+                              maxLines: 1,
+                              style: TextStyle(
+                                  decoration: TextDecoration.lineThrough,
+                                  color: Colors.redAccent,
+                                  fontSize: 10.0,
+                                  fontFamily: "SegoeUISemiBold"),
+                            )
+                          : Container(),
+                    ],
                   ),
                   Text(product.name,
                       maxLines: 2,

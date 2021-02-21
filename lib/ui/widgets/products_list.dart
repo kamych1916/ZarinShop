@@ -64,6 +64,11 @@ class ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 2;
+
     return Container(
       padding: EdgeInsets.only(top: 10.0),
       color: Styles.subBackgroundColor,
@@ -161,7 +166,7 @@ class ProductsList extends StatelessWidget {
                       snapshot.data.status == Status.LOADING)
                     return CupertinoScrollbar(
                       child: GridView.count(
-                        childAspectRatio: 1 / 2 + 0.025,
+                        childAspectRatio: (itemWidth / itemHeight),
                         mainAxisSpacing: 0.0,
                         crossAxisSpacing: 10.0,
                         padding: EdgeInsets.only(
@@ -203,7 +208,7 @@ class ProductsList extends StatelessWidget {
                             ProductCard(snapshot.data.data[index]),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 1 / 2,
+                          childAspectRatio: (itemWidth / itemHeight),
                           mainAxisSpacing: 0.0,
                           crossAxisSpacing: 10.0,
                         ),

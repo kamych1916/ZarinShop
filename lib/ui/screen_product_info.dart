@@ -20,9 +20,9 @@ import 'package:shimmer/shimmer.dart';
 
 class ProductInfo extends StatefulWidget {
   final Product product;
-  final String heroTag;
+  final String tag;
 
-  const ProductInfo(this.product, this.heroTag, {Key key}) : super(key: key);
+  const ProductInfo(this.product, this.tag, {Key key}) : super(key: key);
 
   @override
   _ProductInfoState createState() => _ProductInfoState();
@@ -92,8 +92,9 @@ class _ProductInfoState extends State<ProductInfo> {
                                       context,
                                       screen: ProductInfoImageView(
                                           index == 0
-                                              ? widget.heroTag
-                                              : widget.heroTag +
+                                              ? widget.tag + widget.product.id
+                                              : widget.tag +
+                                                  widget.product.id +
                                                   index.toString(),
                                           widget.product.images[index]),
                                       withNavBar: true,
@@ -105,8 +106,10 @@ class _ProductInfoState extends State<ProductInfo> {
                                 context,
                                 screen: ProductInfoImageView(
                                     index == 0
-                                        ? widget.heroTag
-                                        : widget.heroTag + index.toString(),
+                                        ? widget.tag + widget.product.id
+                                        : widget.tag +
+                                            widget.product.id +
+                                            index.toString(),
                                     widget.product.images[index]),
                                 withNavBar: true,
                                 pageTransitionAnimation:
@@ -114,8 +117,10 @@ class _ProductInfoState extends State<ProductInfo> {
                               ),
                               child: Hero(
                                 tag: index == 0
-                                    ? widget.heroTag
-                                    : widget.heroTag + index.toString(),
+                                    ? widget.tag + widget.product.id
+                                    : widget.tag +
+                                        widget.product.id +
+                                        index.toString(),
                                 child: index == 0
                                     ? Image(
                                         fit: BoxFit.cover,
@@ -212,7 +217,7 @@ class _ProductInfoState extends State<ProductInfo> {
                         Align(
                           alignment: Alignment(0.97, 0.97),
                           child: Hero(
-                            tag: "heart" + widget.product.id,
+                            tag: widget.tag + "heart" + widget.product.id,
                             child: ProductCardFavoriteIcon(
                               widget.product,
                               key: ValueKey(widget.product.id),

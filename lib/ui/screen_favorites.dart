@@ -66,6 +66,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 2;
+
     return Scaffold(
       backgroundColor: Styles.subBackgroundColor,
       appBar: PreferredSize(
@@ -94,7 +99,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             if (snapshot.data.status == Status.LOADING)
               return CupertinoScrollbar(
                 child: GridView.count(
-                  childAspectRatio: 1 / 2 + 0.025,
+                  childAspectRatio: (itemWidth / itemHeight),
                   mainAxisSpacing: 0.0,
                   crossAxisSpacing: 10.0,
                   padding: EdgeInsets.only(
@@ -126,7 +131,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
             return CupertinoScrollbar(
               child: GridView.count(
-                childAspectRatio: 1 / 2 + 0.025,
+                childAspectRatio: (itemWidth / itemHeight),
                 mainAxisSpacing: 0.0,
                 crossAxisSpacing: 10.0,
                 padding: EdgeInsets.only(

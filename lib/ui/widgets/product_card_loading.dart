@@ -5,7 +5,12 @@ import 'package:shimmer/shimmer.dart';
 class ProductCardLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+
     return Container(
+      width: size.width / 2 - 40,
       child: Column(
         children: [
           Shimmer.fromColors(
@@ -14,10 +19,14 @@ class ProductCardLoading extends StatelessWidget {
             period: Duration(milliseconds: 2000),
             child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height / 3 - 15.0,
+              height: itemHeight - 125,
               decoration: BoxDecoration(
-                  color: Styles.subBackgroundColor, borderRadius: BorderRadius.circular(10)),
+                  color: Styles.subBackgroundColor,
+                  borderRadius: BorderRadius.circular(10)),
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.5),
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),

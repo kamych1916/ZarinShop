@@ -97,7 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               separatorBuilder: (context, index) => Divider(),
                               padding: EdgeInsets.zero,
                               physics: BouncingScrollPhysics(),
-                              itemCount: 5,
+                              itemCount: 3,
                               itemBuilder: (context, index) => Container(
                                     padding: EdgeInsets.symmetric(
                                         vertical: 7.5, horizontal: 5.0),
