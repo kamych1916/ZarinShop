@@ -1,4 +1,5 @@
 import 'package:Zarin/ui/screen_info.dart';
+import 'package:Zarin/ui/screen_orders.dart';
 import 'package:Zarin/ui/screen_password_reset_code.dart';
 import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/blocs/user_bloc.dart';
@@ -81,33 +82,40 @@ class UserScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    AppIcons.map_marker,
-                                    size: 20.0,
-                                    color: Colors.grey,
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5.0),
-                                  ),
-                                  Expanded(
-                                      child: Text(
-                                    "Мои заказы",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: "SegoeUiSemiBold"),
-                                  )),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 10,
-                                    color: Colors.grey,
-                                  )
-                                ],
+                            GestureDetector(
+                              onTap: () => pushNewScreen(
+                                context,
+                                screen: OrdersScreen(),
+                                withNavBar: true,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.fade,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      AppIcons.map_marker,
+                                      size: 20.0,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5.0),
+                                    ),
+                                    Expanded(
+                                        child: Text(
+                                      "Мои заказы",
+                                      style: TextStyle(
+                                          fontFamily: "SegoeUiSemiBold"),
+                                    )),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 10,
+                                      color: Colors.grey,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                             Divider(),

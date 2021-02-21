@@ -15,6 +15,7 @@ class UserBloc {
 
   String firstName;
   String lastName;
+  String phone;
 
   List<String> signUpInputStrings = new List(3);
 
@@ -42,10 +43,10 @@ class UserBloc {
       return false;
     }
 
-    if (password.value.length < 8) {
-      password.error("Пароль должен быть длиннее 8 символов");
-      return false;
-    }
+    // if (password.value.length < 8) {
+    //   password.error("Пароль должен быть длиннее 8 символов");
+    //   return false;
+    // }
     return true;
   }
 
@@ -64,6 +65,7 @@ class UserBloc {
       auth.publish(true);
       firstName = response.data["first_name"];
       lastName = response.data["last_name"];
+      phone = response.data["phone"];
       saveUser();
     }
 
@@ -142,6 +144,7 @@ class UserBloc {
       this.auth.publish(true);
       firstName = response.data["first_name"];
       lastName = response.data["last_name"];
+      phone = response.data["phone"];
 
       this.email.publish(response.data["email"]);
       return true;

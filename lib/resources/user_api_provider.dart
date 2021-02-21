@@ -18,7 +18,7 @@ class UserApiProvider {
   }
 
   Future<ApiResponse<dynamic>> signIn(String email, String password) async {
-    String url = "https://mirllex.site/server/api/v1/signin";
+    String url = "https://zarinshop.uz/server/api/v1/signin";
     String body = '{"email": "$email", "password": "$password"}';
 
     try {
@@ -46,7 +46,7 @@ class UserApiProvider {
   }
 
   Future<ApiResponse<bool>> resetPassword(String email) async {
-    String url = "https://mirllex.site/server/api/v1/reset_password";
+    String url = "https://zarinshop.uz/server/api/v1/reset_password";
     String parameters = "?email=$email";
 
     try {
@@ -71,7 +71,7 @@ class UserApiProvider {
 
   Future<ApiResponse<bool>> signUp(
       String email, String password, firstName, lastName, phone) async {
-    String url = "https://mirllex.site/server/api/v1/signup";
+    String url = "https://zarinshop.uz/server/api/v1/signup";
     String body =
         '{"email": "$email", "password": "$password", "first_name": "$firstName","last_name": "$lastName", "phone": $phone}';
 
@@ -97,7 +97,7 @@ class UserApiProvider {
   }
 
   Future<ApiResponse<bool>> checkSignUpCode(String code, String email) async {
-    String url = "https://mirllex.site/server/api/v1/checkcode_activ";
+    String url = "https://zarinshop.uz/server/api/v1/checkcode_activ";
     String parameters = "?code=$code&email=$email";
 
     try {
@@ -121,7 +121,7 @@ class UserApiProvider {
 
   Future<ApiResponse<bool>> checkPasswordResetCode(
       String code, String email, String password) async {
-    String url = "https://mirllex.site/server/api/v1/change_password";
+    String url = "https://zarinshop.uz/server/api/v1/change_password";
     String parameters = "?code=$code&new_password=$password&email=$email";
 
     try {

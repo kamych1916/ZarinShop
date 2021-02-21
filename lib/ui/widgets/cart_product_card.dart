@@ -64,14 +64,14 @@ class _CartProductCardState extends State<CartProductCard> {
           GestureDetector(
             onTap: () => pushNewScreen(
               context,
-              screen: ProductInfo(product, product.id + widget.cartEntity.size),
+              screen: ProductInfo(product, widget.cartEntity.size),
               withNavBar: true,
               pageTransitionAnimation: PageTransitionAnimation.fade,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Hero(
-                tag: product.id + widget.cartEntity.size,
+                tag: widget.cartEntity.size + product.id,
                 child: Image(
                   fit: BoxFit.cover,
                   width: 100,
@@ -208,7 +208,7 @@ class _CartProductCardState extends State<CartProductCard> {
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18)),
                       ),
-                      //Counter(countSubject, initCount: widget.cartEntity.count),
+                      Counter(countSubject, initCount: widget.cartEntity.count),
                     ],
                   )
                 ],

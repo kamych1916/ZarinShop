@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:Zarin/blocs/app_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:Zarin/models/cart_entity.dart';
 import 'package:Zarin/models/category.dart';
 import 'package:Zarin/models/event.dart';
 import 'package:Zarin/models/filter.dart';
+import 'package:Zarin/models/order.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/resources/product_api_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,6 +49,8 @@ class ProductBloc {
 
   final Event<List<CartEntity>> cartEntities = Event();
   final Event<List<String>> favoritesEntities = Event();
+
+  final Event<ApiResponse<List<Order>>> orders = Event();
 
   final Event<double> cartTotalPrice = Event();
 
@@ -312,6 +316,88 @@ class ProductBloc {
     await cartTotalPrice.dispose();
 
     await searchEvent.dispose();
+  }
+
+  Future<String> pay(
+      String deliveryType, String whichBank, int currentAddress) async {
+    Map<String, dynamic> userInfo = {
+      "firstName": userBloc.firstName,
+      "lastName": userBloc.lastName,
+      "phone": userBloc.phone,
+      "email": userBloc.email.value,
+    };
+
+    Map<String, dynamic> addressInfo;
+
+    if (currentAddress >= 0) {
+      addressInfo = {
+        "address": appBloc.addresses.value[currentAddress].street +
+            " " +
+            appBloc.addresses.value[currentAddress].apartmentNumber +
+            " " +
+            appBloc.addresses.value[currentAddress].houseNumber,
+        "city": appBloc.addresses.value[currentAddress].city,
+        "state": appBloc.addresses.value[currentAddress].state,
+        "pincode": appBloc.addresses.value[currentAddress].code
+      };
+    } else {
+      addressInfo = {"address": "", "city": "", "state": "", "pincode": ""};
+    }
+
+    userInfo = {}..addAll(userInfo)..addAll(addressInfo);
+
+    List<Map> items = [];
+
+    for (CartEntity cartEntity in cartEntities.value) {
+      Product product = cartProducts.value.data
+          // ignore: unrelated_type_equality_checks
+          .firstWhere((element) => cartEntity == element);
+
+      items.add({
+        "id": int.tryParse(cartEntity.id),
+        "name": product.name,
+        "size": cartEntity.size,
+        "kol": cartEntity.count,
+        "images": product.images,
+        "color": product.color,
+        "price": product.price.floor(),
+        "discount": product.discount,
+        "stock": product.sizes
+            .firstWhere((element) => element["size"] == cartEntity.size)["kol"]
+      });
+    }
+
+    Map<String, dynamic> body = {
+      "which_bank": whichBank.toLowerCase(),
+      "shipping_type": deliveryType == "Самовывоз" ? "pickup" : "delivery",
+      "subtotal": cartTotalPrice.value.floor(),
+      "list_items": items,
+      "client_info": userInfo,
+      "shipping_adress": deliveryType == "Самовывоз"
+          ? ""
+          : appBloc.addresses.value[currentAddress].code +
+              " " +
+              appBloc.addresses.value[currentAddress].state +
+              " " +
+              appBloc.addresses.value[currentAddress].city +
+              " " +
+              appBloc.addresses.value[currentAddress].street +
+              " " +
+              appBloc.addresses.value[currentAddress].apartmentNumber +
+              " " +
+              appBloc.addresses.value[currentAddress].houseNumber,
+    };
+
+    return await _productApiProvider.pay(body);
+  }
+
+  getUserOrders() async {
+    orders.publish(ApiResponse.loading("Загрузка категорий"));
+
+    ApiResponse<List<Order>> ordersResponse =
+        await _productApiProvider.getUserOrders();
+
+    orders.publish(ordersResponse);
   }
 }
 

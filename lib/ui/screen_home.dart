@@ -1,14 +1,11 @@
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/product.dart';
-import 'package:Zarin/ui/screen_product_info.dart';
 import 'package:Zarin/ui/widgets/product_card.dart';
 import 'package:Zarin/ui/widgets/product_card_loading.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double cardWidth = MediaQuery.of(context).size.width / 2 - 40;
     return Scaffold(
       backgroundColor: Styles.subBackgroundColor,
       appBar: PreferredSize(
