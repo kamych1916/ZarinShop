@@ -354,8 +354,7 @@ export default {
       this.updatePaginate(1)
     },
     getPaginate() {
-      console.log(this.paginate)
-      this.paginates = Math.round(this.filterProduct.length / this.paginate);
+      this.paginates = Math.ceil(this.filterProduct.length / this.paginate);
       this.pages = []
       for (let i = 0; i < this.paginates; i++) {
         this.pages.push(i + 1)

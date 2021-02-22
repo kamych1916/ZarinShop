@@ -111,9 +111,9 @@
           <div class="collection-brand-filter price-rangee-picker">
             <vue-slider
             v-model="value"
-            :min="0"
-            :max="20000"
-            :interval="1000"
+            :min="50000"
+            :max="2000000"
+            :interval="10000"
             ref="slider"
             @change="sliderChange($refs.slider.getValue())">
             </vue-slider>
@@ -196,7 +196,7 @@ export default {
       categoryID: null,
       categories: null,
       bannerimagepath: require('@/assets/images/side-banner.png'),
-      value: [0, 15000],
+      value: [100000, 1000000],
       selectedcolor: [],
       selectedbrand: [],
       selectedsize: [],

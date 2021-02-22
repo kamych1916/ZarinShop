@@ -261,7 +261,7 @@ export default {
           list_items: this.$store.state.cart.cart,
           which_bank: bank,
           cart_type: this.payment,
-          client_info: [this.user],
+          client_info: this.user,
           shipping_adress: this.shipping == 'pickup' ? 'Улица такаято зариншоповская' : (this.user.state + ' / '  + this.user.city + ' / ' + this.user.address + ' / ' + this.user.pincode), 
           subtotal: this.cartTotal,
           shipping_type: this.shipping,
