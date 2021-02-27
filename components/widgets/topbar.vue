@@ -7,7 +7,7 @@
             <ul>
               <li>Добро пожаловать в магазин Zarin Shop</li>
               <li>
-                <i class="fa fa-phone" aria-hidden="true"></i>+998 (78) 150-00-02  
+                <i class="fa fa-phone" aria-hidden="true"></i>+998 (72) 224-01-01  
               </li>
             </ul>
           </div>

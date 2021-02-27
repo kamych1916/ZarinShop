@@ -75,22 +75,19 @@
             <div class="col-xl-4">
               <div class="sub-title">
                 <div class="footer-title">
-                  <h4>store information</h4>
+                  <h4>ИНФОРМАЦИЯ</h4>
                 </div>
                 <div class="footer-contant">
                   <ul class="contact-list">
                     <li>
-                      <i class="fa fa-map-marker"></i>страна Узбекистан, город Ташкен, улица такая-то
+                      <i class="fa fa-map-marker"></i>Ташкент, Яшнабадский р-н, 1 проезд Алимкент 36/1
                     </li>
                     <li>
-                      <i class="fa fa-phone"></i>+998 (78) 150-00-02
+                      <i class="fa fa-phone"></i>+998 (72) 224-01-01 
                     </li>
                     <li>
                       <i class="fa fa-envelope-o"></i>
-                      <a href="#">zarinshop@gmail.com</a>
-                    </li>
-                    <li>
-                      <i class="fa fa-fax"></i>Fax: 123456
+                      <a href="#">info@zarinshop.uz</a>
                     </li>
                   </ul>
                 </div>
@@ -113,28 +110,16 @@
               <div class="payment-card-bottom">
                 <ul>
                   <li>
-                    <a href="#">
-                      <img :src='"@/assets/images/icon/visa.png"' alt />
+                    Платежные системы: 
+                  </li>
+                  <li>
+                    <a href="https://click.uz/ru">
+                      <img :src='"@/assets/images/icon/click.png"' width="30px" alt />
                     </a>
                   </li>
                   <li>
-                    <a href="#">
-                      <img :src='"@/assets/images/icon/mastercard.png"' alt />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img :src='"@/assets/images/icon/paypal.png"' alt />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img :src='"@/assets/images/icon/american-express.png"' alt />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img :src='"@/assets/images/icon/discover.png"' alt />
+                    <a href="https://payme.uz/">
+                      <img :src='"@/assets/images/icon/payme.png"' width="30px" alt />
                     </a>
                   </li>
                 </ul>

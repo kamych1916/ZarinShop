@@ -9,7 +9,7 @@
     <Services />
     <!-- <Blog /> -->
     <!-- <Instagram /> -->
-    <LogoSlider />
+    <!-- <LogoSlider /> -->
     <Footer />
     <quickviewModel :openModal="showquickviewmodel" :productData="quickviewproduct" />
     <compareModel :openCompare="showcomparemodal" :productData="comapreproduct" @closeCompare="closeCompareModal" />

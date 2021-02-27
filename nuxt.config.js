@@ -13,7 +13,7 @@ export default {
       { hid: 'description', name: 'description', content: 'Интернет магазин Zarin Shop осуществляет доставку по всему Узбекистану, сроки доставки зависят от адреса, по которому будет осуществляться доставка. Сроки уточняйте у оператора Call центра.' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/multikartvue/favicon.png' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Lato:300,400,700,900' }
     ],
     script: [
