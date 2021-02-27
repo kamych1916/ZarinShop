@@ -366,7 +366,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#27a8e0', end
 -moz-border-radius: 4px;
 }
 .click_logo i {
-background: url(https://m.click.uz/static/img/logo.png) no-repeat top left;
+/* background: url(https://m.click.uz/static/img/logo.png) no-repeat top left; */
 width:30px;
 height: 25px;
 display: block;

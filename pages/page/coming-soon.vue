@@ -63,7 +63,7 @@
 export default {
   data() {
     return {
-      logoimage: require('@/assets/images/icon/logo.png'),
+      logoimage: require('@/assets/images/icon/click.png'),
       title: 'Will be Opening Soon!',
       copyright: '© 2018, Powered by Multikart.'
     }

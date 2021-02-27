@@ -79,15 +79,16 @@
                 </div>
                 <div class="footer-contant">
                   <ul class="contact-list">
-                    <li>
+                    <li style="text-transform: unset">
                       <i class="fa fa-map-marker"></i>Ташкент, Яшнабадский р-н, 1 проезд Алимкент 36/1
                     </li>
-                    <li>
-                      <i class="fa fa-phone"></i>+998 (72) 224-01-01 
+                    <li style="text-transform: unset">
+                      <i class="fa fa-phone"></i>
+                      <a href="tel:+998722240101">+998 (72) 224-01-01</a> 
                     </li>
-                    <li>
+                    <li style="text-transform: unset">
                       <i class="fa fa-envelope-o"></i>
-                      <a href="#">info@zarinshop.uz</a>
+                      <a href="mailto:info@zarinshop.uz" >info@zarinshop.uz</a>
                     </li>
                   </ul>
                 </div>
@@ -102,7 +103,7 @@
             <div class="col-xl-6 col-md-6 col-sm-12">
               <div class="footer-end">
                 <p>
-                  <i class="fa fa-copyright" aria-hidden="true"></i> 2021 разработано компанией <b> <a href="https://nirllex.space" style="color: black">Mirllex</a> </b> 
+                  <i class="fa fa-copyright" aria-hidden="true"></i> 2021 разработано компанией <b> <a href="https://mirllex.space" style="color: black">Mirllex</a> </b> 
                 </p>
               </div>
             </div>

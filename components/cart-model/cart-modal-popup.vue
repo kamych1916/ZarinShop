@@ -40,8 +40,9 @@
                   class="btn-sm btn-solid"
                 >Продожить покупки</nuxt-link>
               </div>
-              <div class="upsell_payment">
-                <img alt="" class="img-fluid w-auto mt-3" :src='"@/assets/images/payment_cart.png"'></div>
+              <!-- <div class="upsell_payment">
+                <img alt="" class="img-fluid w-auto mt-3" :src='"@/assets/images/payment_cart.png"'>
+              </div> -->
             </div>
           </div>
           <!-- <div class="product-section">

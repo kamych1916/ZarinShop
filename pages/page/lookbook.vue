@@ -60,7 +60,6 @@ export default {
     return {
       items: [
         {
-          imagepath: require('@/assets/images/lookbook.jpg'),
           pro1image: require('@/assets/images/1.jpg'),
           pro1title: 'Trim dress',
           pro1price: '$220.00',
@@ -71,7 +70,6 @@ export default {
           pro2link: '/home'
         },
         {
-          imagepath: require('@/assets/images/lookbook2.jpg'),
           pro1image: require('@/assets/images/1.jpg'),
           pro1title: 'boho tops',
           pro1price: '$446.00',

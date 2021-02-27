@@ -2570,7 +2570,6 @@ margin-bottom: 50px;
 8.Banner Timer CSS start
 ==========================*/
 .banner-timer{
-background-image: url("#{$assetspath}/offer-banner.jpg");
 background-size: cover;
 margin-left: 20px;
 margin-right: 20px;
@@ -3944,7 +3943,6 @@ padding-top: 190px;
 padding-bottom: 190px;
 background-position: center;
 &.advertise-banner {
-background-image: url("#{$assetspath}/fashion/banner.jpg");
 }
 &.parallax-layout {
 padding-top: 350px;
@@ -5221,7 +5219,6 @@ object-fit: fill;
 .layout-8 {
 padding: 0 80px;
 .layout-8-bg {
-background-image: url("#{$assetspath}/electronics/bg.jpg");
 background-size: cover;
 background-attachment: fixed;
 height: 100%;
@@ -5277,7 +5274,6 @@ z-index: 1;
   padding-bottom: calc(100px + (200 - 100) * ((100vw - 320px) / (1920 - 320)));
 }
 &.bg-image {
-  background-image: url("#{$assetspath}/bg-image.jpg");
 }
 }
 }
@@ -5372,7 +5368,6 @@ img {
 17.6.Flower Demo css
 ==========================*/
 .flower-bg {
-background-image: url("#{$assetspath}/flower/flower-bg.jpg");
 background-repeat: no-repeat;
 background-size: cover;
 background-attachment: fixed;
@@ -5380,7 +5375,6 @@ height: 100%;
 width: 100%;
 }
 .bg-block {
-background-image: url("#{$assetspath}/flower/bg.jpg");
 background-repeat: no-repeat;
 background-size: cover;
 background-attachment: fixed;
@@ -5404,7 +5398,6 @@ padding: 70px 50px 60px 50px;
 17.7.Nursery Demo css
 ==========================*/
 .layout-20 {
-background-image: url("#{$assetspath}/nursery/bg.jpg");
 background-repeat: no-repeat;
 background-size: cover;
 background-attachment: fixed;
@@ -5451,7 +5444,6 @@ img {
 }
 }
 .main-banner-bg {
-background: url("#{$assetspath}/main-banner-bg.jpg");
 padding: 45px 0;
 .small-slider {
 border: 20px solid $white;
@@ -5535,7 +5527,6 @@ img {
 }
 .game-banner {
 .banner-timer {
-background-image: url("#{$assetspath}/banner-game.jpg");
 background-blend-mode: overlay;
 background-color: rgba($black, 0.4);
 margin-left: 0;
@@ -5721,7 +5712,6 @@ p {
 }
 }
 .bg-img-gym {
-//background-image: url("../images/gym/bg.jpg");
 &.overlay-cls {
 background-blend-mode: overlay;
 background-color: rgba($black, 0.85);
@@ -6382,7 +6372,6 @@ display: flex;
 }
 }
 .product_section {
-background-image: url("#{$assetspath}/marijuana/leaf-bg.jpg");
 }
 .border-box {
 &.tools-grey {
@@ -7681,7 +7670,6 @@ margin-bottom: 30px;
 
 // coming soon //
 .template-password{
-background: url("#{$assetspath}/coming-soon.jpg");
 background-size: cover;
 height: 100vh;
 #container {
@@ -11187,114 +11175,6 @@ h4 {
     background-size: cover;
     transition: all 2s ease-out 0s;
     box-shadow: -1px 2px 5px 1px #ececec;
-    &.demo1{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo44{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo45{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo48{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo51{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo2{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo3{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo4{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo5{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo6{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo7{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo8{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo10{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo11{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo16{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo21{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo22{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo24{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo23{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo25{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo52{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo53{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo54{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo55{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo56{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo40{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo33{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo36{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo34{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo41{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo32{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo35{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo31{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo27{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo28{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
-    &.demo29{
-      background-image:url("#{$assetspath}/demo.jpg");
-    }
   }
   .demo-text {
     h4 {
