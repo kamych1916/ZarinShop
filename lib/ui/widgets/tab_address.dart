@@ -426,65 +426,67 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
 
     return Container(
       //padding: MediaQuery.of(context).viewInsets,
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0,),
       decoration: BoxDecoration(
           color: Styles.subBackgroundColor,
           borderRadius: BorderRadius.circular(25)),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(top: 10.0, bottom: 20.0),
-              width: 25.0,
-              height: 2.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.grey,
+      child: SingleChildScrollView(
+              child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 10.0, bottom: 20.0),
+                width: 25.0,
+                height: 2.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.grey,
+                ),
               ),
             ),
-          ),
-          Text(
-            "Новый адрес доставки",
-            style: TextStyle(fontFamily: "SegoeUIBold"),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-          ),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: fields,
+            Text(
+              "Новый адрес доставки",
+              style: TextStyle(fontFamily: "SegoeUIBold"),
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              if (_formKey.currentState.validate()) {
-                Address address = Address(
-                    data[0], data[1], data[2], data[3], data[4], data[5]);
-                appBloc.addAddress(address);
-                Navigator.of(context).pop();
-              }
-            },
-            child: Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: Styles.mainColor,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Text(
-                "Готово",
-                style:
-                    TextStyle(color: Colors.white, fontFamily: "SegoeUIBold"),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: fields,
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-          )
-        ],
+            GestureDetector(
+              onTap: () {
+                if (_formKey.currentState.validate()) {
+                  Address address = Address(
+                      data[0], data[1], data[2], data[3], data[4], data[5]);
+                  appBloc.addAddress(address);
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: double.infinity,
+                height: 40,
+                decoration: BoxDecoration(
+                    color: Styles.mainColor,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Text(
+                  "Готово",
+                  style:
+                      TextStyle(color: Colors.white, fontFamily: "SegoeUIBold"),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/blocs/product_bloc.dart';
+import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/ui/screen_product_info.dart';
 import 'package:Zarin/ui/widgets/filter_sheet.dart';
@@ -51,14 +52,25 @@ class ColorsPicker extends StatelessWidget {
                   children: List.generate(colors.length, (index) {
                     return GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                      onTap: () {
+                      onTap: () async {
                         if (index != activeIndex) {
                           for (Map<String, dynamic> linkColor
                               in linkedProducts) {
                             if (colors[index] == linkColor["color"]) {
-                              Product product = productBloc.products.value.data
-                                  .firstWhere((element) =>
-                                      element.id == linkColor["id"].toString());
+                              Product product;
+                              try {
+                                product = productBloc.products.value.data
+                                    .firstWhere((element) =>
+                                        element.id ==
+                                        linkColor["id"].toString());
+                              } catch (ex) {
+                                ApiResponse response = await productBloc
+                                    .getProductsById(
+                                        [linkColor["id"].toString()]);
+                                if (response.status == Status.COMPLETED) {
+                                  product = response.data[0];
+                                }
+                              }
                               Navigator.of(context)
                                   .pushReplacement(FadePageRoute(
                                 builder: (context) =>

@@ -72,6 +72,12 @@ class ProductBloc {
 
   /// Товары
 
+  getProductsById(List<String> ids) async {
+    ApiResponse<List<Product>> response = await _productApiProvider
+        .getProductsByID(ids);
+    return response;
+  }
+
   void getHomeProducts() async {
     productsSales.publish(ApiResponse.loading("Загрузка товара"));
     productsOffers.publish(ApiResponse.loading("Загрузка товара"));
