@@ -81,8 +81,9 @@ class _AddressTabState extends State<AddressTab> {
         pageTransitionAnimation: PageTransitionAnimation.fade,
       );
 
-      productBloc.getCartEntities();
-      Navigator.of(context).pop();
+      await productBloc.getCartEntities();
+      productBloc.getCartProducts();
+      Navigator.of(context).pop(); //6262 9200 6488 5766 12/22
     }
   }
 

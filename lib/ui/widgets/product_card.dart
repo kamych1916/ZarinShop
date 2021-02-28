@@ -101,7 +101,7 @@ class ProductCard extends StatelessWidget {
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                               color: Styles.cardTextColor,
-                              fontSize: 16.0,
+                              fontSize: 14.0,
                               fontFamily: "SegoeUISemiBold"),
                         ),
                       ),

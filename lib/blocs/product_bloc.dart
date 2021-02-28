@@ -197,7 +197,7 @@ class ProductBloc {
     cartProducts.publish(cart);
   }
 
-  getCartEntities() async {
+  Future getCartEntities() async {
     ApiResponse<List<CartEntity>> response =
         await _productApiProvider.getUserCart();
 
@@ -370,7 +370,7 @@ class ProductBloc {
     Map<String, dynamic> body = {
       "which_bank": whichBank.toLowerCase(),
       "shipping_type": deliveryType == "Самовывоз" ? "pickup" : "delivery",
-      "subtotal": cartTotalPrice.value.floor(),
+      "subtotal": 1800, //cartTotalPrice.value.floor(),
       "list_items": items,
       "client_info": userInfo,
       "shipping_adress": deliveryType == "Самовывоз"
