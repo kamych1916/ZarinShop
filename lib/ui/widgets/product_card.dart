@@ -36,7 +36,7 @@ class ProductCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: size.width / 2 - 40,
+        width: size.width / 3,
         child: Column(
           children: [
             Stack(

@@ -267,28 +267,30 @@ class _TermsOfUseCheckBoxState extends State<TermsOfUseCheckBox> {
               TextSpan(
                   recognizer: TapGestureRecognizer()
                     ..onTap = () async {
-                      await SystemChannels.textInput
-                          .invokeMethod('TextInput.hide');
-                      showModalBottomSheet(
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0)),
-                          ),
-                          context: context,
-                          builder: (context) => DraggableScrollableSheet(
-                              expand: false,
-                              initialChildSize: 0.64,
-                              minChildSize: 0.2,
-                              maxChildSize: 1,
-                              builder: (context, scrollController) =>
-                                  TermsOfUse(
-                                    controller: scrollController,
-                                  )));
+                      // await SystemChannels.textInput
+                      //     .invokeMethod('TextInput.hide');
+                      // showModalBottomSheet(
+                      //     isScrollControlled: true,
+                      //     backgroundColor: Colors.transparent,
+                      //     shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.vertical(
+                      //           top: Radius.circular(25.0)),
+                      //     ),
+                      //     context: context,
+                      //     builder: (context) => DraggableScrollableSheet(
+                      //         expand: false,
+                      //         initialChildSize: 0.64,
+                      //         minChildSize: 0.2,
+                      //         maxChildSize: 1,
+                      //         builder: (context, scrollController) =>
+                      //             TermsOfUse(
+                      //               controller: scrollController,
+                      //             )));
                     },
                   text: 'пользовательским соглашением',
-                  style: TextStyle(decoration: TextDecoration.underline)),
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.blue)),
             ],
           ),
         ),

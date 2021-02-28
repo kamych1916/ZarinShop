@@ -9,27 +9,6 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String state;
-    Color stateColor;
-
-    switch (order.state) {
-      case "Awaiting":
-        state = "В ожидании";
-        stateColor = Styles.mainColor;
-        break;
-      case "Completed":
-        state = "Завершен";
-        stateColor = Colors.green;
-        break;
-      case "Canceled":
-        state = "Отменен";
-        stateColor = Colors.redAccent;
-        break;
-      default:
-        state = "Неизвестен";
-        stateColor = Colors.redAccent;
-    }
-
     return Container(
       margin: EdgeInsets.only(left: 15.0, right: 15.0, top: 7.5, bottom: 7.5),
       width: double.infinity,
@@ -39,29 +18,70 @@ class OrderCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Дата заказа: " + order.date,
-            style: TextStyle(
-              fontFamily: "SegoeUISemiBold",
-            ),
-          ),
-          Divider(),
-          Text("Количетво вещей в заказе: " + order.itemsCount.toString()),
-          Text("Сумма заказа: " + order.subtotal.toString() + " сум"),
-          Divider(),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Статус: ",
+                "Дата заказа",
                 style: TextStyle(
                   fontFamily: "SegoeUISemiBold",
                 ),
               ),
               Text(
-                state,
-                style:
-                    TextStyle(fontFamily: "SegoeUISemiBold", color: stateColor),
+                order.date,
+                style: TextStyle(
+                  fontFamily: "SegoeUISemiBold",
+                ),
               ),
+            ],
+          ),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Количетво вещей в заказе"),
+              Text(order.itemsCount.toString())
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Сумма заказа"),
+              Text(order.subtotal.toString() + " сум")
+            ],
+          ),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Статус оплаты ",
+                style: TextStyle(
+                  fontFamily: "SegoeUISemiBold",
+                ),
+              ),
+              Text(
+                order.state,
+                style: TextStyle(
+                    fontFamily: "SegoeUISemiBold", color: order.stateColor),
+              )
+            ],
+          ),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Статус заказа ",
+                style: TextStyle(
+                  fontFamily: "SegoeUISemiBold",
+                ),
+              ),
+              Text(
+                order.state,
+                style: TextStyle(
+                    fontFamily: "SegoeUISemiBold", color: order.stateColor),
+              )
             ],
           ),
         ],
