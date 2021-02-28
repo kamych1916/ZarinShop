@@ -3,7 +3,7 @@
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov on 11/6/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
@@ -23,7 +23,7 @@ class ZSProductDetailSpecificationSizes: UIView {
     
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
-        label.text = "Цвета"
+        label.text = "Размеры"
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.textColor = .textGoldColor
         label.textAlignment = .left

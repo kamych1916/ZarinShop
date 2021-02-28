@@ -2,8 +2,8 @@
 //  ZSAdressViewController.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 04/12/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Created by Murad Ibrohimov on 04/12/20.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
@@ -42,7 +42,6 @@ class ZSAdressViewController: ZSBaseViewController {
         return button
     }()
 
-
     lazy var dismissButton: UIBarButtonItem = {
         var button = UIBarButtonItem(
             image: UIImage(named: "dismiss"), style: .plain,
@@ -66,7 +65,6 @@ class ZSAdressViewController: ZSBaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     //MARK: - View life cycle
     

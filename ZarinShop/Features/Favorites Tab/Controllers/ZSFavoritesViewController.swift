@@ -3,7 +3,7 @@
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov on 10/25/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
@@ -80,11 +80,6 @@ class ZSFavoritesViewController: ZSBaseViewController {
     }
     
     // MARK: - Actions
-    
-    @objc private func buyButtonTapped(_ sender: UIButton) {
-        let checkoutVC = ZSCheckoutViewController()
-        Interface.shared.pushVC(vc: checkoutVC)
-    }
     
     // MARK: - Setters
     

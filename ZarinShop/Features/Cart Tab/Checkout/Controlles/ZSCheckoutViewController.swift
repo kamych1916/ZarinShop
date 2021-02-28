@@ -3,7 +3,7 @@
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov on 10/10/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
@@ -14,6 +14,10 @@ class ZSCheckoutViewController: ZSBaseViewController {
     // MARK: - Public Variables
     
     // MARK: - Private Variables
+    
+    private var cartItems: [CartItemModel]
+    private var total: Double
+    private var selectedAddress: AddressModel?
     
     // MARK: - GUI Variables
     
@@ -45,7 +49,7 @@ class ZSCheckoutViewController: ZSBaseViewController {
     lazy var doneButton: UIButton = {
         var button = UIButton(type: .system)
         button.layer.cornerRadius = 25
-        button.setTitle("Готово", for: .normal)
+        button.setTitle("Далее", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         button.backgroundColor = .mainColor
@@ -53,6 +57,19 @@ class ZSCheckoutViewController: ZSBaseViewController {
         button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    init(cartItems: [CartItemModel], total: Double) {
+        self.cartItems = cartItems
+        self.total = total
+        let addresses = AddressStorage().addresses
+        self.selectedAddress = addresses.first
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - View Lifecycle
     
@@ -67,8 +84,7 @@ class ZSCheckoutViewController: ZSBaseViewController {
         
         title = "Заказ"
         view.backgroundColor = .groupTableViewBackground
-        let addresses = AddressStorage().addresses
-        updateAddressWith(addresses.first)
+        updateAddressWith(selectedAddress)
         addSubviews()
         makeConstraints()
     }
@@ -112,32 +128,24 @@ class ZSCheckoutViewController: ZSBaseViewController {
     // MARK: - Actions
     
     @objc private func doneButtonTapped(_ sender: UIButton) {
-        let merchantServiceId = 14950
-        let merchantId = 10466
-        let merchantTransAmount = 1000
-        let merchantTransId = 1
+        let listItems: [[String: Any]] = cartItems.map {$0.dictionaryDescription}
+        let params: [String: Any] = [
+            "list_items": listItems,
+            "which_bank": mainView.selectedPaymentSystem!.rawValue,
+            "shipping_adress": selectedAddress != nil ? selectedAddress!.fullInfo : "Нет адреса",
+            "shipping_type": "delivery",
+            "subtotal": total
+        ]
         
-        guard let url = URL(string: "https://my.click.uz/services/pay/?service_id=\(merchantServiceId)&merchant_id=\(merchantId)&amount=\(merchantTransAmount)&transaction_param=\(merchantTransId)") else { return }
-        
-        //print(mainView.selectedPaymentSystem)
-        presentSafariVC(with: url)
+        let paymentDetailsVC = ZSCheckoutPaymentDetailsViewController(params: params)
+        navigationController?.pushViewController(paymentDetailsVC, animated: true)
     }
     
     // MARK: - Helpers
     
     private func updateAddressWith(_ address: AddressModel?) {
-        
         guard let address = address else { return }
-        
-        var string = "Страна: \(address.country)\n"
-        string += "Город: \(address.city)\n"
-        string += "Область: \(address.district)\n"
-        string += "Улица: \(address.street)\n"
-        string += "Дом: \(address.house)\n"
-        string += "Квартира: \(address.apartment)\n"
-        string += "Индекс: \(address.index)\n"
-        
-        mainView.addressLabel.text = string
+        mainView.addressLabel.text = address.fullInfo
     }
     
 }

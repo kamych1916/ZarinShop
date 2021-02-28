@@ -2,8 +2,8 @@
 //  ZSTabBarController.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 11/14/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Created by Murad Ibrohimov on 11/14/20.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit

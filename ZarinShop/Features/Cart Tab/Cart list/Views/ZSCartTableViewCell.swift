@@ -3,7 +3,7 @@
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov on 10/5/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
@@ -37,7 +37,6 @@ class ZSCartTableViewCell: UITableViewCell {
         stepper.valueDidChangedHandler = { [weak self] value in
             
         }
-        stepper.isHidden = true
         return stepper
     }()
     
@@ -72,7 +71,7 @@ class ZSCartTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.textColor = .textDarkColor
         label.textAlignment = .left
-        label.text = "Размер: М"
+        label.text = "Размер:"
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
@@ -82,7 +81,6 @@ class ZSCartTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 18, weight: .semibold)
         label.textColor = .textGoldColor
         label.textAlignment = .left
-        label.text = "2050 сум"
         return label
     }()
     
@@ -107,11 +105,9 @@ class ZSCartTableViewCell: UITableViewCell {
         titleLabel.text = "\(model.name)"
         stepperView.value = model.kol
         sizeLabel.text = "Размер: \(model.size)"
-        priceLabel.text = "\(model.price) сум"
+        priceLabel.text = "\(Int(model.price)) сум"
         colorView.backgroundColor = UIColor(hex: "#\(model.color)")
         if model.images.count > 0 {
-            //todo
-            //bigImageView.image = UIImage(named: "defauldProduct")
             loadImage(from: model.images[0])
         } else {
             bigImageView.image = UIImage(named: "defauldProduct")

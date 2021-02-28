@@ -2,14 +2,13 @@
 //  ZSPaymentSystems.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 06/12/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Created by Murad Ibrohimov on 06/12/20.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import Foundation
 
-enum ZSPaymentSystems {
-    case clickuz
-    case payme
-    case uzcard
+enum ZSPaymentSystems: String {
+    case clickuz = "click"
+    case payme = "payme"
 }

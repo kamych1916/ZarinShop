@@ -2,8 +2,8 @@
 //  AddressStorage.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 04/12/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Created by Murad Ibrohimov on 04/12/20.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import Foundation
@@ -28,4 +28,8 @@ struct AddressModel: Codable {
     var house: String
     var apartment: String
     var index: String
+    
+    var fullInfo: String {
+        [country, "г. " + city, district, "ул. " + street, "кв. " + house].joined(separator: ", ")
+    }
 }

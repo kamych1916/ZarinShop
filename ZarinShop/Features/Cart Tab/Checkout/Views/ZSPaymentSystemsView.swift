@@ -2,8 +2,8 @@
 //  ZSPaymentSystemsView.swift
 //  ZarinShop
 //
-//  Created by Humo Programmer  on 06/12/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Created by Murad Ibrohimov on 06/12/20.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
@@ -57,24 +57,6 @@ class ZSPaymentSystemsView: UIView {
         return imageView
     }()
     
-    lazy var thirdView: UIView = {
-        var view = UIView()
-        view.layer.cornerRadius = 20
-        view.layer.borderColor = UIColor.black.cgColor
-        let tap = UITapGestureRecognizer(target: self, action: #selector(thirdViewTapped))
-        view.addGestureRecognizer(tap)
-        return view
-    }()
-    
-    lazy var thirdImageView: UIImageView = {
-        var imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "uzcard")
-        imageView.layer.cornerRadius = 16
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
     //MARK: - Initialization
     
     override init(frame: CGRect) {
@@ -104,23 +86,12 @@ class ZSPaymentSystemsView: UIView {
         }
         
         secondView.snp.updateConstraints { (make) in
-            make.top.bottom.equalToSuperview()
+            make.top.bottom.right.equalToSuperview()
             make.left.equalTo(firstView.snp.right).offset(10)
             make.size.equalTo(40)
         }
         
         secondImageView.snp.updateConstraints { (make) in
-            make.center.equalToSuperview()
-            make.size.equalTo(38)
-        }
-        
-        thirdView.snp.updateConstraints { (make) in
-            make.top.right.bottom.equalToSuperview()
-            make.left.equalTo(secondView.snp.right).offset(10)
-            make.size.equalTo(40)
-        }
-        
-        thirdImageView.snp.updateConstraints { (make) in
             make.center.equalToSuperview()
             make.size.equalTo(38)
         }
@@ -141,9 +112,6 @@ class ZSPaymentSystemsView: UIView {
         
         addSubview(secondView)
         secondView.addSubview(secondImageView)
-        
-        addSubview(thirdView)
-        thirdView.addSubview(thirdImageView)
     }
     
     //MARK: - Actions
@@ -151,7 +119,6 @@ class ZSPaymentSystemsView: UIView {
     @objc private func firstViewTapped() {
         firstView.layer.borderWidth = 1
         secondView.layer.borderWidth = 0
-        thirdView.layer.borderWidth = 0
         
         selectedHandler?(.clickuz)
         selected = .clickuz
@@ -160,19 +127,8 @@ class ZSPaymentSystemsView: UIView {
     @objc private func secondViewTapped() {
         firstView.layer.borderWidth = 0
         secondView.layer.borderWidth = 1
-        thirdView.layer.borderWidth = 0
         
         selectedHandler?(.payme)
         selected = .payme
     }
-    
-    @objc private func thirdViewTapped() {
-        firstView.layer.borderWidth = 0
-        secondView.layer.borderWidth = 0
-        thirdView.layer.borderWidth = 1
-        
-        selectedHandler?(.uzcard)
-        selected = .uzcard
-    }
-    
 }

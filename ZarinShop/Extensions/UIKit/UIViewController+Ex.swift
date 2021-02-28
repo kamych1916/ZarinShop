@@ -3,19 +3,18 @@
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov  on 10/9/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
 import SafariServices
 import NVActivityIndicatorView
 
-
 extension UIViewController {
     
     func presentSafariVC(with url: URL) {
-        let safariVC = SFSafariViewController(url: url)
-        present(safariVC, animated: true)
+        let webVC = ZSWebViewController(with: url)
+        navigationController?.pushViewController(webVC, animated: true)
     }
     
 }

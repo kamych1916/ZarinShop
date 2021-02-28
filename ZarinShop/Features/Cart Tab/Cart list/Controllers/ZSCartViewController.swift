@@ -3,7 +3,7 @@
 //  ZaraShop
 //
 //  Created by Murad Ibrohimov on 10/1/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
@@ -54,7 +54,7 @@ class ZSCartViewController: ZSBaseViewController {
     lazy var buyView: UIView = {
         var view = UIView()
         view.layer.cornerRadius = 12
-        view.backgroundColor = UIColor.mainLightColor.withAlphaComponent(0.7)
+        view.backgroundColor = UIColor.mainLightColor.withAlphaComponent(0.9)
         view.clipsToBounds = true
         view.isHidden = true
         return view
@@ -161,7 +161,7 @@ class ZSCartViewController: ZSBaseViewController {
     
     
     @objc private func buyButtonTapped(_ sender: UIButton) {
-        let checkoutVC = ZSCheckoutViewController()
+        let checkoutVC = ZSCheckoutViewController(cartItems: data, total: culculateTotal())
         Interface.shared.pushVC(vc: checkoutVC)
     }
     
@@ -207,19 +207,20 @@ class ZSCartViewController: ZSBaseViewController {
             }
             self.refreshControl.endRefreshing()
             self.tableView.reloadData()
-            self.culculateTotal()
+            self.totalValueLabel.text =  "\(String(format: "%0.0f", self.culculateTotal())) сум"
             self.stopLoading()
         }
     }
     
     // MARK: - Helpers
     
-    private func culculateTotal() {
+    private func culculateTotal() -> Double {
         var total: Double = 0
         for i in data {
-            total += i.price
+            total += i.price - i.discount
+            
         }
-        totalValueLabel.text = "\(String(format: "%0.1f", total)) сум"
+        return total
     }
     
     private func deleteItem(_ model: CartItemModel) {

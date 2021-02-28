@@ -3,14 +3,14 @@
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov on 10/11/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import Foundation
 
 struct ZSSignupUserModel: Codable {
     
-    let id: String
+    let id: Int
     let firstname: String
     let lastname: String
     let email: String

@@ -3,7 +3,7 @@
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov on 10/2/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
@@ -43,7 +43,6 @@ class ZSAuthorizationViewController: UIViewController {
         scroll.clipsToBounds = true
         scroll.isScrollEnabled = true
         scroll.isUserInteractionEnabled = true
-        scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
     
@@ -65,7 +64,11 @@ class ZSAuthorizationViewController: UIViewController {
         return label
     }()
     
-    private lazy var emailField = CustomTextField(placeholder: "E-mail")
+    private lazy var emailField: CustomTextField = {
+        var field = CustomTextField(placeholder: "E-mail")
+        field.keyboardType = .emailAddress
+        return field
+    }()
     
     private lazy var passwordField: CustomTextField = {
         var field = CustomTextField(placeholder: "Пароль")
@@ -320,7 +323,7 @@ class ZSAuthorizationViewController: UIViewController {
     }
     
     @objc private func textFieldValueChanged(_ sender: UITextField) {
-        guard let email = emailField.text,
+        guard let email = emailField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let password = passwordField.text,
             !email.isEmpty,
             !password.isEmpty,

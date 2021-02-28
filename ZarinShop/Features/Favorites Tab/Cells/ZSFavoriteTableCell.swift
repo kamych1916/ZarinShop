@@ -3,7 +3,7 @@
 //  ZarinShop
 //
 //  Created by Murodjon Ibrohimov on 10/01/21.
-//  Copyright © 2021 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2021 ZarinShop. All rights reserved.
 //
 
 import UIKit

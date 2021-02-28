@@ -3,7 +3,7 @@
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov on 10/2/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import UIKit
@@ -70,9 +70,17 @@ class ZSRegistrationViewController: UIViewController {
     
     private lazy var lastnameField = CustomTextField(placeholder: "Фамилия")
     
-    private lazy var emailField = CustomTextField(placeholder: "E-mail")
+    private lazy var emailField: CustomTextField = {
+        var field = CustomTextField(placeholder: "E-mail")
+        field.keyboardType = .emailAddress
+        return field
+    }()
     
-    private lazy var phoneField = CustomTextField(placeholder: "Телефон")
+    private lazy var phoneField: CustomTextField = {
+        var field = CustomTextField(placeholder: "Телефон")
+        field.keyboardType = .phonePad
+        return field
+    }()
     
     private lazy var passwordField: CustomTextField = {
         var field = CustomTextField(placeholder: "Пароль")
@@ -224,7 +232,7 @@ class ZSRegistrationViewController: UIViewController {
         guard let firstname = firstnameField.text,
             let lastname = lastnameField.text,
             let phone = phoneField.text,
-            let email = emailField.text,
+            let email = emailField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let password = passwordField.text,
             !firstname.isEmpty,
             !lastname.isEmpty,
@@ -251,7 +259,7 @@ class ZSRegistrationViewController: UIViewController {
         startLoading()
         Network.shared.request(
             url: .signup, method: .post,
-            parameters: self.params)
+            parameters: params)
         { [weak self] (response: Result<ZSSignupUserModel, ZSNetworkError>) in
             guard let self = self else { return }
             switch response {

@@ -3,7 +3,7 @@
 //  ZarinShop
 //
 //  Created by Murad Ibrohimov on 10/10/20.
-//  Copyright © 2020 Murad Ibrohimov. All rights reserved.
+//  Copyright © 2020 ZarinShop. All rights reserved.
 //
 
 import Foundation
@@ -33,6 +33,7 @@ enum ZSURLPath: String {
     case addToCart = "cart/addProduct"
     case addToFav = "add_favourites"
     case removeFromFav = "del_favourites"
+    case makePayment = "make_an_order"
    
     //MARK: - Delete
     
