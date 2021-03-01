@@ -13,7 +13,8 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     static let identifier = "ZSProductsCollectionViewCell"
     
     private var product: ZSProductModel?
-    
+    private var favoriteStorage = FavoritesStorage()
+
     // MARK: - GUI Variables
     
     lazy var containerView: UIView = {
@@ -41,12 +42,13 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     
     lazy var favoriteImageView: UIImageView = {
         var imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(named: "favorite")
         let tap = UITapGestureRecognizer(
             target: self, action: #selector(favoriteImageViewTapped))
         imageView.addGestureRecognizer(tap)
+        imageView.isHidden = !UserDefaults.standard.isSingin()
         return imageView
     }()
     
@@ -110,11 +112,9 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
             bigImageView.image = UIImage(named: "defauldProduct")
         }
         
-        if model.favorites {
-            favoriteImageView.image = UIImage(named: "favoriteHighlighted")
-        } else {
-            
-        }
+        favoriteImageView.image = model.isFavorite ?
+            UIImage(named: "favoriteHighlighted") :
+            UIImage(named: "favorite")
         
         layoutIfNeeded()
         setNeedsUpdateConstraints()
@@ -123,6 +123,7 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         //bigImageView.image = nil
         favoriteImageView.image = UIImage(named: "favorite")
+        favoriteImageView.isHidden = !UserDefaults.standard.isSingin()
     }
     
     // MARK: - Constraints
@@ -156,12 +157,15 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
     // MARK: - Actions
     
     @objc private func favoriteImageViewTapped() {
+        guard let product = product else { return }
         favoriteImageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         favoriteImageView.alpha = 0.5
         UIView.animate(withDuration: 0.5) {
-            self.favoriteImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.favoriteImageView.transform = .identity
             self.favoriteImageView.alpha = 1
-            self.favoriteImageView.image = UIImage(named: "favoriteHighlighted")
+            self.favoriteImageView.image = !product.isFavorite ?
+                UIImage(named: "favoriteHighlighted") :
+                UIImage(named: "favorite")
         }
         changeFavorite()
     }
@@ -197,13 +201,21 @@ class ZSProductsCollectionViewCell: UICollectionViewCell {
         
         topMostController()?.startLoading()
         
-        let path: ZSURLPath = product.favorites ? .removeFromFav : .addToFav
+        let path: ZSURLPath = product.isFavorite ? .removeFromFav : .addToFav
         
         ZSNetwork.shared.request(url: path, method: .post, parameters: ["id": product.id])
         { [weak self] (response: Result<[Int], ZSNetworkError>) in
             guard let self = self else { return}
             self.topMostController()?.stopLoading()
-            self.product!.favorites = !self.product!.favorites
+            switch response {
+            case .success(let serverFavorites):
+                self.favoriteStorage.favorites = []
+                for id in serverFavorites {
+                    self.favoriteStorage.favorites.append(FavoritesModel(id: "\(id)"))
+                }
+            case .failure(let error):
+                self.topMostController()?.alertError(message: error.getDescription())
+            }
         }
         
     }

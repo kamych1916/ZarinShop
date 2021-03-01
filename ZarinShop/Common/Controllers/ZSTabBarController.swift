@@ -74,27 +74,12 @@ extension TabBarController: UITabBarControllerDelegate {
            (navigVC.viewControllers.first is ZSCartViewController ||
             navigVC.viewControllers.first is ZSFavoritesViewController) &&
             !UserDefaults.standard.isSingin() {
-            alertForSignin()
+            tabBarController.selectedViewController?.alertSignin()
             return false
         } else {
             tabBar.tintColor = .black
             return true
         }
-    }
-    
-    private func alertForSignin() {
-        let alert = UIAlertController(
-            title: "Ошибка", message: "Чтобы продолжить, нужно автризоваться", preferredStyle: .alert)
-        alert.addAction(.init(title: "Отмена", style: .cancel, handler: nil))
-        alert.addAction(.init(title: "Авторизация", style: .default, handler: { [weak self] (_) in
-            let controller = ZSAuthorizationViewController()
-            controller.modalPresentationStyle = .fullScreen
-            controller.loginHandler = { [weak self] in
-                self?.dismiss(animated: true, completion: nil)
-            }
-            self?.present(controller, animated: true, completion: nil)
-        }))
-        present(alert, animated: true, completion: nil)
     }
 
 }

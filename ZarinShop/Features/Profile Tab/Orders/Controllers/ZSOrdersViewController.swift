@@ -15,12 +15,16 @@ class ZSOrdersViewController: ZSBaseViewController {
     
     //MARK: - Private variables
     
+    private var data: [ZSOrderItemModel] = []
+    private var selectedSegment: ZSOrderState = .completed
+    
     //MARK: - GUI variables
     
     private lazy var segmentedControl: BetterSegmentedControl = {
         var segment = BetterSegmentedControl()
+        var titles: [String] = ZSOrderState.allCases.map({$0.localized})
         segment.segments = LabelSegment.segments(
-            withTitles: ["Все", "В пути", "Доставлено"],
+            withTitles: titles,
             normalFont: .systemFont(ofSize: 15),
             normalTextColor: .textDarkColor,
             selectedFont: .systemFont(ofSize: 15),
@@ -30,7 +34,7 @@ class ZSOrdersViewController: ZSBaseViewController {
         segment.backgroundColor = .white
         segment.indicatorView.layer.cornerRadius = 30
         segment.indicatorView.backgroundColor = .mainColor
-        segment.translatesAutoresizingMaskIntoConstraints = false
+        segment.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         return segment
     }()
     
@@ -45,7 +49,14 @@ class ZSOrdersViewController: ZSBaseViewController {
         tableView.register(ZSOrdersTableViewCell.self,
                            forCellReuseIdentifier: ZSOrdersTableViewCell.identifier)
         tableView.tableFooterView = UIView()
+        tableView.refreshControl = refreshControl
         return tableView
+    }()
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return refreshControl
     }()
     
     //MARK: - View life cycle
@@ -57,12 +68,13 @@ class ZSOrdersViewController: ZSBaseViewController {
         navigationItem.title = "Мои заказы"
         addSubviews()
         makeConstraints()
+        loadOrders()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.largeTitleDisplayMode = .never
     }
     
     //MARK: - Constraints
@@ -86,6 +98,48 @@ class ZSOrdersViewController: ZSBaseViewController {
         view.addSubview(tableView)
     }
     
+    //MARK: - Actions
+    
+    @objc private func refresh(sender: UIRefreshControl) {
+        sender.beginRefreshing()
+        loadOrders()
+    }
+    
+    @objc private func segmentChanged(sender: BetterSegmentedControl) {
+        switch sender.index {
+        case 0: selectedSegment = .completed
+        case 1: selectedSegment = .awaiting
+        case 2: selectedSegment = .canceled
+        default: return
+        }
+        tableView.reloadData()
+    }
+    
+    //MARK: - Helpers
+    
+    private func loadOrders() {
+        startLoading()
+        Network.shared.request(
+            url: .getOrders, method: .get)
+        { [weak self] (response: Result<[ZSOrderItemModel], ZSNetworkError>) in
+            guard let self = self else { return }
+            switch response {
+            case .success(let orders):
+                self.data = []
+                self.data = orders
+            case .failure(let error):
+                if error == .unauthorized {
+                    self.alertSignin()
+                } else {
+                    self.alertError(message: error.getDescription())
+                }
+            }
+            self.refreshControl.endRefreshing()
+            self.tableView.reloadData()
+            self.stopLoading()
+        }
+    }
+    
 }
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
@@ -93,12 +147,18 @@ class ZSOrdersViewController: ZSBaseViewController {
 extension ZSOrdersViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return data.filter({
+            $0.state.lowercased() ==
+                self.selectedSegment.rawValue.lowercased()
+        }).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ZSOrdersTableViewCell.identifier, for: indexPath)
-        (cell as? ZSOrdersTableViewCell)?.initCell()
+        let model = data
+            .filter({$0.state.lowercased() == self.selectedSegment.rawValue.lowercased()
+        })[indexPath.row]
+        (cell as? ZSOrdersTableViewCell)?.initCell(with: model)
         return cell
     }
     

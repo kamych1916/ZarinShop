@@ -35,7 +35,6 @@ class ZSOrdersTableViewCell: UITableViewCell {
 
     private lazy var orderNumberLabel2: UILabel = {
         var label = UILabel()
-        label.text = "315412"
         label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 15, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +52,6 @@ class ZSOrdersTableViewCell: UITableViewCell {
 
     private lazy var orderDateLabel2: UILabel = {
         var label = UILabel()
-        label.text = "23/11/2020"
         label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 15, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +69,6 @@ class ZSOrdersTableViewCell: UITableViewCell {
 
     private lazy var totalItemsLabel2: UILabel = {
         var label = UILabel()
-        label.text = "15"
         label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 15, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +86,6 @@ class ZSOrdersTableViewCell: UITableViewCell {
 
     private lazy var totalPriceLabel2: UILabel = {
         var label = UILabel()
-        label.text = "13123 сум"
         label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 15, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -111,7 +107,11 @@ class ZSOrdersTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func initCell() {
+    func initCell(with model: ZSOrderItemModel) {
+        orderNumberLabel2.text = model.id
+        orderDateLabel2.text = model.date
+        totalItemsLabel2.text = "\(model.items.count)"
+        totalPriceLabel2.text = "\(model.subtotal) сум"
         
         setNeedsUpdateConstraints()
     }

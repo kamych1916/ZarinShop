@@ -24,6 +24,7 @@ extension UserDefaults {
             set(encoded, forKey: "signinUserModel")
             set(true, forKey: "isSingin")
         }
+        NotificationCenter.default.post(name: .userWasSignedIn, object: nil)
         synchronize()
     }
     
@@ -31,6 +32,7 @@ extension UserDefaults {
         ZSNetwork.keychein["service_token"] = nil
         set(false, forKey: "isSingin")
         removeObject(forKey: "signinUserModel")
+        NotificationCenter.default.post(name: .userWasSignedIn, object: nil)
         synchronize()
     }
 

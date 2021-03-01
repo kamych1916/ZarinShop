@@ -176,12 +176,6 @@ class ZSCheckoutPaymentDetailsViewController: ZSBaseViewController {
         guard let paymentDetails = paymentDetails else { return }
         
         params["client_info"] = paymentDetails.dictionaryDescription
-        //params["list_items"] = nil
-        //params["which_bank"] = nil
-        //params["shipping_type"] = nil
-        //params["shipping_adress"] = nil
-        //params["subtotal"] = nil
-        
             
         Network.shared.request(url: .makePayment, method: .post, parameters: params) { [weak self] (response: Result<PaymentUrl, ZSNetworkError>) in
             guard let self = self else { return }

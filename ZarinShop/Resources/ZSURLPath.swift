@@ -26,6 +26,8 @@ enum ZSURLPath: String {
     case hitSales = "hit_sales"
     case specialOffer = "special_offer"
     case getFavList = "get_favourites"
+    case getOrders = "user_order"
+    case getItemByID = "items/"
     
     //MARK: - Post
     

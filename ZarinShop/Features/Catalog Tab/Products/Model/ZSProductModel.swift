@@ -24,9 +24,9 @@ struct ZSProductModel: Codable {
     var favorites: Bool
     let categories_value: [String]?
     let name_images: [String]?
-}
-
-
-struct ZSFavoritesResponse: Codable {
     
+    var isFavorite: Bool {
+        let favoriteStorage = FavoritesStorage()
+        return favoriteStorage.favorites.contains(where: {$0.id == self.id})
+    }
 }

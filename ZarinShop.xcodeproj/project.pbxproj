@@ -53,6 +53,9 @@
 		6D12189425E14260003A02A8 /* ZSCheckoutPaymentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D12189325E14260003A02A8 /* ZSCheckoutPaymentDetailsViewController.swift */; };
 		6D12189725E1437B003A02A8 /* ZSPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D12189625E1437B003A02A8 /* ZSPaymentDetailView.swift */; };
 		6D12189A25E194D9003A02A8 /* ZSWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D12189925E194D9003A02A8 /* ZSWebViewController.swift */; };
+		6DB7D09F25EB95D4005D6B74 /* FavoritesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB7D09E25EB95D4005D6B74 /* FavoritesStorage.swift */; };
+		6DB7D0A225EBA488005D6B74 /* ZSOrdersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB7D0A125EBA488005D6B74 /* ZSOrdersModel.swift */; };
+		6DB7D0A525EBAAF8005D6B74 /* ZSOrderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB7D0A425EBAAF8005D6B74 /* ZSOrderState.swift */; };
 		71D1887A99BB69ED3097A433 /* Pods_ZarinShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D82D5D61017505831B7C23 /* Pods_ZarinShop.framework */; };
 		840839A1253802300040EC63 /* ZSProductDetailDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839A0253802300040EC63 /* ZSProductDetailDescriptionView.swift */; };
 		840839A5253803A50040EC63 /* ZSProductDetailTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840839A4253803A50040EC63 /* ZSProductDetailTitleView.swift */; };
@@ -147,6 +150,9 @@
 		6D12189325E14260003A02A8 /* ZSCheckoutPaymentDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutPaymentDetailsViewController.swift; sourceTree = "<group>"; };
 		6D12189625E1437B003A02A8 /* ZSPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSPaymentDetailView.swift; sourceTree = "<group>"; };
 		6D12189925E194D9003A02A8 /* ZSWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSWebViewController.swift; sourceTree = "<group>"; };
+		6DB7D09E25EB95D4005D6B74 /* FavoritesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStorage.swift; sourceTree = "<group>"; };
+		6DB7D0A125EBA488005D6B74 /* ZSOrdersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSOrdersModel.swift; sourceTree = "<group>"; };
+		6DB7D0A425EBAAF8005D6B74 /* ZSOrderState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSOrderState.swift; sourceTree = "<group>"; };
 		7F583775B1B4F66CF0F93527 /* Pods-ZarinShop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZarinShop.release.xcconfig"; path = "Target Support Files/Pods-ZarinShop/Pods-ZarinShop.release.xcconfig"; sourceTree = "<group>"; };
 		840839A0253802300040EC63 /* ZSProductDetailDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductDetailDescriptionView.swift; sourceTree = "<group>"; };
 		840839A4253803A50040EC63 /* ZSProductDetailTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSProductDetailTitleView.swift; sourceTree = "<group>"; };
@@ -415,6 +421,7 @@
 		2057B8C6252591FC007D8D05 /* Orders */ = {
 			isa = PBXGroup;
 			children = (
+				6DB7D0A725EBABF8005D6B74 /* Models */,
 				20FD49BA25459E290006F50C /* Views */,
 				2057B8C8252591FC007D8D05 /* Controllers */,
 			);
@@ -652,6 +659,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6DB7D0A725EBABF8005D6B74 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6DB7D0A125EBA488005D6B74 /* ZSOrdersModel.swift */,
+				6DB7D0A425EBAAF8005D6B74 /* ZSOrderState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		8408399F253802150040EC63 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -810,6 +826,7 @@
 				84EAC69D257A9C390042E1B4 /* DiskStorage.swift */,
 				84EAC6A8257A9EE40042E1B4 /* AddressStorage.swift */,
 				6D12189025E141BD003A02A8 /* PaymentDetailsStorage.swift */,
+				6DB7D09E25EB95D4005D6B74 /* FavoritesStorage.swift */,
 			);
 			path = Persistance;
 			sourceTree = "<group>";
@@ -1011,6 +1028,7 @@
 				840839A9253804DC0040EC63 /* ZSProductDetailSpecificationView.swift in Sources */,
 				84BBE06E254BCD58004A3341 /* BottomPresentationController.swift in Sources */,
 				8432815D2573ADC100746F1D /* MainCellModel.swift in Sources */,
+				6DB7D0A225EBA488005D6B74 /* ZSOrdersModel.swift in Sources */,
 				843281542573A62700746F1D /* ZSMainTableViewCell.swift in Sources */,
 				20FD49BF2545C51D0006F50C /* ZSFavoritesViewController.swift in Sources */,
 				84EAC6C1257BEA350042E1B4 /* ZSAboutUsViewController.swift in Sources */,
@@ -1043,8 +1061,10 @@
 				840839A5253803A50040EC63 /* ZSProductDetailTitleView.swift in Sources */,
 				205692B0253236700096DDD0 /* ZSRegistrationCodeViewController.swift in Sources */,
 				84EAC6A9257A9EE40042E1B4 /* AddressStorage.swift in Sources */,
+				6DB7D09F25EB95D4005D6B74 /* FavoritesStorage.swift in Sources */,
 				20411045252B2C0F0081A562 /* BadgedButtonItem.swift in Sources */,
 				208483CD253C8F5E0044D4A9 /* ZSAddAddressView.swift in Sources */,
+				6DB7D0A525EBAAF8005D6B74 /* ZSOrderState.swift in Sources */,
 				20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */,
 				84EAC6DB257D0C5F0042E1B4 /* ZSPaymentSystems.swift in Sources */,
 				2098B14325337E0900A00D18 /* ZSResetPasswordCodeViewController.swift in Sources */,
@@ -1203,6 +1223,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = XZC3W6Z646;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1226,6 +1247,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = XZC3W6Z646;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

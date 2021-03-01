@@ -15,6 +15,7 @@ class ZSCheckoutView: UIView {
     
     var selectedAddressLabelTappedHandler: (() -> ())?
     var selectedPaymentSystem: ZSPaymentSystems? = .clickuz
+    var selectedShippingType = "delivery"
     
     //MARK: - GUI variables
     
@@ -46,7 +47,7 @@ class ZSCheckoutView: UIView {
     
     lazy var addressLabel: UILabel = {
         var label = UILabel()
-        label.text = "Страна:\nГород:\nОбласть:\nУлица:\nДом:\nКвартира:"
+        label.text = "Нажмите и выберите адресс"
         label.numberOfLines = 0
         label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 15, weight: .medium)
@@ -63,7 +64,7 @@ class ZSCheckoutView: UIView {
     
     lazy var paymentTitleLabel: UILabel = {
         var label = UILabel()
-        label.text = "Оплата"
+        label.text = "Оплата и получение"
         label.textColor = .textDarkColor
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.isUserInteractionEnabled = true
@@ -82,19 +83,9 @@ class ZSCheckoutView: UIView {
     
     lazy var paymentDescriptionLabel1: UILabel = {
         var label = UILabel()
-        label.text = "Безналичные (картой)"
+        label.text = "Доставка по адресу"
         label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
         label.font = .systemFont(ofSize: 17, weight: .medium)
-        return label
-    }()
-    
-    lazy var paymentDescriptionLabel2: UILabel = {
-        var label = UILabel()
-        label.text = "Оплата наличными, при получении доставки"
-        label.textColor = UIColor.textDarkColor.withAlphaComponent(0.7)
-        label.font = .systemFont(ofSize: 17, weight: .regular)
-        label.numberOfLines = 0
-        label.isHidden = true
         return label
     }()
     
@@ -216,11 +207,6 @@ class ZSCheckoutView: UIView {
             make.left.right.equalToSuperview().inset(20)
         }
         
-        paymentDescriptionLabel2.snp.updateConstraints { (make) in
-            make.top.equalTo(paymentDescriptionLabel1.snp.bottom).offset(10)
-            make.left.right.bottom.equalToSuperview().inset(20)
-        }
-        
         paymentSystemsView.snp.makeConstraints { (make) in
             make.top.equalTo(paymentDescriptionLabel1.snp.bottom).offset(20)
             make.left.bottom.equalToSuperview().inset(20)
@@ -277,7 +263,6 @@ class ZSCheckoutView: UIView {
         paymentView.addSubview(paymentTitleLabel)
         paymentView.addSubview(paymentSelectImageView)
         paymentView.addSubview(paymentDescriptionLabel1)
-        paymentView.addSubview(paymentDescriptionLabel2)
         paymentView.addSubview(paymentSystemsView)
         
         addSubview(totalView)
@@ -296,7 +281,7 @@ class ZSCheckoutView: UIView {
 
     @objc func selectPaymentTapped() {
         let dropDown = DropDown()
-        dropDown.dataSource = ["Безналичные (картой)", "Наличными"]
+        dropDown.dataSource = ["Доставка по адресу", "Самовывоз"]
         dropDown.anchorView = paymentView
         dropDown.textFont = .systemFont(ofSize: 17)
         dropDown.backgroundColor = .white
@@ -306,19 +291,11 @@ class ZSCheckoutView: UIView {
             guard let self = self else { return }
             self.paymentDescriptionLabel1.text = item
             if index == 0 {
-                self.paymentDescriptionLabel2.isHidden = true
-                self.paymentSystemsView.isHidden = false
-                self.paymentSystemsView.isUserInteractionEnabled = true
-                self.selectedPaymentSystem = self.paymentSystemsView.selected
+                self.selectedShippingType = "delivery"
             } else {
-                self.paymentDescriptionLabel2.isHidden = false
-                self.paymentSystemsView.isHidden = true
-                self.paymentSystemsView.isUserInteractionEnabled = false
-                self.selectedPaymentSystem = nil
+                self.selectedShippingType = "pickup"
             }
-            
         }
-
     }
 
 }

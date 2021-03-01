@@ -24,7 +24,7 @@ class ZSCheckoutViewController: ZSBaseViewController {
     lazy var scrollView: UIScrollView = {
         var scroll = UIScrollView()
         scroll.showsVerticalScrollIndicator = false
-        scroll.contentInset.bottom = 100
+        scroll.contentInset.bottom = 30
         return scroll
     }()
     
@@ -39,10 +39,13 @@ class ZSCheckoutViewController: ZSBaseViewController {
             let controller = ZSAdressViewController(isPresented: true)
             let navController = UINavigationController(rootViewController: controller)
             controller.selectedAddressHandler = { [weak self] address in
+                self?.selectedAddress = address
                 self?.updateAddressWith(address)
             }
             self?.present(navController, animated: true, completion: nil)
         }
+        view.totalItemsLabel2.text = "\(cartItems.count)"
+        view.totalPriceLabel2.text = "\(total)"
         return view
     }()
     
@@ -128,12 +131,16 @@ class ZSCheckoutViewController: ZSBaseViewController {
     // MARK: - Actions
     
     @objc private func doneButtonTapped(_ sender: UIButton) {
+        guard selectedAddress != nil && mainView.selectedShippingType == "delivery" else {
+            alertError(message: "Не выбран адрес доставки!")
+            return
+        }
         let listItems: [[String: Any]] = cartItems.map {$0.dictionaryDescription}
         let params: [String: Any] = [
             "list_items": listItems,
             "which_bank": mainView.selectedPaymentSystem!.rawValue,
-            "shipping_adress": selectedAddress != nil ? selectedAddress!.fullInfo : "Нет адреса",
-            "shipping_type": "delivery",
+            "shipping_adress": selectedAddress!.fullInfo,
+            "shipping_type": mainView.selectedShippingType,
             "subtotal": total
         ]
         

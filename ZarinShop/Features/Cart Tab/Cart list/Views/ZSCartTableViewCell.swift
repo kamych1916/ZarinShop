@@ -37,7 +37,17 @@ class ZSCartTableViewCell: UITableViewCell {
         stepper.valueDidChangedHandler = { [weak self] value in
             
         }
+        stepper.isHidden = true
         return stepper
+    }()
+    
+    lazy var countLabel: UILabel = {
+        var label = UILabel()
+        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.textColor = .textDarkColor
+        label.textAlignment = .right
+        label.text = "10 шт."
+        return label
     }()
     
     lazy var titleLabel: UILabel = {
@@ -61,7 +71,8 @@ class ZSCartTableViewCell: UITableViewCell {
     lazy var colorView: UIView = {
         var view = UIView()
         view.layer.cornerRadius = 6
-        view.backgroundColor = .red
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.darkGray.cgColor
         view.clipsToBounds = true
         return view
     }()
@@ -104,8 +115,9 @@ class ZSCartTableViewCell: UITableViewCell {
         didLoaded = true
         titleLabel.text = "\(model.name)"
         stepperView.value = model.kol
-        sizeLabel.text = "Размер: \(model.size)"
+        sizeLabel.text = "Размер: \(model.size ?? "")"
         priceLabel.text = "\(Int(model.price)) сум"
+        countLabel.text = "\(model.kol) шт."
         colorView.backgroundColor = UIColor(hex: "#\(model.color)")
         if model.images.count > 0 {
             loadImage(from: model.images[0])
@@ -164,11 +176,17 @@ class ZSCartTableViewCell: UITableViewCell {
         priceLabel.snp.updateConstraints { (make) in
             make.left.equalTo(bigImageView.snp.right).offset(16)
             make.top.greaterThanOrEqualTo(colorLabel.snp.bottom)
+            make.right.equalTo(countLabel.snp.left).offset(8)
             make.bottom.equalToSuperview().inset(10)
         }
         
         stepperView.snp.updateConstraints { (make) in
             make.right.bottom.equalToSuperview().inset(10)
+        }
+        
+        countLabel.snp.updateConstraints { (make) in
+            make.right.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(10)
         }
         
         super.updateConstraints()
@@ -180,6 +198,7 @@ class ZSCartTableViewCell: UITableViewCell {
         contentView.addSubview(containerView)
         containerView.addSubview(bigImageView)
         containerView.addSubview(stepperView)
+        containerView.addSubview(countLabel)
         containerView.addSubview(titleLabel)
         containerView.addSubview(colorLabel)
         containerView.addSubview(colorView)

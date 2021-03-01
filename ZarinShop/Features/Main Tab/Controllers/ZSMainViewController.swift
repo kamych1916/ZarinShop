@@ -46,12 +46,14 @@ class ZSMainViewController: ZSBaseViewController {
         
         addSubviews()
         makeConstraints()
+        loadData()
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(refresh),
+            name: .userWasSignedIn, object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        loadData()
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: - Constraints
@@ -70,8 +72,8 @@ class ZSMainViewController: ZSBaseViewController {
     
     // MARK: - Actions
     
-    @objc private func refresh(sender: UIRefreshControl) {
-        sender.beginRefreshing()
+    @objc private func refresh() {
+        refreshControl.beginRefreshing()
         loadData()
     }
     

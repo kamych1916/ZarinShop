@@ -28,6 +28,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
     private var navBarDefaultImage: UIImage?
     private var navBarDefaultColor: UIColor?
     private var product: ZSProductModel?
+    private var count: Int?
     
     // MARK: - GUI Variables
     
@@ -55,6 +56,10 @@ class ZSProductDetailViewController: ZSBaseViewController {
            product.size_kol.count > 0,
            selectedCount == nil {
             view.stepperView.maxValue = product.size_kol[0].kol
+            if let count = count,
+               count <= product.size_kol[0].kol {
+                view.stepperView.value = count
+            }
         }
         return view
     }()
@@ -85,10 +90,11 @@ class ZSProductDetailViewController: ZSBaseViewController {
     
     // MARK: - Initialization
     
-    convenience init(product: ZSProductModel) {
+    convenience init(product: ZSProductModel, count: Int? = nil) {
         self.init()
         
         self.product = product
+        self.count = count
     }
     
     deinit {
@@ -190,7 +196,9 @@ class ZSProductDetailViewController: ZSBaseViewController {
     
     private func setupWithProduct() {
         guard let product = product else { return }
-        titleView.initView(name: product.name, price: "\(product.price) сум", discaunt: "\(product.discount) сум")
+        titleView.initView(name: product.name,
+                           price: "\(Int(product.price)) сум",
+                           discaunt: "\(Int(product.discount)) сум")
         descriptionView.initView(text: product.description)
         
         var sizes: [String] = []
@@ -200,14 +208,9 @@ class ZSProductDetailViewController: ZSBaseViewController {
         specificationView.initView(
             colors: product.link_color,
             sizes: sizes,
-            model: .init(title: "Модель", description: "Adidas"),
-            country: .init(title: "Страна", description: "Turkey"))
+            model: .init(title: "Модель", description: "ZarinShop"),
+            country: .init(title: "Страна", description: "Узбекистан"))
         specificationView.firstItem.setSelected(with: product.color)
-
-            /*imageSlideshow.setImageInputs([
-            ImageSource(image: UIImage(named: "defauldProduct")!),
-            ImageSource(image: UIImage(named: "defauldProduct")!),
-            ImageSource(image: UIImage(named: "defauldProduct")!)])*/
         loadImages()
     }
     

@@ -159,7 +159,6 @@ class ZSCartViewController: ZSBaseViewController {
         loadCart()
     }
     
-    
     @objc private func buyButtonTapped(_ sender: UIButton) {
         let checkoutVC = ZSCheckoutViewController(cartItems: data, total: culculateTotal())
         Interface.shared.pushVC(vc: checkoutVC)
@@ -184,32 +183,28 @@ class ZSCartViewController: ZSBaseViewController {
             url: .getCartList, method: .get)
         { [weak self] (response: Result<CartModel, ZSNetworkError>) in
             guard let self = self else { return }
-            switch response {
-            case .success(let model):
-                self.data = []
-                self.data = model.items
-                if model.items.isEmpty {
-                    self.buyView.isHidden = true
-                } else {
-                    self.buyView.isHidden = false
-                }
-            case .failure(let error):
-                if error == .unauthorized {
-                    self.alertSignin()
-                } else {
-                    self.alertError(message: error.getDescription())
-                }
-            }
-            if self.data.count > 0 {
-                self.backgroundTitleLabel.isHidden = true
-            } else {
-                self.backgroundTitleLabel.isHidden = false
-            }
-            self.refreshControl.endRefreshing()
-            self.tableView.reloadData()
-            self.totalValueLabel.text =  "\(String(format: "%0.0f", self.culculateTotal())) сум"
-            self.stopLoading()
+            self.reloaDatas(response: response)
         }
+    }
+    
+    private func reloaDatas(response: Result<CartModel, ZSNetworkError>) {
+        switch response {
+        case .success(let model):
+            data = []
+            data = model.items
+        case .failure(let error):
+            if error == .unauthorized {
+                alertSignin()
+            } else {
+                alertError(message: error.getDescription())
+            }
+        }
+        buyView.isHidden = data.isEmpty
+        backgroundTitleLabel.isHidden = !data.isEmpty
+        refreshControl.endRefreshing()
+        tableView.reloadData()
+        totalValueLabel.text =  "\(String(format: "%0.0f", culculateTotal())) сум"
+        stopLoading()
     }
     
     // MARK: - Helpers
@@ -231,16 +226,11 @@ class ZSCartViewController: ZSBaseViewController {
         alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] (_) in
             guard let self = self else { return }
             self.startLoading()
-            let params: [String: Any] = ["id": model.id, "size": model.size]
-            Network.shared.delete(
-                url: ZSURLPath.delproduct.rawValue,
-                parameters: params) {
-                self.stopLoading()
-                self.loadCart()
-            } feilure: { (error) in
-                self.alertError(message: error.detail)
-                self.stopLoading()
-                self.loadCart()
+            let params: [String: Any] = ["id": model.id, "size": model.size ?? ""]
+            Network.shared.request(url: .delproduct, method: .post, parameters: params)
+            { [weak self] (response: Result<CartModel, ZSNetworkError>) in
+                guard let self = self else { return }
+                self.reloaDatas(response: response)
             }
         }))
         
@@ -279,6 +269,22 @@ extension ZSCartViewController: UITableViewDelegate, UITableViewDataSource {
             let config = UISwipeActionsConfiguration(actions: [deleteAction])
             config.performsFirstActionWithFullSwipe = false
             return config
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let path = URLPath.getItemByID.rawValue + "\(data[indexPath.row].id)"
+        Network.shared.request(urlStr: path, method: .get)
+        { [weak self] (result: Result<ZSProductModel, ZSNetworkError>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let product):
+                let controller = ZSProductDetailViewController(product: product)
+                Interface.shared.pushVC(vc: controller)
+            case .failure(let error):
+                self.alertError(message: error.getDescription())
+            }
+            
+        }
     }
     
 }

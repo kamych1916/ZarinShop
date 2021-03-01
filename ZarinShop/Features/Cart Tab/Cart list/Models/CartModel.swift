@@ -17,25 +17,25 @@ struct CartModel: Codable {
 struct CartItemModel: Codable {
     let id: Int
     let name: String
-    let size: String
+    let size: String?
     let kol: Int
     let color: String
     let images: [String]
     let price: Double
     let discount: Double
-    let stock: Int
+    let stock: Int?
     
     var dictionaryDescription: [String: Any] {
         return [
             "id": id,
             "name": name,
-            "size": size,
+            "size": size ?? "",
             "kol": kol,
             "color": color,
             "images": images,
             "price": price,
             "discount": discount,
-            "stock": stock
+            "stock": stock ?? 0
         ]
     }
 }

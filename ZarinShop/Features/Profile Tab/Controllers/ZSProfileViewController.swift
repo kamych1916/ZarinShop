@@ -312,8 +312,12 @@ extension ZSProfileViewController: UITableViewDelegate, UITableViewDataSource {
             let addressVC = ZSAdressViewController()
             Interface.shared.pushVC(vc: addressVC)
         case 2:
-            let ordersVC = ZSOrdersViewController()
-            Interface.shared.pushVC(vc: ordersVC)
+            if !UserDefaults.standard.isSingin() {
+                alertSignin()
+            } else {
+                let ordersVC = ZSOrdersViewController()
+                Interface.shared.pushVC(vc: ordersVC)
+            }
         case 3:
             let aboutUsVC = ZSAboutUsViewController()
             Interface.shared.pushVC(vc: aboutUsVC)

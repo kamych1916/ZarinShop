@@ -70,7 +70,7 @@ extension UIViewController {
     
     func alertSignin() {
         let alert = UIAlertController(
-            title: "Ошибка", message: "Чтобы продолжить, нужно автризоваться", preferredStyle: .alert)
+            title: nil, message: "Чтобы продолжить, вам нужно автризоваться", preferredStyle: .alert)
         alert.addAction(.init(title: "Скрыть", style: .cancel, handler: nil))
         alert.addAction(.init(title: "Авторизация", style: .default, handler: { [weak self] (_) in
             let controller = ZSAuthorizationViewController()
