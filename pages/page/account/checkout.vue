@@ -131,8 +131,8 @@
                       </ul> -->
                     </div>
                     <div class="payment-box">
-                      <div class="upper-box">
-                          <h5 class="pmnt-method">Выберите тип карты</h5>
+                      <!-- <div class="upper-box">
+                        <h5 class="pmnt-method">Выберите тип карты</h5>
                         <div class="payment-options" >
                           <b-form-group v-slot="{ Payment }">
                             <b-form-radio v-model="payment" :aria-describedby="Payment" name="payment-uzcard" value="uzcard">
@@ -142,9 +142,8 @@
                               HUMO
                             </b-form-radio>
                           </b-form-group>
-                          <!-- <div class="mt-3">Selected: <strong>{{ payment }}</strong></div> -->
                         </div>
-                      </div>
+                      </div> -->
                       <!-- <div class="text-right">
                         <no-ssr>
                           
@@ -158,7 +157,7 @@
 
                               <input type="hidden" name="merchant" ref="PayMe_Merchant"/>
 
-                              <input type="hidden" name="amount" :value="parseInt(cartTotal)"/>
+                              <input type="hidden" name="amount" :value="parseInt(cartTotal) * 100"/>
 
                               <input type="hidden" name="account[order_id]" ref="PayMe_Order_id"/>
 
@@ -170,20 +169,18 @@
 
                               <input type="hidden" name="callback_timeout" value="5"/>
 
-                              <!-- <b-button @click="onPaymentComplete('payme')" :disabled="invalid" class="m-0 p-0" style="background-color: unset; border: 0;"><b-img width="200px" src="https://cdn.paycom.uz/integration/images/btn_colored_ru.svg" ></b-img></b-button> -->
                               <b-button @click="onPaymentComplete('payme')" :disabled="invalid" class="m-2 px-4 border" style="background-color: #fff;"><b-img width="120px" src="~/assets/images/payme_01.png" ></b-img></b-button>
                           </form>
                         </div>
                         <div>
                           <form id="click_form" ref="ClickForm" action="https://my.click.uz/services/pay" method="get" target="_blank">
-                            <input type="hidden" name="amount" value="1800" />
+                            <input type="hidden" name="amount" :value="parseInt(cartTotal)" />
                             <input type="hidden" name="merchant_id" ref="Click_Merchant"/>
                             <input type="hidden" name="merchant_user_id" ref="Click_Merchant_User_Id"/>
                             <input type="hidden" name="service_id" ref="Click_Service_Id"/>
                             <input type="hidden" name="transaction_param" ref="Click_Transaction_Param" />
                             <input type="hidden" name="return_url" value="https://zarinshop.uz"/>
                             <input type="hidden" name="card_type" :value="payment"/>
-                            <!-- <b-button @click="onPaymentComplete('click')" class="click_logo">ОПЛАТИТЬ CLICK<i style="float: right;" class="ml-2"></i></b-button> -->
                             <b-button @click="onPaymentComplete('click')" :disabled="invalid" class="m-2 px-4 border" style="background-color: #fff;"><b-img width="92px" src="~/assets/images/click_01.png" ></b-img></b-button>
                           </form>
                         </div>
@@ -262,7 +259,7 @@ export default {
           which_bank: bank,
           cart_type: this.payment,
           client_info: this.user,
-          shipping_adress: this.shipping == 'pickup' ? 'Улица такаято зариншоповская' : (this.user.state + ' / '  + this.user.city + ' / ' + this.user.address + ' / ' + this.user.pincode), 
+          shipping_adress: this.shipping == 'pickup' ? 'Ташкент, Яшнабадский р-н, 1 проезд Алимкент 36/1' : (this.user.state + ' / '  + this.user.city + ' / ' + this.user.address + ' / ' + this.user.pincode), 
           subtotal: this.cartTotal,
           shipping_type: this.shipping,
           cart_type: this.payment
