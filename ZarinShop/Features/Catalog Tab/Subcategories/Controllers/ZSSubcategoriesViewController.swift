@@ -85,7 +85,7 @@ extension ZSSubcategoriesViewController: UITableViewDelegate, UITableViewDataSou
         let cell = UITableViewCell(style: .value1, reuseIdentifier: cellIdentifier)
         let model = categories[indexPath.row]
         cell.textLabel?.text = model.name
-        cell.accessoryType = model.subcategories.count > 0 ? .disclosureIndicator : .none
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
