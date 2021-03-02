@@ -70,7 +70,7 @@ class ProductCard extends StatelessWidget {
                                         color: Styles.subBackgroundColor,
                                         borderRadius:
                                             BorderRadius.circular(10)),
-                                    height: itemHeight - 125,
+                                    height: itemHeight - 80,
                                   ),
                                 );
                         }

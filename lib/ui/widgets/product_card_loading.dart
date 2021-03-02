@@ -7,7 +7,7 @@ class ProductCardLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemHeight = (size.height - kToolbarHeight) / 2;
 
     return Container(
       width: size.width / 2 - 40,
@@ -19,7 +19,7 @@ class ProductCardLoading extends StatelessWidget {
             period: Duration(milliseconds: 2000),
             child: Container(
               width: double.infinity,
-              height: itemHeight - 125,
+              height: itemHeight - 80,
               decoration: BoxDecoration(
                   color: Styles.subBackgroundColor,
                   borderRadius: BorderRadius.circular(10)),
