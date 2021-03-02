@@ -1,20 +1,11 @@
 import 'dart:async';
-import 'dart:math';
-
-import 'package:Zarin/blocs/app_bloc.dart';
 import 'package:Zarin/blocs/user_bloc.dart';
-import 'package:Zarin/ui/screen_order_await.dart';
-import 'package:Zarin/utils/app_icons.dart';
 import 'package:Zarin/models/address.dart';
 import 'package:Zarin/models/credit_card.dart';
 import 'package:Zarin/ui/widgets/tab_address.dart';
-import 'package:Zarin/ui/widgets/tab_payment.dart';
 import 'package:Zarin/utils/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class OrderScreen extends StatefulWidget {
   @override

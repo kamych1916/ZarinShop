@@ -354,19 +354,23 @@ class _ProductInfoState extends State<ProductInfo> {
                     Container(
                       width: 5,
                       height: 5,
-                      decoration: BoxDecoration(
+                      decoration: ShapeDecoration(
+                          shape: CircleBorder(),
                           color: Colors.transparent,
-                          boxShadow: [
+                          shadows: [
                             BoxShadow(
-                                color: Colors.black54,
-                                spreadRadius: 1,
-                                blurRadius: 10)
+                                color: Styles.mainColor,
+                                spreadRadius: 4,
+                                blurRadius: 20)
                           ]),
                     ),
-                    Icon(
-                      Icons.arrow_back_ios,
-                      size: 16,
-                      color: Colors.white,
+                    Padding(
+                      padding: EdgeInsets.only(left: 7.0),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 16,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),

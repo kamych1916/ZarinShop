@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height / 2 - 75,
+              height: (MediaQuery.of(context).size.height - kToolbarHeight) / 2,
               child: StreamBuilder(
                   stream: productBloc.productsOffers.stream,
                   builder: (context,
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height / 2 - 75,
+              height: (MediaQuery.of(context).size.height - kToolbarHeight) / 2,
               child: StreamBuilder(
                   stream: productBloc.productsSales.stream,
                   builder: (context,

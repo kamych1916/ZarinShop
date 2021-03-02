@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/product.dart';
 import 'package:Zarin/ui/screen_product_info.dart';
@@ -18,7 +20,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemHeight = (size.height - kToolbarHeight) / 2;
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -36,7 +38,7 @@ class ProductCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: size.width / 3,
+        width: size.width / 2 - 40,
         child: Column(
           children: [
             Stack(
@@ -49,7 +51,7 @@ class ProductCard extends StatelessWidget {
                     child: Image(
                       alignment: Alignment.center,
                       fit: BoxFit.cover,
-                      height: itemHeight - 125,
+                      height: itemHeight - 80,
                       image: NetworkImage(product.firstImage ?? ""),
                       frameBuilder:
                           (context, child, frame, wasSynchronouslyLoaded) {

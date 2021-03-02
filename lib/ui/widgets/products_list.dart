@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:Zarin/blocs/product_bloc.dart';
 import 'package:Zarin/models/api_response.dart';
 import 'package:Zarin/models/product.dart';
@@ -66,8 +68,8 @@ class ProductsList extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
+    final double itemHeight = (size.height - kToolbarHeight) / 2;
+    final double itemWidth = size.width / 2 - 40;
 
     return Container(
       padding: EdgeInsets.only(top: 10.0),
@@ -208,7 +210,7 @@ class ProductsList extends StatelessWidget {
                             ProductCard(snapshot.data.data[index]),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: (itemWidth / itemHeight),
+                          childAspectRatio: (itemWidth + 10) / itemHeight,
                           mainAxisSpacing: 0.0,
                           crossAxisSpacing: 10.0,
                         ),
