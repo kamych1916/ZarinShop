@@ -375,7 +375,7 @@ class ProductBloc {
     Map<String, dynamic> body = {
       "which_bank": whichBank.toLowerCase(),
       "shipping_type": deliveryType == "Самовывоз" ? "pickup" : "delivery",
-      "subtotal": 1800, //cartTotalPrice.value.floor(),
+      "subtotal": cartTotalPrice.value.floor(),
       "list_items": items,
       "client_info": userInfo,
       "shipping_adress": deliveryType == "Самовывоз"

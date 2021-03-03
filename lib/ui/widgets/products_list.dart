@@ -168,7 +168,7 @@ class ProductsList extends StatelessWidget {
                       snapshot.data.status == Status.LOADING)
                     return CupertinoScrollbar(
                       child: GridView.count(
-                        childAspectRatio: (itemWidth / itemHeight),
+                        childAspectRatio: (itemWidth + 10) / itemHeight,
                         mainAxisSpacing: 0.0,
                         crossAxisSpacing: 10.0,
                         padding: EdgeInsets.only(
