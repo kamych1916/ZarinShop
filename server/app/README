@@ -1,2 +1,0 @@
-Запуск базы
-mongod.exe --config C:\Users\www\Desktop\zarinshop\ZarinShop\MongoStore\config.txt
