@@ -77,7 +77,7 @@ enum ZSAboutUsItem {
         switch self {
         case .address, .email,
              .phone, .phoneInfo: return nil
-        case .instagram: return "instagram://zarin_home_collection.uz"
+        case .instagram: return "instagram://user?username=zarin_home_collection.uz"
         case .facebook:  return "fb://zarin.home.96"
         case .telegram:  return "tg://resolve?domain=zarinhomecollection_1"
         }
