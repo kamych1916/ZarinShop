@@ -55,6 +55,8 @@ class ZSProductDetailDescriptionView: UIView {
     
     func initView(text: String) {
         self.descriptionLabel.text = text
+            .replacingOccurrences(of: "<br/>", with: "/n")
+            .replacingOccurrences(of: "</br>", with: "/n")
         
         self.setNeedsUpdateConstraints()
     }

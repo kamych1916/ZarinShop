@@ -53,6 +53,7 @@
 		6D12189425E14260003A02A8 /* ZSCheckoutPaymentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D12189325E14260003A02A8 /* ZSCheckoutPaymentDetailsViewController.swift */; };
 		6D12189725E1437B003A02A8 /* ZSPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D12189625E1437B003A02A8 /* ZSPaymentDetailView.swift */; };
 		6D12189A25E194D9003A02A8 /* ZSWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D12189925E194D9003A02A8 /* ZSWebViewController.swift */; };
+		6D4599F325F388270039D2EC /* ZSAboutUsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4599F225F388270039D2EC /* ZSAboutUsDataSource.swift */; };
 		6DB7D09F25EB95D4005D6B74 /* FavoritesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB7D09E25EB95D4005D6B74 /* FavoritesStorage.swift */; };
 		6DB7D0A225EBA488005D6B74 /* ZSOrdersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB7D0A125EBA488005D6B74 /* ZSOrdersModel.swift */; };
 		6DB7D0A525EBAAF8005D6B74 /* ZSOrderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB7D0A425EBAAF8005D6B74 /* ZSOrderState.swift */; };
@@ -93,7 +94,6 @@
 		84EAC6A5257A9CFE0042E1B4 /* ZSAdressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EAC6A4257A9CFE0042E1B4 /* ZSAdressViewController.swift */; };
 		84EAC6A9257A9EE40042E1B4 /* AddressStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EAC6A8257A9EE40042E1B4 /* AddressStorage.swift */; };
 		84EAC6C1257BEA350042E1B4 /* ZSAboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EAC6C0257BEA350042E1B4 /* ZSAboutUsViewController.swift */; };
-		84EAC6C6257BEB250042E1B4 /* ZSAboutUsSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EAC6C5257BEB250042E1B4 /* ZSAboutUsSectionModel.swift */; };
 		84EAC6DB257D0C5F0042E1B4 /* ZSPaymentSystems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EAC6DA257D0C5F0042E1B4 /* ZSPaymentSystems.swift */; };
 		84EAC6DF257D0F5A0042E1B4 /* ZSPaymentSystemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EAC6DE257D0F5A0042E1B4 /* ZSPaymentSystemsView.swift */; };
 		84F33F8E254A91DF004125F0 /* CartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F33F8D254A91DF004125F0 /* CartModel.swift */; };
@@ -150,6 +150,7 @@
 		6D12189325E14260003A02A8 /* ZSCheckoutPaymentDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutPaymentDetailsViewController.swift; sourceTree = "<group>"; };
 		6D12189625E1437B003A02A8 /* ZSPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSPaymentDetailView.swift; sourceTree = "<group>"; };
 		6D12189925E194D9003A02A8 /* ZSWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSWebViewController.swift; sourceTree = "<group>"; };
+		6D4599F225F388270039D2EC /* ZSAboutUsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSAboutUsDataSource.swift; sourceTree = "<group>"; };
 		6DB7D09E25EB95D4005D6B74 /* FavoritesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStorage.swift; sourceTree = "<group>"; };
 		6DB7D0A125EBA488005D6B74 /* ZSOrdersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSOrdersModel.swift; sourceTree = "<group>"; };
 		6DB7D0A425EBAAF8005D6B74 /* ZSOrderState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSOrderState.swift; sourceTree = "<group>"; };
@@ -190,7 +191,6 @@
 		84EAC6A4257A9CFE0042E1B4 /* ZSAdressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSAdressViewController.swift; sourceTree = "<group>"; };
 		84EAC6A8257A9EE40042E1B4 /* AddressStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressStorage.swift; sourceTree = "<group>"; };
 		84EAC6C0257BEA350042E1B4 /* ZSAboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSAboutUsViewController.swift; sourceTree = "<group>"; };
-		84EAC6C5257BEB250042E1B4 /* ZSAboutUsSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSAboutUsSectionModel.swift; sourceTree = "<group>"; };
 		84EAC6DA257D0C5F0042E1B4 /* ZSPaymentSystems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSPaymentSystems.swift; sourceTree = "<group>"; };
 		84EAC6DE257D0F5A0042E1B4 /* ZSPaymentSystemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSPaymentSystemsView.swift; sourceTree = "<group>"; };
 		84F33F8D254A91DF004125F0 /* CartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartModel.swift; sourceTree = "<group>"; };
@@ -853,7 +853,7 @@
 			isa = PBXGroup;
 			children = (
 				84EAC6C0257BEA350042E1B4 /* ZSAboutUsViewController.swift */,
-				84EAC6C5257BEB250042E1B4 /* ZSAboutUsSectionModel.swift */,
+				6D4599F225F388270039D2EC /* ZSAboutUsDataSource.swift */,
 			);
 			path = AboutUs;
 			sourceTree = "<group>";
@@ -1015,7 +1015,6 @@
 				208483CF253C953D0044D4A9 /* ZSAddCardView.swift in Sources */,
 				2057B8DA252591FC007D8D05 /* ZSOrdersViewController.swift in Sources */,
 				84EAC6A5257A9CFE0042E1B4 /* ZSAdressViewController.swift in Sources */,
-				84EAC6C6257BEB250042E1B4 /* ZSAboutUsSectionModel.swift in Sources */,
 				8432814F2573A4E300746F1D /* ZSMainViewController.swift in Sources */,
 				84C74BDC25605E4E0074288C /* ZSPrivacyView.swift in Sources */,
 				8447C15125728F8F00812788 /* ZSSizeModel.swift in Sources */,
@@ -1067,6 +1066,7 @@
 				6DB7D0A525EBAAF8005D6B74 /* ZSOrderState.swift in Sources */,
 				20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */,
 				84EAC6DB257D0C5F0042E1B4 /* ZSPaymentSystems.swift in Sources */,
+				6D4599F325F388270039D2EC /* ZSAboutUsDataSource.swift in Sources */,
 				2098B14325337E0900A00D18 /* ZSResetPasswordCodeViewController.swift in Sources */,
 				8447C14825728AE300812788 /* ZSCategoriesModel.swift in Sources */,
 				84EAC6DF257D0F5A0042E1B4 /* ZSPaymentSystemsView.swift in Sources */,

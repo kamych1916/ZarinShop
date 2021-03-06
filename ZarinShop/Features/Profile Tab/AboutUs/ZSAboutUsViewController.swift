@@ -17,18 +17,7 @@ class ZSAboutUsViewController: ZSBaseViewController {
     //MARK: - Private variables
     
     private let cellIdentifier = "ZSAboutUsCell"
-    private var data: [ZSAboutUsSectionModel] = [
-        .init(title: "Основная информация", items: [
-                .init(name: "Ташкент , улица Катта Дархан, дом 23", image: UIImage(named: "location")),
-                .init(name: "zarinshop@mail.ru", image: UIImage(named: "mail")),
-                .init(name: "+998 (71) 150-00-02", image: UIImage(named: "phone")),
-                .init(name: "Прием звонков: с 9:00 до 20:00 (Пн-Пт)", image: UIImage(named: "clock"))]),
-        
-        .init(title: "Социальные сети", items: [
-                .init(name: "Instagram", image: UIImage(named: "instagram")),
-                .init(name: "Facebook", image: UIImage(named: "facebook")),
-                .init(name: "Telegram", image: UIImage(named: "telegram"))]),
-    ]
+    private var data: [ZSAboutUsSection] = [.info, .socials]
     
     //MARK: - GUI variables
     
@@ -97,11 +86,11 @@ extension ZSAboutUsViewController: UITableViewDelegate, UITableViewDataSource {
         
         let model = data[indexPath.section].items[indexPath.row]
         
-        cell.textLabel?.text = model.name
+        cell.textLabel?.text = model.title
         cell.textLabel?.font = .systemFont(ofSize: 15, weight: .regular)
         
         cell.imageView?.tintColor = .black
-        cell.imageView?.image = model.image //imageWithImage(image: model.image, scaledToSize: CGSize(width: 24, height: 24))
+        cell.imageView?.image = model.image
  
         cell.selectionStyle = .gray
         let selectedBackgroungView = UIView()
@@ -114,6 +103,16 @@ extension ZSAboutUsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let item = data[indexPath.section].items[indexPath.row]
+        if let shortLink = item.shortLink,
+           let url = URL(string: shortLink),
+           UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        } else if let link = item.link,
+                  let url = URL(string: link),
+                  UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
     }
     
 }
