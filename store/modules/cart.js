@@ -1,4 +1,3 @@
-import products from '../../data/products'
 
 const state = {
   products: [],

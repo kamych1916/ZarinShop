@@ -377,7 +377,6 @@ export default {
     getDataProduct(){
       Api.getInstance().products.getData_item(this.$route.params.id).then((response) => {
         this.$store.dispatch("products/changeProduct", response.data);
-        console.log(response.data)
         response.data.size_kol.filter((item)=>{
           this.size.push(item.size)  
         })
