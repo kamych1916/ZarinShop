@@ -44,6 +44,7 @@ class ZSRegistrationViewController: UIViewController {
         scroll.isScrollEnabled = true
         scroll.isUserInteractionEnabled = true
         scroll.showsVerticalScrollIndicator = false
+        scroll.contentInset.bottom = 50
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
@@ -281,9 +282,13 @@ class ZSRegistrationViewController: UIViewController {
         let privacyRange = (text as NSString).range(of: "Политику конфидециальности")
 
         if gesture.didTapAttributedTextInLabel(label: self.privacyLabel, inRange: termsRange) {
-            print("Пользовательское соглашение")
+            if let url = URL(string: "https://zarinshop.uz/page/account/privacypolicy") {
+                UIApplication.shared.open(url)
+            }
         } else if gesture.didTapAttributedTextInLabel(label: self.privacyLabel, inRange: privacyRange) {
-            print("Политику конфидециальности")
+            if let url = URL(string: "https://zarinshop.uz/page/account/privacypolicy") {
+                UIApplication.shared.open(url)
+            }
         }
     }
 

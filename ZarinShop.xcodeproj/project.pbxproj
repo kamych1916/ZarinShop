@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		20242AAF252A3E4100886949 /* Templates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AAE252A3E4100886949 /* Templates.swift */; };
 		20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20242AB2252A3F1D00886949 /* Notification.Name+Ex.swift */; };
 		203FD53F2531C82A00F57432 /* ZSNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD53E2531C82A00F57432 /* ZSNetwork.swift */; };
 		203FD5412531CA6500F57432 /* ZSNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203FD5402531CA6500F57432 /* ZSNetworkError.swift */; };
@@ -101,7 +100,6 @@
 
 /* Begin PBXFileReference section */
 		0DE7CA78AE674A74E83BD40D /* Pods-ZarinShop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZarinShop.debug.xcconfig"; path = "Target Support Files/Pods-ZarinShop/Pods-ZarinShop.debug.xcconfig"; sourceTree = "<group>"; };
-		20242AAE252A3E4100886949 /* Templates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Templates.swift; sourceTree = "<group>"; };
 		20242AB2252A3F1D00886949 /* Notification.Name+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Ex.swift"; sourceTree = "<group>"; };
 		203FD53E2531C82A00F57432 /* ZSNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZSNetwork.swift; sourceTree = "<group>"; };
 		203FD5402531CA6500F57432 /* ZSNetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSNetworkError.swift; sourceTree = "<group>"; };
@@ -359,7 +357,6 @@
 				2057B89F2525894E007D8D05 /* Assets.xcassets */,
 				2057B8A22525894E007D8D05 /* Images.xcassets */,
 				2057B8A02525894E007D8D05 /* LaunchScreen.storyboard */,
-				20242AAE252A3E4100886949 /* Templates.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1035,7 +1032,6 @@
 				84BBE073254BCDA1004A3341 /* UIView+Ex.swift in Sources */,
 				2057B8DC252591FC007D8D05 /* ZSProfileViewController.swift in Sources */,
 				8443DA1B253EFD69008AAC88 /* ZSSubcategoriesViewController.swift in Sources */,
-				20242AAF252A3E4100886949 /* Templates.swift in Sources */,
 				203FD5412531CA6500F57432 /* ZSNetworkError.swift in Sources */,
 				84C74B7B255FDD280074288C /* ZSTabBarController.swift in Sources */,
 				20B9A89F2532F72B00E2EF71 /* ZSResetPasswordViewController.swift in Sources */,
@@ -1223,7 +1219,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = XZC3W6Z646;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1247,7 +1243,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = XZC3W6Z646;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
