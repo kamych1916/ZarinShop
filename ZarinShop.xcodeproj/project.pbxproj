@@ -48,6 +48,22 @@
 		20BF823A25557A05004A9CF3 /* ZSProductDetailSpecificationSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BF823925557A05004A9CF3 /* ZSProductDetailSpecificationSizes.swift */; };
 		20FD49B825459E190006F50C /* ZSOrdersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD49B725459E190006F50C /* ZSOrdersTableViewCell.swift */; };
 		20FD49BF2545C51D0006F50C /* ZSFavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD49BE2545C51D0006F50C /* ZSFavoritesViewController.swift */; };
+		69F2F0E5263EA40100CA6099 /* Bundle+Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0D2263EA40100CA6099 /* Bundle+Module.swift */; };
+		69F2F0E6263EA40100CA6099 /* UIImage+AspectFit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0D3263EA40100CA6099 /* UIImage+AspectFit.swift */; };
+		69F2F0E7263EA40100CA6099 /* UIImageView+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0D4263EA40100CA6099 /* UIImageView+Tools.swift */; };
+		69F2F0E8263EA40100CA6099 /* ImageSlideshowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0D5263EA40100CA6099 /* ImageSlideshowItem.swift */; };
+		69F2F0E9263EA40100CA6099 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0D6263EA40100CA6099 /* ActivityIndicator.swift */; };
+		69F2F0EA263EA40100CA6099 /* ImageSlideshow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0D7263EA40100CA6099 /* ImageSlideshow.swift */; };
+		69F2F0EB263EA40100CA6099 /* PageIndicatorPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0D8263EA40100CA6099 /* PageIndicatorPosition.swift */; };
+		69F2F0EC263EA40100CA6099 /* FullScreenSlideshowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0D9263EA40100CA6099 /* FullScreenSlideshowViewController.swift */; };
+		69F2F0ED263EA40100CA6099 /* SwiftSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0DA263EA40100CA6099 /* SwiftSupport.swift */; };
+		69F2F0EE263EA40100CA6099 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0DB263EA40100CA6099 /* InputSource.swift */; };
+		69F2F0EF263EA40100CA6099 /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0DC263EA40100CA6099 /* PageIndicator.swift */; };
+		69F2F0F0263EA40100CA6099 /* ZoomAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0DD263EA40100CA6099 /* ZoomAnimatedTransitioning.swift */; };
+		69F2F0F1263EA40100CA6099 /* KingfisherSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0DF263EA40100CA6099 /* KingfisherSource.swift */; };
+		69F2F0F4263EA40100CA6099 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 69F2F0E3263EA40100CA6099 /* LICENSE */; };
+		69F2F0F5263EA40100CA6099 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 69F2F0E4263EA40100CA6099 /* README.md */; };
+		69F2F0F7263EA46B00CA6099 /* ResizableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F2F0F6263EA46B00CA6099 /* ResizableImageView.swift */; };
 		6D12189125E141BD003A02A8 /* PaymentDetailsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D12189025E141BD003A02A8 /* PaymentDetailsStorage.swift */; };
 		6D12189425E14260003A02A8 /* ZSCheckoutPaymentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D12189325E14260003A02A8 /* ZSCheckoutPaymentDetailsViewController.swift */; };
 		6D12189725E1437B003A02A8 /* ZSPaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D12189625E1437B003A02A8 /* ZSPaymentDetailView.swift */; };
@@ -144,6 +160,22 @@
 		20FD49B725459E190006F50C /* ZSOrdersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSOrdersTableViewCell.swift; sourceTree = "<group>"; };
 		20FD49BE2545C51D0006F50C /* ZSFavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSFavoritesViewController.swift; sourceTree = "<group>"; };
 		41D82D5D61017505831B7C23 /* Pods_ZarinShop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZarinShop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		69F2F0D2263EA40100CA6099 /* Bundle+Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Module.swift"; sourceTree = "<group>"; };
+		69F2F0D3263EA40100CA6099 /* UIImage+AspectFit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+AspectFit.swift"; sourceTree = "<group>"; };
+		69F2F0D4263EA40100CA6099 /* UIImageView+Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Tools.swift"; sourceTree = "<group>"; };
+		69F2F0D5263EA40100CA6099 /* ImageSlideshowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSlideshowItem.swift; sourceTree = "<group>"; };
+		69F2F0D6263EA40100CA6099 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		69F2F0D7263EA40100CA6099 /* ImageSlideshow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSlideshow.swift; sourceTree = "<group>"; };
+		69F2F0D8263EA40100CA6099 /* PageIndicatorPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndicatorPosition.swift; sourceTree = "<group>"; };
+		69F2F0D9263EA40100CA6099 /* FullScreenSlideshowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenSlideshowViewController.swift; sourceTree = "<group>"; };
+		69F2F0DA263EA40100CA6099 /* SwiftSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSupport.swift; sourceTree = "<group>"; };
+		69F2F0DB263EA40100CA6099 /* InputSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputSource.swift; sourceTree = "<group>"; };
+		69F2F0DC263EA40100CA6099 /* PageIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
+		69F2F0DD263EA40100CA6099 /* ZoomAnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomAnimatedTransitioning.swift; sourceTree = "<group>"; };
+		69F2F0DF263EA40100CA6099 /* KingfisherSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KingfisherSource.swift; sourceTree = "<group>"; };
+		69F2F0E3263EA40100CA6099 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		69F2F0E4263EA40100CA6099 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		69F2F0F6263EA46B00CA6099 /* ResizableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableImageView.swift; sourceTree = "<group>"; };
 		6D12189025E141BD003A02A8 /* PaymentDetailsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailsStorage.swift; sourceTree = "<group>"; };
 		6D12189325E14260003A02A8 /* ZSCheckoutPaymentDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSCheckoutPaymentDetailsViewController.swift; sourceTree = "<group>"; };
 		6D12189625E1437B003A02A8 /* ZSPaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSPaymentDetailView.swift; sourceTree = "<group>"; };
@@ -331,6 +363,7 @@
 		2057B888252588EE007D8D05 /* ZarinShop */ = {
 			isa = PBXGroup;
 			children = (
+				69F2F0CB263EA37000CA6099 /* Frameworks */,
 				2057B889252588EF007D8D05 /* AppDelegate.swift */,
 				2057B897252588F0007D8D05 /* Info.plist */,
 				2057B8A32525894E007D8D05 /* Common */,
@@ -656,6 +689,69 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		69F2F0CB263EA37000CA6099 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				69F2F0CE263EA40100CA6099 /* ImageSlideshow */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		69F2F0CE263EA40100CA6099 /* ImageSlideshow */ = {
+			isa = PBXGroup;
+			children = (
+				69F2F0CF263EA40100CA6099 /* ImageSlideshow */,
+				69F2F0E3263EA40100CA6099 /* LICENSE */,
+				69F2F0E4263EA40100CA6099 /* README.md */,
+			);
+			path = ImageSlideshow;
+			sourceTree = "<group>";
+		};
+		69F2F0CF263EA40100CA6099 /* ImageSlideshow */ = {
+			isa = PBXGroup;
+			children = (
+				69F2F0D0263EA40100CA6099 /* Classes */,
+			);
+			path = ImageSlideshow;
+			sourceTree = "<group>";
+		};
+		69F2F0D0263EA40100CA6099 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				69F2F0D1263EA40100CA6099 /* Core */,
+				69F2F0DE263EA40100CA6099 /* InputSources */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		69F2F0D1263EA40100CA6099 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				69F2F0D2263EA40100CA6099 /* Bundle+Module.swift */,
+				69F2F0D3263EA40100CA6099 /* UIImage+AspectFit.swift */,
+				69F2F0D4263EA40100CA6099 /* UIImageView+Tools.swift */,
+				69F2F0D5263EA40100CA6099 /* ImageSlideshowItem.swift */,
+				69F2F0D6263EA40100CA6099 /* ActivityIndicator.swift */,
+				69F2F0D7263EA40100CA6099 /* ImageSlideshow.swift */,
+				69F2F0D8263EA40100CA6099 /* PageIndicatorPosition.swift */,
+				69F2F0D9263EA40100CA6099 /* FullScreenSlideshowViewController.swift */,
+				69F2F0DA263EA40100CA6099 /* SwiftSupport.swift */,
+				69F2F0DB263EA40100CA6099 /* InputSource.swift */,
+				69F2F0DC263EA40100CA6099 /* PageIndicator.swift */,
+				69F2F0DD263EA40100CA6099 /* ZoomAnimatedTransitioning.swift */,
+				69F2F0F6263EA46B00CA6099 /* ResizableImageView.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		69F2F0DE263EA40100CA6099 /* InputSources */ = {
+			isa = PBXGroup;
+			children = (
+				69F2F0DF263EA40100CA6099 /* KingfisherSource.swift */,
+			);
+			path = InputSources;
+			sourceTree = "<group>";
+		};
 		6DB7D0A725EBABF8005D6B74 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -941,7 +1037,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69F2F0F4263EA40100CA6099 /* LICENSE in Resources */,
 				2057B8B02525894E007D8D05 /* Assets.xcassets in Resources */,
+				69F2F0F5263EA40100CA6099 /* README.md in Resources */,
 				2057B8B22525894E007D8D05 /* Images.xcassets in Resources */,
 				2057B8B12525894E007D8D05 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -996,6 +1094,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69F2F0EE263EA40100CA6099 /* InputSource.swift in Sources */,
+				69F2F0E6263EA40100CA6099 /* UIImage+AspectFit.swift in Sources */,
 				20BACF6A254EDB63003F5A29 /* ZSFilterViewController.swift in Sources */,
 				840839A1253802300040EC63 /* ZSProductDetailDescriptionView.swift in Sources */,
 				84EAC69E257A9C390042E1B4 /* CodableStorage.swift in Sources */,
@@ -1011,13 +1111,17 @@
 				2057B8DB252591FC007D8D05 /* ZSCartViewController.swift in Sources */,
 				208483CF253C953D0044D4A9 /* ZSAddCardView.swift in Sources */,
 				2057B8DA252591FC007D8D05 /* ZSOrdersViewController.swift in Sources */,
+				69F2F0F7263EA46B00CA6099 /* ResizableImageView.swift in Sources */,
+				69F2F0E9263EA40100CA6099 /* ActivityIndicator.swift in Sources */,
 				84EAC6A5257A9CFE0042E1B4 /* ZSAdressViewController.swift in Sources */,
 				8432814F2573A4E300746F1D /* ZSMainViewController.swift in Sources */,
 				84C74BDC25605E4E0074288C /* ZSPrivacyView.swift in Sources */,
 				8447C15125728F8F00812788 /* ZSSizeModel.swift in Sources */,
 				20411042252AFAB40081A562 /* UIColor+Ex.swift in Sources */,
 				844A97CC25306D0E00619BE3 /* ZSCheckoutTabItem.swift in Sources */,
+				69F2F0E5263EA40100CA6099 /* Bundle+Module.swift in Sources */,
 				208483CB253C8E3C0044D4A9 /* ZSAddAddressViewController.swift in Sources */,
+				69F2F0EB263EA40100CA6099 /* PageIndicatorPosition.swift in Sources */,
 				6D12189725E1437B003A02A8 /* ZSPaymentDetailView.swift in Sources */,
 				845B2ED12573C4F400D403E4 /* ZSStepperView.swift in Sources */,
 				2057B8ED2525AF22007D8D05 /* AppColors.swift in Sources */,
@@ -1025,11 +1129,13 @@
 				84BBE06E254BCD58004A3341 /* BottomPresentationController.swift in Sources */,
 				8432815D2573ADC100746F1D /* MainCellModel.swift in Sources */,
 				6DB7D0A225EBA488005D6B74 /* ZSOrdersModel.swift in Sources */,
+				69F2F0ED263EA40100CA6099 /* SwiftSupport.swift in Sources */,
 				843281542573A62700746F1D /* ZSMainTableViewCell.swift in Sources */,
 				20FD49BF2545C51D0006F50C /* ZSFavoritesViewController.swift in Sources */,
 				84EAC6C1257BEA350042E1B4 /* ZSAboutUsViewController.swift in Sources */,
 				20B2DFC92526FB1E0089BC55 /* ZSProductsCollectionViewCell.swift in Sources */,
 				84BBE073254BCDA1004A3341 /* UIView+Ex.swift in Sources */,
+				69F2F0EF263EA40100CA6099 /* PageIndicator.swift in Sources */,
 				2057B8DC252591FC007D8D05 /* ZSProfileViewController.swift in Sources */,
 				8443DA1B253EFD69008AAC88 /* ZSSubcategoriesViewController.swift in Sources */,
 				203FD5412531CA6500F57432 /* ZSNetworkError.swift in Sources */,
@@ -1043,6 +1149,7 @@
 				84C74BE5256106AE0074288C /* ZSLinkColorModel.swift in Sources */,
 				203FD5462531D0F500F57432 /* ZSProductDetailViewController.swift in Sources */,
 				84EAC69F257A9C390042E1B4 /* DiskStorage.swift in Sources */,
+				69F2F0E8263EA40100CA6099 /* ImageSlideshowItem.swift in Sources */,
 				20BACF68254EAA41003F5A29 /* ZSSortViewController.swift in Sources */,
 				20B2DFD525274D900089BC55 /* ZSAuthorizationViewController.swift in Sources */,
 				6D12189A25E194D9003A02A8 /* ZSWebViewController.swift in Sources */,
@@ -1060,14 +1167,18 @@
 				20411045252B2C0F0081A562 /* BadgedButtonItem.swift in Sources */,
 				208483CD253C8F5E0044D4A9 /* ZSAddAddressView.swift in Sources */,
 				6DB7D0A525EBAAF8005D6B74 /* ZSOrderState.swift in Sources */,
+				69F2F0F1263EA40100CA6099 /* KingfisherSource.swift in Sources */,
 				20242AB3252A3F1D00886949 /* Notification.Name+Ex.swift in Sources */,
 				84EAC6DB257D0C5F0042E1B4 /* ZSPaymentSystems.swift in Sources */,
 				6D4599F325F388270039D2EC /* ZSAboutUsDataSource.swift in Sources */,
 				2098B14325337E0900A00D18 /* ZSResetPasswordCodeViewController.swift in Sources */,
 				8447C14825728AE300812788 /* ZSCategoriesModel.swift in Sources */,
 				84EAC6DF257D0F5A0042E1B4 /* ZSPaymentSystemsView.swift in Sources */,
+				69F2F0F0263EA40100CA6099 /* ZoomAnimatedTransitioning.swift in Sources */,
 				84C74BD9256056190074288C /* CustomTextField.swift in Sources */,
+				69F2F0EC263EA40100CA6099 /* FullScreenSlideshowViewController.swift in Sources */,
 				20B9A89B2532E50600E2EF71 /* ZSSigninUserModel.swift in Sources */,
+				69F2F0E7263EA40100CA6099 /* UIImageView+Tools.swift in Sources */,
 				20BF823A25557A05004A9CF3 /* ZSProductDetailSpecificationSizes.swift in Sources */,
 				20B2DFCB2526FE090089BC55 /* ZSProductModel.swift in Sources */,
 				84BBE08C254BEC36004A3341 /* ZSSizesCollectionViewCell.swift in Sources */,
@@ -1077,6 +1188,7 @@
 				84C74B8B255FDE180074288C /* ZSInterface.swift in Sources */,
 				8447C14B25728B1100812788 /* ZSSubcategoriesModel.swift in Sources */,
 				6D12189125E141BD003A02A8 /* PaymentDetailsStorage.swift in Sources */,
+				69F2F0EA263EA40100CA6099 /* ImageSlideshow.swift in Sources */,
 				844A97D12530819C00619BE3 /* UIViewController+Ex.swift in Sources */,
 				84BBE07F254BD24A004A3341 /* ColorsModel.swift in Sources */,
 				84691A852536B90F00EA5217 /* UserDefaults+Ex.swift in Sources */,
@@ -1219,7 +1331,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = XZC3W6Z646;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1228,6 +1340,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zarin.shop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Zarin Shop";
@@ -1243,7 +1356,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = XZC3W6Z646;
 				INFOPLIST_FILE = ZarinShop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1252,6 +1365,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zarin.shop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Zarin Shop";

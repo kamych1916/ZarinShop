@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ImageSlideshow
 import Kingfisher
 
 class ZSProductDetailViewController: ZSBaseViewController {
@@ -16,14 +15,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
     
     // MARK: - Private Variables
     var selectedSize: String?
-    var selectedCount: Int? {
-        didSet {
-            guard let selectedCount = selectedCount,
-                  let selectedSize = selectedSize,
-                  let product = product else { return }
-            
-        }
-    }
+    var selectedCount: Int? 
     
     private var navBarDefaultImage: UIImage?
     private var navBarDefaultColor: UIColor?
@@ -33,20 +25,29 @@ class ZSProductDetailViewController: ZSBaseViewController {
     // MARK: - GUI Variables
     
     lazy var scrollView: UIScrollView = {
-        var scroll = UIScrollView()
-        scroll.clipsToBounds = true
-        scroll.contentInsetAdjustmentBehavior = .never
-        scroll.showsVerticalScrollIndicator = false
-        scroll.contentInset.bottom = 75
-        return scroll
+        let scrollView = UIScrollView()
+//        scrollView.clipsToBounds = true
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.contentInset.bottom = 75
+        view.addSubview(scrollView)
+        return scrollView
+    }()
+    
+    lazy var contentView: UIView = {
+        let contentView = UIView()
+        scrollView.addSubview(contentView)
+        return contentView
     }()
     
     lazy var imageSlideshow: ImageSlideshow = {
         var imageSlideshow = ImageSlideshow()
         imageSlideshow.backgroundColor = UIColor.lightGray.withAlphaComponent(0.7)
-        let images: [InputSource] = []
-        imageSlideshow.setImageInputs(images)
+        imageSlideshow.style = .view
         imageSlideshow.contentScaleMode = .scaleAspectFill
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapImages))
+        imageSlideshow.addGestureRecognizer(tap)
+        contentView.addSubview(imageSlideshow)
         return imageSlideshow
     }()
     
@@ -61,11 +62,13 @@ class ZSProductDetailViewController: ZSBaseViewController {
                 view.stepperView.value = count
             }
         }
+        contentView.addSubview(view)
         return view
     }()
     
     lazy var descriptionView: ZSProductDetailDescriptionView = {
         var view = ZSProductDetailDescriptionView()
+        contentView.addSubview(view)
         return view
     }()
 
@@ -74,6 +77,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
         view.firstItem.selectedColorHandler = { [weak self] id in
             self?.loadProduct(with: id)
         }
+        contentView.addSubview(view)
         return view
     }()
     
@@ -85,6 +89,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
         button.backgroundColor = .mainColor
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(addToCartButtonTapped), for: .touchUpInside)
+        contentView.addSubview(button)
         return button
     }()
     
@@ -107,7 +112,6 @@ class ZSProductDetailViewController: ZSBaseViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .secondaryColor
-        addSubviews()
         makeConstraints()
         setupWithProduct()
         NotificationCenter.default.addObserver(self, selector: #selector(sizeChanged), name: .productDetailSizeChanged, object: nil)
@@ -122,6 +126,10 @@ class ZSProductDetailViewController: ZSBaseViewController {
         
         titleView.stepperView.maxValue = foundedSize.kol
         titleView.stepperView.value = 1
+    }
+    
+    @objc func didTapImages() {
+        imageSlideshow.presentFullScreenController(from: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,15 +157,17 @@ class ZSProductDetailViewController: ZSBaseViewController {
     
     private func makeConstraints() {
         
-        scrollView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview()
+        scrollView.snp.makeConstraints { make in
+            make.edges.centerX.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.centerX.equalToSuperview()
         }
         
         imageSlideshow.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.6)
+            make.height.equalTo(UIScreen.main.bounds.height * 0.6)
             make.width.equalToSuperview()
         }
         
@@ -184,16 +194,7 @@ class ZSProductDetailViewController: ZSBaseViewController {
     }
     
     // MARK: - Setters
-    
-    private func addSubviews() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(imageSlideshow)
-        scrollView.addSubview(titleView)
-        scrollView.addSubview(descriptionView)
-        scrollView.addSubview(specificationView)
-        scrollView.addSubview(addToCartButton)
-    }
-    
+
     private func setupWithProduct() {
         guard let product = product else { return }
         titleView.initView(name: product.name,
@@ -211,7 +212,14 @@ class ZSProductDetailViewController: ZSBaseViewController {
             model: .init(title: "Модель", description: "ZarinShop"),
             country: .init(title: "Страна", description: "Узбекистан"))
         specificationView.firstItem.setSelected(with: product.color)
-        loadImages()
+        //loadImages()
+        setImages()
+    }
+    
+    private func setImages() {
+        guard let product = product else  { return }
+        let sources: [KingfisherSource] = product.images.map({ KingfisherSource(urlString: $0)! })
+        imageSlideshow.setImageInputs(sources)
     }
     
     // MARK: - Network
