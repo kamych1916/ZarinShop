@@ -57,8 +57,8 @@ class ZSProductDetailSpecificationView: UIView {
         addSubviews()
     }
     
-    func initView(colors: [ZSLinkColorModel], sizes: [String], model: ZSSpecificationModel, country: ZSSpecificationModel) {
-        firstItem.initView(colors: colors)
+    func initView(sizes: [String], model: ZSSpecificationModel, country: ZSSpecificationModel) {
+        //firstItem.initView(colors: colors)
         secondItem.initView(sizes: sizes)
         thirdItem.initView(item: model)
         fourthItem.initView(item: country)
@@ -71,12 +71,8 @@ class ZSProductDetailSpecificationView: UIView {
         titleLabel.snp.updateConstraints { (make) in
             make.top.left.right.equalToSuperview().inset(20)
         }
-        firstItem.snp.updateConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.left.right.equalToSuperview().inset(20)
-        }
         secondItem.snp.updateConstraints { (make) in
-            make.top.equalTo(firstItem.snp.bottom).offset(10)
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.left.right.equalToSuperview().inset(20)
         }
         thirdItem.snp.updateConstraints { (make) in
@@ -94,7 +90,7 @@ class ZSProductDetailSpecificationView: UIView {
     
     private func addSubviews() {
         addSubview(titleLabel)
-        addSubview(firstItem)
+        //addSubview(firstItem)
         addSubview(secondItem)
         addSubview(thirdItem)
         addSubview(fourthItem)

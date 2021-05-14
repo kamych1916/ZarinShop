@@ -203,8 +203,7 @@ class ZSProductsViewController: ZSBaseViewController {
             
             if !color.isEmpty {
                 searchedProducts = products.filter({ (product) -> Bool in
-                    return product.color == color &&
-                        (product.price >= from && product.price <= to)
+                    return (product.price >= from && product.price <= to)
                 })
             }
             

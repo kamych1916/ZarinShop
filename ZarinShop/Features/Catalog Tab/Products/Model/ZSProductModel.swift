@@ -13,14 +13,12 @@ struct ZSProductModel: Codable {
     let name: String
     let description: String
     let size_kol: [ZSSizeModel]
-    let color: String
     let images: [String]
     let price: Double
     let discount: Double
     let hit_sales: Bool
     let special_offer: Bool
     let categories: [String]
-    let link_color: [ZSLinkColorModel]
     var favorites: Bool
     let categories_value: [String]?
     let name_images: [String]?

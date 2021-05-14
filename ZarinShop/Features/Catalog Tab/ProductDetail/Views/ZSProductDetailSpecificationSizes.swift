@@ -37,7 +37,6 @@ class ZSProductDetailSpecificationSizes: UIView {
         layout.sectionInset = UIEdgeInsets.zero
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
-        layout.itemSize = CGSize(width: 36, height: 36)
         
         var collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         collectionView.delegate = self
@@ -105,22 +104,35 @@ class ZSProductDetailSpecificationSizes: UIView {
 
 //MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension ZSProductDetailSpecificationSizes: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ZSProductDetailSpecificationSizes: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.sizes.count
+        return sizes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ZSSizesCollectionViewCell.identifier, for: indexPath)
-        (cell as? ZSSizesCollectionViewCell)?.initCell(size: self.sizes[indexPath.row])
+        (cell as? ZSSizesCollectionViewCell)?.initCell(size: sizes[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        self.selectedSize = self.sizes[indexPath.row]
+        selectedSize = sizes[indexPath.row]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.text = sizes[indexPath.row]
+        label.sizeToFit()
+        let width = (label.intrinsicContentSize.width) * 1.3
+        if width <= 36 {
+            return CGSize(width: 36, height: 36)
+        }
+        return CGSize(width: width, height: 36)
     }
 
 }

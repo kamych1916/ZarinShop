@@ -58,25 +58,6 @@ class ZSCartTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var colorLabel: UILabel = {
-        var label = UILabel()
-        label.font = .systemFont(ofSize: 17, weight: .medium)
-        label.textColor = .textDarkColor
-        label.textAlignment = .left
-        label.text = "Цвет:"
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        return label
-    }()
-    
-    lazy var colorView: UIView = {
-        var view = UIView()
-        view.layer.cornerRadius = 6
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.darkGray.cgColor
-        view.clipsToBounds = true
-        return view
-    }()
-    
     lazy var sizeLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .medium)
@@ -118,7 +99,6 @@ class ZSCartTableViewCell: UITableViewCell {
         sizeLabel.text = "Размер: \(model.size ?? "")"
         priceLabel.text = "\(Int(model.price)) сум"
         countLabel.text = "\(model.kol) шт."
-        colorView.backgroundColor = UIColor(hex: "#\(model.color)")
         if model.images.count > 0 {
             loadImage(from: model.images[0])
         } else {
@@ -156,26 +136,15 @@ class ZSCartTableViewCell: UITableViewCell {
             make.right.equalToSuperview().inset(16)
         }
         
-        colorLabel.snp.updateConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.left.equalTo(bigImageView.snp.right).offset(16)
-        }
-        
-        colorView.snp.updateConstraints { (make) in
-            make.left.equalTo(colorLabel.snp.right).offset(10)
-            make.centerY.equalTo(colorLabel.snp.centerY)
-            make.size.equalTo(16)
-        }
-        
         sizeLabel.snp.updateConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.left.equalTo(colorView.snp.right).offset(20)
+            make.left.equalTo(bigImageView.snp.right).offset(16)
             make.right.lessThanOrEqualToSuperview().inset(20)
         }
         
         priceLabel.snp.updateConstraints { (make) in
             make.left.equalTo(bigImageView.snp.right).offset(16)
-            make.top.greaterThanOrEqualTo(colorLabel.snp.bottom)
+            make.top.greaterThanOrEqualTo(sizeLabel.snp.bottom)
             make.right.equalTo(countLabel.snp.left).offset(8)
             make.bottom.equalToSuperview().inset(10)
         }
@@ -200,8 +169,6 @@ class ZSCartTableViewCell: UITableViewCell {
         containerView.addSubview(stepperView)
         containerView.addSubview(countLabel)
         containerView.addSubview(titleLabel)
-        containerView.addSubview(colorLabel)
-        containerView.addSubview(colorView)
         containerView.addSubview(sizeLabel)
         containerView.addSubview(priceLabel)
     }

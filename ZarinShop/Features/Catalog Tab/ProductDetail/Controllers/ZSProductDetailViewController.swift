@@ -207,12 +207,9 @@ class ZSProductDetailViewController: ZSBaseViewController {
             sizes.append(i.size)
         }
         specificationView.initView(
-            colors: product.link_color,
             sizes: sizes,
             model: .init(title: "Модель", description: "ZarinShop"),
             country: .init(title: "Страна", description: "Узбекистан"))
-        specificationView.firstItem.setSelected(with: product.color)
-        //loadImages()
         setImages()
     }
     

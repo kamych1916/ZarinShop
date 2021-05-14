@@ -19,7 +19,6 @@ struct CartItemModel: Codable {
     let name: String
     let size: String?
     let kol: Int
-    let color: String
     let images: [String]
     let price: Double
     let discount: Double
@@ -31,7 +30,6 @@ struct CartItemModel: Codable {
             "name": name,
             "size": size ?? "",
             "kol": kol,
-            "color": color,
             "images": images,
             "price": price,
             "discount": discount,

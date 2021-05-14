@@ -79,7 +79,7 @@ class ZSSizesCollectionViewCell: UICollectionViewCell {
     override func updateConstraints() {
         self.containerView.snp.updateConstraints { (make) in
             make.center.equalToSuperview()
-            make.size.equalToSuperview().multipliedBy(0.7)
+            make.edges.equalToSuperview().inset(4)
         }
         self.sizeLabel.snp.updateConstraints { (make) in
             make.center.equalToSuperview()
