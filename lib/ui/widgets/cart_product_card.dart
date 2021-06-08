@@ -116,7 +116,7 @@ class _CartProductCardState extends State<CartProductCard> {
                       Expanded(
                         child: Text(
                           product.name,
-                          maxLines: 1,
+                          maxLines: product.color != null ? 1 : 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Styles.cardTextColor,
