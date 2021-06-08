@@ -142,33 +142,37 @@ class _CartProductCardState extends State<CartProductCard> {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 2),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "Цвет",
-                        style: TextStyle(
-                            fontSize: 13.0, fontFamily: "SegoeUISemiBold"),
-                      ),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-                      Container(
-                        width: 15,
-                        height: 15,
-                        decoration: ShapeDecoration(
-                          shadows: [
-                            BoxShadow(
-                              color: Colors.black54,
-                              spreadRadius: 0,
-                              blurRadius: 1,
-                            )
+                  product.color != null
+                      ? Row(
+                          children: [
+                            Text(
+                              "Цвет",
+                              style: TextStyle(
+                                  fontSize: 13.0,
+                                  fontFamily: "SegoeUISemiBold"),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.0)),
+                            Container(
+                              width: 15,
+                              height: 15,
+                              decoration: ShapeDecoration(
+                                shadows: [
+                                  BoxShadow(
+                                    color: Colors.black54,
+                                    spreadRadius: 0,
+                                    blurRadius: 1,
+                                  )
+                                ],
+                                color: HexColor.fromHex(product.color),
+                                shape: SuperellipseShape(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
                           ],
-                          color: HexColor.fromHex(product.color),
-                          shape: SuperellipseShape(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                        )
+                      : Container(),
                   widget.cartEntity.size == null ||
                           widget.cartEntity.size == "null" ||
                           product.productWithOutSize

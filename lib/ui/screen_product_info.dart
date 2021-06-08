@@ -35,7 +35,7 @@ class _ProductInfoState extends State<ProductInfo> {
 
   @override
   void initState() {
-    if (!widget.product.productWithOutSize)
+    if (!widget.product.productWithOutSize && widget.product.sizes != null)
       streamSubscription = sizeSubject.listen((value) {
         if (value >= 0)
           countSubject.sink.add(-widget.product.sizes[value]["kol"]);
@@ -123,6 +123,7 @@ class _ProductInfoState extends State<ProductInfo> {
                                         index.toString(),
                                 child: index == 0
                                     ? Image(
+                                        alignment: Alignment.topCenter,
                                         fit: BoxFit.cover,
                                         width:
                                             MediaQuery.of(context).size.width,
@@ -167,6 +168,7 @@ class _ProductInfoState extends State<ProductInfo> {
                                         },
                                       )
                                     : Image(
+                                        alignment: Alignment.topCenter,
                                         fit: BoxFit.cover,
                                         width:
                                             MediaQuery.of(context).size.width,
@@ -276,7 +278,8 @@ class _ProductInfoState extends State<ProductInfo> {
                         ],
                       )),
                   Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                  !widget.product.productWithOutSize
+                  !widget.product.productWithOutSize &&
+                          widget.product.sizes != null
                       ? Container(
                           margin: EdgeInsets.symmetric(horizontal: 20.0),
                           width: double.infinity,
@@ -290,12 +293,16 @@ class _ProductInfoState extends State<ProductInfo> {
                               sizeSubject),
                         )
                       : Container(),
-                  Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                  Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      width: double.infinity,
-                      child: ColorsPicker(
-                          widget.product.linkColor, widget.product.color)),
+                  widget.product.color != null
+                      ? Padding(padding: EdgeInsets.symmetric(vertical: 5.0))
+                      : Container(),
+                  widget.product.color != null
+                      ? Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          width: double.infinity,
+                          child: ColorsPicker(
+                              widget.product.linkColor, widget.product.color))
+                      : Container(),
                   Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                   Divider(),
                   Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),

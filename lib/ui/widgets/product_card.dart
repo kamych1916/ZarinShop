@@ -114,8 +114,8 @@ class ProductCard extends StatelessWidget {
                               style: TextStyle(
                                   decoration: TextDecoration.lineThrough,
                                   color: Colors.redAccent,
-                                  fontSize: 10.0,
-                                  fontFamily: "SegoeUISemiBold"),
+                                  fontSize: 11.0,
+                                  fontFamily: "SegoeUIBold"),
                             )
                           : Container(),
                     ],
