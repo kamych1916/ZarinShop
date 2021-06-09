@@ -24,6 +24,7 @@ class Product {
     id = json["id"];
     name = json["name"];
     description = json["description"];
+    description = description.replaceAll("<br/>", "\n");
     price = json["price"];
     discount = json["discount"];
     color = json["color"];

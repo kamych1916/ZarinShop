@@ -172,16 +172,11 @@ class _AddressTabState extends State<AddressTab> {
                                                 : GestureDetector(
                                                     onTap: () =>
                                                         showModalBottomSheet(
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
                                                             isScrollControlled:
                                                                 true,
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius.vertical(
-                                                                      top: Radius
-                                                                          .circular(
-                                                                              25.0)),
-                                                            ),
                                                             context: context,
                                                             builder: (context) =>
                                                                 AddAddressSheet()),
@@ -258,20 +253,6 @@ class _AddressTabState extends State<AddressTab> {
                                                           children: [
                                                             Text(
                                                               appBloc
-                                                                  .addresses
-                                                                  .value[index]
-                                                                  .code,
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .clip,
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      "SegoeUI",
-                                                                  fontSize: 12),
-                                                            ),
-                                                            Text(
-                                                              appBloc
                                                                       .addresses
                                                                       .value[
                                                                           index]
@@ -281,7 +262,16 @@ class _AddressTabState extends State<AddressTab> {
                                                                       .addresses
                                                                       .value[
                                                                           index]
-                                                                      .city,
+                                                                      .city +
+                                                                  " " +
+                                                                  (appBloc.addresses.value[index].code !=
+                                                                          null
+                                                                      ? appBloc
+                                                                          .addresses
+                                                                          .value[
+                                                                              index]
+                                                                          .code
+                                                                      : ""),
                                                               maxLines: 5,
                                                               overflow:
                                                                   TextOverflow
@@ -372,9 +362,9 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
   List<String> data = ["", "", "", "", "", ""];
 
   Widget field(String hintText, int index,
-      {TextInputType textInputType, bool hasFocus}) {
+      {TextInputType textInputType, bool hasFocus, bool isNeeded = true}) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: isNeeded ? EdgeInsets.only(bottom: 10) : EdgeInsets.zero,
       child: SizedBox(
         height: 55,
         child: TextFormField(
@@ -383,8 +373,10 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
             textAlign: TextAlign.center,
             onChanged: (value) => data[index] = value,
             autofocus: hasFocus ?? false,
-            validator: (value) =>
-                value != null && value.isNotEmpty ? null : "Заполните поле",
+            validator: isNeeded
+                ? (value) =>
+                    value != null && value.isNotEmpty ? null : "Заполните поле"
+                : null,
             style: TextStyle(
                 decoration: TextDecoration.none,
                 decorationColor: Colors.white.withOpacity(0)),
@@ -407,9 +399,9 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
   @override
   Widget build(BuildContext context) {
     List<Widget> fields = List.from([
+      field("Город", 1, textInputType: TextInputType.streetAddress),
       field("Область", 0,
           textInputType: TextInputType.streetAddress, hasFocus: true),
-      field("Населенный пункт", 1, textInputType: TextInputType.streetAddress),
       field("Улица", 2, textInputType: TextInputType.streetAddress),
       Row(
         mainAxisSize: MainAxisSize.min,
@@ -421,17 +413,22 @@ class _AddAddressSheetState extends State<AddAddressSheet> {
           Expanded(child: field("Номер квартиры", 4)),
         ],
       ),
-      field("Индекс", 5),
+      field("Индекс", 5, isNeeded: false),
     ]);
 
     return Container(
       //padding: MediaQuery.of(context).viewInsets,
-      padding: EdgeInsets.symmetric(horizontal: 20.0,),
+      margin: EdgeInsets.only(top: 24),
+      padding: EdgeInsets.symmetric(
+        horizontal: 20.0,
+      ),
       decoration: BoxDecoration(
           color: Styles.subBackgroundColor,
-          borderRadius: BorderRadius.circular(25)),
+          borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(25.0),
+              topRight: const Radius.circular(25.0))),
       child: SingleChildScrollView(
-              child: Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
