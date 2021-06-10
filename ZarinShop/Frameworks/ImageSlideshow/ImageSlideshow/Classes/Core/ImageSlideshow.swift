@@ -230,22 +230,18 @@ open class ImageSlideshow: UIView {
     override public init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
-        print("init1")
     }
 
     convenience init() {
         self.init(frame: CGRect.zero)
-        print("init2")
     }
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()
-        print("init3")
     }
 
     fileprivate func initialize() {
-        print("initialize")
         autoresizesSubviews = true
         clipsToBounds = true
 
